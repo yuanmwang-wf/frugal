@@ -13,25 +13,15 @@
     "name": "go",
     "server": {
       "timeout": 8,
-      "command": [
-        "go/bin/testserver"
-      ]
+      "command": [ "go", "run", "testServer.go" ]
     },
     "client": {
       "timeout": 8,
-      "command": [
-        "go/bin/testclient"
-      ]
+      "command": [ "go", "run", "testClient.go" ]
     },
-    "transports": [
-      "stateless",
-      "http"
-    ],
-    "protocols": [
-      "binary",
-      "compact",
-      "json"
-    ]
+    "transports": [ "stateless", "http" ],
+    "protocols": [ "binary", "compact", "json" ],
+    "workdir": "go"
   },
    {
     "name": "java",

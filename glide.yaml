@@ -25,5 +25,6 @@ excludeDirs:
   # These will need their own glide.yaml files
   - lib
   - test
+  - example
   - examples
   - scripts

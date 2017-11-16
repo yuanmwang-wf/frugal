@@ -5,16 +5,11 @@ package twitter
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/go"
-	"github.com/gorilla/mux"
 )
-
-var _ io.Reader
-var _ = gateway.String
 
 // SuccessBody is a template for HTTP responses
 // TODO: Make templatable and configurable
@@ -68,7 +63,7 @@ func createTweetResponse(marshaler gateway.Marshaler, w http.ResponseWriter, req
 // RegisterTwitterServiceHandler registers the HTTP handlers for service
 // FStore.  The handlers forward requests to the Frugal endpoint over the
 // given FClient.
-func RegisterTwitterServiceHandler(router *mux.Router, client *FTwitterClient) error {
+func RegisterTwitterServiceHandler(router *gateway.Router, client *FTwitterClient) error {
 
 	// TODO: Make marshaler configurable for custom request and response transformations
 	marshaler := &gateway.JSON{}

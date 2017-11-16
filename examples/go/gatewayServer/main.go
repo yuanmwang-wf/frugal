@@ -8,8 +8,8 @@ import (
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/examples/go/gen-go/twitter"
+	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/go"
-	"github.com/gorilla/mux"
 )
 
 var (
@@ -54,16 +54,15 @@ func newStoreClient() *twitter.FTwitterClient {
 }
 
 func main() {
-	r := mux.NewRouter()
+	mux := gateway.NewRouter()
 	c := newStoreClient()
 
-	// TODO: encapsulate gorilla muxer so clients don't need to know about it
-	err := twitter.RegisterTwitterServiceHandler(r, c)
+	err := twitter.RegisterTwitterServiceHandler(mux, c)
 
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Starting the gateway server ...")
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8000", mux))
 }

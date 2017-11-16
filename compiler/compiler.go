@@ -21,7 +21,6 @@ import (
 
 	"github.com/Workiva/frugal/compiler/generator"
 	"github.com/Workiva/frugal/compiler/generator/dartlang"
-	"github.com/Workiva/frugal/compiler/generator/gateway"
 	"github.com/Workiva/frugal/compiler/generator/golang"
 	"github.com/Workiva/frugal/compiler/generator/html"
 	"github.com/Workiva/frugal/compiler/generator/java"
@@ -159,8 +158,6 @@ func getProgramGenerator(lang string, options map[string]string) (generator.Prog
 		g = generator.NewProgramGenerator(python.NewGenerator(options), true)
 	case "html":
 		g = html.NewGenerator(options)
-	case "gateway":
-		g = gateway.NewGenerator(options)
 	default:
 		return nil, fmt.Errorf("Invalid gen value %s", lang)
 	}

@@ -17,6 +17,7 @@ var _ io.Reader
 var _ = gateway.String
 
 // SuccessBody is a template for HTTP responses
+// TODO: Make templatable and configurable
 type SuccessBody struct {
 	RequestID string      `json:"request_id"`
 	Message   string      `json:"message"`
@@ -69,20 +70,16 @@ func createTweetResponse(marshaler gateway.Marshaler, w http.ResponseWriter, req
 // given FClient.
 func RegisterTwitterServiceHandler(router *mux.Router, client *FTwitterClient) error {
 
-	// TODO: Parameterize incoming and outgoing marshaler (per handler function?)
-	// so you can do custom request and response transformations
+	// TODO: Make marshaler configurable for custom request and response transformations
 	marshaler := &gateway.JSON{}
 
-	// path := "/albums/v1" // TODO: Generate from IDL
-	// queries := "" // Generate from IDL
-
-	// HTTP PUT /v1/twitter/tweets { <Tweet converted to HTTP payload> }
 	router.HandleFunc(
 		"/v1/twitter/tweets", func(w http.ResponseWriter, req *http.Request) {
 			// Generate payload for Frugal client
 			body, err := createTweetRequest(marshaler, w, req)
 
 			if err != nil {
+				// TODO: Make error handlers configurable
 				gateway.DefaultRequestErrorHandler(marshaler, w, req, err)
 				return
 			}

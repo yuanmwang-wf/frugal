@@ -29,7 +29,7 @@ func newLoggingMiddleware() frugal.ServiceMiddleware {
 }
 
 // Create a new Frugal client connected to the store service
-func newStoreClient() *twitter.FTwitterClient {
+func newTwitterClient() *twitter.FTwitterClient {
 	// Set the protocol used for serialization.
 	// The protocol stack must match between client and server
 	fProtocolFactory := frugal.NewFProtocolFactory(thrift.NewTBinaryProtocolFactoryDefault())
@@ -55,7 +55,7 @@ func newStoreClient() *twitter.FTwitterClient {
 
 func main() {
 	mux := gateway.NewRouter()
-	c := newStoreClient()
+	c := newTwitterClient()
 
 	err := twitter.RegisterTwitterServiceHandler(mux, c)
 

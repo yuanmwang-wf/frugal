@@ -1,8 +1,10 @@
 package gateway
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"reflect"
 
 	"github.com/Workiva/frugal/lib/go"
 
@@ -107,18 +109,30 @@ func DefaultFrugalError(marshaler Marshaler, w http.ResponseWriter, _ *http.Requ
 // DefaultRequestErrorHandler is the default implementation of an error handler for incoming HTTP requests.
 func DefaultRequestErrorHandler(marshaler Marshaler, w http.ResponseWriter, r *http.Request, err error) {
 	f, _ := w.(http.Flusher)
-	const fallback = "Problems parsing JSON"
+
 	var status int
 	var message string
 
 	// Handle data type errors, etc.
-	switch err {
-	// case io.EOF:
-	// 	fmt.Printf("EOF %v\n", err)
-
-	default:
+	fmt.Println(reflect.TypeOf(err))
+	switch err.(type) {
+	case *json.UnmarshalTypeError:
 		status = http.StatusBadRequest
-		message = fallback
+		message = "Invalid JSON data"
+	case *json.MarshalerError:
+		status = http.StatusBadRequest
+		message = "Invalid JSON data"
+	case *json.SyntaxError:
+		status = http.StatusBadRequest
+		message = "Problems parsing JSON"
+	default:
+		// TODO: check for IO error
+		// case io.EOF:
+		// 	status = http.StatusBadRequest
+		// 	message = "Problems parsing JSON"
+		fmt.Println("default case")
+		status = http.StatusInternalServerError
+		message = "Internal Server Error"
 	}
 
 	// Serialize the error message to JSON
@@ -128,7 +142,7 @@ func DefaultRequestErrorHandler(marshaler Marshaler, w http.ResponseWriter, r *h
 	if merr != nil {
 		fmt.Printf("Failed to marshal error message %q: %v", body, merr)
 		status = http.StatusInternalServerError
-		message = fallback
+		message = "Internal Server Error"
 	}
 
 	// Write the response

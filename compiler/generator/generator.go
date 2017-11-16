@@ -76,7 +76,6 @@ var Languages = LanguageOptions{
 	"html": Options{
 		"standalone": "Self-contained mode, includes all CSS in the HTML files. Generates no style.css file, but HTML files will be larger",
 	},
-	"gateway": Options{},
 }
 
 // ValidateOption indicates if the language option is supported for the given

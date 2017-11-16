@@ -209,8 +209,8 @@ service FooService {
 
 ### Annotations
 
-Annotations are extra directive in the IDL that can alter the way code is generated.
-Some common annotations are listed below
+Annotations are extra directives in the IDL that can alter the way code is
+generated. Some common annotations are listed below
 
 | Annotation    | Values        | Allowed Places | Description
 | ------------- | ------------- | -------------- | -----------
@@ -278,3 +278,18 @@ IDL has a vendor path set for the Go namespace. Instead, the generated code for
 Frugal is intended to be a superset of Thrift, meaning valid Thrift should be
 valid Frugal. File an issue if you discover an inconsistency in compatibility
 with the IDL.
+
+## Feature Requests and Discussion
+
+To facilitate technical discussion of feature enhancements, Frugal uses
+the [RFD](https://github.com/joyent/rfd) process.
+
+> The philosophy of our Requests for Discussion is exactly this: timely
+> rather than polished, with the immediate idea of promoting technical
+> discussion.  Over time, we expect that this discussion will often converge
+> on an authoritative explanation of new functionality -- but it's entirely
+> acceptable for an RFD to serve only as a vector of discussion.
+
+RFDs are colocated
+
+[documentation](documentation).

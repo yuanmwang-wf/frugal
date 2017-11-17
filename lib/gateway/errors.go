@@ -11,9 +11,38 @@ import (
 	"git.apache.org/thrift.git/lib/go/thrift"
 )
 
+// ErrorBody represents the default error response
+type ErrorBody struct {
+	RequestID string            `json:"request_id"`
+	Message   string            `json:"message"`
+	Errors    []ValidationError `json:"errors"`
+}
+
+// ValidationError tracks the resource, field and type of an invalid JSON input
+// matching the API guidelines
+type ValidationError struct {
+	Resource string `json:"resource"`
+	Field    string `json:"field"`
+	Code     string `json:"code"`
+}
+
+func (e *ValidationError) Error() string {
+	buf, err := json.Marshal(e)
+	if err != nil {
+		return fmt.Sprintf("Failed to marshal error message: %v", e)
+	}
+	return string(buf)
+}
+
+// NewValidationError creates a new Validation error for reporting back to the user
+func NewValidationError(resource string, field string, code string) *ValidationError {
+	return &ValidationError{resource, field, code}
+}
+
 // HTTPStatusFromFrugalError converts a Frugal exception into a corresponding HTTP response status.
 // https://github.com/Workiva/frugal/blob/master/lib/go/errors.go
 func HTTPStatusFromFrugalError(err thrift.TException) int {
+	fmt.Println("http status from frugal error")
 	switch err.(type) {
 	case thrift.TTransportException:
 		if e, ok := err.(thrift.TTransportException); ok {
@@ -25,85 +54,26 @@ func HTTPStatusFromFrugalError(err thrift.TException) int {
 			case frugal.TRANSPORT_EXCEPTION_REQUEST_TOO_LARGE:
 				return http.StatusBadRequest
 			default:
-				fmt.Println("unknown TTransportException")
+				fmt.Printf("unknown TTransportException: %v\n", reflect.TypeOf(err))
 				return http.StatusInternalServerError
 			}
 		}
-
 	case thrift.TApplicationException:
-		if e, ok := err.(thrift.TTransportException); ok {
+		if e, ok := err.(thrift.TApplicationException); ok {
 			switch e.TypeId() {
 			case frugal.APPLICATION_EXCEPTION_INVALID_MESSAGE_TYPE, frugal.APPLICATION_EXCEPTION_WRONG_METHOD_NAME, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE:
 				return http.StatusBadRequest
 			case frugal.APPLICATION_EXCEPTION_UNKNOWN, frugal.APPLICATION_EXCEPTION_UNKNOWN_METHOD, frugal.APPLICATION_EXCEPTION_UNSUPPORTED_CLIENT_TYPE, frugal.APPLICATION_EXCEPTION_BAD_SEQUENCE_ID, frugal.APPLICATION_EXCEPTION_MISSING_RESULT, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, frugal.APPLICATION_EXCEPTION_INVALID_TRANSFORM, frugal.APPLICATION_EXCEPTION_INVALID_PROTOCOL:
 				return http.StatusInternalServerError
 			default:
-				fmt.Println("unknown TTransportException")
+				fmt.Printf("unknown TApplicationException: %v\n", reflect.TypeOf(err))
 				return http.StatusInternalServerError
 			}
 		}
 	}
 
-	fmt.Printf("Unknown Frugal error: %v", err)
+	fmt.Printf("Unknown Frugal error: %v\n", reflect.TypeOf(err))
 	return http.StatusInternalServerError
-}
-
-// ErrorBody represents the default error response
-type ErrorBody struct {
-	RequestID string `json:"request_id"`
-	Message   string `json:"message"`
-}
-
-// DefaultFrugalError is the default implementation of HTTPError.
-//
-// If the error is from Frugal, the function replies with the Frugal
-// status code mapped to an HTTP status code using HTTPStatusFromFrugalError.
-// If an unknown error occurs, it replies with http.StatusInternalServerError.
-//
-// The response body returned by this function is a JSON object, which
-// contains a member whose key is "error" and whose value is err.Error().
-// TODO: Make match API Guidelines
-func DefaultFrugalError(marshaler Marshaler, w http.ResponseWriter, _ *http.Request, err error) {
-	const fallback = `{"error": "Failed to serialize error message"}`
-
-	w.Header().Del("Trailer")
-	w.Header().Set("Content-Type", marshaler.ContentType())
-
-	// s, ok := status.FromError(err)
-	// if !ok {
-	// 	s = status.New(codes.Unknown, err.Error())
-	// }
-
-	// body := &errorBody{
-	// 	Error: s.Message(),
-	// 	Code:  int32(s.Code()),
-	// }
-
-	// buf, merr := marshaler.Marshal(body)
-	// if merr != nil {
-	// 	fmt.Printf("Failed to marshal error message %q: %v", body, merr)
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	if _, err := io.WriteString(w, fallback); err != nil {
-	// 		fmt.Printf("Failed to write response: %v", err)
-	// 	}
-	// 	return
-	// }
-
-	// md, ok := ServerMetadataFromContext(ctx)
-	// if !ok {
-	// 	fmt.Printf("Failed to extract ServerMetadata from context")
-	// }
-
-	// handleForwardResponseTrailerHeader(w, md)
-	// st := HTTPStatusFromCode(s.Code())
-	st := HTTPStatusFromFrugalError(err)
-	fmt.Printf("Status codde: %v", st)
-	// w.WriteHeader(st)
-	// if _, err := w.Write(buf); err != nil {
-	// 	fmt.Printf("Failed to write response: %v", err)
-	// }
-
-	// handleForwardResponseTrailer(w, md)
 }
 
 // DefaultRequestErrorHandler is the default implementation of an error handler for incoming HTTP requests.
@@ -111,38 +81,33 @@ func DefaultRequestErrorHandler(marshaler Marshaler, w http.ResponseWriter, r *h
 	f, _ := w.(http.Flusher)
 
 	var status int
-	var message string
+	var response ErrorBody
 
 	// Handle data type errors, etc.
-	fmt.Println(reflect.TypeOf(err))
 	switch err.(type) {
-	case *json.UnmarshalTypeError:
-		status = http.StatusBadRequest
-		message = "Invalid JSON data"
-	case *json.MarshalerError:
-		status = http.StatusBadRequest
-		message = "Invalid JSON data"
-	case *json.SyntaxError:
-		status = http.StatusBadRequest
-		message = "Problems parsing JSON"
+	case *ValidationError:
+		if e, ok := err.(*ValidationError); ok {
+			response = ErrorBody{
+				"<request_id>",
+				"Invalid JSON data",
+				[]ValidationError{
+					{
+						e.Resource,
+						e.Field,
+						e.Code,
+					},
+				},
+			}
+		}
 	default:
-		// TODO: check for IO error
-		// case io.EOF:
-		// 	status = http.StatusBadRequest
-		// 	message = "Problems parsing JSON"
-		fmt.Println("default case")
 		status = http.StatusInternalServerError
-		message = "Internal Server Error"
 	}
 
 	// Serialize the error message to JSON
-	body := ErrorBody{"<request-id>", message}
-
-	buf, merr := marshaler.Marshal(body)
+	buf, merr := marshaler.Marshal(response)
 	if merr != nil {
-		fmt.Printf("Failed to marshal error message %q: %v", body, merr)
+		fmt.Printf("Failed to marshal error message %q: %v", response, merr)
 		status = http.StatusInternalServerError
-		message = "Internal Server Error"
 	}
 
 	// Write the response
@@ -152,31 +117,48 @@ func DefaultRequestErrorHandler(marshaler Marshaler, w http.ResponseWriter, r *h
 	f.Flush()
 }
 
-// DefaultFrugalErrorHandler is the default implementation of an error handler for incoming HTTP requests.
+// DefaultFrugalErrorHandler is the default implementation for handling errors in the Frugal processer.
+//
+// If the error is from Frugal, the function replies with the Frugal
+// status code mapped to an HTTP status code using HTTPStatusFromFrugalError.
+// If an unknown error occurs, it replies with http.StatusInternalServerError.
+//
+// The response body returned by this function is a JSON object, which
+// matches the Workiva API Guidelines
+// TODO: Figure out how to handle IDL exceptions and convert to message
 func DefaultFrugalErrorHandler(marshaler Marshaler, w http.ResponseWriter, r *http.Request, err error) {
 	f, _ := w.(http.Flusher)
 	const fallback = "Internal Server Error"
 	var status int
-	var message string
+	var response ErrorBody
 
 	// Handle data type errors, etc.
 	switch err.(type) {
 	case thrift.TException:
 		status = HTTPStatusFromFrugalError(err)
-		// message = "" // TODO: return from above code (message as per API guidelines)
+		response = ErrorBody{
+			"<request_id>",
+			err.Error(),
+			nil,
+		}
 	default:
-		status = http.StatusInternalServerError
-		message = fallback
+		response = ErrorBody{
+			"<request_id>",
+			fallback,
+			nil,
+		}
 	}
 
 	// Serialize the error message to JSON
-	body := ErrorBody{"<request-id>", message}
-
-	buf, merr := marshaler.Marshal(body)
+	buf, merr := marshaler.Marshal(response)
 	if merr != nil {
-		fmt.Printf("Failed to marshal error message %q: %v", body, merr)
+		fmt.Printf("Failed to marshal error message %q: %v", response, merr)
 		status = http.StatusInternalServerError
-		message = fallback
+		response = ErrorBody{
+			"<request_id>",
+			fallback,
+			nil,
+		}
 	}
 
 	// Write the response

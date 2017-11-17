@@ -123,6 +123,10 @@ func (f *FTwitterClient) createTweet(ctx frugal.FContext, tweet *Tweet) (err err
 	if err = iprot.ReadMessageEnd(); err != nil {
 		return
 	}
+	if result.Unavailable != nil {
+		err = result.Unavailable
+		return
+	}
 	return
 }
 
@@ -419,10 +423,15 @@ func (p *twitterFCreateTweet) Process(ctx frugal.FContext, iprot, oprot *frugal.
 			p.GetWriteMutex().Unlock()
 			return nil
 		}
-		p.GetWriteMutex().Lock()
-		err2 := twitterWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "createTweet", "Internal error processing createTweet: "+err2.Error())
-		p.GetWriteMutex().Unlock()
-		return err2
+		switch v := err2.(type) {
+		case *TwitterUnavailable:
+			result.Unavailable = v
+		default:
+			p.GetWriteMutex().Lock()
+			err2 := twitterWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "createTweet", "Internal error processing createTweet: "+err2.Error())
+			p.GetWriteMutex().Unlock()
+			return err2
+		}
 	}
 	p.GetWriteMutex().Lock()
 	defer p.GetWriteMutex().Unlock()
@@ -822,10 +831,24 @@ func (p *TwitterCreateTweetArgs) String() string {
 }
 
 type TwitterCreateTweetResult struct {
+	Unavailable *TwitterUnavailable `thrift:"unavailable,1" db:"unavailable" json:"unavailable,omitempty"`
 }
 
 func NewTwitterCreateTweetResult() *TwitterCreateTweetResult {
 	return &TwitterCreateTweetResult{}
+}
+
+var TwitterCreateTweetResult_Unavailable_DEFAULT *TwitterUnavailable
+
+func (p *TwitterCreateTweetResult) IsSetUnavailable() bool {
+	return p.Unavailable != nil
+}
+
+func (p *TwitterCreateTweetResult) GetUnavailable() *TwitterUnavailable {
+	if !p.IsSetUnavailable() {
+		return TwitterCreateTweetResult_Unavailable_DEFAULT
+	}
+	return p.Unavailable
 }
 
 func (p *TwitterCreateTweetResult) Read(iprot thrift.TProtocol) error {
@@ -841,8 +864,15 @@ func (p *TwitterCreateTweetResult) Read(iprot thrift.TProtocol) error {
 		if fieldTypeId == thrift.STOP {
 			break
 		}
-		if err := iprot.Skip(fieldTypeId); err != nil {
-			return err
+		switch fieldId {
+		case 1:
+			if err := p.ReadField1(iprot); err != nil {
+				return err
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
 		}
 		if err := iprot.ReadFieldEnd(); err != nil {
 			return err
@@ -854,15 +884,41 @@ func (p *TwitterCreateTweetResult) Read(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *TwitterCreateTweetResult) ReadField1(iprot thrift.TProtocol) error {
+	p.Unavailable = NewTwitterUnavailable()
+	if err := p.Unavailable.Read(iprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Unavailable), err)
+	}
+	return nil
+}
+
 func (p *TwitterCreateTweetResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("createTweet_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if err := p.writeField1(oprot); err != nil {
+		return err
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
 	}
 	if err := oprot.WriteStructEnd(); err != nil {
 		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *TwitterCreateTweetResult) writeField1(oprot thrift.TProtocol) error {
+	if p.IsSetUnavailable() {
+		if err := oprot.WriteFieldBegin("unavailable", thrift.STRUCT, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:unavailable: ", p), err)
+		}
+		if err := p.Unavailable.Write(oprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Unavailable), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:unavailable: ", p), err)
+		}
 	}
 	return nil
 }

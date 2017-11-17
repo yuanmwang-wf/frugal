@@ -4,15 +4,17 @@
 package twitter
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/go"
+	"github.com/gorilla/mux"
 )
 
 // SuccessBody is a template for HTTP responses
-// TODO: Make templatable and configurable
+// TODO: Make templatable and configurable?
 type SuccessBody struct {
 	RequestID string      `json:"request_id"`
 	Message   string      `json:"message"`
@@ -20,26 +22,70 @@ type SuccessBody struct {
 }
 
 func createTweetRequest(marshaler gateway.Marshaler, w http.ResponseWriter, req *http.Request) (*Tweet, error) {
-	var payload Tweet
 
-	// vars := mux.Vars(req)
-	// queries := req.URL.Query().Get("")
-	// TODO: Generate URL var and query var extraction from IDL file ^
+	// Created from IDL based on json annotations
+	// TODO: investigate using TProtocol to do this without a mapping struct? Would potentially handle nulls better.
+	type PayloadMapping struct {
+		UserID    *int32     `json:"user_id"`
+		UserName  *string    `json:"user_name"`
+		Text      *string    `json:"text"`
+		Location  *Location  `json:"location"`
+		TweetType *TweetType `json:"tweet_type"`
+		Language  *string    `json:"language"`
+	}
 
-	// Decode request body into expected struct
+	var mapping PayloadMapping
+
+	// Decode request body into payload mapping
 	decoder := marshaler.NewDecoder(req.Body)
 	defer req.Body.Close()
-
-	err := decoder.Decode(&payload)
+	err := decoder.Decode(&mapping)
 	if err != nil {
+		if e, ok := err.(*json.UnmarshalTypeError); ok {
+			return nil, gateway.NewValidationError("tweet", e.Field, "invalid")
+		}
 		return nil, err
 	}
 
-	// Check that body matches expected types correctly
-	// TODO: ^
+	// Thrift struct for calling Frugal client
+	payload := &Tweet{}
+
+	// Extract URL variables
+	vars := mux.Vars(req)
+	userID, err := gateway.Int32(vars["user_id"])
+	if userID == 0 || err != nil {
+		// TODO: Should return 404 Not Found
+		return nil, gateway.NewValidationError("tweet", "user_id", "missing")
+	}
+	payload.UserId = userID
+
+	// TODO: Extract query variables
+
+	// Map incoming payload to Thrift struct for calling Frugal client
+	if mapping.UserName != nil {
+		payload.UserName = *mapping.UserName
+	} else {
+		return nil, gateway.NewValidationError("tweet", "user_name", "missing")
+	}
+	if mapping.Text != nil {
+		payload.Text = *mapping.Text
+	} else {
+		return nil, gateway.NewValidationError("tweet", "text", "missing")
+	}
+	if mapping.Location != nil {
+		// TODO: do we have to handle structs specially?
+		payload.Loc = mapping.Location
+	}
+	if mapping.TweetType != nil {
+		// TODO: do we have to enums specially?
+		payload.TweetType = *mapping.TweetType
+	}
+	if mapping.Language != nil {
+		payload.Language = *mapping.Language
+	}
 
 	// return buf, err
-	return &payload, nil
+	return payload, nil
 }
 
 func createTweetResponse(marshaler gateway.Marshaler, w http.ResponseWriter, req *http.Request) error {
@@ -69,7 +115,7 @@ func RegisterTwitterServiceHandler(router *gateway.Router, client *FTwitterClien
 	marshaler := &gateway.JSON{}
 
 	router.HandleFunc(
-		"/v1/twitter/tweets", func(w http.ResponseWriter, req *http.Request) {
+		"/v1/twitter/tweets/{user_id}", func(w http.ResponseWriter, req *http.Request) {
 			// Generate payload for Frugal client
 			body, err := createTweetRequest(marshaler, w, req)
 

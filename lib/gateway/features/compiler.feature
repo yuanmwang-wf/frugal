@@ -104,7 +104,7 @@ Feature: Frugal HTTP+JSON Gateway
     Given a service method with annotations like
       """
       service Store {
-        Album lookupAlbum(1: LookupAlbumRequest request) (http.pathTemplate="/v1/store/album/")
+      Album lookupAlbum(1: LookupAlbumRequest request) (http.pathTemplate="/v1/store/album/", http.query="asin")
       } 
       """
     And  the compiler generates a Frugal processor

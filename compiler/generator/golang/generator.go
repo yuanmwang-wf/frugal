@@ -461,6 +461,7 @@ func (g *Generator) generateStructDeclaration(s *parser.Struct, sName string) st
 		if field.Modifier == parser.Required {
 			thriftAnnotation += ",required"
 		}
+		// TODO: Use IDL annotation
 		jsonAnnotation := field.Name
 		if field.Modifier == parser.Optional {
 			jsonAnnotation += ",omitempty"

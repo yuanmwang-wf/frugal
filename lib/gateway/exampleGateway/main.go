@@ -2,21 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/examples/go/gen-go/twitter"
 	"github.com/Workiva/frugal/lib/gateway"
+	"github.com/Workiva/frugal/lib/gateway/gen-go/gateway_test"
 	"github.com/Workiva/frugal/lib/go"
+	"github.com/gorilla/mux"
 )
 
-var (
-	storeEndpoint = "http://localhost:9090/frugal"
-)
+var mockEndpoint = "http://localhost:9090/frugal"
 
-// Frugal logging middleware
 func newLoggingMiddleware() frugal.ServiceMiddleware {
 	return func(next frugal.InvocationHandler) frugal.InvocationHandler {
 		return func(service reflect.Value, method reflect.Method, args frugal.Arguments) frugal.Results {
@@ -28,14 +25,14 @@ func newLoggingMiddleware() frugal.ServiceMiddleware {
 	}
 }
 
-// Create a new Frugal client connected to the store service
-func newTwitterClient() *twitter.FTwitterClient {
+// Create a new Frugal client connected to the backing service
+func newClient() *gateway_test.FGatewayTestClient {
 	// Set the protocol used for serialization.
 	// The protocol stack must match between client and server
 	fProtocolFactory := frugal.NewFProtocolFactory(thrift.NewTBinaryProtocolFactoryDefault())
 
 	// Create an HTTP transport listening
-	httpTransport := frugal.NewFHTTPTransportBuilder(&http.Client{}, storeEndpoint).Build()
+	httpTransport := frugal.NewFHTTPTransportBuilder(&http.Client{}, mockEndpoint).Build()
 	defer httpTransport.Close()
 	if err := httpTransport.Open(); err != nil {
 		panic(err)
@@ -48,21 +45,21 @@ func newTwitterClient() *twitter.FTwitterClient {
 	// Create a client used to send messages with our desired protocol.  You
 	// can also pass middleware in here if you only want it to intercept calls
 	// for this specific client.
-	storeClient := twitter.NewFTwitterClient(provider, newLoggingMiddleware())
+	storeClient := gateway_test.NewFGatewayTestClient(provider, newLoggingMiddleware())
 
 	return storeClient
 }
 
 func main() {
-	mux := gateway.NewRouter() // TODO: setup marshaler registry here
-	c := newTwitterClient()
-
-	err := twitter.RegisterTwitterServiceHandler(mux, c)
-
-	if err != nil {
-		panic(err)
+	context := gateway_test.GatewayTestContext{
+		Marshalers: gateway.NewMarshalerRegistry(),
+		Client:     newClient(),
 	}
 
-	fmt.Println("Starting the gateway server ...")
-	log.Fatal(http.ListenAndServe(":8000", mux))
+	handler := &gateway_test.GatewayTestHandler{&context, gateway_test.GatewayTestGetContainerHandler}
+
+	router := mux.NewRouter()
+	router.Methods("POST").Path("/v1/{stringTest}/").Name("GatewayTestGetContainerHandler").Handler(handler)
+
+	http.ListenAndServe(":5000", router)
 }

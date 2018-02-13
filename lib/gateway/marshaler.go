@@ -1,44 +1,49 @@
 package gateway
 
 import (
-	"encoding/json"
 	"io"
 )
 
-// Marshaler defines a conversion between a byte sequence and Frugal payloads / fields.
-type Marshaler struct{}
+// Marshaler defines a conversion between a byte sequence and
+// Frugal payloads / fields.
+type Marshaler interface {
+	// Marshal marshals "v" into byte sequence.
+	Marshal(v interface{}) ([]byte, error)
+	// Unmarshal unmarshals "data" into "v".
+	// "v" must be a pointer value.
+	Unmarshal(data []byte, v interface{}) error
+	// NewDecoder returns a Decoder which reads byte sequence from "r".
+	NewDecoder(r io.Reader) Decoder
+	// NewEncoder returns an Encoder which writes bytes sequence into "w".
+	NewEncoder(w io.Writer) Encoder
+	// ContentType returns the Content-Type which this marshaler is responsible for.
+	ContentType() string
+}
 
 // Decoder decodes a byte sequence
 type Decoder interface {
 	Decode(v interface{}) error
 }
 
-// Encoder encodes Frugal payloads / fields into byte sequence.
+// Encoder encodes Frugal payloads / fields into a byte sequence.
 type Encoder interface {
 	Encode(v interface{}) error
 }
 
-// ContentType always returns "application/json".
-func (*Marshaler) ContentType() string {
-	return "application/json"
-}
+// DecoderFunc adapts an decoder function into Decoder.
+type DecoderFunc func(v interface{}) error
 
-// Marshal marshals "v" into JSON
-func (m *Marshaler) Marshal(v interface{}) ([]byte, error) {
-	return json.Marshal(v)
-}
+// Decode delegates invocations to the underlying function itself.
+func (f DecoderFunc) Decode(v interface{}) error { return f(v) }
 
-// Unmarshal unmarshals JSON data into "v".
-func (m *Marshaler) Unmarshal(data []byte, v interface{}) error {
-	return json.Unmarshal(data, v)
-}
+// EncoderFunc adapts an encoder function into Encoder
+type EncoderFunc func(v interface{}) error
 
-// NewDecoder returns a Decoder which reads JSON stream from "r".
-func (m *Marshaler) NewDecoder(r io.Reader) Decoder {
-	return json.NewDecoder(r)
-}
+// Encode delegates invocations to the underlying function itself.
+func (f EncoderFunc) Encode(v interface{}) error { return f(v) }
 
-// NewEncoder returns an Encoder which writes JSON stream into "w".
-func (m *Marshaler) NewEncoder(w io.Writer) Encoder {
-	return json.NewEncoder(w)
+// Delimited defines the streaming delimiter.
+type Delimited interface {
+	// Delimiter returns the record seperator for the stream.
+	Delimiter() []byte
 }

@@ -17,7 +17,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/Workiva/frugal/compiler/generator"
@@ -61,38 +60,12 @@ func NewGenerator(options map[string]string) generator.LanguageGenerator {
 func (g *Generator) SetupGenerator(outputDir string) error {
 	g.goGenerator.SetFrugal(g.Frugal)
 
-	t, err := g.GenerateFile("", outputDir, generator.TypeFile)
-	if err != nil {
-		return err
-	}
-	g.typesFile = t
-	if err = g.GenerateDocStringComment(g.typesFile); err != nil {
-		return err
-	}
-	if err = g.GenerateNewline(g.typesFile, 2); err != nil {
-		return err
-	}
-	if err = g.goGenerator.GeneratePackage(g.typesFile); err != nil {
-		return err
-	}
-	if err = g.GenerateNewline(g.typesFile, 2); err != nil {
-		return err
-	}
-	if err = g.GenerateTypesImports(g.typesFile); err != nil {
-		return err
-	}
-	err = g.GenerateNewline(g.typesFile, 2)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
 // TeardownGenerator cleanups globals the generator needs, like the types file.
 func (g *Generator) TeardownGenerator() error {
-	defer g.typesFile.Close()
-	return g.PostProcess(g.typesFile)
+	return nil
 }
 
 // GenerateDependencies generates any dependencies
@@ -106,8 +79,6 @@ func (g *Generator) GenerateFile(name, outputDir string, fileType generator.File
 	switch fileType {
 	case generator.CombinedServiceFile:
 		return g.CreateFile(strings.ToLower(name)+serviceSuffix, outputDir, "go", true)
-	case generator.TypeFile:
-		return g.CreateFile("types_gateway", outputDir, "go", true)
 	case generator.ServiceArgsResultsFile:
 		return g.CreateFile(strings.ToLower(name), outputDir, "go", true)
 	default:
@@ -153,54 +124,7 @@ func (g *Generator) PostProcess(f *os.File) error {
 
 // GenerateTypesImports generates the necessary Go types imports.
 func (g *Generator) GenerateTypesImports(file *os.File) error {
-	contents := "import (\n"
-	contents += "\t\"bytes\"\n"
-	contents += "\t\"fmt\"\n"
-	// Enums need these for some reason
-	if len(g.Frugal.Enums) > 0 {
-		contents += "\t\"database/sql/driver\"\n"
-		contents += "\t\"errors\"\n"
-	}
-	if g.Options[thriftImportOption] != "" {
-		contents += "\t\"" + g.Options[thriftImportOption] + "\"\n"
-	} else {
-		contents += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
-	}
-
-	protections := ""
-	pkgPrefix := g.Options[packagePrefixOption]
-	for _, include := range g.Frugal.Includes {
-		imp, err := g.goGenerator.GenerateIncludeImport(include, pkgPrefix)
-		if err != nil {
-			return err
-		}
-		contents += imp
-		protections += g.goGenerator.GenerateImportProtection(include)
-	}
-
-	contents += ")\n\n"
-	contents += "// (needed to ensure safety because of naive import list construction.)\n"
-	contents += "var _ = thrift.ZERO\n"
-	contents += "var _ = fmt.Printf\n"
-	contents += "var _ = bytes.Equal\n\n"
-	contents += protections
-	contents += "var GoUnusedTypesProtection__ int\n"
-
-	// Standard error struct
-	contents += "type Error struct {\n"
-	contents += "\tResource string `json:\"resource\"`\n" // TODO: can we accurately fill this in? Change API Guidelines?
-	contents += "\tField    string `json:\"field\"`\n"
-	contents += "\tCode     string `json:\"code\"`\n"
-	contents += "}\n"
-
-	contents += "type ErrorResponse struct {\n"
-	contents += "\tMessage string `json:\"message\"`\n"
-	contents += "\tErrors  []*Error `json:\"errors\"`\n"
-	contents += "}\n"
-
-	// Standard success struct
-	_, err := file.WriteString(contents)
-	return err
+	return nil
 }
 
 // GenerateConstantsContents generates constants.
@@ -222,48 +146,9 @@ func (g *Generator) GenerateEnum(enum *parser.Enum) error {
 }
 
 // GenerateStruct generates the given struct.
-// The HTTP proxy creates mappings betwee
+// The HTTP proxy creates mappings between JSON annotations and Thrift
 func (g *Generator) GenerateStruct(s *parser.Struct) error {
-	contents := ""
-
-	// Check if this struct has JSON mappings
-	hasMapping := false
-	for _, field := range s.Fields {
-		_, found := field.Annotations.Get("http.jsonProperty")
-		if found {
-			hasMapping = true
-			break
-		}
-	}
-
-	if !hasMapping {
-		return nil
-	}
-
-	// Generate a struct to handle mappings
-	sName := golang.SnakeToCamel(s.Name)
-	contents += fmt.Sprintf("// %sJSONMapping maps between JSON annotations and Thrift structs.\n", sName)
-	contents += fmt.Sprintf("type %sJSONMapping struct {\n", sName)
-
-	for _, field := range s.Fields {
-		// Attach JSON annotations based on IDL annotations
-		// If no annotations, use field name
-		jsonAnnotation, found := field.Annotations.Get("http.jsonProperty")
-		if !found {
-			jsonAnnotation = field.Name
-		}
-		if field.Modifier == parser.Optional {
-			jsonAnnotation += ",omitempty"
-		}
-		annotation := fmt.Sprintf("`json:\"%s\", omitempty`", jsonAnnotation)
-		goType := g.goGenerator.GetGoTypeFromThriftTypePtr(field.Type, g.goGenerator.IsPointerField(field))
-		contents += fmt.Sprintf("\t%s *%s %s\n", golang.Title(field.Name), goType, annotation)
-	}
-
-	contents += "}\n\n"
-
-	_, err := g.typesFile.WriteString(contents)
-	return err
+	return nil
 }
 
 // GenerateUnion generates the given union.
@@ -291,164 +176,140 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 }
 
 // GenerateService generates the given service.
-// TODO: Would using text/template work better?
 func (g *Generator) GenerateService(file *os.File, s *parser.Service) error {
 	serviceTitle := golang.SnakeToCamel(s.Name)
 	contents := ""
 
-	// Generate mappings from JSON structs to Thrift structs
-	contents += fmt.Sprintf("// Register%sServiceHandler routes requests to the underlying Frugal client\n", serviceTitle)
-	contents += fmt.Sprintf("func Register%sServiceHandler(marshaler gateway.Marshaler, router *gateway.Router, client *F%sClient) error {\n\n", serviceTitle, serviceTitle)
+	contents += g.generateGatewayContext(serviceTitle)
 
 	for _, method := range s.Methods {
-		contents += g.generateHandleFunc(method)
-	}
 
-	contents += "\treturn nil\n}\n" // close func Register*
+		contents += g.generateHandleFunc(serviceTitle, method)
+	}
 
 	_, err := file.WriteString(contents)
 	return err
 }
 
-func (g *Generator) generateHandleFunc(method *parser.Method) string {
+func (g *Generator) generateGatewayContext(serviceTitle string) string {
 	var (
-		nameTitle = golang.SnakeToCamel(method.Name)
+		contents    = ""
+		contextName = fmt.Sprintf("%sContext", serviceTitle)
 	)
-	contents := ""
-	path, found := method.Annotations.Get("http.pathTemplate")
+
+	contents += g.GenerateInlineComment([]string{fmt.Sprintf("%s forwards HTTP requests to a Frugal service", contextName)}, "")
+	contents += fmt.Sprintf("type %s struct {\n", contextName)
+	contents += fmt.Sprintf("\tClient *F%sClient\n", serviceTitle)
+	contents += "\tMarshalers gateway.MarshalerRegistry\n"
+	contents += "}\n\n"
+
+	contents += g.GenerateInlineComment([]string{fmt.Sprintf("%sHandler is a wrapper to provide context to HTTP handlers", serviceTitle)}, "")
+	contents += fmt.Sprintf("type %sHandler struct {\n", serviceTitle)
+	contents += fmt.Sprintf("\t*%s\n\n", contextName)
+
+	contents += g.GenerateInlineComment([]string{"ContextHandlerFunc is the interface which our Handlers will implement"}, "")
+	contents += fmt.Sprintf("\tContextHandlerFunc func(*%s, http.ResponseWriter, *http.Request) (int, error)\n", contextName)
+	contents += "}\n\n"
+
+	contents += g.GenerateInlineComment([]string{"ServeHTTP handles HTTP requests with an included context"}, "")
+	contents += fmt.Sprintf("func (handler %sHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {\n", serviceTitle)
+	contents += fmt.Sprintf("\tstatus, err := handler.ContextHandlerFunc(handler.%s, w, r)\n", contextName)
+	contents += "\tif err != nil {\n"
+	contents += "\t\tlog.Printf(\"HTTP %d: %q\", status, err)\n"
+	contents += "\t\tswitch status {\n"
+	contents += "\t\t\t// TODO:\n"
+	contents += "\t\t\t// customize error handling using context\n"
+	contents += "\t\t}\n"
+	contents += "\t}\n"
+	contents += "\n}\n\n"
+
+	return contents
+}
+
+func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Method) string {
+	var (
+		methodTitle = golang.SnakeToCamel(method.Name)
+		contextName = fmt.Sprintf("%sContext", serviceTitle)
+		contents    = ""
+	)
+
+	// If no HTTP annotation, return without generating handler
+	_, found := method.Annotations.Get("http.pathTemplate")
 	if !found {
 		return ""
 	}
 
-	// TODO: on error conditions, construct correct response
-	contents += "\trouter.HandleFunc("
+	contents += g.GenerateInlineComment([]string{fmt.Sprintf("%s%sHandler forwards HTTP requests to a Frugal service", serviceTitle, methodTitle)}, "")
+	contents += fmt.Sprintf("func %s%sHandler(context *%s, responseWriter http.ResponseWriter, request *http.Request) (int, error) {\n", serviceTitle, methodTitle, contextName)
 
-	// Interpret path template
-	contents += strconv.Quote(path)
-	contents += ", func(w http.ResponseWriter, req *http.Request) {\n"
-	contents += "\t\tf, _ := w.(http.Flusher)\n"
+	contents += "\tflusher, _ := responseWriter.(http.Flusher)\n\n"
 
-	contents += "\t\tw.Header().Set(\"Content-Type\", marshaler.ContentType())\n"
+	contents += "\tinMarshaler, outMarshaler := context.Marshalers.MarshalerForRequest(request)\n\n"
 
-	// Map request body to Frugal struct
+	// Extract the input argument type
 	argument := method.Arguments[0]
-	contents += fmt.Sprintf("\t\tvar mapping %sJSONMapping\n", argument.Type.Name)
-
-	// TODO: decoder function can be made top-level and reused?
-	contents += "\t\tdecoder := marshaler.NewDecoder(req.Body)\n"
-	contents += "\t\tdefer req.Body.Close()\n"
-	contents += "\t\terr := decoder.Decode(&mapping)\n"
-	contents += "\t\tif err != nil && err != io.EOF {\n"
-	contents += "\t\t\tif e, ok := err.(*json.UnmarshalTypeError); ok {\n"
-	contents += "\t\t\t\tw.WriteHeader(http.StatusUnprocessableEntity)\n"
-	contents += "\t\t\t\tresponse := &ErrorResponse{\n"
-	contents += "\t\t\t\t\tMessage: \"Validation failed\",\n"
-	contents += "\t\t\t\t\tErrors: []*Error{\n"
-	contents += "\t\t\t\t\t	&Error{\n"
-	contents += "\t\t\t\t\t		Resource: \"album\",\n" // TODO: extract from path parameter?
-	contents += "\t\t\t\t\t		Field:    e.Field,\n"
-	contents += "\t\t\t\t\t		Code:     \"invalid\",\n"
-	contents += "\t\t\t\t\t	},\n"
-	contents += "\t\t\t\t\t},\n"
-	contents += "\t\t\t\t}\n"
-	contents += "\t\t\t\tbuf, err := marshaler.Marshal(response)\n"
-	contents += "\t\t\t\tif err != nil {\n"
-	contents += "\t\t\t\t\tbuf = []byte(\"{ \\\"message\\\": \\\"Validation failed\\\" }\")\n"
-	contents += "\t\t\t\t}\n"
-	contents += "\t\t\t\tw.Write(buf)\n"
-	contents += "\t\t\t\tfmt.Println(e)\n"
-	contents += "\t\t\t\treturn\n"
-
-	contents += "\t\t\t}\n"
-	contents += "\t\t\tw.WriteHeader(http.StatusBadRequest)\n"
-	contents += "\t\t\tbuf := []byte(\"{ \\\"message\\\": \\\"Problems parsing JSON\\\" }\")\n"
-	contents += "\t\t\tw.Write(buf)\n"
-	contents += "\t\t\tfmt.Println(err)\n"
-	contents += "\t\t\treturn\n"
-	contents += "\t\t}\n"
-
-	contents += "\n\n"
-
-	// Create Thrift payload for calling Frugal client
-	contents += fmt.Sprintf("\t\tpayload := &%s{}\n", argument.Type.Name)
+	contents += g.GenerateInlineComment([]string{"Assemble a Frugal payload of the correct type"}, "\t")
+	contents += fmt.Sprintf("\tpayload := &%s{}\n\n", argument.Type.Name)
 
 	// Map incoming JSON payload to Thrift payload
-	parsedStruct := g.Frugal.FindStruct(argument.Type)
+	contents += g.GenerateInlineComment([]string{"Decode the request using the registered inbound marshaler"}, "\t")
+	contents += "\tdecoder := inMarshaler.NewDecoder(request.Body)\n"
+	contents += "\tdefer request.Body.Close()\n"
+	contents += "\terr := decoder.Decode(payload)\n"
+	contents += "\tif err != nil && err != io.EOF {\n"
+	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
+	contents += "\t}\n\n"
 
-	// Map path parameters to struct values
-	contents += "\t\ts := reflect.ValueOf(&mapping).Elem()\n"
-	contents += "\t\ttypeOfMapping := s.Type()\n"
-	contents += "\t\tvars := mux.Vars(req)\n"
+	// Map any path parameters to the payload
+	contents += g.GenerateInlineComment([]string{"Map any path or query parameters into the payload"}, "\t")
+	contents += "\tvars := mux.Vars(request)\n"
+	contents += "\tqueries := request.URL.Query()\n"
+	contents += "\tfor _, field := range structs.Fields(payload) {\n"
+
+	// path variables
 	contents += "\t\tfor k, v := range vars {\n"
-	contents += "\t\t\tvarField := strings.ToLower(k)\n"
-	contents += "\t\t\tfor i := 0; i < s.NumField(); i++ {\n"
-	contents += "\t\t\t\tstructField := strings.ToLower(typeOfMapping.Field(i).Name)\n"
-	contents += "\t\t\t\tif varField == structField {\n"
-	contents += "\t\t\t\t\ts.Field(i).Set(reflect.ValueOf(&v))\n"
-	contents += "\t\t\t\t\tcontinue\n"
-	contents += "\t\t\t\t}\n"
+	contents += "\t\t\tif strings.Contains(field.Tag(\"json\"), k) {\n"
+	contents += "\t\t\t\tfield.Set(v)\n"
 	contents += "\t\t\t}\n"
-	contents += "\t\t}\n"
+	contents += "\t\t}\n\n"
 
-	// Map query parameters to struct values
-	contents += "\t\ts = reflect.ValueOf(&mapping).Elem()\n"
-	contents += "\t\ttypeOfMapping = s.Type()\n"
-	contents += "\t\tqueries := req.URL.Query()\n"
+	// query variables
 	contents += "\t\tfor k, v := range queries {\n"
-	contents += "\t\t\tvarField := strings.ToLower(k)\n"
-	contents += "\t\t\tfor i := 0; i < s.NumField(); i++ {\n"
-	contents += "\t\t\t\tstructField := strings.ToLower(typeOfMapping.Field(i).Name)\n"
-	contents += "\t\t\t\tif varField == structField {\n"
-	contents += "\t\t\t\t\tif len(v) == 1 {\n"
-	contents += "\t\t\t\t\t	s.Field(i).Set(reflect.ValueOf(&v[0]))\n"
-	contents += "\t\t\t\t\t} else {\n"
-	contents += "\t\t\t\t\t	s.Field(i).Set(reflect.ValueOf(&v[0]))\n"
-	contents += "\t\t\t\t\t}\n"
-	contents += "\t\t\t\t\tcontinue\n"
-	contents += "\t\t\t\t}\n"
+	contents += "\t\t\tif k == field.Tag(\"json\") {\n"
+	contents += "\t\t\t\tfield.Set(v[0]) // Take the first query parameter\n"
 	contents += "\t\t\t}\n"
 	contents += "\t\t}\n"
+	contents += "\t}\n\n"
 
-	// TODO: do we have to handle structs or enums specially?
-	for _, field := range parsedStruct.Fields {
-		fName := golang.Title(field.Name)
-		contents += fmt.Sprintf("\t\tif mapping.%s == nil {\n", fName)
-		contents += "\t\t\tw.WriteHeader(http.StatusBadRequest)\n"
-		contents += "\t\t\tbuf := []byte(\"{ \\\"message\\\": \\\"Invalid JSON data\\\" }\")\n"
-		contents += "\t\t\tw.Write(buf)\n"
-		contents += "\t\t\treturn\n"
-		contents += "\t\t}\n"
-		contents += fmt.Sprintf("\t\tpayload.%s = *mapping.%s\n", fName, fName)
-	}
+	// Pass the payload to the Frugal client
+	contents += g.GenerateInlineComment([]string{"Call the Frugal client with the assembled payload"}, "\t")
+	contents += fmt.Sprintf("\tresponse, err := context.Client.%s(frugal.NewFContext(\"\"), payload)\n", methodTitle)
+	contents += "\tif err != nil {\n"
+	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
+	contents += "\t}\n\n"
 
-	// Pass payload the Frugal client
-	contents += fmt.Sprintf("\t\tresponse, err := client.%s(frugal.NewFContext(\"\"), payload)\n", nameTitle)
-	contents += "\t\tif err != nil {\n"
-	contents += "\t\t\tgateway.DefaultFrugalErrorHandler(marshaler, w, req, err)\n"
-	contents += "\t\t\treturn\n"
-	contents += "\t\t}\n"
-
-	// Generate HTTP response from Frugal response
-	contents += "\t\tbuf, err := marshaler.Marshal(response)\n"
-	contents += "\t\tif err != nil {\n"
-	contents += "\t\t\tfmt.Printf(\"Failed to marshal response message %q: %v\", response, err)\n"
-	contents += "\t\t\treturn\n"
-	contents += "\t\t}\n"
+	// Serialize the HTTP response
+	contents += g.GenerateInlineComment([]string{"Serialize the Frugal response into a JSON response"}, "\t")
+	contents += "\tbuf, err := outMarshaler.Marshal(response)\n"
+	contents += "\tif err != nil {\n"
+	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
+	contents += "\t}\n"
 
 	// Write the response
-	contents += "\t\tw.WriteHeader(http.StatusOK)\n"
-	contents += "\t\tw.Write(buf)\n"
-	contents += "\t\tf.Flush()\n"
+	contents += "\tresponseWriter.WriteHeader(http.StatusOK)\n"
+	contents += "\tresponseWriter.Write(buf)\n"
+	contents += "\tflusher.Flush()\n\n"
 
-	contents += "\t})" // close router.HandleFunc
+	contents += "return http.StatusOK, nil\n"
+	contents += "}\n\n"
 
-	// Set the HTTP method
-	httpMethod, found := method.Annotations.Get("http.method")
-	if found {
-		contents += fmt.Sprintf(".Methods(\"%s\")\n", httpMethod)
-	} else {
-		contents += ".Methods(\"GET\")\n"
-	}
+	// // Set the HTTP method
+	// httpMethod, found := method.Annotations.Get("http.method")
+	// if found {
+	// 	contents += fmt.Sprintf(".Methods(\"%s\")\n", httpMethod)
+	// } else {
+	// 	contents += ".Methods(\"GET\")\n"
+	// }
 
 	return contents
 }

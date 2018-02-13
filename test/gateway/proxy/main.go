@@ -7,9 +7,9 @@ import (
 	"reflect"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/examples/go/gen-go/twitter"
 	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/test/gateway/gen-go/type_test"
 )
 
 var (
@@ -29,7 +29,7 @@ func newLoggingMiddleware() frugal.ServiceMiddleware {
 }
 
 // Create a new Frugal client connected to the store service
-func newTwitterClient() *twitter.FTwitterClient {
+func newFrugalClient() *type_test.FTypeTestClient {
 	// Set the protocol used for serialization.
 	// The protocol stack must match between client and server
 	fProtocolFactory := frugal.NewFProtocolFactory(thrift.NewTBinaryProtocolFactoryDefault())
@@ -48,21 +48,22 @@ func newTwitterClient() *twitter.FTwitterClient {
 	// Create a client used to send messages with our desired protocol.  You
 	// can also pass middleware in here if you only want it to intercept calls
 	// for this specific client.
-	storeClient := twitter.NewFTwitterClient(provider, newLoggingMiddleware())
+	storeClient := type_test.NewFTypeTestClient(provider, newLoggingMiddleware())
 
 	return storeClient
 }
 
 func main() {
-	mux := gateway.NewRouter() // TODO: setup marshaler registry here
-	c := newTwitterClient()
+	r := gateway.NewRouter()
+	c := newFrugalClient()
+	m := gateway.Marshaler{}
 
-	err := twitter.RegisterTwitterServiceHandler(mux, c)
+	err := type_test.RegisterTypeTestServiceHandler(m, r, c)
 
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Starting the gateway server ...")
-	log.Fatal(http.ListenAndServe(":8000", mux))
+	log.Fatal(http.ListenAndServe(":8000", r))
 }

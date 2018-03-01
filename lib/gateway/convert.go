@@ -20,15 +20,6 @@ func Float64(val string) (float64, error) {
 	return strconv.ParseFloat(val, 64)
 }
 
-// Float32 converts the given string representation of a floating point number into float32.
-func Float32(val string) (float32, error) {
-	f, err := strconv.ParseFloat(val, 32)
-	if err != nil {
-		return 0, err
-	}
-	return float32(f), nil
-}
-
 // Int64 converts the given string representation of an integer into int64.
 func Int64(val string) (int64, error) {
 	return strconv.ParseInt(val, 0, 64)
@@ -43,16 +34,20 @@ func Int32(val string) (int32, error) {
 	return int32(i), nil
 }
 
-// Uint64 converts the given string representation of an integer into uint64.
-func Uint64(val string) (uint64, error) {
-	return strconv.ParseUint(val, 0, 64)
-}
-
-// Uint32 converts the given string representation of an integer into uint32.
-func Uint32(val string) (uint32, error) {
-	i, err := strconv.ParseUint(val, 0, 32)
+// Int16 converts the given string representation of an integer into int16.
+func Int16(val string) (int16, error) {
+	i, err := strconv.ParseInt(val, 0, 16)
 	if err != nil {
 		return 0, err
 	}
-	return uint32(i), nil
+	return int16(i), nil
+}
+
+// Int8 converts the given string representation of an integer into int8.
+func Int8(val string) (int8, error) {
+	i, err := strconv.ParseInt(val, 0, 8)
+	if err != nil {
+		return 0, err
+	}
+	return int8(i), nil
 }

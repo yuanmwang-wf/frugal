@@ -42,13 +42,16 @@ type GatewayHandler struct{}
 
 // CreateTweet creates a new tweet
 func (f *GatewayHandler) GetContainer(ctx frugal.FContext, baseType *gateway_test.BaseType) (r *gateway_test.ContainerType, err error) {
-	fmt.Printf("Recieved %v\n", baseType)
-	fmt.Printf("Recieved %v\n", baseType.StringTest)
+	str_ := baseType.StringTest
+	fmt.Println("Received", str_)
+	bool_ := false
 
-	str := "test"
+	if baseType.BoolTest != nil {
+		bool_ = *baseType.BoolTest
+	}
 
-	listTest := []*gateway_test.BaseType{&gateway_test.BaseType{StringTest: str}}
-	mapTest := map[string]*gateway_test.BaseType{"foo": &gateway_test.BaseType{StringTest: str}}
+	listTest := []*gateway_test.BaseType{&gateway_test.BaseType{StringTest: str_, BoolTest: &bool_}}
+	mapTest := map[string]*gateway_test.BaseType{"foo": &gateway_test.BaseType{StringTest: str_, BoolTest: &bool_}}
 	enumTest := gateway_test.EnumType_ANOPTION
 
 	container := &gateway_test.ContainerType{
@@ -57,5 +60,6 @@ func (f *GatewayHandler) GetContainer(ctx frugal.FContext, baseType *gateway_tes
 		EnumTest: &enumTest,
 	}
 
+	fmt.Println("Container", container)
 	return container, nil // TODO: test how error response is handled
 }

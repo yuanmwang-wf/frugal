@@ -1,4 +1,4 @@
-package structs
+package gateway
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ type Struct struct {
 
 // New returns a new *Struct with the struct s. It panics if the s's kind is
 // not struct.
-func New(s interface{}) *Struct {
+func NewStruct(s interface{}) *Struct {
 	return &Struct{
 		raw:     s,
 		value:   strctVal(s),
@@ -442,43 +442,43 @@ func strctVal(s interface{}) reflect.Value {
 // Map converts the given struct to a map[string]interface{}. For more info
 // refer to Struct types Map() method. It panics if s's kind is not struct.
 func Map(s interface{}) map[string]interface{} {
-	return New(s).Map()
+	return NewStruct(s).Map()
 }
 
 // FillMap is the same as Map. Instead of returning the output, it fills the
 // given map.
 func FillMap(s interface{}, out map[string]interface{}) {
-	New(s).FillMap(out)
+	NewStruct(s).FillMap(out)
 }
 
 // Values converts the given struct to a []interface{}. For more info refer to
 // Struct types Values() method.  It panics if s's kind is not struct.
 func Values(s interface{}) []interface{} {
-	return New(s).Values()
+	return NewStruct(s).Values()
 }
 
 // Fields returns a slice of *Field. For more info refer to Struct types
 // Fields() method.  It panics if s's kind is not struct.
 func Fields(s interface{}) []*Field {
-	return New(s).Fields()
+	return NewStruct(s).Fields()
 }
 
 // Names returns a slice of field names. For more info refer to Struct types
 // Names() method.  It panics if s's kind is not struct.
 func Names(s interface{}) []string {
-	return New(s).Names()
+	return NewStruct(s).Names()
 }
 
 // IsZero returns true if all fields is equal to a zero value. For more info
 // refer to Struct types IsZero() method.  It panics if s's kind is not struct.
 func IsZero(s interface{}) bool {
-	return New(s).IsZero()
+	return NewStruct(s).IsZero()
 }
 
 // HasZero returns true if any field is equal to a zero value. For more info
 // refer to Struct types HasZero() method.  It panics if s's kind is not struct.
 func HasZero(s interface{}) bool {
-	return New(s).HasZero()
+	return NewStruct(s).HasZero()
 }
 
 // IsStruct returns true if the given variable is a struct or a pointer to
@@ -500,7 +500,7 @@ func IsStruct(s interface{}) bool {
 // Name returns the structs's type name within its package. It returns an
 // empty string for unnamed types. It panics if s's kind is not struct.
 func Name(s interface{}) string {
-	return New(s).Name()
+	return NewStruct(s).Name()
 }
 
 // nested retrieves recursively all types for the given value and returns the
@@ -515,7 +515,7 @@ func (s *Struct) nested(val reflect.Value) interface{} {
 
 	switch v.Kind() {
 	case reflect.Struct:
-		n := New(val.Interface())
+		n := NewStruct(val.Interface())
 		n.TagName = s.TagName
 		m := n.Map()
 

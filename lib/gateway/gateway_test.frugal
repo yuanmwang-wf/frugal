@@ -8,7 +8,7 @@ struct BaseType {
   5: optional i64 i64Test;
   6: optional double doubleTest;
   7: optional binary binaryTest;
-  8: string stringTest;
+  8: string stringTest (http.jsonProperty="differentString")
 }
 
 enum EnumType {
@@ -24,5 +24,5 @@ struct ContainerType {
 }
 
 service GatewayTest {
-  ContainerType GetContainer(1: BaseType baseType) (http.method="post", http.pathTemplate="/v1/container/")
+  ContainerType GetContainer(1: BaseType baseType) (http.method="post", http.pathTemplate="/v1/{differentString}/", http.query="boolTest")
 }

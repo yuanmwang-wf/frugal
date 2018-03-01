@@ -86,7 +86,7 @@ type BaseType struct {
 	I64Test    *int64   `thrift:"i64Test,5" db:"i64Test" json:"i64Test,omitempty"`
 	DoubleTest *float64 `thrift:"doubleTest,6" db:"doubleTest" json:"doubleTest,omitempty"`
 	BinaryTest []byte   `thrift:"binaryTest,7" db:"binaryTest" json:"binaryTest,omitempty"`
-	StringTest string   `thrift:"stringTest,8" db:"stringTest" json:"stringTest"`
+	StringTest string   `thrift:"stringTest,8" db:"stringTest" json:"differentString"`
 }
 
 func NewBaseType() *BaseType {

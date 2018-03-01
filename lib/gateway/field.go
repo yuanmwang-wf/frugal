@@ -1,4 +1,4 @@
-package structs
+package gateway
 
 import (
 	"errors"

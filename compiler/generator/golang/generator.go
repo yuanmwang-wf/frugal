@@ -461,8 +461,13 @@ func (g *Generator) generateStructDeclaration(s *parser.Struct, sName string) st
 		if field.Modifier == parser.Required {
 			thriftAnnotation += ",required"
 		}
-		// TODO: Use IDL annotation
+
+		// Use the field name as the default JSON annotation
+		// If an HTTP gateway annotation is present, use that instead
 		jsonAnnotation := field.Name
+		if jsonProperty, ok := field.Annotations.Get("http.jsonProperty"); ok {
+			jsonAnnotation = jsonProperty
+		}
 		if field.Modifier == parser.Optional {
 			jsonAnnotation += ",omitempty"
 		}

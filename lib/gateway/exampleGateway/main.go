@@ -9,7 +9,6 @@ import (
 	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/gateway/gen-go/gateway_test"
 	"github.com/Workiva/frugal/lib/go"
-	"github.com/gorilla/mux"
 )
 
 var mockEndpoint = "http://localhost:9090/frugal"
@@ -56,10 +55,14 @@ func main() {
 		Client:     newClient(),
 	}
 
-	handler := &gateway_test.GatewayTestHandler{&context, gateway_test.GatewayTestGetContainerHandler}
+	router, _ := gateway_test.MakeRouter(&context)
 
-	router := mux.NewRouter()
-	router.Methods("POST").Path("/v1/{stringTest}/").Name("GatewayTestGetContainerHandler").Handler(handler)
+	// 	// TODO: Compile function MakeRouter(context) to return an HTTP mux router
+	// 	handler := &gateway_test.GatewayTestHandler{&context, gateway_test.GatewayTestGetContainerHandler}
+
+	// 	router := mux.NewRouter()
+
+	// 	router.Methods("POST").Path("/v1/{differentString}/").Name("GatewayTestGetContainerHandler").Handler(handler)
 
 	http.ListenAndServe(":5000", router)
 }

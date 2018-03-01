@@ -133,7 +133,8 @@ func NewFGatewayTestProcessor(handler FGatewayTest, middleware ...frugal.Service
 	p.AddToProcessorMap("getContainer", &gatewaytestFGetContainer{frugal.NewFBaseProcessorFunction(p.GetWriteMutex(), frugal.NewMethod(handler, handler.GetContainer, "GetContainer", middleware))})
 	p.AddToAnnotationsMap("getContainer", map[string]string{
 		"http.method":       "post",
-		"http.pathTemplate": "/v1/container/",
+		"http.pathTemplate": "/v1/{differentString}/",
+		"http.query":        "boolTest",
 	})
 	return p
 }

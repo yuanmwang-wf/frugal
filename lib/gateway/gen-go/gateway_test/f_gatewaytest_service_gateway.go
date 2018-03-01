@@ -15,7 +15,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/gateway"
 	"github.com/Workiva/frugal/lib/go"
-	"github.com/fatih/structs"
 	"github.com/gorilla/mux"
 )
 
@@ -61,7 +60,6 @@ func GatewayTestGetContainerHandler(context *GatewayTestContext, responseWriter 
 	// Assemble a Frugal payload of the correct type
 	payload := &BaseType{}
 
-	// Decode the request using the registered inbound marshaler
 	decoder := inMarshaler.NewDecoder(request.Body)
 	defer request.Body.Close()
 	err := decoder.Decode(payload)
@@ -69,20 +67,110 @@ func GatewayTestGetContainerHandler(context *GatewayTestContext, responseWriter 
 		panic(err) // TODO: Customize error handling
 	}
 
-	// Map any path or query parameters into the payload
+	// Combine path and query parameters into map[string]string.
+	// If there are duplicate query parameters, only the first is respected.
 	vars := mux.Vars(request)
 	queries := request.URL.Query()
-	for _, field := range structs.Fields(payload) {
-		for k, v := range vars {
-			if strings.Contains(field.Tag("json"), k) {
-				field.Set(v)
-			}
-		}
+	for k, v := range queries {
+		vars[k] = v[0]
+	}
 
-		for k, v := range queries {
-			if k == field.Tag("json") {
-				field.Set(v[0]) // Take the first query parameter
+	// Map any path or query parameters into the payload
+	s := gateway.NewStruct(payload)
+	for k, v := range vars {
+		if k == "boolTest" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
 			}
+			f := s.Field("BoolTest")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "byteTest" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("ByteTest")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "i16Test" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("I16Test")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "i32Test" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("I32Test")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "i64Test" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("I64Test")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "doubleTest" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("DoubleTest")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
+		}
+		if k == "binaryTest" {
+			fmt.Errorf("Unsupported conversion of type binary")
+		}
+		if k == "differentString" {
+			c, err := gateway.String(v)
+			if err != nil {
+				panic(err)
+			}
+			f := s.Field("StringTest")
+			if strings.Contains(f.Tag("json"), "omitempty") {
+				err = f.Set(&c)
+			} else {
+				err = f.Set(c)
+			}
+
 		}
 	}
 
@@ -102,4 +190,13 @@ func GatewayTestGetContainerHandler(context *GatewayTestContext, responseWriter 
 	flusher.Flush()
 
 	return http.StatusOK, nil
+}
+
+// MakeRouter builds a multiplexed router handling HTTP+JSON requests according to IDL annotations
+func MakeRouter(context *GatewayTestContext) (*mux.Router, error) {
+	router := mux.NewRouter()
+	handler := &GatewayTestHandler{context, GatewayTestGetContainerHandler}
+	router.Methods("POST").Path("/v1/{differentString}/").Name("GatewayTestGetContainerHandler").Handler(handler)
+
+	return router, nil
 }

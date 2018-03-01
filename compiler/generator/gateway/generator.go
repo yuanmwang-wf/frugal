@@ -187,6 +187,8 @@ func (g *Generator) GenerateService(file *os.File, s *parser.Service) error {
 		contents += g.generateHandleFunc(serviceTitle, method)
 	}
 
+	contents += g.generateMuxConstructor(s)
+
 	_, err := file.WriteString(contents)
 	return err
 }
@@ -226,6 +228,24 @@ func (g *Generator) generateGatewayContext(serviceTitle string) string {
 	return contents
 }
 
+func (g *Generator) generateFieldSetter(conversion string, fieldName string) string {
+	var contents = ""
+
+	contents += "\t\t\t\t\tc, err := gateway.String(v)\n"
+	contents += "\t\t\t\t\tif err != nil {\n"
+	contents += "\t\t\t\t\t\tpanic(err)\n"
+	contents += "\t\t\t\t\t}\n"
+
+	contents += fmt.Sprintf("\t\t\t\t\tf := s.Field(\"%s\")\n", fieldName)
+	contents += "\t\t\t\t\tif strings.Contains(f.Tag(\"json\"), \"omitempty\") {\n"
+	contents += "\t\t\t\t\t\terr = f.Set(&c)\n"
+	contents += "\t\t\t\t\t} else {\n"
+	contents += "\t\t\t\t\t\terr = f.Set(c)\n"
+	contents += "\t\t\t\t\t}\n\n"
+
+	return contents
+}
+
 func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Method) string {
 	var (
 		methodTitle = golang.SnakeToCamel(method.Name)
@@ -250,9 +270,6 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	argument := method.Arguments[0]
 	contents += g.GenerateInlineComment([]string{"Assemble a Frugal payload of the correct type"}, "\t")
 	contents += fmt.Sprintf("\tpayload := &%s{}\n\n", argument.Type.Name)
-
-	// Map incoming JSON payload to Thrift payload
-	contents += g.GenerateInlineComment([]string{"Decode the request using the registered inbound marshaler"}, "\t")
 	contents += "\tdecoder := inMarshaler.NewDecoder(request.Body)\n"
 	contents += "\tdefer request.Body.Close()\n"
 	contents += "\terr := decoder.Decode(payload)\n"
@@ -260,26 +277,59 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
 	contents += "\t}\n\n"
 
-	// Map any path parameters to the payload
-	contents += g.GenerateInlineComment([]string{"Map any path or query parameters into the payload"}, "\t")
+	contents += g.GenerateInlineComment([]string{"Combine path and query parameters into map[string]string.", "If there are duplicate query parameters, only the first is respected."}, "\t")
 	contents += "\tvars := mux.Vars(request)\n"
 	contents += "\tqueries := request.URL.Query()\n"
-	contents += "\tfor _, field := range structs.Fields(payload) {\n"
-
-	// path variables
-	contents += "\t\tfor k, v := range vars {\n"
-	contents += "\t\t\tif strings.Contains(field.Tag(\"json\"), k) {\n"
-	contents += "\t\t\t\tfield.Set(v)\n"
-	contents += "\t\t\t}\n"
-	contents += "\t\t}\n\n"
-
-	// query variables
-	contents += "\t\tfor k, v := range queries {\n"
-	contents += "\t\t\tif k == field.Tag(\"json\") {\n"
-	contents += "\t\t\t\tfield.Set(v[0]) // Take the first query parameter\n"
-	contents += "\t\t\t}\n"
-	contents += "\t\t}\n"
+	contents += "\tfor k, v := range queries {\n"
+	contents += "\t	vars[k] = v[0]\n"
 	contents += "\t}\n\n"
+
+	// Map any path parameters to the payload
+	contents += g.GenerateInlineComment([]string{"Map any path or query parameters into the payload"}, "\t")
+	parsedStruct := g.Frugal.FindStruct(argument.Type)
+	contents += "\ts := gateway.NewStruct(payload)\n"
+	contents += "\t\tfor k, v := range vars {\n"
+	for _, field := range parsedStruct.Fields {
+		fieldName := field.Name
+		if jsonProperty, ok := field.Annotations.Get("http.jsonProperty"); ok {
+			fieldName = jsonProperty
+		}
+		contents += fmt.Sprintf("\t\t\t\tif k == \"%s\" {\n", fieldName)
+		switch field.Type.String() {
+		case "string":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.String(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "bool":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Bool(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "double":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Float64(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "i64":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Int64(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "i32":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Int32(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "i16":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Int16(v)\n",
+				golang.SnakeToCamel(field.Name))
+		case "i8", "byte":
+			contents += g.generateFieldSetter(
+				"\t\t\t\t\tc, err := gateway.Int8(v)\n",
+				golang.SnakeToCamel(field.Name))
+		default:
+			contents += fmt.Sprintf("\t\t\t\t\tfmt.Errorf(\"Unsupported conversion of type %s\")\n", field.Type.String())
+		}
+		contents += "\t\t\t\t}\n"
+	}
+	contents += "\t\t}\n\n"
 
 	// Pass the payload to the Frugal client
 	contents += g.GenerateInlineComment([]string{"Call the Frugal client with the assembled payload"}, "\t")
@@ -303,13 +353,35 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += "return http.StatusOK, nil\n"
 	contents += "}\n\n"
 
-	// // Set the HTTP method
-	// httpMethod, found := method.Annotations.Get("http.method")
-	// if found {
-	// 	contents += fmt.Sprintf(".Methods(\"%s\")\n", httpMethod)
-	// } else {
-	// 	contents += ".Methods(\"GET\")\n"
-	// }
+	return contents
+}
+
+func (g *Generator) generateMuxConstructor(s *parser.Service) string {
+	contents := ""
+
+	contents += g.GenerateInlineComment([]string{"MakeRouter builds a multiplexed router handling HTTP+JSON requests according to IDL annotations"}, "\t")
+	contents += "func MakeRouter(context *GatewayTestContext) (*mux.Router, error) {\n"
+
+	// Base router with no handlers
+	contents += "\trouter := mux.NewRouter()\n"
+
+	// Add handlers for each service method
+	serviceTitle := golang.SnakeToCamel(s.Name)
+	for _, method := range s.Methods {
+		pathAnnotation, _ := method.Annotations.Get("http.pathTemplate")
+		// queryAnnotation, _ := method.Annotations.Get("http.query")  TODO: force query annotations to match
+		methodAnnotation, _ := method.Annotations.Get("http.method")
+
+		methodTitle := golang.SnakeToCamel(method.Name)
+		interfaceName := fmt.Sprintf("%sHandler", serviceTitle)
+		handlerName := fmt.Sprintf("%s%sHandler", serviceTitle, methodTitle)
+
+		contents += fmt.Sprintf("\thandler := &%s{context, %s}\n", interfaceName, handlerName)
+		contents += fmt.Sprintf("\trouter.Methods(\"%s\").Path(\"%s\").Name(\"%s\").Handler(handler)\n", strings.ToUpper(methodAnnotation), pathAnnotation, handlerName)
+	}
+
+	contents += "\t\nreturn router, nil\n"
+	contents += "}\n"
 
 	return contents
 }

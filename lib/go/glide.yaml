@@ -1,6 +1,8 @@
 package: github.com/Workiva/frugal/lib/go
 import:
 - package: git.apache.org/thrift.git
+  repo: github.com/apache/thrift
+  vcs: git
   version: 0.10.0
   subpackages:
   - lib/go/thrift

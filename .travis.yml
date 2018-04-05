@@ -25,7 +25,7 @@ before_install:
 
 script:
   - cd $TRAVIS_BUILD_DIR && go test ./test -race
-  - cd $TRAVIS_BUILD_DIR/lib/go && glide --debug install && go test -race $(glide nv)
+  - cd $TRAVIS_BUILD_DIR/lib/go && cat glide.yaml && pwd && glide --debug install && go test -race $(glide nv)
   - cd $TRAVIS_BUILD_DIR/lib/python
   - workon py2 && make xunit-py2 flake8-py2
   - workon py3 && make xunit-py3 flake8-py3

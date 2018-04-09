@@ -2,67 +2,64 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
-	"reflect"
+
+	"github.com/rs/cors"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/gateway"
-	"github.com/Workiva/frugal/lib/gateway/gen-go/gateway_test"
+	gateway_gen "github.com/Workiva/frugal/test/integration/gateway/gen-go/gateway_test"
 	"github.com/Workiva/frugal/lib/go"
 )
 
-var mockEndpoint = "http://localhost:9090/frugal"
-
-func newLoggingMiddleware() frugal.ServiceMiddleware {
-	return func(next frugal.InvocationHandler) frugal.InvocationHandler {
-		return func(service reflect.Value, method reflect.Method, args frugal.Arguments) frugal.Results {
-			fmt.Printf("==== CALLING %s.%s ====\n", service.Type(), method.Name)
-			ret := next(service, method, args)
-			fmt.Printf("==== CALLED  %s.%s ====\n", service.Type(), method.Name)
-			return ret
-		}
-	}
-}
-
-// Create a new Frugal client connected to the backing service
-func newClient() *gateway_test.FGatewayTestClient {
+// Run an HTTP server
+func main() {
 	// Set the protocol used for serialization.
 	// The protocol stack must match between client and server
 	fProtocolFactory := frugal.NewFProtocolFactory(thrift.NewTBinaryProtocolFactoryDefault())
 
-	// Create an HTTP transport listening
-	httpTransport := frugal.NewFHTTPTransportBuilder(&http.Client{}, mockEndpoint).Build()
-	defer httpTransport.Close()
-	if err := httpTransport.Open(); err != nil {
-		panic(err)
+	// Create a handler. Each incoming request at the processor is sent to
+	// the handler. Responses from the handler are returned back to the
+	// client
+	handler := &GatewayHandler{}
+	processor := gateway_gen.NewFGatewayTestProcessor(handler)
+
+	// Start the server using the configured processor, and protocol
+	mux := http.NewServeMux()
+	mux.HandleFunc("/frugal", frugal.NewFrugalHandlerFunc(processor, fProtocolFactory))
+	corsOptions := cors.Options{
+		AllowedHeaders: []string{"Content-Transfer-Encoding"},
 	}
+	httpHandler := cors.New(corsOptions).Handler(mux)
 
-	// Create a provider with the transport and protocol factory. The provider
-	// can be used to create multiple Clients.
-	provider := frugal.NewFServiceProvider(httpTransport, fProtocolFactory)
-
-	// Create a client used to send messages with our desired protocol.  You
-	// can also pass middleware in here if you only want it to intercept calls
-	// for this specific client.
-	storeClient := gateway_test.NewFGatewayTestClient(provider, newLoggingMiddleware())
-
-	return storeClient
+	fmt.Println("Starting the http server...")
+	log.Fatal(http.ListenAndServe(":9090", httpHandler))
 }
 
-func main() {
-	context := gateway_test.GatewayTestContext{
-		Marshalers: gateway.NewMarshalerRegistry(),
-		Client:     newClient(),
+// GatewayHandler handles all incoming requests to the server.
+// The handler must satisfy the interface the server exposes.
+type GatewayHandler struct{}
+
+// CreateTweet creates a new tweet
+func (f *GatewayHandler) GetContainer(ctx frugal.FContext, baseType *gateway_gen.BaseType) (r *gateway_gen.ContainerType, err error) {
+	str_ := baseType.StringTest
+	fmt.Println("Received", str_)
+	bool_ := false
+
+	if baseType.BoolTest != nil {
+		bool_ = *baseType.BoolTest
 	}
 
-	router, _ := gateway_test.MakeRouter(&context)
+	listTest := []*gateway_gen.BaseType{&gateway_gen.BaseType{StringTest: str_, BoolTest: &bool_}}
+	mapTest := map[string]*gateway_gen.BaseType{"foo": &gateway_gen.BaseType{StringTest: str_, BoolTest: &bool_}}
+	enumTest := gateway_gen.EnumType_ANOPTION
 
-	// 	// TODO: Compile function MakeRouter(context) to return an HTTP mux router
-	// 	handler := &gateway_test.GatewayTestHandler{&context, gateway_test.GatewayTestGetContainerHandler}
+	container := &gateway_gen.ContainerType{
+		ListTest: listTest,
+		MapTest:  mapTest,
+		EnumTest: &enumTest,
+	}
 
-	// 	router := mux.NewRouter()
-
-	// 	router.Methods("POST").Path("/v1/{differentString}/").Name("GatewayTestGetContainerHandler").Handler(handler)
-
-	http.ListenAndServe(":5000", router)
+	fmt.Println("Container", container)
+	return container, nil // TODO: test how error response is handled
 }

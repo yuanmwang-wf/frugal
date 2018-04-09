@@ -22,12 +22,6 @@ rm -rf $FRUGAL_HOME/lib/go/vendor
 mkdir -p vendor/github.com/Workiva/frugal/lib/go
 cp -r $FRUGAL_HOME/lib/go/* vendor/github.com/Workiva/frugal/lib/go
 
-
-frugal --gen go gateway_test.frugal
-frugal --gen gateway gateway_test.frugal
-
-rm -rf $FRUGAL_HOME/vendor
-
 # TODO janky stuff because vendor isn't being found
 # And not all are in the copied vendor folder
 mkdir $GOPATH/src/git.apache.org/
@@ -38,6 +32,14 @@ go get github.com/mattrobenolt/gocql/uuid
 go get github.com/nats-io/go-nats
 go get github.com/rs/cors
 rm -rf vendor
+go get github.com/gorilla/mux
+
+frugal --gen go gateway_test.frugal
+frugal --gen gateway gateway_test.frugal
+ls
+ls gen-go
+
+rm -rf $FRUGAL_HOME/vendor
 
 go run http_server/main.go &
 go run gateway_server/main.go &

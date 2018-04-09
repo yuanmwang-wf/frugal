@@ -53,3 +53,25 @@ timeout: long
 
 artifacts:
   - /testing/artifacts
+
+---
+
+name: gateway
+
+size: large
+
+run:
+  when-branch-name-is:
+    - .+
+
+contact: messaging@workiva.com
+
+image: drydock-prod.workiva.net/workiva/messaging-docker-images:210905
+
+scripts:
+  - ./scripts/skynet/gateway.sh
+
+timeout: long
+
+artifacts:
+  - /testing/artifacts

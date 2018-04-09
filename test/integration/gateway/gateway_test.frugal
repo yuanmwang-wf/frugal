@@ -1,0 +1,28 @@
+// Test serialization of Thrift data types 
+
+struct BaseType {
+  1: optional bool boolTest;
+  2: optional byte byteTest;
+  3: optional i16 i16Test;
+  4: optional i32 i32Test;
+  5: optional i64 i64Test;
+  6: optional double doubleTest;
+  7: optional binary binaryTest;
+  8: string stringTest (http.jsonProperty="differentString")
+}
+
+enum EnumType {
+    ANOPTION,
+    BOPTION
+}  
+
+struct ContainerType {
+  1: optional list<BaseType> listTest;
+  2: optional set<BaseType> setTest;
+  3: optional map<string, BaseType> mapTest;
+  4: optional EnumType enumTest;
+}
+
+service GatewayTest {
+  ContainerType GetContainer(1: BaseType baseType) (http.method="post", http.pathTemplate="/v1/{differentString}/", http.query="boolTest")
+}

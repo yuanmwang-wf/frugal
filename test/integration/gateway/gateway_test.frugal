@@ -24,5 +24,7 @@ struct ContainerType {
 }
 
 service GatewayTest {
-  ContainerType GetContainer(1: BaseType baseType) (http.method="post", http.pathTemplate="/v1/{differentString}/", http.query="boolTest")
+    BaseType GetBaseType(1:BaseType baseType) (http.method="post", http.pathTemplate="/base/{differentString}/", http.query="boolTest")
+
+    ContainerType GetContainer(1: BaseType baseType) (http.method="post", http.pathTemplate="/v1/{differentString}/", http.query="boolTest")
 }

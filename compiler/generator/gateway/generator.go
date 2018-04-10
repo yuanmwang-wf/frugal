@@ -374,10 +374,11 @@ func (g *Generator) generateMuxConstructor(s *parser.Service) string {
 
 		methodTitle := golang.SnakeToCamel(method.Name)
 		interfaceName := fmt.Sprintf("%sHandler", serviceTitle)
-		handlerName := fmt.Sprintf("%s%sHandler", serviceTitle, methodTitle)
+		handlerName := fmt.Sprintf("handler%s", methodTitle)
+		handlerStructName := fmt.Sprintf("%s%sHandler", serviceTitle, methodTitle)
 
-		contents += fmt.Sprintf("\thandler := &%s{context, %s}\n", interfaceName, handlerName)
-		contents += fmt.Sprintf("\trouter.Methods(\"%s\").Path(\"%s\").Name(\"%s\").Handler(handler)\n", strings.ToUpper(methodAnnotation), pathAnnotation, handlerName)
+		contents += fmt.Sprintf("\t%s := &%s{context, %s}\n", handlerName, interfaceName, handlerStructName)
+		contents += fmt.Sprintf("\trouter.Methods(\"%s\").Path(\"%s\").Name(\"%s\").Handler(%s)\n", strings.ToUpper(methodAnnotation), pathAnnotation, handlerStructName, handlerName)
 	}
 
 	contents += "\t\nreturn router, nil\n"

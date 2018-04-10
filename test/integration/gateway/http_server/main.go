@@ -40,8 +40,13 @@ func main() {
 // The handler must satisfy the interface the server exposes.
 type GatewayHandler struct{}
 
+func (g *GatewayHandler) GetBaseType(ctx frugal.FContext, baseType *gateway_gen.BaseType) (*gateway_gen.BaseType, error) {
+	fmt.Printf("%+v\n", baseType)
+	return baseType, nil
+}
+
 // CreateTweet creates a new tweet
-func (f *GatewayHandler) GetContainer(ctx frugal.FContext, baseType *gateway_gen.BaseType) (r *gateway_gen.ContainerType, err error) {
+func (f *GatewayHandler) GetContainer(ctx frugal.FContext, baseType *gateway_gen.BaseType) (*gateway_gen.ContainerType, error) {
 	str_ := baseType.StringTest
 	fmt.Println("Received", str_)
 	bool_ := false

@@ -13,6 +13,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+	"github.com/stretchr/testify/assert"
 )
 
 func unmarshalContainer(body []byte) (*gateway_test.ContainerType, error) {
@@ -76,4 +77,43 @@ func TestJSONPayload(t *testing.T) {
 	if !*v {
 		t.Error("Expected true, got ", v)
 	}
+}
+
+func TestBaseTypeSerialization(t *testing.T) {
+	//1: optional bool boolTest;
+	//2: optional byte byteTest;
+	//3: optional i16 i16Test;
+	//4: optional i32 i32Test;
+	//5: optional i64 i64Test;
+	//6: optional double doubleTest;
+	//7: optional binary binaryTest;
+	//8: string stringTest (http.jsonProperty="differentString")
+	payload := []byte(`{
+	"boolTest": true,
+	"byteTest": 1,
+	"i16Test": 2,
+	"i32Test": 4,
+	"i64Test": 8,
+	"doubleTest": 1.24
+}`)
+
+	rs, err := http.Post("http://localhost:5000/base/container/", "application/json", bytes.NewBuffer(payload))
+	if err != nil {
+		panic(err)
+	}
+	body, err := ioutil.ReadAll(rs.Body)
+	if err != nil {
+		panic(err)
+	}
+	println(string(body))
+	var baseType gateway_test.BaseType
+	json.Unmarshal(body, &baseType)
+
+	fmt.Printf("received %+v\n", baseType)
+	assert.Equal(t, true, *baseType.BoolTest)
+	assert.Equal(t, int8(1), *baseType.ByteTest)
+	assert.Equal(t, int16(2), *baseType.I16Test)
+	assert.Equal(t, int32(4), *baseType.I32Test)
+	assert.Equal(t, int64(8), *baseType.I64Test)
+	assert.Equal(t, float64(1.24), *baseType.DoubleTest)
 }

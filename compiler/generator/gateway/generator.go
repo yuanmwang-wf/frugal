@@ -324,6 +324,8 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 			contents += g.generateFieldSetter(
 				"\t\t\t\t\tc, err := gateway.Int8(v)\n",
 				golang.SnakeToCamel(field.Name))
+		case "binary":
+			contents += ""
 		default:
 			contents += fmt.Sprintf("\t\t\t\t\tfmt.Errorf(\"Unsupported conversion of type %s\")\n", field.Type.String())
 		}
@@ -359,14 +361,14 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 func (g *Generator) generateMuxConstructor(s *parser.Service) string {
 	contents := ""
 
+	serviceTitle := golang.SnakeToCamel(s.Name)
 	contents += g.GenerateInlineComment([]string{"MakeRouter builds a multiplexed router handling HTTP+JSON requests according to IDL annotations"}, "\t")
-	contents += "func MakeRouter(context *GatewayTestContext) (*mux.Router, error) {\n"
+	contents += fmt.Sprintf("func MakeRouter(context *%sContext) (*mux.Router, error) {\n", serviceTitle)
 
 	// Base router with no handlers
 	contents += "\trouter := mux.NewRouter()\n"
 
 	// Add handlers for each service method
-	serviceTitle := golang.SnakeToCamel(s.Name)
 	for _, method := range s.Methods {
 		pathAnnotation, _ := method.Annotations.Get("http.pathTemplate")
 		// queryAnnotation, _ := method.Annotations.Get("http.query")  TODO: force query annotations to match

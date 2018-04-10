@@ -33,6 +33,7 @@ go get github.com/nats-io/go-nats
 go get github.com/rs/cors
 rm -rf vendor
 go get github.com/gorilla/mux
+go get github.com/stretchr/testify/assert
 
 frugal --gen go gateway_test.frugal
 frugal --gen gateway gateway_test.frugal

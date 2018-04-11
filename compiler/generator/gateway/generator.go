@@ -286,7 +286,11 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += "\tdefer request.Body.Close()\n"
 	contents += "\terr := decoder.Decode(payload)\n"
 	contents += "\tif err != nil && err != io.EOF {\n"
-	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
+	contents += "\t\t// If we can't parse the request it's probably not correct\n"
+	contents += "\t\tresponseWriter.WriteHeader(http.StatusBadRequest)\n"
+	contents += "\t\tresponseWriter.Write([]byte(\"Bad Request\"))\n"
+	contents += "\t\tflusher.Flush()\n"
+	contents += "\t\treturn http.StatusBadRequest, err"
 	contents += "\t}\n\n"
 
 	contents += g.GenerateInlineComment([]string{"Combine path and query parameters into map[string]string.", "If there are duplicate query parameters, only the first is respected."}, "\t")
@@ -352,7 +356,13 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += fmt.Sprintf("\tresult := context.methods[\"%s\"].Invoke(request.Header, []interface{}{fctx, payload})\n", methodTitle)
 	contents += "\t err = result.Error()\n"
 	contents += "\tif err != nil {\n"
-	contents += "\t\tpanic(err) // TODO: Customize error handling, write error code header\n"
+	contents += "\t\t// Error from server, users middleware should have set a code and message on the fcontext\n"
+	contents += "\t\t// standard frugal errors should be handled here too\n"
+	contents += "\t\tcode, message := gateway.GetErrorInfoFromContext(fctx)\n"
+	contents += "\t\tresponseWriter.WriteHeader(code)\n"
+	contents += "\t\tresponseWriter.Write([]byte(message))\n"
+	contents += "\t\tflusher.Flush()\n"
+	contents += "\t\treturn code, err"
 	contents += "\t}\n\n"
 
 	// Serialize the HTTP response

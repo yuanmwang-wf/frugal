@@ -5,13 +5,39 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"strconv"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/go"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 )
 
 const ErrorCodeHeader = "http_error_code"
+const ErrorMessageHeader = "http_error_message"
+
+func GetErrorInfoFromContext(fctx frugal.FContext) (int, string) {
+	// TODO should this be more optional?
+	codeStr, ok := fctx.ResponseHeader(ErrorCodeHeader)
+	if !ok {
+		log.Error("gateway: received error without an error code")
+		return 500, "unexpected server error"
+	}
+
+	code, err := strconv.Atoi(codeStr)
+	if err != nil {
+		log.Error("gateway: invalid error code")
+		return 500, "unexpected server error"
+	}
+
+	message, ok := fctx.ResponseHeader(ErrorMessageHeader)
+	if !ok {
+		log.Error("gateway: received error without an error message")
+		return 500, "unexpected server error"
+	}
+
+	return code, message
+}
 
 // ErrorBody represents the default error response
 type ErrorBody struct {

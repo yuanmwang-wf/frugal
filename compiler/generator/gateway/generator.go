@@ -309,7 +309,6 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += g.GenerateInlineComment([]string{"Map any path or query parameters into the payload"}, "\t")
 	parsedStruct := g.Frugal.FindStruct(argument.Type)
 	contents += "\ts := gateway.NewStruct(payload)\n"
-	// TODO loop through fields here and only generate if http.query is present?
 	contents += "\t\tfor k, v := range vars {\n"
 	for _, field := range parsedStruct.Fields {
 		fieldName := field.Name

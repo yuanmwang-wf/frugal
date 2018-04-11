@@ -6,6 +6,7 @@ set -e
 virtualenv -p /usr/bin/python /tmp/frugal
 source /tmp/frugal/bin/activate
 pip install -U pip
+pip install -U setuptools
 cd $FRUGAL_HOME/lib/python
 make deps-tornado
 make deps-gae

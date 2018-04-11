@@ -177,6 +177,10 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 
 // GenerateService generates the given service.
 func (g *Generator) GenerateService(file *os.File, s *parser.Service) error {
+	if !shouldGenerateHandlerForService(s) {
+		return nil
+	}
+
 	serviceTitle := golang.SnakeToCamel(s.Name)
 	contents := ""
 
@@ -201,6 +205,9 @@ func (g *Generator) generateGatewayContext(service *parser.Service) string {
 	contents += fmt.Sprintf("func New%s(client *F%sClient, marshalers gateway.MarshalerRegistry, middleware ...gateway.GatewayMiddleware) *%s {\n", contextName, serviceTitle, contextName)
 	contents += "\tmethods := make(map[string]*gateway.Method)\n"
 	for _, method := range service.Methods {
+		if !shouldGenerateHandlerForMethod(method) {
+			continue
+		}
 		methodTitle := golang.SnakeToCamel(method.Name)
 		contents += fmt.Sprintf("\tmethods[\"%s\"] = gateway.NewMethod(client, client.%s, \"%s\", middleware)\n", methodTitle, methodTitle, methodTitle)
 	}
@@ -265,9 +272,7 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 		contents    = ""
 	)
 
-	// If no HTTP annotation, return without generating handler
-	_, found := method.Annotations.Get("http.pathTemplate")
-	if !found {
+	if !shouldGenerateHandlerForMethod(method) {
 		return ""
 	}
 
@@ -396,6 +401,10 @@ func (g *Generator) generateMuxConstructor(s *parser.Service) string {
 
 	// Add handlers for each service method
 	for _, method := range s.Methods {
+		if !shouldGenerateHandlerForMethod(method) {
+			continue
+		}
+
 		pathAnnotation, _ := method.Annotations.Get("http.pathTemplate")
 		// queryAnnotation, _ := method.Annotations.Get("http.query")  TODO: force query annotations to match
 		methodAnnotation, _ := method.Annotations.Get("http.method")
@@ -430,3 +439,19 @@ func (g *Generator) GeneratePublisher(*os.File, *parser.Scope) error { return ni
 
 // GenerateSubscriber generates the subscriber for the given scope.
 func (g *Generator) GenerateSubscriber(*os.File, *parser.Scope) error { return nil }
+
+// TODO
+func shouldGenerateHandlerForService(service *parser.Service) bool {
+	for _, method := range service.Methods {
+		if shouldGenerateHandlerForMethod(method) {
+			return true
+		}
+	}
+	return false
+}
+
+func shouldGenerateHandlerForMethod(method *parser.Method) bool {
+	// If no HTTP annotation, return without generating handler
+	_, ok := method.Annotations.Get("http.pathTemplate")
+	return ok
+}

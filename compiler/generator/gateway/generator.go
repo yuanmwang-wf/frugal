@@ -180,7 +180,7 @@ func (g *Generator) GenerateService(file *os.File, s *parser.Service) error {
 	serviceTitle := golang.SnakeToCamel(s.Name)
 	contents := ""
 
-	contents += g.generateGatewayContext(serviceTitle)
+	contents += g.generateGatewayContext(s)
 
 	for _, method := range s.Methods {
 
@@ -193,16 +193,28 @@ func (g *Generator) GenerateService(file *os.File, s *parser.Service) error {
 	return err
 }
 
-func (g *Generator) generateGatewayContext(serviceTitle string) string {
-	var (
-		contents    = ""
-		contextName = fmt.Sprintf("%sContext", serviceTitle)
-	)
+func (g *Generator) generateGatewayContext(service *parser.Service) string {
+	serviceTitle := golang.SnakeToCamel(service.Name)
+	contents    := ""
+	contextName := fmt.Sprintf("%sContext", serviceTitle)
+
+	contents += fmt.Sprintf("func New%s(client *F%sClient, marshalers gateway.MarshalerRegistry, middleware ...gateway.GatewayMiddleware) *%s {\n", contextName, serviceTitle, contextName)
+	contents += "\tmethods := make(map[string]*gateway.Method)\n"
+	for _, method := range service.Methods {
+		methodTitle := golang.SnakeToCamel(method.Name)
+		contents += fmt.Sprintf("\tmethods[\"%s\"] = gateway.NewMethod(client, client.%s, \"%s\", middleware)\n", methodTitle, methodTitle, methodTitle)
+	}
+	contents += fmt.Sprintf("\treturn &%s {\n", contextName)
+	contents += "\t\tmarshalers: marshalers,\n"
+	contents += "\t\tmethods: methods,\n"
+	contents += "\t}\n"
+	contents += "}\n\n"
 
 	contents += g.GenerateInlineComment([]string{fmt.Sprintf("%s forwards HTTP requests to a Frugal service", contextName)}, "")
 	contents += fmt.Sprintf("type %s struct {\n", contextName)
-	contents += fmt.Sprintf("\tClient *F%sClient\n", serviceTitle)
-	contents += "\tMarshalers gateway.MarshalerRegistry\n"
+	//contents += fmt.Sprintf("\tClient *F%sClient\n", serviceTitle)
+	contents += "\tmarshalers gateway.MarshalerRegistry\n"
+	contents += "\tmethods map[string]*gateway.Method\n"
 	contents += "}\n\n"
 
 	contents += g.GenerateInlineComment([]string{fmt.Sprintf("%sHandler is a wrapper to provide context to HTTP handlers", serviceTitle)}, "")
@@ -264,7 +276,7 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 
 	contents += "\tflusher, _ := responseWriter.(http.Flusher)\n\n"
 
-	contents += "\tinMarshaler, outMarshaler := context.Marshalers.MarshalerForRequest(request)\n\n"
+	contents += "\tinMarshaler, outMarshaler := context.marshalers.MarshalerForRequest(request)\n\n"
 
 	// Extract the input argument type
 	argument := method.Arguments[0]
@@ -288,6 +300,7 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 	contents += g.GenerateInlineComment([]string{"Map any path or query parameters into the payload"}, "\t")
 	parsedStruct := g.Frugal.FindStruct(argument.Type)
 	contents += "\ts := gateway.NewStruct(payload)\n"
+	// TODO loop through fields here and only generate if http.query is present?
 	contents += "\t\tfor k, v := range vars {\n"
 	for _, field := range parsedStruct.Fields {
 		fieldName := field.Name
@@ -335,13 +348,15 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 
 	// Pass the payload to the Frugal client
 	contents += g.GenerateInlineComment([]string{"Call the Frugal client with the assembled payload"}, "\t")
-	contents += fmt.Sprintf("\tresponse, err := context.Client.%s(frugal.NewFContext(\"\"), payload)\n", methodTitle)
+	contents += fmt.Sprintf("\tresult := context.methods[\"%s\"].Invoke(request.Header, []interface{}{frugal.NewFContext(\"\"), payload})\n", methodTitle)
+	contents += "\t err = result.Error()\n"
 	contents += "\tif err != nil {\n"
 	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
 	contents += "\t}\n\n"
 
 	// Serialize the HTTP response
 	contents += g.GenerateInlineComment([]string{"Serialize the Frugal response into a JSON response"}, "\t")
+	contents += "\tresponse := result[0]\n"
 	contents += "\tbuf, err := outMarshaler.Marshal(response)\n"
 	contents += "\tif err != nil {\n"
 	contents += "\t\tpanic(err) // TODO: Customize error handling\n"

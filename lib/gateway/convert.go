@@ -2,7 +2,20 @@ package gateway
 
 import (
 	"strconv"
+	"fmt"
 )
+
+func Int642(val interface{}) (int64, error) {
+	switch t := val.(type) {
+	case int:
+		// TODO
+	case string:
+		// TODO
+	default:
+		return 0, fmt.Errorf("gateway: type '%s' is not int or string", t)
+	}
+	return 0, nil
+}
 
 // String just returns the given string.
 // It is just for compatibility to other types.

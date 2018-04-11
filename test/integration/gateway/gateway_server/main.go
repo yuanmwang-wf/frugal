@@ -24,6 +24,15 @@ func newLoggingMiddleware() frugal.ServiceMiddleware {
 	}
 }
 
+func newHeaderLoggingMiddleware() gateway.GatewayMiddleware {
+	return func(next gateway.InvocationHandler) gateway.InvocationHandler {
+		return func(service reflect.Value, method reflect.Method, headers http.Header, args gateway.Arguments) gateway.Results {
+			fmt.Printf("headers: %+v\n", headers)
+			return next(service, method, headers, args)
+		}
+	}
+}
+
 // Create a new Frugal client connected to the backing service
 func newClient() *gateway_gen.FGatewayTestClient {
 	// Set the protocol used for serialization.
@@ -50,12 +59,13 @@ func newClient() *gateway_gen.FGatewayTestClient {
 }
 
 func main() {
-	context := gateway_gen.GatewayTestContext{
-		Marshalers: gateway.NewMarshalerRegistry(),
-		Client:     newClient(),
-	}
+	context := gateway_gen.NewGatewayTestContext(newClient(), gateway.NewMarshalerRegistry(), newHeaderLoggingMiddleware())
+	//context := gateway_gen.GatewayTestContext{
+	//	Marshalers: gateway.NewMarshalerRegistry(),
+	//	Client:     newClient(),
+	//}
 
-	router, _ := gateway_gen.MakeRouter(&context)
+	router, _ := gateway_gen.MakeRouter(context)
 
 	// 	// TODO: Compile function MakeRouter(context) to return an HTTP mux router
 	// 	handler := &gateway_test.GatewayTestHandler{&context, gateway_test.GatewayTestGetContainerHandler}

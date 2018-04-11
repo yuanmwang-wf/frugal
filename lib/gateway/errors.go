@@ -11,6 +11,8 @@ import (
 	"git.apache.org/thrift.git/lib/go/thrift"
 )
 
+const ErrorCodeHeader = "http_error_code"
+
 // ErrorBody represents the default error response
 type ErrorBody struct {
 	RequestID string            `json:"request_id"`

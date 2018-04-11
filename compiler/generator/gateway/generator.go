@@ -348,10 +348,11 @@ func (g *Generator) generateHandleFunc(serviceTitle string, method *parser.Metho
 
 	// Pass the payload to the Frugal client
 	contents += g.GenerateInlineComment([]string{"Call the Frugal client with the assembled payload"}, "\t")
-	contents += fmt.Sprintf("\tresult := context.methods[\"%s\"].Invoke(request.Header, []interface{}{frugal.NewFContext(\"\"), payload})\n", methodTitle)
+	contents += "\tfctx := frugal.NewFContext(\"\")\n"
+	contents += fmt.Sprintf("\tresult := context.methods[\"%s\"].Invoke(request.Header, []interface{}{fctx, payload})\n", methodTitle)
 	contents += "\t err = result.Error()\n"
 	contents += "\tif err != nil {\n"
-	contents += "\t\tpanic(err) // TODO: Customize error handling\n"
+	contents += "\t\tpanic(err) // TODO: Customize error handling, write error code header\n"
 	contents += "\t}\n\n"
 
 	// Serialize the HTTP response

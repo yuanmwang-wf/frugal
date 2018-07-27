@@ -13,3 +13,5 @@ fi
 pip install -e ".[tornado]"
 python3.5 /usr/bin/pip3 install Cython==0.27.2
 python3.5 /usr/bin/pip3 install -e ".[asyncio]"
+
+pip freeze

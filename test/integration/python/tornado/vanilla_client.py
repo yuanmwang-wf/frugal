@@ -3,8 +3,8 @@ from __future__ import print_function
 import argparse
 import sys
 
-sys.path.append('gen-py')
-sys.path.append('..')
+sys.path.append('tornado/gen-py')
+# sys.path.append('..')
 
 from frugal.context import FContext
 from frugal.provider import FServiceProvider

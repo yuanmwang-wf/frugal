@@ -4,8 +4,8 @@ import argparse
 import sys
 import thread
 
-sys.path.append('..')
-sys.path.append('gen-py')
+# sys.path.append('..')
+sys.path.append('tornado/gen-py')
 
 from frugal.context import FContext
 from frugal.provider import FScopeProvider

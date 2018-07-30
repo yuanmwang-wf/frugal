@@ -2,8 +2,8 @@ import asyncio
 import sys
 import argparse
 
-sys.path.append('gen_py_asyncio')
-sys.path.append('..')
+sys.path.append('asyncio/gen_py_asyncio')
+# sys.path.append('..')
 
 from frugal.context import FContext
 from frugal.provider import FScopeProvider

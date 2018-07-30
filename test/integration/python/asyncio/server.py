@@ -7,8 +7,8 @@ import asyncio
 from aiohttp import web
 import http
 
-sys.path.append('..')
-sys.path.append('gen_py_asyncio')
+# sys.path.append('..')
+sys.path.append('tornado/gen_py_asyncio')
 
 
 from frugal.context import FContext

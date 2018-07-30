@@ -7,8 +7,8 @@ import logging
 import sys
 import thread
 
-sys.path.append('..')
-sys.path.append('gen_py_tornado')
+# sys.path.append('..')
+sys.path.append('tornado/gen_py_tornado')
 
 
 from frugal.context import FContext

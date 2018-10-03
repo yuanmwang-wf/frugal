@@ -908,7 +908,7 @@ func (g *Generator) generateWriteFieldEmbedded(field *parser.Field) (contents st
 	if field.Modifier == parser.Optional || g.isPointerField(field) {
 		indent = "\t"
 		tail = "\t\t}\n"
-		contents += fmt.Sprintf("\tif p.%s != nil {\n", snakeToCamel(field.Name))
+		contents += fmt.Sprintf("\tif p.IsSet%s() {\n", snakeToCamel(field.Name))
 	}
 
 	// Get the write function we need to invoke

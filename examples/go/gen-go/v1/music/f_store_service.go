@@ -611,11 +611,15 @@ func (p *StoreBuyAlbumResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("buyAlbum_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteStruct(oprot, p.Success, "success", 0); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+	if p.Success != nil {
+		if err := frugal.WriteStruct(oprot, p.Success, "success", 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+		}
 	}
-	if err := frugal.WriteStruct(oprot, p.Error, "error", 1); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T::error:1 ", p), err)
+	if p.Error != nil {
+		if err := frugal.WriteStruct(oprot, p.Error, "error", 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T::error:1 ", p), err)
+		}
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -798,8 +802,10 @@ func (p *StoreEnterAlbumGiveawayResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("enterAlbumGiveaway_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteBool(oprot, *p.Success, "success", 0); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+	if p.Success != nil {
+		if err := frugal.WriteBool(oprot, *p.Success, "success", 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+		}
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)

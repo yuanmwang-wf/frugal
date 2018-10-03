@@ -897,51 +897,42 @@ func (g *Generator) skipStandaloneFieldHandler(field *parser.Field) bool {
 	return baseType.IsPrimitive() || isStruct || g.Frugal.IsEnum(baseType)
 }
 
-func (g *Generator) generateWriteFieldEmbedded(field *parser.Field) string {
+func (g *Generator) generateWriteFieldEmbedded(field *parser.Field) (contents string) {
 	if !g.skipStandaloneFieldHandler(field) {
 		return fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n\t\treturn err\n\t}\n", field.ID)
 	}
-	prependError := fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T::%s:%d \", p), err)", field.Name, field.ID)
 
-	var contents string
-	// base types
+	// Check if this field is optional and add nil checks if we need them.
+	var indent string
+	var tail string
+	if field.Modifier == parser.Optional || g.isPointerField(field) {
+		indent = "\t"
+		tail = "\t\t}\n"
+		contents += fmt.Sprintf("\tif p.%s != nil {\n", snakeToCamel(field.Name))
+	}
+
+	// Get the write function we need to invoke
 	baseType := g.Frugal.UnderlyingType(field.Type)
-	isEnum := g.Frugal.IsEnum(baseType)
-
-	// dereference pointers if necessary
-	var ptr string
-	if g.isPointerField(field) {
-		ptr = "*"
+	writeMethod := snakeToCamel(baseType.Name)
+	if g.Frugal.IsStruct(baseType) {
+		writeMethod = "Struct"
+	} else if g.Frugal.IsEnum(baseType) {
+		writeMethod = "I32"
 	}
 
-	if field.Type.IsPrimitive() {
-		// primitives types
-		contents += fmt.Sprintf("\tif err := frugal.Write%s(oprot, %sp.%s, \"%s\", %d); err != nil {\n", strings.Title(field.Type.Name), ptr, snakeToCamel(field.Name), field.Name, field.ID)
-		contents += prependError
-	} else if g.Frugal.IsStruct(baseType) {
-		// struct encoding
-		contents += fmt.Sprintf("\tif err := frugal.WriteStruct(oprot, p.%s, \"%s\", %d); err != nil {\n", snakeToCamel(field.Name), field.Name, field.ID)
-		contents += prependError
-	} else if isEnum || baseType.IsPrimitive() {
-		// Enum or cast types
-		name := strings.Title(baseType.Name)
-		if isEnum {
-			name = "I32"
-		}
-		prefix := ""
-		if field.Modifier == parser.Optional && !baseType.IsPrimitive() {
-			prefix = "\t"
-			contents += fmt.Sprintf("\tif p.%s != nil {\n", snakeToCamel(field.Name))
-		}
-		castType := g.getGoTypeFromThriftTypeEnum(baseType)
-		contents += fmt.Sprintf(prefix+"\tif err := frugal.Write%s(oprot, %s(%sp.%s), \"%s\", %d); err != nil {\n",
-			name, castType, ptr, snakeToCamel(field.Name), field.Name, field.ID)
-		contents += prefix + prependError
-		if field.Modifier == parser.Optional && !baseType.IsPrimitive() {
-			contents += "\t\t}\n"
-		}
+	// Get appropriate way to reference struct field
+	structField := "p." + snakeToCamel(field.Name)
+	if g.isPointerField(field) && !g.Frugal.IsStruct(baseType) { // don't dereference structs
+		structField = "*" + structField
 	}
-	return contents + "\t}\n"
+	if g.Frugal.IsEnum(baseType) || (g.isPrimitive(baseType) && !field.Type.IsPrimitive()) {
+		structField = g.getGoTypeFromThriftTypeEnum(baseType) + "(" + structField + ")" // add type casts
+	}
+
+	// Actually generate the write block
+	contents += indent + fmt.Sprintf("\tif err := frugal.Write%s(oprot, %s, \"%s\", %d); err != nil {\n", writeMethod, structField, field.Name, field.ID)
+	contents += indent + fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T::%s:%d \", p), err)", field.Name, field.ID)
+	return contents + tail + "\t}\n"
 }
 
 func (g *Generator) generateWriteField(structName string, field *parser.Field) string {

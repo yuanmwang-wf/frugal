@@ -161,7 +161,12 @@ func (g *Generator) GenerateScopePackage(file *os.File, s *parser.Scope) error {
 }
 
 func (g *Generator) generatePackage(file *os.File) error {
-	pkg := ""
+	pkg := g.packageName()
+	_, err := file.WriteString(fmt.Sprintf("package %s", pkg))
+	return err
+}
+
+func (g *Generator) packageName() (pkg string) {
 	namespace := g.Frugal.Namespace(lang)
 	if namespace != nil {
 		components := generator.GetPackageComponents(namespace.Value)
@@ -169,8 +174,7 @@ func (g *Generator) generatePackage(file *os.File) error {
 	} else {
 		pkg = g.Frugal.Name
 	}
-	_, err := file.WriteString(fmt.Sprintf("package %s", pkg))
-	return err
+	return pkg
 }
 
 // GenerateConstantsContents generates constants.
@@ -661,9 +665,8 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 }
 
 func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
-	contents := ""
-
-	contents += fmt.Sprintf("func (p *%s) Write(oprot thrift.TProtocol) error {\n", sName)
+	contents := fmt.Sprintf("func (p *%s) Write(oprot thrift.TProtocol) error {\n", sName)
+	fullStructName := fmt.Sprintf("*%s.%s", g.packageName(), sName) // used for error logs
 
 	// Only one field can be set for a union, make sure that's the case
 	if s.Type == parser.StructTypeUnion {
@@ -674,13 +677,11 @@ func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 
 	// Use actual struct name so it's consistent between languages
 	contents += fmt.Sprintf("\tif err := oprot.WriteStructBegin(\"%s\"); err != nil {\n", s.Name)
-	contents += "\t\treturn thrift.PrependError(fmt.Sprintf(\"%T write struct begin error: \", p), err)\n"
+	contents += "\t\treturn thrift.PrependError(\"" + fullStructName + " write struct begin error: \", err)\n"
 	contents += "\t}\n"
 
 	for _, field := range s.Fields {
-		contents += fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n", field.ID)
-		contents += "\t\treturn err\n"
-		contents += "\t}\n"
+		contents += g.generateWriteFieldEmbedded(fullStructName, field)
 	}
 
 	contents += "\tif err := oprot.WriteFieldStop(); err != nil{\n"
@@ -693,7 +694,7 @@ func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 	contents += "}\n\n"
 
 	for _, field := range s.Fields {
-		contents += g.generateWriteField(sName, field)
+		contents += g.generateWriteField(fullStructName, sName, field)
 	}
 
 	return contents
@@ -895,7 +896,90 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool) string
 	return contents
 }
 
-func (g *Generator) generateWriteField(structName string, field *parser.Field) string {
+func (g *Generator) skipStandaloneFieldHandler(field *parser.Field) bool {
+	baseType := g.Frugal.UnderlyingType(field.Type)
+	isStruct := g.Frugal.IsStruct(baseType)
+	return baseType.IsPrimitive() || isStruct || g.Frugal.IsEnum(baseType)
+}
+
+func (g *Generator) getGoTypeFromThriftTypeEnum(typ *parser.Type) string {
+	switch typ.Name {
+	// Just typecast everything to get around typedefs
+	case "bool":
+		return "bool"
+	case "byte", "i8":
+		return "int8"
+	case "i16":
+		return "int16"
+	case "i32":
+		return "int32"
+	case "i64":
+		return "int64"
+	case "double":
+		return "float64"
+	case "string":
+		return "string"
+	case "binary":
+		return "[]byte"
+	default:
+		if g.Frugal.IsEnum(typ) {
+			return "int32"
+		}
+		panic("unknown thrift type: " + typ.Name)
+	}
+}
+
+func (g *Generator) generateWriteFieldEmbedded(typeName string, field *parser.Field) string {
+	if !g.skipStandaloneFieldHandler(field) {
+		return fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n\t\treturn err\n\t}\n", field.ID)
+	}
+	prependError := fmt.Sprintf("\t\treturn thrift.PrependError(\"%s::%s:%d \", err)", typeName, field.Name, field.ID)
+
+	var contents string
+	// base types
+	baseType := g.Frugal.UnderlyingType(field.Type)
+	isEnum := g.Frugal.IsEnum(baseType)
+
+	// dereference pointers if necessary
+	var ptr string
+	if g.isPointerField(field) {
+		ptr = "*"
+	}
+
+	if field.Type.IsPrimitive() {
+		// primitives types
+		contents += fmt.Sprintf("\tif err := frugal.Write%s(oprot, %sp.%s, \"%s\", %d); err != nil {\n", strings.Title(field.Type.Name), ptr, snakeToCamel(field.Name), field.Name, field.ID)
+		contents += prependError
+	} else if g.Frugal.IsStruct(baseType) {
+		// struct encoding
+		contents += fmt.Sprintf("\tif err := frugal.WriteStruct(oprot, p.%s, \"%s\", %d); err != nil {\n", snakeToCamel(field.Name), field.Name, field.ID)
+		contents += prependError
+	} else if isEnum || baseType.IsPrimitive() {
+		// Enum or cast types
+		name := strings.Title(baseType.Name)
+		if isEnum {
+			name = "I32"
+		}
+		prefix := ""
+		if field.Modifier == parser.Optional && !baseType.IsPrimitive() {
+			prefix = "\t"
+			contents += fmt.Sprintf("\tif p.%s != nil {\n", snakeToCamel(field.Name))
+		}
+		castType := g.getGoTypeFromThriftTypeEnum(baseType)
+		contents += fmt.Sprintf(prefix+"\tif err := frugal.Write%s(oprot, %s(%sp.%s), \"%s\", %d); err != nil {\n",
+			name, castType, ptr, snakeToCamel(field.Name), field.Name, field.ID)
+		contents += prefix + prependError
+		if field.Modifier == parser.Optional && !baseType.IsPrimitive() {
+			contents += "\t\t}\n"
+		}
+	}
+	return contents + "\t}\n"
+}
+
+func (g *Generator) generateWriteField(typeName string, structName string, field *parser.Field) string {
+	if g.skipStandaloneFieldHandler(field) {
+		return ""
+	}
 	contents := ""
 	fName := title(field.Name)
 
@@ -906,11 +990,11 @@ func (g *Generator) generateWriteField(structName string, field *parser.Field) s
 	}
 	// Use actual field so it's consistent between languages
 	contents += fmt.Sprintf("\tif err := oprot.WriteFieldBegin(\"%s\", %s, %d); err != nil {\n", field.Name, g.getEnumFromThriftType(field.Type), field.ID)
-	contents += fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T write field begin error %d:%s: \", p), err)\n", field.ID, field.Name)
+	contents += fmt.Sprintf("\t\treturn thrift.PrependError(\"%s write field begin error %d:%s: \", err)\n", typeName, field.ID, field.Name)
 	contents += "\t}\n"
 	contents += g.generateWriteFieldRec(field, "p.")
 	contents += "\tif err := oprot.WriteFieldEnd(); err != nil {\n"
-	contents += fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T write field end error %d:%s: \", p), err)\n", field.ID, field.Name)
+	contents += fmt.Sprintf("\t\treturn thrift.PrependError(\"%s write field end error %d:%s: \", err)\n", typeName, field.ID, field.Name)
 	contents += "\t}\n"
 	if field.Modifier == parser.Optional {
 		contents += "\t}\n"
@@ -1030,6 +1114,11 @@ func (g *Generator) GenerateTypesImports(file *os.File) error {
 	} else {
 		contents += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
 	}
+	if g.Options[frugalImportOption] != "" {
+		contents += "\t\"" + g.Options[frugalImportOption] + "\"\n"
+	} else {
+		contents += "\tfrugal \"github.com/Workiva/frugal/lib/go\"\n"
+	}
 
 	protections := ""
 	pkgPrefix := g.Options[packagePrefixOption]
@@ -1106,7 +1195,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	if g.Options[frugalImportOption] != "" {
 		imports += "\t\"" + g.Options[frugalImportOption] + "\"\n"
 	} else {
-		imports += "\t\"github.com/Workiva/frugal/lib/go\"\n"
+		imports += "\tfrugal \"github.com/Workiva/frugal/lib/go\"\n"
 	}
 	imports += "\t\"github.com/Sirupsen/logrus\"\n"
 

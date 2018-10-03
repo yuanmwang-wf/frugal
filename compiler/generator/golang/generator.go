@@ -897,33 +897,6 @@ func (g *Generator) skipStandaloneFieldHandler(field *parser.Field) bool {
 	return baseType.IsPrimitive() || isStruct || g.Frugal.IsEnum(baseType)
 }
 
-func (g *Generator) getGoTypeFromThriftTypeEnum(typ *parser.Type) string {
-	switch typ.Name {
-	// Just typecast everything to get around typedefs
-	case "bool":
-		return "bool"
-	case "byte", "i8":
-		return "int8"
-	case "i16":
-		return "int16"
-	case "i32":
-		return "int32"
-	case "i64":
-		return "int64"
-	case "double":
-		return "float64"
-	case "string":
-		return "string"
-	case "binary":
-		return "[]byte"
-	default:
-		if g.Frugal.IsEnum(typ) {
-			return "int32"
-		}
-		panic("unknown thrift type: " + typ.Name)
-	}
-}
-
 func (g *Generator) generateWriteFieldEmbedded(field *parser.Field) string {
 	if !g.skipStandaloneFieldHandler(field) {
 		return fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n\t\treturn err\n\t}\n", field.ID)
@@ -2237,6 +2210,33 @@ func (g *Generator) getGoTypeFromThriftTypePtr(t *parser.Type, pointer bool) str
 			return "*" + name
 		}
 		return maybePointer + name
+	}
+}
+
+func (g *Generator) getGoTypeFromThriftTypeEnum(typ *parser.Type) string {
+	switch typ.Name {
+	// Just typecast everything to get around typedefs
+	case "bool":
+		return "bool"
+	case "byte", "i8":
+		return "int8"
+	case "i16":
+		return "int16"
+	case "i32":
+		return "int32"
+	case "i64":
+		return "int64"
+	case "double":
+		return "float64"
+	case "string":
+		return "string"
+	case "binary":
+		return "[]byte"
+	default:
+		if g.Frugal.IsEnum(typ) {
+			return "int32"
+		}
+		panic("unknown thrift type: " + typ.Name)
 	}
 }
 

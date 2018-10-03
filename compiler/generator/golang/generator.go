@@ -161,12 +161,7 @@ func (g *Generator) GenerateScopePackage(file *os.File, s *parser.Scope) error {
 }
 
 func (g *Generator) generatePackage(file *os.File) error {
-	pkg := g.packageName()
-	_, err := file.WriteString(fmt.Sprintf("package %s", pkg))
-	return err
-}
-
-func (g *Generator) packageName() (pkg string) {
+	pkg := ""
 	namespace := g.Frugal.Namespace(lang)
 	if namespace != nil {
 		components := generator.GetPackageComponents(namespace.Value)
@@ -174,7 +169,8 @@ func (g *Generator) packageName() (pkg string) {
 	} else {
 		pkg = g.Frugal.Name
 	}
-	return pkg
+	_, err := file.WriteString(fmt.Sprintf("package %s", pkg))
+	return err
 }
 
 // GenerateConstantsContents generates constants.
@@ -666,7 +662,6 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 
 func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 	contents := fmt.Sprintf("func (p *%s) Write(oprot thrift.TProtocol) error {\n", sName)
-	fullStructName := fmt.Sprintf("*%s.%s", g.packageName(), sName) // used for error logs
 
 	// Only one field can be set for a union, make sure that's the case
 	if s.Type == parser.StructTypeUnion {
@@ -677,11 +672,11 @@ func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 
 	// Use actual struct name so it's consistent between languages
 	contents += fmt.Sprintf("\tif err := oprot.WriteStructBegin(\"%s\"); err != nil {\n", s.Name)
-	contents += "\t\treturn thrift.PrependError(\"" + fullStructName + " write struct begin error: \", err)\n"
+	contents += "\t\treturn thrift.PrependError(fmt.Sprintf(\"%T write struct begin error: \", p), err)\n"
 	contents += "\t}\n"
 
 	for _, field := range s.Fields {
-		contents += g.generateWriteFieldEmbedded(fullStructName, field)
+		contents += g.generateWriteFieldEmbedded(field)
 	}
 
 	contents += "\tif err := oprot.WriteFieldStop(); err != nil{\n"
@@ -694,7 +689,7 @@ func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 	contents += "}\n\n"
 
 	for _, field := range s.Fields {
-		contents += g.generateWriteField(fullStructName, sName, field)
+		contents += g.generateWriteField(sName, field)
 	}
 
 	return contents
@@ -929,11 +924,11 @@ func (g *Generator) getGoTypeFromThriftTypeEnum(typ *parser.Type) string {
 	}
 }
 
-func (g *Generator) generateWriteFieldEmbedded(typeName string, field *parser.Field) string {
+func (g *Generator) generateWriteFieldEmbedded(field *parser.Field) string {
 	if !g.skipStandaloneFieldHandler(field) {
 		return fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n\t\treturn err\n\t}\n", field.ID)
 	}
-	prependError := fmt.Sprintf("\t\treturn thrift.PrependError(\"%s::%s:%d \", err)", typeName, field.Name, field.ID)
+	prependError := fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T::%s:%d \", p), err)", field.Name, field.ID)
 
 	var contents string
 	// base types
@@ -976,7 +971,7 @@ func (g *Generator) generateWriteFieldEmbedded(typeName string, field *parser.Fi
 	return contents + "\t}\n"
 }
 
-func (g *Generator) generateWriteField(typeName string, structName string, field *parser.Field) string {
+func (g *Generator) generateWriteField(structName string, field *parser.Field) string {
 	if g.skipStandaloneFieldHandler(field) {
 		return ""
 	}
@@ -990,11 +985,11 @@ func (g *Generator) generateWriteField(typeName string, structName string, field
 	}
 	// Use actual field so it's consistent between languages
 	contents += fmt.Sprintf("\tif err := oprot.WriteFieldBegin(\"%s\", %s, %d); err != nil {\n", field.Name, g.getEnumFromThriftType(field.Type), field.ID)
-	contents += fmt.Sprintf("\t\treturn thrift.PrependError(\"%s write field begin error %d:%s: \", err)\n", typeName, field.ID, field.Name)
+	contents += fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T write field begin error %d:%s: \", p), err)\n", field.ID, field.Name)
 	contents += "\t}\n"
 	contents += g.generateWriteFieldRec(field, "p.")
 	contents += "\tif err := oprot.WriteFieldEnd(); err != nil {\n"
-	contents += fmt.Sprintf("\t\treturn thrift.PrependError(\"%s write field end error %d:%s: \", err)\n", typeName, field.ID, field.Name)
+	contents += fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T write field end error %d:%s: \", p), err)\n", field.ID, field.Name)
 	contents += "\t}\n"
 	if field.Modifier == parser.Optional {
 		contents += "\t}\n"

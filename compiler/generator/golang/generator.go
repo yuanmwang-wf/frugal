@@ -730,9 +730,13 @@ func (g *Generator) generateReadFieldInline(field *parser.Field) (contents strin
 		contents += fmt.Sprintf("\t\t\tp.%s = new(%s)\n", snakeToCamel(field.Name), g.getGoTypeFromThriftType(field.Type))
 	}
 	if g.Frugal.IsEnum(baseType) || (g.isPrimitive(baseType) && !field.Type.IsPrimitive()) {
-		structField = "&" + field.Name
-		contents += fmt.Sprintf("\t\t\tvar %s %s\n", field.Name, g.getGoTypeFromThriftTypeEnum(baseType))
-		trailer = fmt.Sprintf("\t\t\tp.%s = %s(%s)\n", snakeToCamel(field.Name), g.qualifiedTypeName(field.Type), field.Name)
+		structField = "&_" + field.Name
+		contents += fmt.Sprintf("\t\t\tvar _%s %s\n", field.Name, g.getGoTypeFromThriftTypeEnum(baseType))
+		dref := ""
+		if g.isPointerField(field) {
+			dref = "*"
+		}
+		trailer = fmt.Sprintf("\t\t\t%sp.%s = %s(_%s)\n", dref, snakeToCamel(field.Name), g.qualifiedTypeName(field.Type), field.Name)
 	}
 
 	// Actually generate the write block

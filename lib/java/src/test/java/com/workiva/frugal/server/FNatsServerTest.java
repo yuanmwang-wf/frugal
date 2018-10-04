@@ -4,8 +4,8 @@ import com.workiva.frugal.middleware.ServiceMiddleware;
 import com.workiva.frugal.processor.FProcessor;
 import com.workiva.frugal.protocol.FProtocol;
 import com.workiva.frugal.protocol.FProtocolFactory;
-import io.nats.client.AsyncSubscription;
 import io.nats.client.Connection;
+import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import org.apache.thrift.TException;
@@ -80,9 +80,8 @@ public class FNatsServerTest {
         ArgumentCaptor<String> subjectCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> queueCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MessageHandler> handlerCaptor = ArgumentCaptor.forClass(MessageHandler.class);
-        AsyncSubscription sub = mock(AsyncSubscription.class);
-        when(mockConn.subscribe(subjectCaptor.capture(), queueCaptor.capture(), handlerCaptor.capture()))
-                .thenReturn(sub);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(handlerCaptor.capture())).thenReturn(mockDispatcher);
 
         CountDownLatch stopSignal = new CountDownLatch(1);
 
@@ -98,15 +97,16 @@ public class FNatsServerTest {
         server.stop();
 
         stopSignal.await(); // wait for orderly shutdown
-
+        verify(mockDispatcher).subscribe(subjectCaptor.capture(), queueCaptor.capture());
         assertEquals(subject, subjectCaptor.getValue());
         assertEquals(queue, queueCaptor.getValue());
         assertNotNull(handlerCaptor.getValue());
-        verify(sub).unsubscribe();
+        verify(mockDispatcher).unsubscribe(subjectCaptor.capture());
+        assertEquals(subject, subjectCaptor.getValue());
     }
 
     @Test
-    public void testRequestHandler() {
+    public void testRequestHandler() throws InterruptedException {
         ExecutorService executor = mock(ExecutorService.class);
         FNatsServer server =
                 new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
@@ -114,9 +114,10 @@ public class FNatsServerTest {
         MessageHandler handler = server.newRequestHandler();
         String reply = "reply";
         byte[] data = "this is a request".getBytes();
-        Message msg = new Message(subject, reply, data);
-
-        handler.onMessage(msg);
+        Message mockMessage = mock(Message.class);
+        when(mockMessage.getData()).thenReturn(data);
+        when(mockMessage.getReplyTo()).thenReturn(reply);
+        handler.onMessage(mockMessage);
 
         ArgumentCaptor<Runnable> captor = ArgumentCaptor.forClass(Runnable.class);
         verify(executor).execute(captor.capture());
@@ -132,16 +133,17 @@ public class FNatsServerTest {
     }
 
     @Test
-    public void testRequestHandler_noReply() {
+    public void testRequestHandlerNoReply() throws InterruptedException {
         ExecutorService executor = mock(ExecutorService.class);
         FNatsServer server =
                 new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
                 .withExecutorService(executor).build();
         MessageHandler handler = server.newRequestHandler();
         byte[] data = "this is a request".getBytes();
-        Message msg = new Message(subject, null, data);
-
-        handler.onMessage(msg);
+        Message mockMessage = mock(Message.class);
+        when(mockMessage.getData()).thenReturn(data);
+        when(mockMessage.getReplyTo()).thenReturn(null);
+        handler.onMessage(mockMessage);
 
         verifyNoMoreInteractions(executor);
     }

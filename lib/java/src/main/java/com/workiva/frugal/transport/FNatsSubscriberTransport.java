@@ -16,15 +16,15 @@ package com.workiva.frugal.transport;
 import com.workiva.frugal.exception.TTransportExceptionType;
 import com.workiva.frugal.protocol.FAsyncCallback;
 import io.nats.client.Connection;
-import io.nats.client.Nats;
-import io.nats.client.Subscription;
+import io.nats.client.Connection.Status;
+import io.nats.client.Dispatcher;
+
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryInputTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
@@ -40,7 +40,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
     private final Connection conn;
     protected String subject;
     protected final String queue;
-    protected Subscription sub;
+    protected Dispatcher dispatcher;
 
     /**
      * Creates a new FNatsScopeTransport which is used for subscribing. Subscribers using this transport will subscribe
@@ -98,22 +98,21 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
 
     @Override
     public boolean isSubscribed() {
-        return conn.getState() == Nats.ConnState.CONNECTED && sub != null && sub.isValid();
+        return conn.getStatus() == Status.CONNECTED && dispatcher.isActive();
     }
 
     @Override
     public void subscribe(String topic, FAsyncCallback callback) throws TException {
-        if (conn.getState() != Nats.ConnState.CONNECTED) {
+        if (conn.getStatus() != Status.CONNECTED) {
             throw new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    "NATS not connected, has status " + conn.getState());
+                    "NATS not connected, has status " + conn.getStatus());
         }
 
         subject = topic;
         if ("".equals(subject)) {
             throw new TTransportException("Subject cannot be empty.");
         }
-
-        sub = conn.subscribe(getFormattedSubject(), queue, msg -> {
+        dispatcher = conn.createDispatcher(msg -> {
             if (msg.getData().length < 4) {
                 LOGGER.warn("discarding invalid scope message frame");
                 return;
@@ -125,21 +124,22 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             } catch (TException ignored) {
             }
         });
+        dispatcher.subscribe(getFormattedSubject(), queue);
     }
 
     @Override
     public synchronized void unsubscribe() {
-        if (sub == null) {
+        if (dispatcher == null) {
             LOGGER.warn("attempted to unsubscribe with a null internal " +
                     "subscription - possibly unsubscribing more than once - subject: " + subject);
             return;
         }
         try {
-            sub.unsubscribe();
-        } catch (IOException e) {
+            dispatcher.unsubscribe(getFormattedSubject());
+        } catch (IllegalStateException e) {
             LOGGER.warn("could not unsubscribe from subscription. " + e.getMessage());
         }
-        sub = null;
+        dispatcher = null;
     }
 
     private String getFormattedSubject() {

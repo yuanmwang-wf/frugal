@@ -453,12 +453,16 @@ func (p *StoreBuyAlbumArgs) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if err := frugal.ReadString(iprot, &p.ASIN, "ASIN"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::ASIN:1 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 1: ", err)
+			} else {
+				p.ASIN = v
 			}
 		case 2:
-			if err := frugal.ReadString(iprot, &p.Acct, "acct"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::acct:2 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 2: ", err)
+			} else {
+				p.Acct = v
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -551,14 +555,14 @@ func (p *StoreBuyAlbumResult) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 0:
-			p.Success = new(Album)
-			if err := frugal.ReadStruct(iprot, p.Success, "success"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+			p.Success = NewAlbum()
+			if err := p.Success.Read(iprot); err != nil {
+				return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
 			}
 		case 1:
-			p.Error = new(PurchasingError)
-			if err := frugal.ReadStruct(iprot, p.Error, "error"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::error:1 ", p), err)
+			p.Error = NewPurchasingError()
+			if err := p.Error.Read(iprot); err != nil {
+				return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Error), err)
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -637,12 +641,16 @@ func (p *StoreEnterAlbumGiveawayArgs) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if err := frugal.ReadString(iprot, &p.Email, "email"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::email:1 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 1: ", err)
+			} else {
+				p.Email = v
 			}
 		case 2:
-			if err := frugal.ReadString(iprot, &p.Name, "name"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::name:2 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 2: ", err)
+			} else {
+				p.Name = v
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -721,9 +729,10 @@ func (p *StoreEnterAlbumGiveawayResult) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 0:
-			p.Success = new(bool)
-			if err := frugal.ReadBool(iprot, p.Success, "success"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::success:0 ", p), err)
+			if v, err := iprot.ReadBool(); err != nil {
+				return thrift.PrependError("error reading field 0: ", err)
+			} else {
+				p.Success = &v
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {

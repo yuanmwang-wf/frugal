@@ -143,33 +143,43 @@ func (p *Track) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if err := frugal.ReadString(iprot, &p.Title, "title"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::title:1 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 1: ", err)
+			} else {
+				p.Title = v
 			}
 		case 2:
-			if err := frugal.ReadString(iprot, &p.Artist, "artist"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::artist:2 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 2: ", err)
+			} else {
+				p.Artist = v
 			}
 		case 3:
-			if err := frugal.ReadString(iprot, &p.Publisher, "publisher"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::publisher:3 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 3: ", err)
+			} else {
+				p.Publisher = v
 			}
 		case 4:
-			if err := frugal.ReadString(iprot, &p.Composer, "composer"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::composer:4 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 4: ", err)
+			} else {
+				p.Composer = v
 			}
 		case 5:
-			var duration float64
-			if err := frugal.ReadDouble(iprot, &duration, "duration"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::duration:5 ", p), err)
+			if v, err := iprot.ReadDouble(); err != nil {
+				return thrift.PrependError("error reading field 5: ", err)
+			} else {
+				temp := Minutes(v)
+				p.Duration = temp
 			}
-			p.Duration = Minutes(duration)
 		case 6:
-			var pro int32
-			if err := frugal.ReadI32(iprot, &pro, "pro"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::pro:6 ", p), err)
+			if v, err := iprot.ReadI32(); err != nil {
+				return thrift.PrependError("error reading field 6: ", err)
+			} else {
+				temp := PerfRightsOrg(v)
+				p.Pro = temp
 			}
-			p.Pro = PerfRightsOrg(pro)
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
 				return err
@@ -262,18 +272,33 @@ func (p *Album) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if err := p.ReadField1(iprot); err != nil {
-				return err
+			_, size, err := iprot.ReadListBegin()
+			if err != nil {
+				return thrift.PrependError("error reading list begin: ", err)
+			}
+			p.Tracks = make([]*Track, 0, size)
+			for i := 0; i < size; i++ {
+				elem0 := NewTrack()
+				if err := elem0.Read(iprot); err != nil {
+					return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", elem0), err)
+				}
+				p.Tracks = append(p.Tracks, elem0)
+			}
+			if err := iprot.ReadListEnd(); err != nil {
+				return thrift.PrependError("error reading list end: ", err)
 			}
 		case 2:
-			var duration float64
-			if err := frugal.ReadDouble(iprot, &duration, "duration"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::duration:2 ", p), err)
+			if v, err := iprot.ReadDouble(); err != nil {
+				return thrift.PrependError("error reading field 2: ", err)
+			} else {
+				temp := Minutes(v)
+				p.Duration = temp
 			}
-			p.Duration = Minutes(duration)
 		case 3:
-			if err := frugal.ReadString(iprot, &p.ASIN, "ASIN"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::ASIN:3 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 3: ", err)
+			} else {
+				p.ASIN = v
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -286,25 +311,6 @@ func (p *Album) Read(iprot thrift.TProtocol) error {
 	}
 	if err := iprot.ReadStructEnd(); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-	}
-	return nil
-}
-
-func (p *Album) ReadField1(iprot thrift.TProtocol) error {
-	_, size, err := iprot.ReadListBegin()
-	if err != nil {
-		return thrift.PrependError("error reading list begin: ", err)
-	}
-	p.Tracks = make([]*Track, 0, size)
-	for i := 0; i < size; i++ {
-		elem0 := NewTrack()
-		if err := elem0.Read(iprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", elem0), err)
-		}
-		p.Tracks = append(p.Tracks, elem0)
-	}
-	if err := iprot.ReadListEnd(); err != nil {
-		return thrift.PrependError("error reading list end: ", err)
 	}
 	return nil
 }
@@ -393,12 +399,16 @@ func (p *PurchasingError) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if err := frugal.ReadString(iprot, &p.Message, "message"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::message:1 ", p), err)
+			if v, err := iprot.ReadString(); err != nil {
+				return thrift.PrependError("error reading field 1: ", err)
+			} else {
+				p.Message = v
 			}
 		case 2:
-			if err := frugal.ReadI16(iprot, &p.ErrorCode, "error_code"); err != nil {
-				return thrift.PrependError(fmt.Sprintf("%T::error_code:2 ", p), err)
+			if v, err := iprot.ReadI16(); err != nil {
+				return thrift.PrependError("error reading field 2: ", err)
+			} else {
+				p.ErrorCode = v
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {

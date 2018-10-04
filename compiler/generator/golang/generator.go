@@ -612,7 +612,7 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 		contents += "\t\tswitch fieldId {\n"
 		for _, field := range s.Fields {
 			contents += fmt.Sprintf("\t\tcase %d:\n", field.ID)
-			contents += g.generateReadFieldInline(field)
+			contents += g.generateReadFieldRec(field, true)
 			if field.Modifier == parser.Required {
 				contents += fmt.Sprintf("\t\t\tisset%s = true\n", title(field.Name))
 			}
@@ -652,9 +652,6 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 	contents += "\treturn nil\n"
 	contents += "}\n\n"
 
-	for _, field := range s.Fields {
-		contents += g.generateReadField(sName, field)
-	}
 	return contents
 }
 
@@ -701,59 +698,6 @@ func (g *Generator) generateToString(s *parser.Struct, sName string) string {
 	contents += "\t\treturn \"<nil>\"\n"
 	contents += "\t}\n"
 	contents += fmt.Sprintf("\treturn fmt.Sprintf(\"%s(%%+v)\", *p)\n", sName)
-	contents += "}\n\n"
-	return contents
-}
-
-func (g *Generator) generateReadFieldInline(field *parser.Field) (contents string) {
-	if !g.skipStandaloneFieldHandler(field) {
-		return fmt.Sprintf("\t\t\tif err := p.ReadField%d(iprot); err != nil {\n\t\t\t\treturn err\n\t\t\t}\n", field.ID)
-	}
-	var trailer string
-
-	// Get the write function we need to invoke
-	baseType := g.Frugal.UnderlyingType(field.Type)
-	writeMethod := snakeToCamel(baseType.Name)
-	if g.Frugal.IsStruct(baseType) {
-		writeMethod = "Struct"
-	} else if g.Frugal.IsEnum(baseType) {
-		writeMethod = "I32"
-	}
-
-	// Get appropriate way to reference struct field
-	structField := "p." + snakeToCamel(field.Name)
-	if !g.isPointerField(field) {
-		structField = "&" + structField
-	} else if g.Frugal.IsStruct(field.Type) {
-		contents += fmt.Sprintf("\t\t\tp.%s = new(%s)\n", snakeToCamel(field.Name), g.qualifiedTypeName(field.Type))
-	} else {
-		contents += fmt.Sprintf("\t\t\tp.%s = new(%s)\n", snakeToCamel(field.Name), g.getGoTypeFromThriftType(field.Type))
-	}
-	if g.Frugal.IsEnum(baseType) || (g.isPrimitive(baseType) && !field.Type.IsPrimitive()) {
-		structField = "&_" + field.Name
-		contents += fmt.Sprintf("\t\t\tvar _%s %s\n", field.Name, g.getGoTypeFromThriftTypeEnum(baseType))
-		dref := ""
-		if g.isPointerField(field) {
-			dref = "*"
-		}
-		trailer = fmt.Sprintf("\t\t\t%sp.%s = %s(_%s)\n", dref, snakeToCamel(field.Name), g.qualifiedTypeName(field.Type), field.Name)
-	}
-
-	// Actually generate the write block
-	contents += fmt.Sprintf("\t\t\tif err := frugal.Read%s(iprot, %s, \"%s\"); err != nil {\n", writeMethod, structField, field.Name)
-	contents += fmt.Sprintf("\t\t\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T::%s:%d \", p), err)\n", field.Name, field.ID)
-	return contents + "\t\t\t}\n" + trailer
-}
-
-func (g *Generator) generateReadField(structName string, field *parser.Field) string {
-	if g.skipStandaloneFieldHandler(field) {
-		return ""
-	}
-	contents := fmt.Sprintf("func (p *%s) ReadField%d(iprot thrift.TProtocol) error {\n", structName, field.ID)
-
-	contents += g.generateReadFieldRec(field, true)
-
-	contents += "\treturn nil\n"
 	contents += "}\n\n"
 	return contents
 }

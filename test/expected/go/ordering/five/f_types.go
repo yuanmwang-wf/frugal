@@ -47,22 +47,8 @@ func (p *Five) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			_, size, err := iprot.ReadListBegin()
-			if err != nil {
-				return thrift.PrependError("error reading list begin: ", err)
-			}
-			p.SomeField = make([]bool, 0, size)
-			for i := 0; i < size; i++ {
-				var elem0 bool
-				if v, err := iprot.ReadBool(); err != nil {
-					return thrift.PrependError("error reading field 0: ", err)
-				} else {
-					elem0 = v
-				}
-				p.SomeField = append(p.SomeField, elem0)
-			}
-			if err := iprot.ReadListEnd(); err != nil {
-				return thrift.PrependError("error reading list end: ", err)
+			if err := p.ReadField1(iprot); err != nil {
+				return err
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -75,6 +61,27 @@ func (p *Five) Read(iprot thrift.TProtocol) error {
 	}
 	if err := iprot.ReadStructEnd(); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
+}
+
+func (p *Five) ReadField1(iprot thrift.TProtocol) error {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return thrift.PrependError("error reading list begin: ", err)
+	}
+	p.SomeField = make([]bool, 0, size)
+	for i := 0; i < size; i++ {
+		var elem0 bool
+		if v, err := iprot.ReadBool(); err != nil {
+			return thrift.PrependError("error reading field 0: ", err)
+		} else {
+			elem0 = v
+		}
+		p.SomeField = append(p.SomeField, elem0)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return thrift.PrependError("error reading list end: ", err)
 	}
 	return nil
 }

@@ -39,6 +39,7 @@ const (
 	frugalImportOption  = "frugal_import"
 	asyncOption         = "async"
 	useVendorOption     = "use_vendor"
+	slimOption          = "slim"
 )
 
 // Generator implements the LanguageGenerator interface for Go.
@@ -612,7 +613,13 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 		contents += "\t\tswitch fieldId {\n"
 		for _, field := range s.Fields {
 			contents += fmt.Sprintf("\t\tcase %d:\n", field.ID)
-			contents += g.generateReadFieldRec(field, true)
+			if g.generateSlim() {
+				contents += g.generateReadFieldRec(field, true)
+			} else {
+				contents += fmt.Sprintf("\t\t\tif err := p.ReadField%d(iprot); err != nil {\n", field.ID)
+				contents += "\t\t\t\treturn err\n"
+				contents += "\t\t\t}\n"
+			}
 			if field.Modifier == parser.Required {
 				contents += fmt.Sprintf("\t\t\tisset%s = true\n", title(field.Name))
 			}
@@ -652,6 +659,11 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 	contents += "\treturn nil\n"
 	contents += "}\n\n"
 
+	if !g.generateSlim() {
+		for _, field := range s.Fields {
+			contents += g.generateReadField(sName, field)
+		}
+	}
 	return contents
 }
 
@@ -698,6 +710,16 @@ func (g *Generator) generateToString(s *parser.Struct, sName string) string {
 	contents += "\t\treturn \"<nil>\"\n"
 	contents += "\t}\n"
 	contents += fmt.Sprintf("\treturn fmt.Sprintf(\"%s(%%+v)\", *p)\n", sName)
+	contents += "}\n\n"
+	return contents
+}
+
+func (g *Generator) generateReadField(structName string, field *parser.Field) string {
+	contents := fmt.Sprintf("func (p *%s) ReadField%d(iprot thrift.TProtocol) error {\n", structName, field.ID)
+
+	contents += g.generateReadFieldRec(field, true)
+
+	contents += "\treturn nil\n"
 	contents += "}\n\n"
 	return contents
 }
@@ -877,6 +899,9 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool) string
 }
 
 func (g *Generator) skipStandaloneFieldHandler(field *parser.Field) bool {
+	if !g.generateSlim() {
+		return false
+	}
 	baseType := g.Frugal.UnderlyingType(field.Type)
 	isStruct := g.Frugal.IsStruct(baseType)
 	return baseType.IsPrimitive() || isStruct || g.Frugal.IsEnum(baseType)
@@ -2315,6 +2340,11 @@ func (g *Generator) qualifiedTypeName(t *parser.Type) string {
 
 func (g *Generator) generateAsync() bool {
 	_, ok := g.Options[asyncOption]
+	return ok
+}
+
+func (g *Generator) generateSlim() bool {
+	_, ok := g.Options[slimOption]
 	return ok
 }
 

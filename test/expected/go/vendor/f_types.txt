@@ -8,7 +8,6 @@ import (
 	"fmt"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	frugal "github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/out/excepts"
 	"github.com/Workiva/some/vendored/place/vendor_namespace"
 )
@@ -72,17 +71,12 @@ func (p *VendoredReferences) Read(iprot thrift.TProtocol) error {
 		}
 		switch fieldId {
 		case 1:
-			if v, err := iprot.ReadI32(); err != nil {
-				return thrift.PrependError("error reading field 1: ", err)
-			} else {
-				p.ReferenceVendoredConst = v
+			if err := p.ReadField1(iprot); err != nil {
+				return err
 			}
 		case 2:
-			if v, err := iprot.ReadI32(); err != nil {
-				return thrift.PrependError("error reading field 2: ", err)
-			} else {
-				temp := vendor_namespace.MyEnum(v)
-				p.ReferenceVendoredEnum = temp
+			if err := p.ReadField2(iprot); err != nil {
+				return err
 			}
 		default:
 			if err := iprot.Skip(fieldTypeId); err != nil {
@@ -99,25 +93,70 @@ func (p *VendoredReferences) Read(iprot thrift.TProtocol) error {
 	return nil
 }
 
+func (p *VendoredReferences) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return thrift.PrependError("error reading field 1: ", err)
+	} else {
+		p.ReferenceVendoredConst = v
+	}
+	return nil
+}
+
+func (p *VendoredReferences) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return thrift.PrependError("error reading field 2: ", err)
+	} else {
+		temp := vendor_namespace.MyEnum(v)
+		p.ReferenceVendoredEnum = temp
+	}
+	return nil
+}
+
 func (p *VendoredReferences) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("VendoredReferences"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if p.IsSetReferenceVendoredConst() {
-		if err := frugal.WriteI32(oprot, p.ReferenceVendoredConst, "reference_vendored_const", 1); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T::reference_vendored_const:1 ", p), err)
-		}
+	if err := p.writeField1(oprot); err != nil {
+		return err
 	}
-	if p.IsSetReferenceVendoredEnum() {
-		if err := frugal.WriteI32(oprot, int32(p.ReferenceVendoredEnum), "reference_vendored_enum", 2); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T::reference_vendored_enum:2 ", p), err)
-		}
+	if err := p.writeField2(oprot); err != nil {
+		return err
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
 	}
 	if err := oprot.WriteStructEnd(); err != nil {
 		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *VendoredReferences) writeField1(oprot thrift.TProtocol) error {
+	if p.IsSetReferenceVendoredConst() {
+		if err := oprot.WriteFieldBegin("reference_vendored_const", thrift.I32, 1); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:reference_vendored_const: ", p), err)
+		}
+		if err := oprot.WriteI32(int32(p.ReferenceVendoredConst)); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T.reference_vendored_const (1) field write error: ", p), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 1:reference_vendored_const: ", p), err)
+		}
+	}
+	return nil
+}
+
+func (p *VendoredReferences) writeField2(oprot thrift.TProtocol) error {
+	if p.IsSetReferenceVendoredEnum() {
+		if err := oprot.WriteFieldBegin("reference_vendored_enum", thrift.I32, 2); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:reference_vendored_enum: ", p), err)
+		}
+		if err := oprot.WriteI32(int32(p.ReferenceVendoredEnum)); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T.reference_vendored_enum (2) field write error: ", p), err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 2:reference_vendored_enum: ", p), err)
+		}
 	}
 	return nil
 }

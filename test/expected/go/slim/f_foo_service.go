@@ -3789,7 +3789,7 @@ func (p *FooWhatDoYouSayArgs) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("whatDoYouSay_args"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.MessageArgs, "messageArgs", 1); err != nil {
+	if err := frugal.WriteString(oprot, p.MessageArgs_, "messageArgs", 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::messageArgs:1 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
@@ -3940,7 +3940,7 @@ func (p *FooSayAgainArgs) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("sayAgain_args"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.MessageResult, "messageResult", 1); err != nil {
+	if err := frugal.WriteString(oprot, p.MessageResult_, "messageResult", 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::messageResult:1 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {

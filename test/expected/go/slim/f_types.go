@@ -1699,10 +1699,10 @@ func (p *FooArgs_) Write(oprot thrift.TProtocol) error {
 	if err := frugal.WriteString(oprot, p.NewMessage, "newMessage", 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::newMessage:1 ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.MessageArgs, "messageArgs", 2); err != nil {
+	if err := frugal.WriteString(oprot, p.MessageArgs_, "messageArgs", 2); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::messageArgs:2 ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.MessageResult, "messageResult", 3); err != nil {
+	if err := frugal.WriteString(oprot, p.MessageResult_, "messageResult", 3); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::messageResult:3 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {

@@ -915,7 +915,7 @@ func (g *Generator) generateWriteFieldInline(field *parser.Field) (contents stri
 	// Check if this field is optional and add nil checks if we need them.
 	var indent string
 	var tail string
-	if field.Modifier == parser.Optional || g.isPointerField(field) {
+	if field.Modifier == parser.Optional {
 		indent = "\t"
 		tail = "\t\t}\n"
 		contents += fmt.Sprintf("\tif p.IsSet%s() {\n", snakeToCamel(field.Name))

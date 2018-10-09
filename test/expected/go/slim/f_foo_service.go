@@ -2250,10 +2250,8 @@ func (p *FooBlahArgs) Write(oprot thrift.TProtocol) error {
 	if err := frugal.WriteString(oprot, p.Str, "Str", 2); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::Str:2 ", p), err)
 	}
-	if p.IsSetEvent() {
-		if err := frugal.WriteStruct(oprot, p.Event, "event", 3); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T::event:3 ", p), err)
-		}
+	if err := frugal.WriteStruct(oprot, p.Event, "event", 3); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T::event:3 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -3490,10 +3488,8 @@ func (p *FooUseSubdirStructArgs) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("use_subdir_struct_args"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if p.IsSetA() {
-		if err := frugal.WriteStruct(oprot, p.A, "a", 1); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T::a:1 ", p), err)
-		}
+	if err := frugal.WriteStruct(oprot, p.A, "a", 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T::a:1 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)

@@ -9,7 +9,7 @@ import (
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Sirupsen/logrus"
-	frugal "github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/out/excepts"
 	"github.com/Workiva/some/vendored/place/vendor_namespace"
 )

@@ -9,7 +9,7 @@ import (
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Sirupsen/logrus"
-	frugal "github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/lib/go"
 )
 
 // (needed to ensure safety because of naive import list construction.)

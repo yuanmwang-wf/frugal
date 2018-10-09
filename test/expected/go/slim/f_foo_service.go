@@ -9,7 +9,7 @@ import (
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Sirupsen/logrus"
-	frugal "github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/out/slim/ValidTypes"
 	"github.com/Workiva/frugal/test/out/slim/actual_base/golang"
 	"github.com/Workiva/frugal/test/out/slim/subdir_include"

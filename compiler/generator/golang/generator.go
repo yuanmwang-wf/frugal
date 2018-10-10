@@ -39,6 +39,7 @@ const (
 	frugalImportOption  = "frugal_import"
 	asyncOption         = "async"
 	useVendorOption     = "use_vendor"
+	slimOption          = "slim"
 )
 
 // Generator implements the LanguageGenerator interface for Go.
@@ -612,9 +613,13 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 		contents += "\t\tswitch fieldId {\n"
 		for _, field := range s.Fields {
 			contents += fmt.Sprintf("\t\tcase %d:\n", field.ID)
-			contents += fmt.Sprintf("\t\t\tif err := p.ReadField%d(iprot); err != nil {\n", field.ID)
-			contents += "\t\t\t\treturn err\n"
-			contents += "\t\t\t}\n"
+			if g.generateSlim() {
+				contents += g.generateReadFieldRec(field, true)
+			} else {
+				contents += fmt.Sprintf("\t\t\tif err := p.ReadField%d(iprot); err != nil {\n", field.ID)
+				contents += "\t\t\t\treturn err\n"
+				contents += "\t\t\t}\n"
+			}
 			if field.Modifier == parser.Required {
 				contents += fmt.Sprintf("\t\t\tisset%s = true\n", title(field.Name))
 			}
@@ -654,16 +659,16 @@ func (g *Generator) generateRead(s *parser.Struct, sName string) string {
 	contents += "\treturn nil\n"
 	contents += "}\n\n"
 
-	for _, field := range s.Fields {
-		contents += g.generateReadField(sName, field)
+	if !g.generateSlim() {
+		for _, field := range s.Fields {
+			contents += g.generateReadField(sName, field)
+		}
 	}
 	return contents
 }
 
 func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
-	contents := ""
-
-	contents += fmt.Sprintf("func (p *%s) Write(oprot thrift.TProtocol) error {\n", sName)
+	contents := fmt.Sprintf("func (p *%s) Write(oprot thrift.TProtocol) error {\n", sName)
 
 	// Only one field can be set for a union, make sure that's the case
 	if s.Type == parser.StructTypeUnion {
@@ -678,9 +683,7 @@ func (g *Generator) generateWrite(s *parser.Struct, sName string) string {
 	contents += "\t}\n"
 
 	for _, field := range s.Fields {
-		contents += fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n", field.ID)
-		contents += "\t\treturn err\n"
-		contents += "\t}\n"
+		contents += g.generateWriteFieldInline(field)
 	}
 
 	contents += "\tif err := oprot.WriteFieldStop(); err != nil{\n"
@@ -895,7 +898,65 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool) string
 	return contents
 }
 
+func (g *Generator) skipStandaloneFieldHandler(field *parser.Field) bool {
+	if !g.generateSlim() {
+		return false
+	}
+	baseType := g.Frugal.UnderlyingType(field.Type)
+	isStruct := g.Frugal.IsStruct(baseType)
+	return baseType.IsPrimitive() || isStruct || g.Frugal.IsEnum(baseType)
+}
+
+func (g *Generator) generateWriteFieldInline(field *parser.Field) (contents string) {
+	if !g.skipStandaloneFieldHandler(field) {
+		return fmt.Sprintf("\tif err := p.writeField%d(oprot); err != nil {\n\t\treturn err\n\t}\n", field.ID)
+	}
+
+	// Check if this field is optional and add nil checks if we need them.
+	var indent string
+	var tail string
+	if field.Modifier == parser.Optional {
+		indent = "\t"
+		tail = "\t\t}\n"
+		contents += fmt.Sprintf("\tif p.IsSet%s() {\n", snakeToCamel(field.Name))
+	}
+
+	// Get the write function we need to invoke
+	baseType := g.Frugal.UnderlyingType(field.Type)
+	writeMethod := snakeToCamel(baseType.Name)
+	if g.Frugal.IsStruct(baseType) {
+		writeMethod = "Struct"
+	} else if g.Frugal.IsEnum(baseType) {
+		writeMethod = "I32"
+	}
+
+	// Get appropriate way to reference struct field
+	structField := "p." + snakeToCamel(field.Name)
+
+	// The Thrift generator uses a convention of appending a suffix of '_'
+	// if the argument starts with 'New', ends with 'Result' or ends with 'Args'.
+	// This effort must be duplicated to correctly reference Thrift generated code.
+	if strings.HasPrefix(structField, "New") || strings.HasSuffix(structField, "Result") || strings.HasSuffix(structField, "Args") {
+		structField += "_"
+	}
+
+	if g.isPointerField(field) && !g.Frugal.IsStruct(baseType) { // don't dereference structs
+		structField = "*" + structField
+	}
+	if g.Frugal.IsEnum(baseType) || (g.isPrimitive(baseType) && !field.Type.IsPrimitive()) {
+		structField = g.getGoTypeFromThriftTypeEnum(baseType) + "(" + structField + ")" // add type casts
+	}
+
+	// Actually generate the write block
+	contents += indent + fmt.Sprintf("\tif err := frugal.Write%s(oprot, %s, \"%s\", %d); err != nil {\n", writeMethod, structField, field.Name, field.ID)
+	contents += indent + fmt.Sprintf("\t\treturn thrift.PrependError(fmt.Sprintf(\"%%T::%s:%d \", p), err)", field.Name, field.ID)
+	return contents + tail + "\t}\n"
+}
+
 func (g *Generator) generateWriteField(structName string, field *parser.Field) string {
+	if g.skipStandaloneFieldHandler(field) {
+		return ""
+	}
 	contents := ""
 	fName := title(field.Name)
 
@@ -1029,6 +1090,11 @@ func (g *Generator) GenerateTypesImports(file *os.File) error {
 		contents += "\t\"" + g.Options[thriftImportOption] + "\"\n"
 	} else {
 		contents += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
+	}
+	if g.Options[frugalImportOption] != "" {
+		contents += "\t\"" + g.Options[frugalImportOption] + "\"\n"
+	} else {
+		contents += "\t\"github.com/Workiva/frugal/lib/go\"\n"
 	}
 
 	protections := ""
@@ -2156,6 +2222,33 @@ func (g *Generator) getGoTypeFromThriftTypePtr(t *parser.Type, pointer bool) str
 	}
 }
 
+func (g *Generator) getGoTypeFromThriftTypeEnum(typ *parser.Type) string {
+	switch typ.Name {
+	// Just typecast everything to get around typedefs
+	case "bool":
+		return "bool"
+	case "byte", "i8":
+		return "int8"
+	case "i16":
+		return "int16"
+	case "i32":
+		return "int32"
+	case "i64":
+		return "int64"
+	case "double":
+		return "float64"
+	case "string":
+		return "string"
+	case "binary":
+		return "[]byte"
+	default:
+		if g.Frugal.IsEnum(typ) {
+			return "int32"
+		}
+		panic("unknown thrift type: " + typ.Name)
+	}
+}
+
 func (g *Generator) getEnumFromThriftType(t *parser.Type) string {
 	underlyingType := g.Frugal.UnderlyingType(t)
 	switch underlyingType.Name {
@@ -2255,6 +2348,11 @@ func (g *Generator) qualifiedTypeName(t *parser.Type) string {
 
 func (g *Generator) generateAsync() bool {
 	_, ok := g.Options[asyncOption]
+	return ok
+}
+
+func (g *Generator) generateSlim() bool {
+	_, ok := g.Options[slimOption]
 	return ok
 }
 

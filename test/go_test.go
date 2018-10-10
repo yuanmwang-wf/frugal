@@ -143,3 +143,25 @@ func TestIncludeOrdering(t *testing.T) {
 	copyAllFiles(t, files)
 	compareAllFiles(t, files)
 }
+
+// Ensures slim generated files are correct.
+func TestSlim(t *testing.T) {
+	options := compiler.Options{
+		File:  frugalGenFile,
+		Gen:   "go:package_prefix=github.com/Workiva/frugal/test/out/slim/,slim",
+		Out:   outputDir + "/slim",
+		Delim: delim,
+	}
+	if err := compiler.Compile(options); err != nil {
+		t.Fatal("Unexpected error", err)
+	}
+
+	files := []FileComparisonPair{
+		{"expected/go/slim/f_types.go", filepath.Join(outputDir, "slim", "variety", "f_types.go")},
+		{"expected/go/slim/f_foo_service.go", filepath.Join(outputDir, "slim", "variety", "f_foo_service.go")},
+		{"expected/go/slim/f_events_scope.go", filepath.Join(outputDir, "slim", "variety", "f_events_scope.go")},
+	}
+
+	copyAllFiles(t, files)
+	compareAllFiles(t, files)
+}

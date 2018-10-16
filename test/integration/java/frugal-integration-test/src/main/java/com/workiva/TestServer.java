@@ -252,7 +252,10 @@ public class TestServer {
         }
 
         public void run() {
-            ConnectionFactory cf = new ConnectionFactory(Nats.DEFAULT_URL);
+            Properties properties = new Properties();
+            properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+            Options.Builder optionsBuilder = new Options.Builder(properties);
+            Connection conn = Nats.connect(optionsBuilder.build());
             try {
                 Connection conn = cf.createConnection();
                 FPublisherTransportFactory publisherFactory = new FNatsPublisherTransport.Factory(conn);

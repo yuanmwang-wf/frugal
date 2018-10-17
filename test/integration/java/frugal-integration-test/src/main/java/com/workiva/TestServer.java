@@ -255,9 +255,8 @@ public class TestServer {
             Properties properties = new Properties();
             properties.put(Options.PROP_URL, Options.DEFAULT_URL);
             Options.Builder optionsBuilder = new Options.Builder(properties);
-            Connection conn = Nats.connect(optionsBuilder.build());
             try {
-                Connection conn = cf.createConnection();
+                Connection conn = Nats.connect(optionsBuilder.build());
                 FPublisherTransportFactory publisherFactory = new FNatsPublisherTransport.Factory(conn);
                 FSubscriberTransportFactory subscriberFactory = new FNatsSubscriberTransport.Factory(conn);
                 FScopeProvider provider = new FScopeProvider(publisherFactory, subscriberFactory, protocolFactory);

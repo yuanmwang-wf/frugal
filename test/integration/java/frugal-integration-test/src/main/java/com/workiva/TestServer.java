@@ -251,7 +251,7 @@ public class TestServer {
             this.port = port;
         }
 
-        public void run() throws InterruptedException{
+        public void run() {
             Properties properties = new Properties();
             properties.put(Options.PROP_URL, Options.DEFAULT_URL);
             Options.Builder optionsBuilder = new Options.Builder(properties);
@@ -288,7 +288,7 @@ public class TestServer {
                     System.out.println("Error subscribing" + e.getMessage());
                 }
                 System.out.println("Subscriber started...");
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 System.out.println("Error connecting to nats" + e.getMessage());
             }
         }

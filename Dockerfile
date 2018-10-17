@@ -35,4 +35,4 @@ ARG BUILD_ARTIFACTS_TEST_RESULTS=/go/src/github.com/Workiva/frugal/test_results/
 
 FROM scratch
 COPY --from=build /go/src/github.com/Workiva/frugal/frugal /bin/frugal
-CMD ["frugal"]
+ENTRYPOINT ["frugal"]

@@ -20,6 +20,7 @@ import com.workiva.frugal.util.BlockingRejectedExecutionHandler;
 import io.nats.client.Connection;
 import io.nats.client.Dispatcher;
 import io.nats.client.MessageHandler;
+import io.nats.client.NUID;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryInputTransport;
 import org.apache.thrift.transport.TTransport;
@@ -53,6 +54,7 @@ public class FNatsServer implements FServer {
     private final String[] subjects;
     private final String queue;
     private final long highWatermark;
+    private static final String QUEUE_PREFIX = "_QUEUE.";
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
     private final ExecutorService executorService;
@@ -95,7 +97,7 @@ public class FNatsServer implements FServer {
         private final FProtocolFactory protoFactory;
         private final String[] subjects;
 
-        private String queue = "";
+        private String queue = getQueueName();
         private int workerCount = 1;
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;
@@ -200,6 +202,12 @@ public class FNatsServer implements FServer {
             return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark, executorService);
         }
 
+        private static String getQueueName() {
+            StringBuilder builder = new StringBuilder();
+            builder.append(QUEUE_PREFIX);
+            builder.append(new NUID());
+            return builder.toString();
+        }
     }
 
     /**

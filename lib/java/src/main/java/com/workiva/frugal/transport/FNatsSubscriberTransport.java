@@ -18,7 +18,6 @@ import com.workiva.frugal.protocol.FAsyncCallback;
 import io.nats.client.Connection;
 import io.nats.client.Connection.Status;
 import io.nats.client.Dispatcher;
-import io.nats.client.NUID;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryInputTransport;
@@ -27,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 
@@ -42,7 +42,6 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
     protected String subject;
     protected final String queue;
     protected Dispatcher dispatcher;
-    private static final String QUEUE_PREFIX = "_QUEUE.";
 
     /**
      * Creates a new FNatsScopeTransport which is used for subscribing. Subscribers using this transport will subscribe
@@ -71,7 +70,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
          * @param conn NATS connection
          */
         public Factory(Connection conn) {
-            this(conn, getQueueName());
+            this(conn, UUID.randomUUID().toString().replace("-", ""));
         }
 
         /**
@@ -145,13 +144,6 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
 
     private String getFormattedSubject() {
         return FRUGAL_PREFIX + subject;
-    }
-
-    private static String getQueueName() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(QUEUE_PREFIX);
-        builder.append(new NUID());
-        return builder.toString();
     }
 
 }

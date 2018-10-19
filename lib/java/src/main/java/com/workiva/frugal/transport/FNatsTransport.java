@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * FNatsTransport is an extension of FTransport. This is a "stateless" transport
@@ -55,10 +56,7 @@ public class FNatsTransport extends FAsyncTransport {
     }
 
     private static String createInbox() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(INBOX_PREFIX);
-        builder.append(new NUID());
-        return builder.toString();
+        return INBOX_PREFIX + UUID.randomUUID().toString().replace("-", "");
     }
 
     /**
@@ -123,7 +121,7 @@ public class FNatsTransport extends FAsyncTransport {
             return;
         }
         try {
-            dispathcer.unsubscribe(inbox);
+            dispathcer.unsubscribe(subject);
         } catch (IllegalStateException e) {
             LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
         }

@@ -3,6 +3,7 @@
 set -ex
 
 export FRUGAL_HOME=$GOPATH/src/github.com/Workiva/frugal
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 
 if [ -z "${IN_SKYNET_CLI+yes}" ]; then
     cp ${SKYNET_APPLICATION_FRUGAL_ARTIFACTORY} ${FRUGAL_HOME}/test/integration/java/frugal-integration-test/frugal.jar

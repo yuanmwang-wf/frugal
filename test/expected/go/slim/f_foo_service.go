@@ -3638,7 +3638,7 @@ func (p *FooSayHelloWithArgs) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("sayHelloWith_args"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.NewMessage, "newMessage", 1); err != nil {
+	if err := frugal.WriteString(oprot, p.NewMessage_, "newMessage", 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::newMessage:1 ", p), err)
 	}
 	if err := oprot.WriteFieldStop(); err != nil {

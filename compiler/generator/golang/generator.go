@@ -931,12 +931,13 @@ func (g *Generator) generateWriteFieldInline(field *parser.Field) (contents stri
 	}
 
 	// Get appropriate way to reference struct field
-	structField := "p." + snakeToCamel(field.Name)
+	fieldName := snakeToCamel(field.Name)
+	structField := "p." + fieldName
 
 	// The Thrift generator uses a convention of appending a suffix of '_'
 	// if the argument starts with 'New', ends with 'Result' or ends with 'Args'.
 	// This effort must be duplicated to correctly reference Thrift generated code.
-	if strings.HasPrefix(structField, "New") || strings.HasSuffix(structField, "Result") || strings.HasSuffix(structField, "Args") {
+	if strings.HasPrefix(fieldName, "New") || strings.HasSuffix(fieldName, "Result") || strings.HasSuffix(fieldName, "Args") {
 		structField += "_"
 	}
 

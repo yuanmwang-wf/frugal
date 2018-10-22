@@ -1696,7 +1696,7 @@ func (p *FooArgs_) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("FooArgs"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
 	}
-	if err := frugal.WriteString(oprot, p.NewMessage, "newMessage", 1); err != nil {
+	if err := frugal.WriteString(oprot, p.NewMessage_, "newMessage", 1); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T::newMessage:1 ", p), err)
 	}
 	if err := frugal.WriteString(oprot, p.MessageArgs_, "messageArgs", 2); err != nil {

@@ -41,13 +41,20 @@ class TestingUnions implements thrift.TBase {
   TestingUnions() {
   }
 
+  @deprecated
   bool isSetAnID() => AnID == null;
-  bool isSetaString() => aString == null;
-  bool isSetsomeotherthing() => someotherthing == null;
+  @deprecated
+  bool isSetAString() => aString == null;
+  @deprecated
+  bool isSetSomeotherthing() => someotherthing == null;
+  @deprecated
   bool isSetAnInt16() => AnInt16 == null;
+  @deprecated
   bool isSetRequests() => Requests == null;
-  bool isSetbin_field_in_union() => bin_field_in_union == null;
-  bool isSetdepr() => depr == null;
+  @deprecated
+  bool isSetBin_field_in_union() => bin_field_in_union == null;
+  @deprecated
+  bool isSetDepr() => depr == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ANID:

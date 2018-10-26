@@ -21,7 +21,8 @@ class TestBase implements thrift.TBase {
   TestBase() {
   }
 
-  bool isSetbase_struct() => base_struct == null;
+  @deprecated
+  bool isSetBase_struct() => base_struct == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case BASE_STRUCT:

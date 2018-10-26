@@ -27,9 +27,12 @@ class FooArgs implements thrift.TBase {
   FooArgs() {
   }
 
-  bool isSetnewMessage() => newMessage == null;
-  bool isSetmessageArgs() => messageArgs == null;
-  bool isSetmessageResult() => messageResult == null;
+  @deprecated
+  bool isSetNewMessage() => newMessage == null;
+  @deprecated
+  bool isSetMessageArgs() => messageArgs == null;
+  @deprecated
+  bool isSetMessageResult() => messageResult == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:

@@ -716,9 +716,12 @@ class blah_args implements thrift.TBase {
   blah_args() {
   }
 
-  bool isSetnum() => num == null;
+  @deprecated
+  bool isSetNum() => num == null;
+  @deprecated
   bool isSetStr() => Str == null;
-  bool isSetevent() => event == null;
+  @deprecated
+  bool isSetEvent() => event == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NUM:
@@ -922,9 +925,12 @@ class blah_result implements thrift.TBase {
   blah_result() {
   }
 
-  bool isSetsuccess() => success == null;
-  bool isSetawe() => awe == null;
-  bool isSetapi() => api == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
+  @deprecated
+  bool isSetAwe() => awe == null;
+  @deprecated
+  bool isSetApi() => api == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1134,8 +1140,10 @@ class oneWay_args implements thrift.TBase {
   oneWay_args() {
   }
 
-  bool isSetid() => id == null;
-  bool isSetreq() => req == null;
+  @deprecated
+  bool isSetId() => id == null;
+  @deprecated
+  bool isSetReq() => req == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -1309,7 +1317,9 @@ class bin_method_args implements thrift.TBase {
   bin_method_args() {
   }
 
-  bool isSetbin() => bin == null;
+  @deprecated
+  bool isSetBin() => bin == null;
+  @deprecated
   bool isSetStr() => Str == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -1478,8 +1488,10 @@ class bin_method_result implements thrift.TBase {
   bin_method_result() {
   }
 
-  bool isSetsuccess() => success == null;
-  bool isSetapi() => api == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
+  @deprecated
+  bool isSetApi() => api == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1655,9 +1667,12 @@ class param_modifiers_args implements thrift.TBase {
   param_modifiers_args() {
   }
 
-  bool isSetopt_num() => opt_num == null;
-  bool isSetdefault_num() => default_num == null;
-  bool isSetreq_num() => req_num == null;
+  @deprecated
+  bool isSetOpt_num() => opt_num == null;
+  @deprecated
+  bool isSetDefault_num() => default_num == null;
+  @deprecated
+  bool isSetReq_num() => req_num == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case OPT_NUM:
@@ -1847,7 +1862,8 @@ class param_modifiers_result implements thrift.TBase {
   param_modifiers_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1975,8 +1991,10 @@ class underlying_types_test_args implements thrift.TBase {
   underlying_types_test_args() {
   }
 
-  bool isSetlist_type() => list_type == null;
-  bool isSetset_type() => set_type == null;
+  @deprecated
+  bool isSetList_type() => list_type == null;
+  @deprecated
+  bool isSetSet_type() => set_type == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case LIST_TYPE:
@@ -2161,7 +2179,8 @@ class underlying_types_test_result implements thrift.TBase {
   underlying_types_test_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2385,7 +2404,8 @@ class getThing_result implements thrift.TBase {
   getThing_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2600,7 +2620,8 @@ class getMyInt_result implements thrift.TBase {
   getMyInt_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2725,7 +2746,8 @@ class use_subdir_struct_args implements thrift.TBase {
   use_subdir_struct_args() {
   }
 
-  bool isSeta() => a == null;
+  @deprecated
+  bool isSetA() => a == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case A:
@@ -2853,7 +2875,8 @@ class use_subdir_struct_result implements thrift.TBase {
   use_subdir_struct_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2983,7 +3006,8 @@ class sayHelloWith_args implements thrift.TBase {
   sayHelloWith_args() {
   }
 
-  bool isSetnewMessage() => newMessage == null;
+  @deprecated
+  bool isSetNewMessage() => newMessage == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
@@ -3110,7 +3134,8 @@ class sayHelloWith_result implements thrift.TBase {
   sayHelloWith_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3239,7 +3264,8 @@ class whatDoYouSay_args implements thrift.TBase {
   whatDoYouSay_args() {
   }
 
-  bool isSetmessageArgs() => messageArgs == null;
+  @deprecated
+  bool isSetMessageArgs() => messageArgs == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGEARGS:
@@ -3366,7 +3392,8 @@ class whatDoYouSay_result implements thrift.TBase {
   whatDoYouSay_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3495,7 +3522,8 @@ class sayAgain_args implements thrift.TBase {
   sayAgain_args() {
   }
 
-  bool isSetmessageResult() => messageResult == null;
+  @deprecated
+  bool isSetMessageResult() => messageResult == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGERESULT:
@@ -3622,7 +3650,8 @@ class sayAgain_result implements thrift.TBase {
   sayAgain_result() {
   }
 
-  bool isSetsuccess() => success == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:

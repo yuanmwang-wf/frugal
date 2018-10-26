@@ -110,24 +110,42 @@ class TestingDefaults implements thrift.TBase {
     this.base_status = t_actual_base_dart.base_health_condition.FAIL;
   }
 
+  @deprecated
   bool isSetID2() => ID2 == null;
-  bool isSetev1() => ev1 == null;
-  bool isSetev2() => ev2 == null;
+  @deprecated
+  bool isSetEv1() => ev1 == null;
+  @deprecated
+  bool isSetEv2() => ev2 == null;
+  @deprecated
   bool isSetID() => ID == null;
-  bool isSetthing() => thing == null;
-  bool isSetthing2() => thing2 == null;
-  bool isSetlistfield() => listfield == null;
+  @deprecated
+  bool isSetThing() => thing == null;
+  @deprecated
+  bool isSetThing2() => thing2 == null;
+  @deprecated
+  bool isSetListfield() => listfield == null;
+  @deprecated
   bool isSetID3() => ID3 == null;
-  bool isSetbin_field() => bin_field == null;
-  bool isSetbin_field2() => bin_field2 == null;
-  bool isSetbin_field3() => bin_field3 == null;
-  bool isSetbin_field4() => bin_field4 == null;
-  bool isSetlist2() => list2 == null;
-  bool isSetlist3() => list3 == null;
-  bool isSetlist4() => list4 == null;
-  bool isSeta_map() => a_map == null;
-  bool isSetstatus() => status == null;
-  bool isSetbase_status() => base_status == null;
+  @deprecated
+  bool isSetBin_field() => bin_field == null;
+  @deprecated
+  bool isSetBin_field2() => bin_field2 == null;
+  @deprecated
+  bool isSetBin_field3() => bin_field3 == null;
+  @deprecated
+  bool isSetBin_field4() => bin_field4 == null;
+  @deprecated
+  bool isSetList2() => list2 == null;
+  @deprecated
+  bool isSetList3() => list3 == null;
+  @deprecated
+  bool isSetList4() => list4 == null;
+  @deprecated
+  bool isSetA_map() => a_map == null;
+  @deprecated
+  bool isSetStatus() => status == null;
+  @deprecated
+  bool isSetBase_status() => base_status == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID2:

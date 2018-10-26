@@ -19,8 +19,10 @@ class thing implements thrift.TBase {
   thing() {
   }
 
-  bool isSetan_id() => an_id == null;
-  bool isSeta_string() => a_string == null;
+  @deprecated
+  bool isSetAn_id() => an_id == null;
+  @deprecated
+  bool isSetA_string() => a_string == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case AN_ID:

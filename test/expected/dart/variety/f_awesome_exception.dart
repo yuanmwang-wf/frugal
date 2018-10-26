@@ -31,9 +31,12 @@ class AwesomeException extends Error implements thrift.TBase {
   AwesomeException() {
   }
 
+  @deprecated
   bool isSetID() => ID == null;
+  @deprecated
   bool isSetReason() => Reason == null;
-  bool isSetdepr() => depr == null;
+  @deprecated
+  bool isSetDepr() => depr == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:

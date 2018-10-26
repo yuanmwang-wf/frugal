@@ -178,8 +178,10 @@ class getItem_result implements thrift.TBase {
   getItem_result() {
   }
 
-  bool isSetsuccess() => success == null;
-  bool isSetd() => d == null;
+  @deprecated
+  bool isSetSuccess() => success == null;
+  @deprecated
+  bool isSetD() => d == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:

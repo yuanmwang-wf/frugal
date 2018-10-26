@@ -21,8 +21,10 @@ class PurchasingError extends Error implements thrift.TBase {
   PurchasingError() {
   }
 
-  bool isSetmessage() => message == null;
-  bool isSeterror_code() => error_code == null;
+  @deprecated
+  bool isSetMessage() => message == null;
+  @deprecated
+  bool isSetError_code() => error_code == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGE:

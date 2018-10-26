@@ -32,12 +32,18 @@ class Track implements thrift.TBase {
   Track() {
   }
 
-  bool isSettitle() => title == null;
-  bool isSetartist() => artist == null;
-  bool isSetpublisher() => publisher == null;
-  bool isSetcomposer() => composer == null;
-  bool isSetduration() => duration == null;
-  bool isSetpro() => pro == null;
+  @deprecated
+  bool isSetTitle() => title == null;
+  @deprecated
+  bool isSetArtist() => artist == null;
+  @deprecated
+  bool isSetPublisher() => publisher == null;
+  @deprecated
+  bool isSetComposer() => composer == null;
+  @deprecated
+  bool isSetDuration() => duration == null;
+  @deprecated
+  bool isSetPro() => pro == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case TITLE:

@@ -65,19 +65,32 @@ class EventWrapper implements thrift.TBase {
   EventWrapper() {
   }
 
+  @deprecated
   bool isSetID() => ID == null;
+  @deprecated
   bool isSetEv() => Ev == null;
+  @deprecated
   bool isSetEvents() => Events == null;
+  @deprecated
   bool isSetEvents2() => Events2 == null;
+  @deprecated
   bool isSetEventMap() => EventMap == null;
+  @deprecated
   bool isSetNums() => Nums == null;
+  @deprecated
   bool isSetEnums() => Enums == null;
-  bool isSetaBoolField() => aBoolField == null;
-  bool isSeta_union() => a_union == null;
-  bool isSettypedefOfTypedef() => typedefOfTypedef == null;
-  bool isSetdepr() => depr == null;
-  bool isSetdeprBinary() => deprBinary == null;
-  bool isSetdeprList() => deprList == null;
+  @deprecated
+  bool isSetABoolField() => aBoolField == null;
+  @deprecated
+  bool isSetA_union() => a_union == null;
+  @deprecated
+  bool isSetTypedefOfTypedef() => typedefOfTypedef == null;
+  @deprecated
+  bool isSetDepr() => depr == null;
+  @deprecated
+  bool isSetDeprBinary() => deprBinary == null;
+  @deprecated
+  bool isSetDeprList() => deprList == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:

@@ -29,7 +29,9 @@ class Event implements thrift.TBase {
     this.iD = t_variety.VarietyConstants.DEFAULT_ID;
   }
 
+  @deprecated
   bool isSetID() => ID == null;
+  @deprecated
   bool isSetMessage() => Message == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {

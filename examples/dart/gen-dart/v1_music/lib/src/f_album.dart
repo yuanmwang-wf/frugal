@@ -24,8 +24,11 @@ class Album implements thrift.TBase {
   Album() {
   }
 
-  bool isSettracks() => tracks == null;
-  bool isSetduration() => duration == null;
+  @deprecated
+  bool isSetTracks() => tracks == null;
+  @deprecated
+  bool isSetDuration() => duration == null;
+  @deprecated
   bool isSetASIN() => ASIN == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {

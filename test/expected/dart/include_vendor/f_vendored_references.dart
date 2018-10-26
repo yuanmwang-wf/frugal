@@ -23,8 +23,10 @@ class VendoredReferences implements thrift.TBase {
     this.reference_vendored_enum = t_vendor_namespace.MyEnum.TWO;
   }
 
-  bool isSetreference_vendored_const() => reference_vendored_const == null;
-  bool isSetreference_vendored_enum() => reference_vendored_enum == null;
+  @deprecated
+  bool isSetReference_vendored_const() => reference_vendored_const == null;
+  @deprecated
+  bool isSetReference_vendored_enum() => reference_vendored_enum == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case REFERENCE_VENDORED_CONST:

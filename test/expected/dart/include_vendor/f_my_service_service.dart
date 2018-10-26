@@ -280,12 +280,12 @@ class getItem_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(D != null && this.d != null) {
+    if(d != null && this.d != null) {
       oprot.writeFieldBegin(_D_FIELD_DESC);
       d.write(oprot);
       oprot.writeFieldEnd();

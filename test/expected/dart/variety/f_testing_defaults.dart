@@ -707,7 +707,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeString(thing);
       oprot.writeFieldEnd();
     }
-    if(Thing2 != null && this.thing2 != null) {
+    if(thing2 != null && this.thing2 != null) {
       oprot.writeFieldBegin(_THING2_FIELD_DESC);
       oprot.writeString(thing2);
       oprot.writeFieldEnd();
@@ -729,7 +729,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeBinary(bin_field);
       oprot.writeFieldEnd();
     }
-    if(Bin_field2 != null && this.bin_field2 != null) {
+    if(bin_field2 != null && this.bin_field2 != null) {
       oprot.writeFieldBegin(_BIN_FIELD2_FIELD_DESC);
       oprot.writeBinary(bin_field2);
       oprot.writeFieldEnd();
@@ -739,12 +739,12 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeBinary(bin_field3);
       oprot.writeFieldEnd();
     }
-    if(Bin_field4 != null && this.bin_field4 != null) {
+    if(bin_field4 != null && this.bin_field4 != null) {
       oprot.writeFieldBegin(_BIN_FIELD4_FIELD_DESC);
       oprot.writeBinary(bin_field4);
       oprot.writeFieldEnd();
     }
-    if(List2 != null && this.list2 != null) {
+    if(list2 != null && this.list2 != null) {
       oprot.writeFieldBegin(_LIST2_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, list2.length));
       for(var elem17 in list2) {
@@ -753,7 +753,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if(List3 != null && this.list3 != null) {
+    if(list3 != null && this.list3 != null) {
       oprot.writeFieldBegin(_LIST3_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, list3.length));
       for(var elem18 in list3) {
@@ -771,7 +771,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if(A_map != null && this.a_map != null) {
+    if(a_map != null && this.a_map != null) {
       oprot.writeFieldBegin(_A_MAP_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.STRING, thrift.TType.STRING, a_map.length));
       for(var elem20 in a_map.keys) {

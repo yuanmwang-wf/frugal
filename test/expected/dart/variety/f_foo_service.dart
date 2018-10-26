@@ -1066,17 +1066,17 @@ class blah_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null) {
+    if(success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI64(success);
       oprot.writeFieldEnd();
     }
-    if(Awe != null && this.awe != null) {
+    if(awe != null && this.awe != null) {
       oprot.writeFieldBegin(_AWE_FIELD_DESC);
       awe.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(Api != null && this.api != null) {
+    if(api != null && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1629,12 +1629,12 @@ class bin_method_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBinary(success);
       oprot.writeFieldEnd();
     }
-    if(Api != null && this.api != null) {
+    if(api != null && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1995,7 +1995,7 @@ class param_modifiers_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null) {
+    if(success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI64(success);
       oprot.writeFieldEnd();
@@ -2330,7 +2330,7 @@ class underlying_types_test_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, success.length));
       for(var elem71 in success) {
@@ -2554,7 +2554,7 @@ class getThing_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -2773,7 +2773,7 @@ class getMyInt_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null) {
+    if(success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI32(success);
       oprot.writeFieldEnd();
@@ -3037,7 +3037,7 @@ class use_subdir_struct_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -3303,7 +3303,7 @@ class sayHelloWith_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3569,7 +3569,7 @@ class whatDoYouSay_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3835,7 +3835,7 @@ class sayAgain_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();

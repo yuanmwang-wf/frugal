@@ -928,7 +928,7 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 			ind = tab
 			contents += tabtab + "if("
 			if optional {
-				contents += fmt.Sprintf("%s != null", strings.Title(field.Name))
+				contents += fmt.Sprintf("%s != null", field.Name)
 			}
 			if optional && nullable {
 				contents += " && "

@@ -288,12 +288,12 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI64(anID);
       oprot.writeFieldEnd();
     }
-    if(AString != null && this.aString != null) {
+    if(aString != null && this.aString != null) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
       oprot.writeString(aString);
       oprot.writeFieldEnd();
     }
-    if(Someotherthing != null) {
+    if(someotherthing != null) {
       oprot.writeFieldBegin(_SOMEOTHERTHING_FIELD_DESC);
       oprot.writeI32(someotherthing);
       oprot.writeFieldEnd();
@@ -313,12 +313,12 @@ class TestingUnions implements thrift.TBase {
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
     }
-    if(Bin_field_in_union != null && this.bin_field_in_union != null) {
+    if(bin_field_in_union != null && this.bin_field_in_union != null) {
       oprot.writeFieldBegin(_BIN_FIELD_IN_UNION_FIELD_DESC);
       oprot.writeBinary(bin_field_in_union);
       oprot.writeFieldEnd();
     }
-    if(Depr != null) {
+    if(depr != null) {
       oprot.writeFieldBegin(_DEPR_FIELD_DESC);
       oprot.writeBool(depr);
       oprot.writeFieldEnd();

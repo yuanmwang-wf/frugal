@@ -424,12 +424,12 @@ class buyAlbum_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null && this.success != null) {
+    if(success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(Error != null && this.error != null) {
+    if(error != null && this.error != null) {
       oprot.writeFieldBegin(_ERROR_FIELD_DESC);
       error.write(oprot);
       oprot.writeFieldEnd();
@@ -756,7 +756,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(Success != null) {
+    if(success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBool(success);
       oprot.writeFieldEnd();

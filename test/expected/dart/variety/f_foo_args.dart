@@ -16,51 +16,15 @@ class FooArgs implements thrift.TBase {
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 2);
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 3);
 
-  String _newMessage;
+  String newMessage;
   static const int NEWMESSAGE = 1;
-  String _messageArgs;
+  String messageArgs;
   static const int MESSAGEARGS = 2;
-  String _messageResult;
+  String messageResult;
   static const int MESSAGERESULT = 3;
 
 
   FooArgs() {
-  }
-
-  String get newMessage => this._newMessage;
-
-  set newMessage(String newMessage) {
-    this._newMessage = newMessage;
-  }
-
-  bool isSetNewMessage() => this.newMessage != null;
-
-  unsetNewMessage() {
-    this.newMessage = null;
-  }
-
-  String get messageArgs => this._messageArgs;
-
-  set messageArgs(String messageArgs) {
-    this._messageArgs = messageArgs;
-  }
-
-  bool isSetMessageArgs() => this.messageArgs != null;
-
-  unsetMessageArgs() {
-    this.messageArgs = null;
-  }
-
-  String get messageResult => this._messageResult;
-
-  set messageResult(String messageResult) {
-    this._messageResult = messageResult;
-  }
-
-  bool isSetMessageResult() => this.messageResult != null;
-
-  unsetMessageResult() {
-    this.messageResult = null;
   }
 
   getFieldValue(int fieldID) {
@@ -79,27 +43,15 @@ class FooArgs implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case NEWMESSAGE:
-        if(value == null) {
-          unsetNewMessage();
-        } else {
-          this.newMessage = value as String;
-        }
+        newMessage = value;
         break;
 
       case MESSAGEARGS:
-        if(value == null) {
-          unsetMessageArgs();
-        } else {
-          this.messageArgs = value as String;
-        }
+        messageArgs = value;
         break;
 
       case MESSAGERESULT:
-        if(value == null) {
-          unsetMessageResult();
-        } else {
-          this.messageResult = value as String;
-        }
+        messageResult = value;
         break;
 
       default:
@@ -111,11 +63,14 @@ class FooArgs implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case NEWMESSAGE:
-        return isSetNewMessage();
+        return newMessage == null;
+
       case MESSAGEARGS:
-        return isSetMessageArgs();
+        return messageArgs == null;
+
       case MESSAGERESULT:
-        return isSetMessageResult();
+        return messageResult == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -159,7 +114,6 @@ class FooArgs implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -247,7 +201,5 @@ class FooArgs implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

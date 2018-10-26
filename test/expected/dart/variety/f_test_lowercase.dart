@@ -14,25 +14,11 @@ class TestLowercase implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestLowercase");
   static final thrift.TField _LOWERCASE_INT_FIELD_DESC = new thrift.TField("lowercaseInt", thrift.TType.I32, 1);
 
-  int _lowercaseInt = 0;
+  int lowercaseInt = 0;
   static const int LOWERCASEINT = 1;
 
-  bool __isset_lowercaseInt = false;
 
   TestLowercase() {
-  }
-
-  int get lowercaseInt => this._lowercaseInt;
-
-  set lowercaseInt(int lowercaseInt) {
-    this._lowercaseInt = lowercaseInt;
-    this.__isset_lowercaseInt = true;
-  }
-
-  bool isSetLowercaseInt() => this.__isset_lowercaseInt;
-
-  unsetLowercaseInt() {
-    this.__isset_lowercaseInt = false;
   }
 
   getFieldValue(int fieldID) {
@@ -47,11 +33,7 @@ class TestLowercase implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case LOWERCASEINT:
-        if(value == null) {
-          unsetLowercaseInt();
-        } else {
-          this.lowercaseInt = value as int;
-        }
+        lowercaseInt = value;
         break;
 
       default:
@@ -63,7 +45,8 @@ class TestLowercase implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case LOWERCASEINT:
-        return isSetLowercaseInt();
+        return lowercaseInt == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -81,7 +64,6 @@ class TestLowercase implements thrift.TBase {
         case LOWERCASEINT:
           if(field.type == thrift.TType.I32) {
             lowercaseInt = iprot.readI32();
-            this.__isset_lowercaseInt = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -94,7 +76,6 @@ class TestLowercase implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -142,7 +123,5 @@ class TestLowercase implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

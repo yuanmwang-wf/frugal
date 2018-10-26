@@ -134,37 +134,13 @@ class buyAlbum_args implements thrift.TBase {
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 1);
   static final thrift.TField _ACCT_FIELD_DESC = new thrift.TField("acct", thrift.TType.STRING, 2);
 
-  String _aSIN;
+  String aSIN;
   static const int ASIN = 1;
-  String _acct;
+  String acct;
   static const int ACCT = 2;
 
 
   buyAlbum_args() {
-  }
-
-  String get aSIN => this._aSIN;
-
-  set aSIN(String aSIN) {
-    this._aSIN = aSIN;
-  }
-
-  bool isSetASIN() => this.aSIN != null;
-
-  unsetASIN() {
-    this.aSIN = null;
-  }
-
-  String get acct => this._acct;
-
-  set acct(String acct) {
-    this._acct = acct;
-  }
-
-  bool isSetAcct() => this.acct != null;
-
-  unsetAcct() {
-    this.acct = null;
   }
 
   getFieldValue(int fieldID) {
@@ -181,19 +157,11 @@ class buyAlbum_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ASIN:
-        if(value == null) {
-          unsetASIN();
-        } else {
-          this.aSIN = value as String;
-        }
+        aSIN = value;
         break;
 
       case ACCT:
-        if(value == null) {
-          unsetAcct();
-        } else {
-          this.acct = value as String;
-        }
+        acct = value;
         break;
 
       default:
@@ -205,9 +173,11 @@ class buyAlbum_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ASIN:
-        return isSetASIN();
+        return ASIN == null;
+
       case ACCT:
-        return isSetAcct();
+        return acct == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -244,7 +214,6 @@ class buyAlbum_args implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -315,8 +284,6 @@ class buyAlbum_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 class buyAlbum_result implements thrift.TBase {
@@ -324,37 +291,13 @@ class buyAlbum_result implements thrift.TBase {
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _ERROR_FIELD_DESC = new thrift.TField("error", thrift.TType.STRUCT, 1);
 
-  t_v1_music.Album _success;
+  t_v1_music.Album success;
   static const int SUCCESS = 0;
-  t_v1_music.PurchasingError _error;
+  t_v1_music.PurchasingError error;
   static const int ERROR = 1;
 
 
   buyAlbum_result() {
-  }
-
-  t_v1_music.Album get success => this._success;
-
-  set success(t_v1_music.Album success) {
-    this._success = success;
-  }
-
-  bool isSetSuccess() => this.success != null;
-
-  unsetSuccess() {
-    this.success = null;
-  }
-
-  t_v1_music.PurchasingError get error => this._error;
-
-  set error(t_v1_music.PurchasingError error) {
-    this._error = error;
-  }
-
-  bool isSetError() => this.error != null;
-
-  unsetError() {
-    this.error = null;
   }
 
   getFieldValue(int fieldID) {
@@ -371,19 +314,11 @@ class buyAlbum_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        if(value == null) {
-          unsetSuccess();
-        } else {
-          this.success = value as t_v1_music.Album;
-        }
+        success = value;
         break;
 
       case ERROR:
-        if(value == null) {
-          unsetError();
-        } else {
-          this.error = value as t_v1_music.PurchasingError;
-        }
+        error = value;
         break;
 
       default:
@@ -395,9 +330,11 @@ class buyAlbum_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return isSetSuccess();
+        return success == null;
+
       case ERROR:
-        return isSetError();
+        return error == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -436,7 +373,6 @@ class buyAlbum_result implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -444,12 +380,12 @@ class buyAlbum_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if(Success != null && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(isSetError() && this.error != null) {
+    if(Error != null && this.error != null) {
       oprot.writeFieldBegin(_ERROR_FIELD_DESC);
       error.write(oprot);
       oprot.writeFieldEnd();
@@ -461,7 +397,7 @@ class buyAlbum_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("buyAlbum_result(");
 
-    if(isSetSuccess()) {
+    if(Success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -470,7 +406,7 @@ class buyAlbum_result implements thrift.TBase {
       }
     }
 
-    if(isSetError()) {
+    if(Error != null) {
       ret.write(", ");
       ret.write("error:");
       if(this.error == null) {
@@ -511,8 +447,6 @@ class buyAlbum_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 class enterAlbumGiveaway_args implements thrift.TBase {
@@ -520,37 +454,13 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   static final thrift.TField _EMAIL_FIELD_DESC = new thrift.TField("email", thrift.TType.STRING, 1);
   static final thrift.TField _NAME_FIELD_DESC = new thrift.TField("name", thrift.TType.STRING, 2);
 
-  String _email;
+  String email;
   static const int EMAIL = 1;
-  String _name;
+  String name;
   static const int NAME = 2;
 
 
   enterAlbumGiveaway_args() {
-  }
-
-  String get email => this._email;
-
-  set email(String email) {
-    this._email = email;
-  }
-
-  bool isSetEmail() => this.email != null;
-
-  unsetEmail() {
-    this.email = null;
-  }
-
-  String get name => this._name;
-
-  set name(String name) {
-    this._name = name;
-  }
-
-  bool isSetName() => this.name != null;
-
-  unsetName() {
-    this.name = null;
   }
 
   getFieldValue(int fieldID) {
@@ -567,19 +477,11 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case EMAIL:
-        if(value == null) {
-          unsetEmail();
-        } else {
-          this.email = value as String;
-        }
+        email = value;
         break;
 
       case NAME:
-        if(value == null) {
-          unsetName();
-        } else {
-          this.name = value as String;
-        }
+        name = value;
         break;
 
       default:
@@ -591,9 +493,11 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case EMAIL:
-        return isSetEmail();
+        return email == null;
+
       case NAME:
-        return isSetName();
+        return name == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -630,7 +534,6 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -701,33 +604,17 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 class enterAlbumGiveaway_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.BOOL, 0);
 
-  bool _success;
+  bool success;
   static const int SUCCESS = 0;
 
-  bool __isset_success = false;
 
   enterAlbumGiveaway_result() {
-  }
-
-  bool get success => this._success;
-
-  set success(bool success) {
-    this._success = success;
-    this.__isset_success = true;
-  }
-
-  bool isSetSuccess() => this.__isset_success;
-
-  unsetSuccess() {
-    this.__isset_success = false;
   }
 
   getFieldValue(int fieldID) {
@@ -742,11 +629,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        if(value == null) {
-          unsetSuccess();
-        } else {
-          this.success = value as bool;
-        }
+        success = value;
         break;
 
       default:
@@ -758,7 +641,8 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return isSetSuccess();
+        return success == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -776,7 +660,6 @@ class enterAlbumGiveaway_result implements thrift.TBase {
         case SUCCESS:
           if(field.type == thrift.TType.BOOL) {
             success = iprot.readBool();
-            this.__isset_success = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -789,7 +672,6 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -797,7 +679,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess()) {
+    if(Success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBool(success);
       oprot.writeFieldEnd();
@@ -809,7 +691,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("enterAlbumGiveaway_result(");
 
-    if(isSetSuccess()) {
+    if(Success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -841,7 +723,5 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

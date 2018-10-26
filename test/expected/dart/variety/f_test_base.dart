@@ -14,23 +14,11 @@ class TestBase implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestBase");
   static final thrift.TField _BASE_STRUCT_FIELD_DESC = new thrift.TField("base_struct", thrift.TType.STRUCT, 1);
 
-  t_actual_base_dart.thing _base_struct;
+  t_actual_base_dart.thing base_struct;
   static const int BASE_STRUCT = 1;
 
 
   TestBase() {
-  }
-
-  t_actual_base_dart.thing get base_struct => this._base_struct;
-
-  set base_struct(t_actual_base_dart.thing base_struct) {
-    this._base_struct = base_struct;
-  }
-
-  bool isSetBase_struct() => this.base_struct != null;
-
-  unsetBase_struct() {
-    this.base_struct = null;
   }
 
   getFieldValue(int fieldID) {
@@ -45,11 +33,7 @@ class TestBase implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case BASE_STRUCT:
-        if(value == null) {
-          unsetBase_struct();
-        } else {
-          this.base_struct = value as t_actual_base_dart.thing;
-        }
+        base_struct = value;
         break;
 
       default:
@@ -61,7 +45,8 @@ class TestBase implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case BASE_STRUCT:
-        return isSetBase_struct();
+        return base_struct == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -92,7 +77,6 @@ class TestBase implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -146,7 +130,5 @@ class TestBase implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

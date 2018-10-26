@@ -12,39 +12,13 @@ class PurchasingError extends Error implements thrift.TBase {
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("message", thrift.TType.STRING, 1);
   static final thrift.TField _ERROR_CODE_FIELD_DESC = new thrift.TField("error_code", thrift.TType.I16, 2);
 
-  String _message;
+  String message;
   static const int MESSAGE = 1;
-  int _error_code = 0;
+  int error_code = 0;
   static const int ERROR_CODE = 2;
 
-  bool __isset_error_code = false;
 
   PurchasingError() {
-  }
-
-  String get message => this._message;
-
-  set message(String message) {
-    this._message = message;
-  }
-
-  bool isSetMessage() => this.message != null;
-
-  unsetMessage() {
-    this.message = null;
-  }
-
-  int get error_code => this._error_code;
-
-  set error_code(int error_code) {
-    this._error_code = error_code;
-    this.__isset_error_code = true;
-  }
-
-  bool isSetError_code() => this.__isset_error_code;
-
-  unsetError_code() {
-    this.__isset_error_code = false;
   }
 
   getFieldValue(int fieldID) {
@@ -61,19 +35,11 @@ class PurchasingError extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case MESSAGE:
-        if(value == null) {
-          unsetMessage();
-        } else {
-          this.message = value as String;
-        }
+        message = value;
         break;
 
       case ERROR_CODE:
-        if(value == null) {
-          unsetError_code();
-        } else {
-          this.error_code = value as int;
-        }
+        error_code = value;
         break;
 
       default:
@@ -85,9 +51,11 @@ class PurchasingError extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case MESSAGE:
-        return isSetMessage();
+        return message == null;
+
       case ERROR_CODE:
-        return isSetError_code();
+        return error_code == null;
+
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -112,7 +80,6 @@ class PurchasingError extends Error implements thrift.TBase {
         case ERROR_CODE:
           if(field.type == thrift.TType.I16) {
             error_code = iprot.readI16();
-            this.__isset_error_code = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -125,7 +92,6 @@ class PurchasingError extends Error implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -190,7 +156,5 @@ class PurchasingError extends Error implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

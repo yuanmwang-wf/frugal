@@ -654,18 +654,11 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 	// Fields
 	for _, field := range s.Fields {
 		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
-		contents += fmt.Sprintf(tab+"%s _%s%s;\n",
+		contents += fmt.Sprintf(tab+"%s %s%s;\n",
 			g.getDartTypeFromThriftType(field.Type), toFieldName(field.Name), g.generateInitValue(field))
 		contents += fmt.Sprintf(tab+"static const int %s = %d;\n", strings.ToUpper(field.Name), field.ID)
 	}
 	contents += "\n"
-
-	// Is set helpers for primitive types.
-	for _, field := range s.Fields {
-		if g.isDartPrimitive(field.Type) {
-			contents += fmt.Sprintf(tab+"bool __isset_%s = false;\n", toFieldName(field.Name))
-		}
-	}
 
 	// Constructor
 	contents += "\n"
@@ -725,42 +718,8 @@ func (g *Generator) generateInitValue(field *parser.Field) string {
 }
 
 func (g *Generator) generateFieldMethods(s *parser.Struct) string {
-	// Getters and setters for each field
-	contents := ""
-	for _, field := range s.Fields {
-		dartType := g.getDartTypeFromThriftType(field.Type)
-		dartPrimitive := g.isDartPrimitive(field.Type)
-		fName := toFieldName(field.Name)
-		titleName := strings.Title(field.Name)
-
-		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
-		contents += fmt.Sprintf(tab+"%s get %s => this._%s;\n\n", dartType, fName, fName)
-		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
-		contents += fmt.Sprintf(tab+"set %s(%s %s) {\n", fName, dartType, fName)
-		contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", fName, fName)
-		if dartPrimitive {
-			contents += fmt.Sprintf(tabtab+"this.__isset_%s = true;\n", fName)
-		}
-		contents += tab + "}\n\n"
-
-		if field.Annotations.IsDeprecated() {
-			contents += tab + "@deprecated"
-		}
-		if dartPrimitive {
-			contents += fmt.Sprintf(tab+"bool isSet%s() => this.__isset_%s;\n\n", titleName, fName)
-			contents += fmt.Sprintf(tab+"unset%s() {\n", titleName)
-			contents += fmt.Sprintf(tabtab+"this.__isset_%s = false;\n", fName)
-			contents += tab + "}\n\n"
-		} else {
-			contents += fmt.Sprintf(tab+"bool isSet%s() => this.%s != null;\n\n", titleName, fName)
-			contents += fmt.Sprintf(tab+"unset%s() {\n", titleName)
-			contents += fmt.Sprintf(tabtab+"this.%s = null;\n", fName)
-			contents += tab + "}\n\n"
-		}
-	}
-
 	// getFieldValue
-	contents += tab + "getFieldValue(int fieldID) {\n"
+	contents := tab + "getFieldValue(int fieldID) {\n"
 	contents += tabtab + "switch (fieldID) {\n"
 	for _, field := range s.Fields {
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
@@ -777,11 +736,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		fName := toFieldName(field.Name)
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += tabtabtabtab + "if(value == null) {\n"
-		contents += fmt.Sprintf(tabtabtabtabtab+"unset%s();\n", strings.Title(field.Name))
-		contents += tabtabtabtab + "} else {\n"
-		contents += fmt.Sprintf(tabtabtabtabtab+"this.%s = value as %s;\n", fName, g.getDartTypeFromThriftType(field.Type))
-		contents += tabtabtabtab + "}\n"
+		contents += fmt.Sprintf(tabtabtabtab+"%s = value;\n", fName)
 		contents += tabtabtabtab + "break;\n\n"
 	}
 	contents += tabtabtab + "default:\n"
@@ -795,7 +750,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	contents += tabtab + "switch(fieldID) {\n"
 	for _, field := range s.Fields {
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += fmt.Sprintf(tabtabtabtab+"return isSet%s();\n", strings.Title(field.Name))
+		contents += fmt.Sprintf(tabtabtabtab+"return %s == null;\n\n", field.Name)
 	}
 	contents += tabtabtab + "default:\n"
 	contents += tabtabtabtab + "throw new ArgumentError(\"Field $fieldID doesn't exist!\");\n"
@@ -833,11 +788,15 @@ func (g *Generator) generateRead(s *parser.Struct) string {
 	contents += tabtab + "iprot.readStructEnd();\n\n"
 
 	// validate primitives
-	contents += tabtab + "// check for required fields of primitive type, which can't be checked in the validate method\n"
+	first := true
 	for _, field := range s.Fields {
 		if field.Modifier == parser.Required && g.isDartPrimitive(field.Type) {
+			if first {
+				first = false
+				contents += tabtab + "// check for required fields of primitive type, which can't be checked in the validate method\n"
+			}
 			fName := toFieldName(field.Name)
-			contents += fmt.Sprintf(tabtab+"if(!__isset_%s) {\n", fName)
+			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", fName)
 			contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Required field '%s' is not present in struct '%s'\");\n", fName, s.Name)
 			contents += tabtab + "}\n"
 		}
@@ -859,7 +818,6 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 
 	fName := toFieldName(field.Name)
 	underlyingType := g.Frugal.UnderlyingType(field.Type)
-	primitive := g.isDartPrimitive(underlyingType)
 	if underlyingType.IsPrimitive() {
 		thriftType := ""
 		switch underlyingType.Name {
@@ -884,9 +842,6 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 		}
 
 		contents += fmt.Sprintf(ind+"%s%s = iprot.read%s();\n", prefix, fName, thriftType)
-		if primitive && first {
-			contents += fmt.Sprintf(ind+"this.__isset_%s = true;\n", fName)
-		}
 	} else if g.Frugal.IsEnum(underlyingType) {
 		if g.useEnums() {
 			contents += fmt.Sprintf(ind+"%s%s = %s.deserialize%s(iprot.readI32());\n",
@@ -896,7 +851,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 		}
 
 		if first {
-			contents += fmt.Sprintf(ind+"this.__isset_%s = true;\n", fName)
+			contents += fmt.Sprintf(ind+"%s = null;\n", fName)
 		}
 	} else if g.Frugal.IsStruct(underlyingType) {
 		contents += fmt.Sprintf(ind+"%s%s = new %s();\n", prefix, fName, dartType)
@@ -960,7 +915,7 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 			ind = tab
 			contents += tabtab + "if("
 			if optional {
-				contents += fmt.Sprintf("isSet%s()", strings.Title(field.Name))
+				contents += fmt.Sprintf("%s != null", strings.Title(field.Name))
 			}
 			if optional && nullable {
 				contents += " && "
@@ -1072,7 +1027,7 @@ func (g *Generator) generateToString(s *parser.Struct) string {
 		ind := ""
 		optInd := ""
 		if optional {
-			contents += fmt.Sprintf(tabtab+"if(isSet%s()) {\n", strings.Title(field.Name))
+			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", strings.Title(field.Name))
 			ind += tab
 			optInd = tab
 		}
@@ -1160,9 +1115,9 @@ func (g *Generator) generateHashCode(s *parser.Struct) string {
 	contents += tabtab + "var value = 17;\n"
 	for _, field := range s.Fields {
 		fieldName := toFieldName(field.Name)
-		contents += fmt.Sprintf(tabtab + "value = (value * 31) ^ %s.hashCode;\n", fieldName)
+		contents += fmt.Sprintf(tabtab+"value = (value * 31) ^ %s.hashCode;\n", fieldName)
 	}
-	contents += tabtab + "return value;\n";
+	contents += tabtab + "return value;\n"
 	contents += tab + "}\n\n"
 	return contents
 }
@@ -1198,9 +1153,13 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 	contents := tab + "validate() {\n"
 
 	if s.Type != parser.StructTypeUnion {
-		contents += tabtab + "// check for required fields\n"
+		first := true
 		for _, field := range s.Fields {
 			if field.Modifier == parser.Required {
+				if first {
+					first = false
+					contents += tabtab + "// check for required fields\n"
+				}
 				fName := toFieldName(field.Name)
 				if !g.isDartPrimitive(field.Type) {
 					contents += fmt.Sprintf(tabtab+"if(%s == null) {\n", fName)
@@ -1213,7 +1172,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 		contents += tabtab + "// check exactly one field is set\n"
 		contents += tabtab + "int setFields = 0;\n"
 		for _, field := range s.Fields {
-			contents += fmt.Sprintf(tabtab+"if(isSet%s()) {\n", strings.Title(field.Name))
+			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", strings.Title(field.Name))
 			contents += tabtabtab + "setFields++;\n"
 			contents += tabtab + "}\n"
 		}
@@ -1223,13 +1182,16 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 	}
 
 	if !g.useEnums() {
-		contents += tabtab + "// check that fields of type enum have valid values\n"
+		first := false
 		for _, field := range s.Fields {
 			if g.Frugal.IsEnum(field.Type) {
+				if first {
+					first = false
+					contents += tabtab + "// check that fields of type enum have valid values\n"
+				}
 				fName := toFieldName(field.Name)
-				isSetCheck := fmt.Sprintf("isSet%s()", strings.Title(field.Name))
-				contents += fmt.Sprintf(tabtab+"if(%s && !%s.VALID_VALUES.contains(%s)) {\n",
-					isSetCheck, g.qualifiedTypeName(field.Type), fName)
+				contents += fmt.Sprintf(tabtab+"if(%s != null && !%s.VALID_VALUES.contains(%s)) {\n",
+					fName, g.qualifiedTypeName(field.Type), fName)
 				contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"The field '%s' has been assigned the invalid value $%s\");\n", fName, fName)
 				contents += tabtab + "}\n"
 			}

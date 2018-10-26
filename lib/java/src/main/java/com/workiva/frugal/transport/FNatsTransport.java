@@ -45,7 +45,7 @@ public class FNatsTransport extends FAsyncTransport {
     private final Connection conn;
     private final String subject;
     private final String inbox;
-    private Dispatcher dispathcer;
+    private Dispatcher dispatcher;
 
     private FNatsTransport(Connection conn, String subject, String inbox) {
         this.requestSizeLimit = NATS_MAX_MESSAGE_SIZE;
@@ -91,7 +91,7 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public boolean isOpen() {
-        return dispathcer != null && conn.getStatus() == Status.CONNECTED;
+        return dispatcher != null && conn.getStatus() == Status.CONNECTED;
     }
 
     /**
@@ -104,11 +104,11 @@ public class FNatsTransport extends FAsyncTransport {
         if (conn.getStatus() != Status.CONNECTED) {
             throw getClosedConditionException(conn.getStatus(), "open:");
         }
-        if (dispathcer != null) {
+        if (dispatcher != null) {
             throw new TTransportException(TTransportExceptionType.ALREADY_OPEN, "NATS transport already open");
         }
-        dispathcer = conn.createDispatcher(new Handler());
-        dispathcer.subscribe(inbox);
+        dispatcher = conn.createDispatcher(new Handler());
+        dispatcher.subscribe(inbox);
     }
 
     /**
@@ -116,15 +116,15 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void close() {
-        if (dispathcer == null) {
+        if (dispatcher == null) {
             return;
         }
         try {
-            dispathcer.unsubscribe(subject);
+            dispatcher.unsubscribe(subject);
         } catch (IllegalStateException e) {
             LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
         }
-        dispathcer = null;
+        dispatcher = null;
         super.close();
     }
 

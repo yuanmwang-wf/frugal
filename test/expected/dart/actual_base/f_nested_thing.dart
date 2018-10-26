@@ -17,7 +17,7 @@ class nested_thing implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetThings() => things == null;
+  bool isSetThings() => things != null;
 
   @deprecated
   unsetThings() => things = null;

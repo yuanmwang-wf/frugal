@@ -144,13 +144,13 @@ class buyAlbum_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetASIN() => ASIN == null;
+  bool isSetASIN() => ASIN != null;
 
   @deprecated
   unsetASIN() => ASIN = null;
 
   @deprecated
-  bool isSetAcct() => acct == null;
+  bool isSetAcct() => acct != null;
 
   @deprecated
   unsetAcct() => acct = null;
@@ -323,13 +323,13 @@ class buyAlbum_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
 
   @deprecated
-  bool isSetError() => error == null;
+  bool isSetError() => error != null;
 
   @deprecated
   unsetError() => error = null;
@@ -508,13 +508,13 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetEmail() => email == null;
+  bool isSetEmail() => email != null;
 
   @deprecated
   unsetEmail() => email = null;
 
   @deprecated
-  bool isSetName() => name == null;
+  bool isSetName() => name != null;
 
   @deprecated
   unsetName() => name = null;
@@ -684,7 +684,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;

@@ -22,7 +22,7 @@ class TestLowercase implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetLowercaseInt() => lowercaseInt == null;
+  bool isSetLowercaseInt() => lowercaseInt != null;
 
   @deprecated
   unsetLowercaseInt() => lowercaseInt = null;

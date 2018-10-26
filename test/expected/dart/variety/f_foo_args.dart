@@ -28,19 +28,19 @@ class FooArgs implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetNewMessage() => newMessage == null;
+  bool isSetNewMessage() => newMessage != null;
 
   @deprecated
   unsetNewMessage() => newMessage = null;
 
   @deprecated
-  bool isSetMessageArgs() => messageArgs == null;
+  bool isSetMessageArgs() => messageArgs != null;
 
   @deprecated
   unsetMessageArgs() => messageArgs = null;
 
   @deprecated
-  bool isSetMessageResult() => messageResult == null;
+  bool isSetMessageResult() => messageResult != null;
 
   @deprecated
   unsetMessageResult() => messageResult = null;

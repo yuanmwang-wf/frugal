@@ -24,13 +24,13 @@ class VendoredReferences implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetReference_vendored_const() => reference_vendored_const == null;
+  bool isSetReference_vendored_const() => reference_vendored_const != null;
 
   @deprecated
   unsetReference_vendored_const() => reference_vendored_const = null;
 
   @deprecated
-  bool isSetReference_vendored_enum() => reference_vendored_enum == null;
+  bool isSetReference_vendored_enum() => reference_vendored_enum != null;
 
   @deprecated
   unsetReference_vendored_enum() => reference_vendored_enum = null;

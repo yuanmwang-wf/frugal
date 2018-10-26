@@ -179,13 +179,13 @@ class getItem_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
 
   @deprecated
-  bool isSetD() => d == null;
+  bool isSetD() => d != null;
 
   @deprecated
   unsetD() => d = null;

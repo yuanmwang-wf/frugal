@@ -111,109 +111,109 @@ class TestingDefaults implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID2() => ID2 == null;
+  bool isSetID2() => ID2 != null;
 
   @deprecated
   unsetID2() => ID2 = null;
 
   @deprecated
-  bool isSetEv1() => ev1 == null;
+  bool isSetEv1() => ev1 != null;
 
   @deprecated
   unsetEv1() => ev1 = null;
 
   @deprecated
-  bool isSetEv2() => ev2 == null;
+  bool isSetEv2() => ev2 != null;
 
   @deprecated
   unsetEv2() => ev2 = null;
 
   @deprecated
-  bool isSetID() => ID == null;
+  bool isSetID() => ID != null;
 
   @deprecated
   unsetID() => ID = null;
 
   @deprecated
-  bool isSetThing() => thing == null;
+  bool isSetThing() => thing != null;
 
   @deprecated
   unsetThing() => thing = null;
 
   @deprecated
-  bool isSetThing2() => thing2 == null;
+  bool isSetThing2() => thing2 != null;
 
   @deprecated
   unsetThing2() => thing2 = null;
 
   @deprecated
-  bool isSetListfield() => listfield == null;
+  bool isSetListfield() => listfield != null;
 
   @deprecated
   unsetListfield() => listfield = null;
 
   @deprecated
-  bool isSetID3() => ID3 == null;
+  bool isSetID3() => ID3 != null;
 
   @deprecated
   unsetID3() => ID3 = null;
 
   @deprecated
-  bool isSetBin_field() => bin_field == null;
+  bool isSetBin_field() => bin_field != null;
 
   @deprecated
   unsetBin_field() => bin_field = null;
 
   @deprecated
-  bool isSetBin_field2() => bin_field2 == null;
+  bool isSetBin_field2() => bin_field2 != null;
 
   @deprecated
   unsetBin_field2() => bin_field2 = null;
 
   @deprecated
-  bool isSetBin_field3() => bin_field3 == null;
+  bool isSetBin_field3() => bin_field3 != null;
 
   @deprecated
   unsetBin_field3() => bin_field3 = null;
 
   @deprecated
-  bool isSetBin_field4() => bin_field4 == null;
+  bool isSetBin_field4() => bin_field4 != null;
 
   @deprecated
   unsetBin_field4() => bin_field4 = null;
 
   @deprecated
-  bool isSetList2() => list2 == null;
+  bool isSetList2() => list2 != null;
 
   @deprecated
   unsetList2() => list2 = null;
 
   @deprecated
-  bool isSetList3() => list3 == null;
+  bool isSetList3() => list3 != null;
 
   @deprecated
   unsetList3() => list3 = null;
 
   @deprecated
-  bool isSetList4() => list4 == null;
+  bool isSetList4() => list4 != null;
 
   @deprecated
   unsetList4() => list4 = null;
 
   @deprecated
-  bool isSetA_map() => a_map == null;
+  bool isSetA_map() => a_map != null;
 
   @deprecated
   unsetA_map() => a_map = null;
 
   @deprecated
-  bool isSetStatus() => status == null;
+  bool isSetStatus() => status != null;
 
   @deprecated
   unsetStatus() => status = null;
 
   @deprecated
-  bool isSetBase_status() => base_status == null;
+  bool isSetBase_status() => base_status != null;
 
   @deprecated
   unsetBase_status() => base_status = null;

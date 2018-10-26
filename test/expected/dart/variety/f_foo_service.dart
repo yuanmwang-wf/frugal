@@ -717,19 +717,19 @@ class blah_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetNum() => num == null;
+  bool isSetNum() => num != null;
 
   @deprecated
   unsetNum() => num = null;
 
   @deprecated
-  bool isSetStr() => Str == null;
+  bool isSetStr() => Str != null;
 
   @deprecated
   unsetStr() => Str = null;
 
   @deprecated
-  bool isSetEvent() => event == null;
+  bool isSetEvent() => event != null;
 
   @deprecated
   unsetEvent() => event = null;
@@ -938,19 +938,19 @@ class blah_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
 
   @deprecated
-  bool isSetAwe() => awe == null;
+  bool isSetAwe() => awe != null;
 
   @deprecated
   unsetAwe() => awe = null;
 
   @deprecated
-  bool isSetApi() => api == null;
+  bool isSetApi() => api != null;
 
   @deprecated
   unsetApi() => api = null;
@@ -1165,13 +1165,13 @@ class oneWay_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetId() => id == null;
+  bool isSetId() => id != null;
 
   @deprecated
   unsetId() => id = null;
 
   @deprecated
-  bool isSetReq() => req == null;
+  bool isSetReq() => req != null;
 
   @deprecated
   unsetReq() => req = null;
@@ -1350,13 +1350,13 @@ class bin_method_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetBin() => bin == null;
+  bool isSetBin() => bin != null;
 
   @deprecated
   unsetBin() => bin = null;
 
   @deprecated
-  bool isSetStr() => Str == null;
+  bool isSetStr() => Str != null;
 
   @deprecated
   unsetStr() => Str = null;
@@ -1529,13 +1529,13 @@ class bin_method_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
 
   @deprecated
-  bool isSetApi() => api == null;
+  bool isSetApi() => api != null;
 
   @deprecated
   unsetApi() => api = null;
@@ -1716,19 +1716,19 @@ class param_modifiers_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetOpt_num() => opt_num == null;
+  bool isSetOpt_num() => opt_num != null;
 
   @deprecated
   unsetOpt_num() => opt_num = null;
 
   @deprecated
-  bool isSetDefault_num() => default_num == null;
+  bool isSetDefault_num() => default_num != null;
 
   @deprecated
   unsetDefault_num() => default_num = null;
 
   @deprecated
-  bool isSetReq_num() => req_num == null;
+  bool isSetReq_num() => req_num != null;
 
   @deprecated
   unsetReq_num() => req_num = null;
@@ -1923,7 +1923,7 @@ class param_modifiers_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -2056,13 +2056,13 @@ class underlying_types_test_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetList_type() => list_type == null;
+  bool isSetList_type() => list_type != null;
 
   @deprecated
   unsetList_type() => list_type = null;
 
   @deprecated
-  bool isSetSet_type() => set_type == null;
+  bool isSetSet_type() => set_type != null;
 
   @deprecated
   unsetSet_type() => set_type = null;
@@ -2252,7 +2252,7 @@ class underlying_types_test_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -2481,7 +2481,7 @@ class getThing_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -2701,7 +2701,7 @@ class getMyInt_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -2831,7 +2831,7 @@ class use_subdir_struct_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetA() => a == null;
+  bool isSetA() => a != null;
 
   @deprecated
   unsetA() => a = null;
@@ -2964,7 +2964,7 @@ class use_subdir_struct_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -3099,7 +3099,7 @@ class sayHelloWith_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetNewMessage() => newMessage == null;
+  bool isSetNewMessage() => newMessage != null;
 
   @deprecated
   unsetNewMessage() => newMessage = null;
@@ -3231,7 +3231,7 @@ class sayHelloWith_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -3365,7 +3365,7 @@ class whatDoYouSay_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetMessageArgs() => messageArgs == null;
+  bool isSetMessageArgs() => messageArgs != null;
 
   @deprecated
   unsetMessageArgs() => messageArgs = null;
@@ -3497,7 +3497,7 @@ class whatDoYouSay_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;
@@ -3631,7 +3631,7 @@ class sayAgain_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetMessageResult() => messageResult == null;
+  bool isSetMessageResult() => messageResult != null;
 
   @deprecated
   unsetMessageResult() => messageResult = null;
@@ -3763,7 +3763,7 @@ class sayAgain_result implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetSuccess() => success == null;
+  bool isSetSuccess() => success != null;
 
   @deprecated
   unsetSuccess() => success = null;

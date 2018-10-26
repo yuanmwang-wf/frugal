@@ -30,13 +30,13 @@ class Event implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID() => ID == null;
+  bool isSetID() => ID != null;
 
   @deprecated
   unsetID() => ID = null;
 
   @deprecated
-  bool isSetMessage() => Message == null;
+  bool isSetMessage() => Message != null;
 
   @deprecated
   unsetMessage() => Message = null;

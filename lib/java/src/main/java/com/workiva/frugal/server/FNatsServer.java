@@ -28,11 +28,13 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 
 import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
 
@@ -95,7 +97,7 @@ public class FNatsServer implements FServer {
         private final FProtocolFactory protoFactory;
         private final String[] subjects;
 
-        private String queue = "";
+        private String queue = UUID.randomUUID().toString().replace("-", "");
         private int workerCount = 1;
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;

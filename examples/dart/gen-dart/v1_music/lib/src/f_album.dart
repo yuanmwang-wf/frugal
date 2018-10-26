@@ -37,10 +37,10 @@ class Album implements thrift.TBase {
   unsetDuration() => duration = null;
 
   @deprecated
-  bool isSetASIN() => ASIN != null;
+  bool isSetASIN() => aSIN != null;
 
   @deprecated
-  unsetASIN() => ASIN = null;
+  unsetASIN() => aSIN = null;
 
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -99,7 +99,7 @@ class Album implements thrift.TBase {
         return duration == null;
 
       case ASIN:
-        return ASIN == null;
+        return aSIN == null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

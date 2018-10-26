@@ -723,10 +723,10 @@ class blah_args implements thrift.TBase {
   unsetNum() => num = null;
 
   @deprecated
-  bool isSetStr() => Str != null;
+  bool isSetStr() => str != null;
 
   @deprecated
-  unsetStr() => Str = null;
+  unsetStr() => str = null;
 
   @deprecated
   bool isSetEvent() => event != null;
@@ -788,7 +788,7 @@ class blah_args implements thrift.TBase {
         return num == null;
 
       case STR:
-        return Str == null;
+        return str == null;
 
       case EVENT:
         return event == null;
@@ -1088,12 +1088,12 @@ class blah_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("blah_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
 
-    if(Awe != null) {
+    if(awe != null) {
       ret.write(", ");
       ret.write("awe:");
       if(this.awe == null) {
@@ -1103,7 +1103,7 @@ class blah_result implements thrift.TBase {
       }
     }
 
-    if(Api != null) {
+    if(api != null) {
       ret.write(", ");
       ret.write("api:");
       if(this.api == null) {
@@ -1356,10 +1356,10 @@ class bin_method_args implements thrift.TBase {
   unsetBin() => bin = null;
 
   @deprecated
-  bool isSetStr() => Str != null;
+  bool isSetStr() => str != null;
 
   @deprecated
-  unsetStr() => Str = null;
+  unsetStr() => str = null;
 
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -1404,7 +1404,7 @@ class bin_method_args implements thrift.TBase {
         return bin == null;
 
       case STR:
-        return Str == null;
+        return str == null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1646,7 +1646,7 @@ class bin_method_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("bin_method_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -1655,7 +1655,7 @@ class bin_method_result implements thrift.TBase {
       }
     }
 
-    if(Api != null) {
+    if(api != null) {
       ret.write(", ");
       ret.write("api:");
       if(this.api == null) {
@@ -2007,7 +2007,7 @@ class param_modifiers_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("param_modifiers_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -2346,7 +2346,7 @@ class underlying_types_test_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("underlying_types_test_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -2566,7 +2566,7 @@ class getThing_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getThing_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -2785,7 +2785,7 @@ class getMyInt_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getMyInt_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -3049,7 +3049,7 @@ class use_subdir_struct_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("use_subdir_struct_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -3315,7 +3315,7 @@ class sayHelloWith_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("sayHelloWith_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -3581,7 +3581,7 @@ class whatDoYouSay_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("whatDoYouSay_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -3847,7 +3847,7 @@ class sayAgain_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("sayAgain_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");

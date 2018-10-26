@@ -111,10 +111,10 @@ class TestingDefaults implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID2() => ID2 != null;
+  bool isSetID2() => iD2 != null;
 
   @deprecated
-  unsetID2() => ID2 = null;
+  unsetID2() => iD2 = null;
 
   @deprecated
   bool isSetEv1() => ev1 != null;
@@ -129,10 +129,10 @@ class TestingDefaults implements thrift.TBase {
   unsetEv2() => ev2 = null;
 
   @deprecated
-  bool isSetID() => ID != null;
+  bool isSetID() => iD != null;
 
   @deprecated
-  unsetID() => ID = null;
+  unsetID() => iD = null;
 
   @deprecated
   bool isSetThing() => thing != null;
@@ -153,10 +153,10 @@ class TestingDefaults implements thrift.TBase {
   unsetListfield() => listfield = null;
 
   @deprecated
-  bool isSetID3() => ID3 != null;
+  bool isSetID3() => iD3 != null;
 
   @deprecated
-  unsetID3() => ID3 = null;
+  unsetID3() => iD3 = null;
 
   @deprecated
   bool isSetBin_field() => bin_field != null;
@@ -434,7 +434,7 @@ class TestingDefaults implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID2:
-        return ID2 == null;
+        return iD2 == null;
 
       case EV1:
         return ev1 == null;
@@ -443,7 +443,7 @@ class TestingDefaults implements thrift.TBase {
         return ev2 == null;
 
       case ID:
-        return ID == null;
+        return iD == null;
 
       case THING:
         return thing == null;
@@ -455,7 +455,7 @@ class TestingDefaults implements thrift.TBase {
         return listfield == null;
 
       case ID3:
-        return ID3 == null;
+        return iD3 == null;
 
       case BIN_FIELD:
         return bin_field == null;
@@ -649,7 +649,6 @@ class TestingDefaults implements thrift.TBase {
         case STATUS:
           if(field.type == thrift.TType.I32) {
             status = iprot.readI32();
-            status = null;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -657,7 +656,6 @@ class TestingDefaults implements thrift.TBase {
         case BASE_STATUS:
           if(field.type == thrift.TType.I32) {
             base_status = iprot.readI32();
-            base_status = null;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -827,7 +825,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write(this.thing);
     }
 
-    if(Thing2 != null) {
+    if(thing2 != null) {
       ret.write(", ");
       ret.write("thing2:");
       if(this.thing2 == null) {
@@ -857,7 +855,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write("BINARY");
     }
 
-    if(Bin_field2 != null) {
+    if(bin_field2 != null) {
       ret.write(", ");
       ret.write("bin_field2:");
       if(this.bin_field2 == null) {
@@ -875,7 +873,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write("BINARY");
     }
 
-    if(Bin_field4 != null) {
+    if(bin_field4 != null) {
       ret.write(", ");
       ret.write("bin_field4:");
       if(this.bin_field4 == null) {
@@ -885,7 +883,7 @@ class TestingDefaults implements thrift.TBase {
       }
     }
 
-    if(List2 != null) {
+    if(list2 != null) {
       ret.write(", ");
       ret.write("list2:");
       if(this.list2 == null) {
@@ -895,7 +893,7 @@ class TestingDefaults implements thrift.TBase {
       }
     }
 
-    if(List3 != null) {
+    if(list3 != null) {
       ret.write(", ");
       ret.write("list3:");
       if(this.list3 == null) {
@@ -913,7 +911,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write(this.list4);
     }
 
-    if(A_map != null) {
+    if(a_map != null) {
       ret.write(", ");
       ret.write("a_map:");
       if(this.a_map == null) {

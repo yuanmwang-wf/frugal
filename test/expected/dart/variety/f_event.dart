@@ -30,16 +30,16 @@ class Event implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID() => ID != null;
+  bool isSetID() => iD != null;
 
   @deprecated
-  unsetID() => ID = null;
+  unsetID() => iD = null;
 
   @deprecated
-  bool isSetMessage() => Message != null;
+  bool isSetMessage() => message != null;
 
   @deprecated
-  unsetMessage() => Message = null;
+  unsetMessage() => message = null;
 
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -81,10 +81,10 @@ class Event implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return ID == null;
+        return iD == null;
 
       case MESSAGE:
-        return Message == null;
+        return message == null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

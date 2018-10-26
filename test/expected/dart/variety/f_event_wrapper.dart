@@ -66,46 +66,46 @@ class EventWrapper implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID() => ID != null;
+  bool isSetID() => iD != null;
 
   @deprecated
-  unsetID() => ID = null;
+  unsetID() => iD = null;
 
   @deprecated
-  bool isSetEv() => Ev != null;
+  bool isSetEv() => ev != null;
 
   @deprecated
-  unsetEv() => Ev = null;
+  unsetEv() => ev = null;
 
   @deprecated
-  bool isSetEvents() => Events != null;
+  bool isSetEvents() => events != null;
 
   @deprecated
-  unsetEvents() => Events = null;
+  unsetEvents() => events = null;
 
   @deprecated
-  bool isSetEvents2() => Events2 != null;
+  bool isSetEvents2() => events2 != null;
 
   @deprecated
-  unsetEvents2() => Events2 = null;
+  unsetEvents2() => events2 = null;
 
   @deprecated
-  bool isSetEventMap() => EventMap != null;
+  bool isSetEventMap() => eventMap != null;
 
   @deprecated
-  unsetEventMap() => EventMap = null;
+  unsetEventMap() => eventMap = null;
 
   @deprecated
-  bool isSetNums() => Nums != null;
+  bool isSetNums() => nums != null;
 
   @deprecated
-  unsetNums() => Nums = null;
+  unsetNums() => nums = null;
 
   @deprecated
-  bool isSetEnums() => Enums != null;
+  bool isSetEnums() => enums != null;
 
   @deprecated
-  unsetEnums() => Enums = null;
+  unsetEnums() => enums = null;
 
   @deprecated
   bool isSetABoolField() => aBoolField != null;
@@ -304,25 +304,25 @@ class EventWrapper implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return ID == null;
+        return iD == null;
 
       case EV:
-        return Ev == null;
+        return ev == null;
 
       case EVENTS:
-        return Events == null;
+        return events == null;
 
       case EVENTS2:
-        return Events2 == null;
+        return events2 == null;
 
       case EVENTMAP:
-        return EventMap == null;
+        return eventMap == null;
 
       case NUMS:
-        return Nums == null;
+        return nums == null;
 
       case ENUMS:
-        return Enums == null;
+        return enums == null;
 
       case ABOOLFIELD:
         return aBoolField == null;

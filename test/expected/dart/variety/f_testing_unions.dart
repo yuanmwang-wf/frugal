@@ -42,10 +42,10 @@ class TestingUnions implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetAnID() => AnID != null;
+  bool isSetAnID() => anID != null;
 
   @deprecated
-  unsetAnID() => AnID = null;
+  unsetAnID() => anID = null;
 
   @deprecated
   bool isSetAString() => aString != null;
@@ -60,16 +60,16 @@ class TestingUnions implements thrift.TBase {
   unsetSomeotherthing() => someotherthing = null;
 
   @deprecated
-  bool isSetAnInt16() => AnInt16 != null;
+  bool isSetAnInt16() => anInt16 != null;
 
   @deprecated
-  unsetAnInt16() => AnInt16 = null;
+  unsetAnInt16() => anInt16 = null;
 
   @deprecated
-  bool isSetRequests() => Requests != null;
+  bool isSetRequests() => requests != null;
 
   @deprecated
-  unsetRequests() => Requests = null;
+  unsetRequests() => requests = null;
 
   @deprecated
   bool isSetBin_field_in_union() => bin_field_in_union != null;
@@ -178,7 +178,7 @@ class TestingUnions implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ANID:
-        return AnID == null;
+        return anID == null;
 
       case ASTRING:
         return aString == null;
@@ -187,10 +187,10 @@ class TestingUnions implements thrift.TBase {
         return someotherthing == null;
 
       case ANINT16:
-        return AnInt16 == null;
+        return anInt16 == null;
 
       case REQUESTS:
-        return Requests == null;
+        return requests == null;
 
       case BIN_FIELD_IN_UNION:
         return bin_field_in_union == null;
@@ -335,7 +335,7 @@ class TestingUnions implements thrift.TBase {
       ret.write(this.anID);
     }
 
-    if(AString != null) {
+    if(aString != null) {
       ret.write(", ");
       ret.write("aString:");
       if(this.aString == null) {
@@ -345,7 +345,7 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(Someotherthing != null) {
+    if(someotherthing != null) {
       ret.write(", ");
       ret.write("someotherthing:");
       ret.write(this.someotherthing);
@@ -367,7 +367,7 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(Bin_field_in_union != null) {
+    if(bin_field_in_union != null) {
       ret.write(", ");
       ret.write("bin_field_in_union:");
       if(this.bin_field_in_union == null) {
@@ -377,7 +377,7 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(Depr != null) {
+    if(depr != null) {
       ret.write(", ");
       ret.write("depr:");
       ret.write(this.depr);

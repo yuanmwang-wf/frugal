@@ -104,7 +104,6 @@ class VendoredReferences implements thrift.TBase {
         case REFERENCE_VENDORED_ENUM:
           if(field.type == thrift.TType.I32) {
             reference_vendored_enum = iprot.readI32();
-            reference_vendored_enum = null;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -141,12 +140,12 @@ class VendoredReferences implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("VendoredReferences(");
 
-    if(Reference_vendored_const != null) {
+    if(reference_vendored_const != null) {
       ret.write("reference_vendored_const:");
       ret.write(this.reference_vendored_const);
     }
 
-    if(Reference_vendored_enum != null) {
+    if(reference_vendored_enum != null) {
       ret.write(", ");
       ret.write("reference_vendored_enum:");
       String reference_vendored_enum_name = t_vendor_namespace.MyEnum.VALUES_TO_NAMES[this.reference_vendored_enum];

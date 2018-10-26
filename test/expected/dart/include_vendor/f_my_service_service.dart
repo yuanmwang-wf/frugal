@@ -297,7 +297,7 @@ class getItem_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getItem_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -306,7 +306,7 @@ class getItem_result implements thrift.TBase {
       }
     }
 
-    if(D != null) {
+    if(d != null) {
       ret.write(", ");
       ret.write("d:");
       if(this.d == null) {

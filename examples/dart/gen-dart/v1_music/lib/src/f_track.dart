@@ -221,7 +221,6 @@ class Track implements thrift.TBase {
         case PRO:
           if(field.type == thrift.TType.I32) {
             pro = iprot.readI32();
-            pro = null;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }

@@ -32,16 +32,16 @@ class AwesomeException extends Error implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID() => ID != null;
+  bool isSetID() => iD != null;
 
   @deprecated
-  unsetID() => ID = null;
+  unsetID() => iD = null;
 
   @deprecated
-  bool isSetReason() => Reason != null;
+  bool isSetReason() => reason != null;
 
   @deprecated
-  unsetReason() => Reason = null;
+  unsetReason() => reason = null;
 
   @deprecated
   bool isSetDepr() => depr != null;
@@ -100,10 +100,10 @@ class AwesomeException extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return ID == null;
+        return iD == null;
 
       case REASON:
-        return Reason == null;
+        return reason == null;
 
       case DEPR:
         return depr == null;

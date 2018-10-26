@@ -721,10 +721,11 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	contents := ""
 	for _, field := range s.Fields {
 		titleName := strings.Title(field.Name)
+		fName := toFieldName(field.Name)
 		contents += fmt.Sprintf(tab + "@deprecated\n")
-		contents += fmt.Sprintf(tab+"bool isSet%s() => %s != null;\n\n", titleName, field.Name)
+		contents += fmt.Sprintf(tab+"bool isSet%s() => %s != null;\n\n", titleName, fName)
 		contents += fmt.Sprintf(tab + "@deprecated\n")
-		contents += fmt.Sprintf(tab+"unset%s() => %s = null;\n\n", titleName, field.Name)
+		contents += fmt.Sprintf(tab+"unset%s() => %s = null;\n\n", titleName, fName)
 	}
 
 	// getFieldValue
@@ -763,7 +764,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	contents += tabtab + "switch(fieldID) {\n"
 	for _, field := range s.Fields {
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += fmt.Sprintf(tabtabtabtab+"return %s == null;\n\n", field.Name)
+		contents += fmt.Sprintf(tabtabtabtab+"return %s == null;\n\n", toFieldName(field.Name))
 	}
 	contents += tabtabtab + "default:\n"
 	contents += tabtabtabtab + "throw new ArgumentError(\"Field $fieldID doesn't exist!\");\n"
@@ -861,10 +862,6 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 				prefix, fName, g.includeQualifier(underlyingType), underlyingType.Name)
 		} else {
 			contents += fmt.Sprintf(ind+"%s%s = iprot.readI32();\n", prefix, fName)
-		}
-
-		if first {
-			contents += fmt.Sprintf(ind+"%s = null;\n", fName)
 		}
 	} else if g.Frugal.IsStruct(underlyingType) {
 		contents += fmt.Sprintf(ind+"%s%s = new %s();\n", prefix, fName, dartType)
@@ -1040,7 +1037,7 @@ func (g *Generator) generateToString(s *parser.Struct) string {
 		ind := ""
 		optInd := ""
 		if optional {
-			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", strings.Title(field.Name))
+			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", field.Name)
 			ind += tab
 			optInd = tab
 		}

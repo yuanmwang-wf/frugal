@@ -144,10 +144,10 @@ class buyAlbum_args implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetASIN() => ASIN != null;
+  bool isSetASIN() => aSIN != null;
 
   @deprecated
-  unsetASIN() => ASIN = null;
+  unsetASIN() => aSIN = null;
 
   @deprecated
   bool isSetAcct() => acct != null;
@@ -195,7 +195,7 @@ class buyAlbum_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ASIN:
-        return ASIN == null;
+        return aSIN == null;
 
       case ACCT:
         return acct == null;
@@ -441,7 +441,7 @@ class buyAlbum_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("buyAlbum_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       if(this.success == null) {
         ret.write("null");
@@ -450,7 +450,7 @@ class buyAlbum_result implements thrift.TBase {
       }
     }
 
-    if(Error != null) {
+    if(error != null) {
       ret.write(", ");
       ret.write("error:");
       if(this.error == null) {
@@ -768,7 +768,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("enterAlbumGiveaway_result(");
 
-    if(Success != null) {
+    if(success != null) {
       ret.write("success:");
       ret.write(this.success);
     }

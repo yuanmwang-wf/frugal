@@ -6,13 +6,14 @@ import 'package:thrift/thrift.dart' as thrift;
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 class Item implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Item");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("Item");
 
 
 
-  Item() {
-  }
+  Item() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -20,30 +21,30 @@ class Item implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -56,6 +57,7 @@ class Item implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -64,6 +66,7 @@ class Item implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("Item(");
 
@@ -72,13 +75,12 @@ class Item implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is Item)) {
-      return false;
-    }
-    return true;
+    return o is Item;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;

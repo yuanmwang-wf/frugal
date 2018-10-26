@@ -8,7 +8,8 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 /// Exceptions are converted to the native format for each compiled
 /// language.
 class PurchasingError extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("PurchasingError");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("PurchasingError");
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("message", thrift.TType.STRING, 1);
   static final thrift.TField _ERROR_CODE_FIELD_DESC = new thrift.TField("error_code", thrift.TType.I16, 2);
 
@@ -47,6 +48,7 @@ class PurchasingError extends Error implements thrift.TBase {
     this.__isset_error_code = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGE:
@@ -58,10 +60,11 @@ class PurchasingError extends Error implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGE:
-        if(value == null) {
+        if (value == null) {
           unsetMessage();
         } else {
           this.message = value as String;
@@ -69,7 +72,7 @@ class PurchasingError extends Error implements thrift.TBase {
         break;
 
       case ERROR_CODE:
-        if(value == null) {
+        if (value == null) {
           unsetError_code();
         } else {
           this.error_code = value as int;
@@ -82,8 +85,9 @@ class PurchasingError extends Error implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGE:
         return isSetMessage();
       case ERROR_CODE:
@@ -93,24 +97,22 @@ class PurchasingError extends Error implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case MESSAGE:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             message = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case ERROR_CODE:
-          if(field.type == thrift.TType.I16) {
+          if (field.type == thrift.TType.I16) {
             error_code = iprot.readI16();
             this.__isset_error_code = true;
           } else {
@@ -129,11 +131,12 @@ class PurchasingError extends Error implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.message != null) {
+    if (this.message != null) {
       oprot.writeFieldBegin(_MESSAGE_FIELD_DESC);
       oprot.writeString(message);
       oprot.writeFieldEnd();
@@ -145,11 +148,12 @@ class PurchasingError extends Error implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("PurchasingError(");
 
     ret.write("message:");
-    if(this.message == null) {
+    if (this.message == null) {
       ret.write("null");
     } else {
       ret.write(this.message);
@@ -164,15 +168,16 @@ class PurchasingError extends Error implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is PurchasingError)) {
-      return false;
+    if (o is PurchasingError) {
+      return this.message == o.message &&
+        this.error_code == o.error_code;
     }
-    PurchasingError other = o as PurchasingError;
-    return this.message == other.message
-      && this.error_code == other.error_code;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ message.hashCode;

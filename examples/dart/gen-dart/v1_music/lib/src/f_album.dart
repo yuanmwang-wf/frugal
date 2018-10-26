@@ -8,7 +8,8 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 /// The IDL provides set, list, and map types for representing collections
 /// of data.  Our Album struct contains a list of Tracks.
 class Album implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Album");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("Album");
   static final thrift.TField _TRACKS_FIELD_DESC = new thrift.TField("tracks", thrift.TType.LIST, 1);
   static final thrift.TField _DURATION_FIELD_DESC = new thrift.TField("duration", thrift.TType.DOUBLE, 2);
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 3);
@@ -62,6 +63,7 @@ class Album implements thrift.TBase {
     this.aSIN = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case TRACKS:
@@ -75,10 +77,11 @@ class Album implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case TRACKS:
-        if(value == null) {
+        if (value == null) {
           unsetTracks();
         } else {
           this.tracks = value as List<t_v1_music.Track>;
@@ -86,7 +89,7 @@ class Album implements thrift.TBase {
         break;
 
       case DURATION:
-        if(value == null) {
+        if (value == null) {
           unsetDuration();
         } else {
           this.duration = value as double;
@@ -94,7 +97,7 @@ class Album implements thrift.TBase {
         break;
 
       case ASIN:
-        if(value == null) {
+        if (value == null) {
           unsetASIN();
         } else {
           this.aSIN = value as String;
@@ -107,8 +110,9 @@ class Album implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case TRACKS:
         return isSetTracks();
       case DURATION:
@@ -120,17 +124,15 @@ class Album implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case TRACKS:
-          if(field.type == thrift.TType.LIST) {
+          if (field.type == thrift.TType.LIST) {
             thrift.TList elem0 = iprot.readListBegin();
             tracks = new List<t_v1_music.Track>();
             for(int elem2 = 0; elem2 < elem0.length; ++elem2) {
@@ -144,7 +146,7 @@ class Album implements thrift.TBase {
           }
           break;
         case DURATION:
-          if(field.type == thrift.TType.DOUBLE) {
+          if (field.type == thrift.TType.DOUBLE) {
             duration = iprot.readDouble();
             this.__isset_duration = true;
           } else {
@@ -152,7 +154,7 @@ class Album implements thrift.TBase {
           }
           break;
         case ASIN:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             aSIN = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -170,11 +172,12 @@ class Album implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.tracks != null) {
+    if (this.tracks != null) {
       oprot.writeFieldBegin(_TRACKS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, tracks.length));
       for(var elem3 in tracks) {
@@ -186,7 +189,7 @@ class Album implements thrift.TBase {
     oprot.writeFieldBegin(_DURATION_FIELD_DESC);
     oprot.writeDouble(duration);
     oprot.writeFieldEnd();
-    if(this.aSIN != null) {
+    if (this.aSIN != null) {
       oprot.writeFieldBegin(_ASIN_FIELD_DESC);
       oprot.writeString(aSIN);
       oprot.writeFieldEnd();
@@ -195,11 +198,12 @@ class Album implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("Album(");
 
     ret.write("tracks:");
-    if(this.tracks == null) {
+    if (this.tracks == null) {
       ret.write("null");
     } else {
       ret.write(this.tracks);
@@ -211,7 +215,7 @@ class Album implements thrift.TBase {
 
     ret.write(", ");
     ret.write("aSIN:");
-    if(this.aSIN == null) {
+    if (this.aSIN == null) {
       ret.write("null");
     } else {
       ret.write(this.aSIN);
@@ -222,16 +226,17 @@ class Album implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is Album)) {
-      return false;
+    if (o is Album) {
+      return this.tracks == o.tracks &&
+        this.duration == o.duration &&
+        this.aSIN == o.aSIN;
     }
-    Album other = o as Album;
-    return this.tracks == other.tracks
-      && this.duration == other.duration
-      && this.aSIN == other.aSIN;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ tracks.hashCode;

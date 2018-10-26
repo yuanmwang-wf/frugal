@@ -6,7 +6,8 @@ import 'package:thrift/thrift.dart' as thrift;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 class thing implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("thing");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("thing");
   static final thrift.TField _AN_ID_FIELD_DESC = new thrift.TField("an_id", thrift.TType.I32, 1);
   static final thrift.TField _A_STRING_FIELD_DESC = new thrift.TField("a_string", thrift.TType.STRING, 2);
 
@@ -45,6 +46,7 @@ class thing implements thrift.TBase {
     this.a_string = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case AN_ID:
@@ -56,10 +58,11 @@ class thing implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case AN_ID:
-        if(value == null) {
+        if (value == null) {
           unsetAn_id();
         } else {
           this.an_id = value as int;
@@ -67,7 +70,7 @@ class thing implements thrift.TBase {
         break;
 
       case A_STRING:
-        if(value == null) {
+        if (value == null) {
           unsetA_string();
         } else {
           this.a_string = value as String;
@@ -80,8 +83,9 @@ class thing implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case AN_ID:
         return isSetAn_id();
       case A_STRING:
@@ -91,17 +95,15 @@ class thing implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case AN_ID:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             an_id = iprot.readI32();
             this.__isset_an_id = true;
           } else {
@@ -109,7 +111,7 @@ class thing implements thrift.TBase {
           }
           break;
         case A_STRING:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             a_string = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -127,6 +129,7 @@ class thing implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -134,7 +137,7 @@ class thing implements thrift.TBase {
     oprot.writeFieldBegin(_AN_ID_FIELD_DESC);
     oprot.writeI32(an_id);
     oprot.writeFieldEnd();
-    if(this.a_string != null) {
+    if (this.a_string != null) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
       oprot.writeString(a_string);
       oprot.writeFieldEnd();
@@ -143,6 +146,7 @@ class thing implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("thing(");
 
@@ -151,7 +155,7 @@ class thing implements thrift.TBase {
 
     ret.write(", ");
     ret.write("a_string:");
-    if(this.a_string == null) {
+    if (this.a_string == null) {
       ret.write("null");
     } else {
       ret.write(this.a_string);
@@ -162,15 +166,16 @@ class thing implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is thing)) {
-      return false;
+    if (o is thing) {
+      return this.an_id == o.an_id &&
+        this.a_string == o.a_string;
     }
-    thing other = o as thing;
-    return this.an_id == other.an_id
-      && this.a_string == other.a_string;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ an_id.hashCode;

@@ -11,7 +11,8 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestLowercase implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestLowercase");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("TestLowercase");
   static final thrift.TField _LOWERCASE_INT_FIELD_DESC = new thrift.TField("lowercaseInt", thrift.TType.I32, 1);
 
   int _lowercaseInt = 0;
@@ -35,6 +36,7 @@ class TestLowercase implements thrift.TBase {
     this.__isset_lowercaseInt = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case LOWERCASEINT:
@@ -44,10 +46,11 @@ class TestLowercase implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case LOWERCASEINT:
-        if(value == null) {
+        if (value == null) {
           unsetLowercaseInt();
         } else {
           this.lowercaseInt = value as int;
@@ -60,8 +63,9 @@ class TestLowercase implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case LOWERCASEINT:
         return isSetLowercaseInt();
       default:
@@ -69,17 +73,15 @@ class TestLowercase implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case LOWERCASEINT:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             lowercaseInt = iprot.readI32();
             this.__isset_lowercaseInt = true;
           } else {
@@ -98,6 +100,7 @@ class TestLowercase implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -109,6 +112,7 @@ class TestLowercase implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("TestLowercase(");
 
@@ -120,14 +124,15 @@ class TestLowercase implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is TestLowercase)) {
-      return false;
+    if (o is TestLowercase) {
+      return this.lowercaseInt == o.lowercaseInt;
     }
-    TestLowercase other = o as TestLowercase;
-    return this.lowercaseInt == other.lowercaseInt;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ lowercaseInt.hashCode;

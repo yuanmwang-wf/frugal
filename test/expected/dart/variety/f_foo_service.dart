@@ -20,7 +20,6 @@ import 'package:variety/variety.dart' as t_variety;
 /// This is a thrift service. Frugal will generate bindings that include
 /// a frugal Context for each service call.
 abstract class FFoo extends t_actual_base_dart.FBaseFoo {
-
   /// Ping the server.
   /// Deprecated: don't use this; use "something else"
   @deprecated
@@ -84,9 +83,10 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   /// Ping the server.
   /// Deprecated: don't use this; use "something else"
   @deprecated
+  @override
   Future ping(frugal.FContext ctx) {
     _frugalLog.warning("Call to deprecated function 'Foo.ping'");
-    return this._methods['ping']([ctx]) as Future;
+    return this._methods['ping']([ctx]);
   }
 
   Future _ping(frugal.FContext ctx) async {
@@ -106,7 +106,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -116,6 +117,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     iprot.readMessageEnd();
   }
   /// Blah the server.
+  @override
   Future<int> blah(frugal.FContext ctx, int num, String str, t_variety.Event event) {
     return this._methods['blah']([ctx, num, str, event]) as Future<int>;
   }
@@ -140,7 +142,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -163,8 +166,9 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   /// oneway methods don't receive a response from the server.
+  @override
   Future oneWay(frugal.FContext ctx, int id, Map<int, String> req) {
-    return this._methods['oneWay']([ctx, id, req]) as Future;
+    return this._methods['oneWay']([ctx, id, req]);
   }
 
   Future _oneWay(frugal.FContext ctx, int id, Map<int, String> req) async {
@@ -180,6 +184,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     await _transport.oneway(ctx, memoryBuffer.writeBytes);
   }
 
+  @override
   Future<Uint8List> bin_method(frugal.FContext ctx, Uint8List bin, String str) {
     return this._methods['bin_method']([ctx, bin, str]) as Future<Uint8List>;
   }
@@ -203,7 +208,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -222,6 +228,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "bin_method failed: unknown result"
     );
   }
+  @override
   Future<int> param_modifiers(frugal.FContext ctx, int opt_num, int default_num, int req_num) {
     return this._methods['param_modifiers']([ctx, opt_num, default_num, req_num]) as Future<int>;
   }
@@ -246,7 +253,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -262,6 +270,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "param_modifiers failed: unknown result"
     );
   }
+  @override
   Future<List<int>> underlying_types_test(frugal.FContext ctx, List<int> list_type, Set<int> set_type) {
     return this._methods['underlying_types_test']([ctx, list_type, set_type]) as Future<List<int>>;
   }
@@ -285,7 +294,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -301,6 +311,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "underlying_types_test failed: unknown result"
     );
   }
+  @override
   Future<t_validStructs.Thing> getThing(frugal.FContext ctx) {
     return this._methods['getThing']([ctx]) as Future<t_validStructs.Thing>;
   }
@@ -322,7 +333,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -338,6 +350,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "getThing failed: unknown result"
     );
   }
+  @override
   Future<int> getMyInt(frugal.FContext ctx) {
     return this._methods['getMyInt']([ctx]) as Future<int>;
   }
@@ -359,7 +372,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -375,6 +389,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "getMyInt failed: unknown result"
     );
   }
+  @override
   Future<t_subdir_include_ns.A> use_subdir_struct(frugal.FContext ctx, t_subdir_include_ns.A a) {
     return this._methods['use_subdir_struct']([ctx, a]) as Future<t_subdir_include_ns.A>;
   }
@@ -397,7 +412,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -413,6 +429,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "use_subdir_struct failed: unknown result"
     );
   }
+  @override
   Future<String> sayHelloWith(frugal.FContext ctx, String newMessage) {
     return this._methods['sayHelloWith']([ctx, newMessage]) as Future<String>;
   }
@@ -435,7 +452,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -451,6 +469,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "sayHelloWith failed: unknown result"
     );
   }
+  @override
   Future<String> whatDoYouSay(frugal.FContext ctx, String messageArgs) {
     return this._methods['whatDoYouSay']([ctx, messageArgs]) as Future<String>;
   }
@@ -473,7 +492,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -489,6 +509,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       frugal.FrugalTApplicationErrorType.MISSING_RESULT, "whatDoYouSay failed: unknown result"
     );
   }
+  @override
   Future<String> sayAgain(frugal.FContext ctx, String messageResult) {
     return this._methods['sayAgain']([ctx, messageResult]) as Future<String>;
   }
@@ -511,7 +532,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -529,14 +551,16 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 }
 
+// ignore: camel_case_types
 class Ping_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("Ping_args");
 
 
 
-  Ping_args() {
-  }
+  Ping_args() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -544,30 +568,30 @@ class Ping_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -580,6 +604,7 @@ class Ping_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -588,6 +613,7 @@ class Ping_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("Ping_args(");
 
@@ -596,13 +622,12 @@ class Ping_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is Ping_args)) {
-      return false;
-    }
-    return true;
+    return o is Ping_args;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;
@@ -617,14 +642,16 @@ class Ping_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class Ping_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("Ping_result");
 
 
 
-  Ping_result() {
-  }
+  Ping_result() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -632,30 +659,30 @@ class Ping_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -668,6 +695,7 @@ class Ping_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -676,6 +704,7 @@ class Ping_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("Ping_result(");
 
@@ -684,13 +713,12 @@ class Ping_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is Ping_result)) {
-      return false;
-    }
-    return true;
+    return o is Ping_result;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;
@@ -705,8 +733,10 @@ class Ping_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class blah_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("blah_args");
   static final thrift.TField _NUM_FIELD_DESC = new thrift.TField("num", thrift.TType.I32, 1);
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
   static final thrift.TField _EVENT_FIELD_DESC = new thrift.TField("event", thrift.TType.STRUCT, 3);
@@ -760,6 +790,7 @@ class blah_args implements thrift.TBase {
     this.event = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NUM:
@@ -773,10 +804,11 @@ class blah_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NUM:
-        if(value == null) {
+        if (value == null) {
           unsetNum();
         } else {
           this.num = value as int;
@@ -784,7 +816,7 @@ class blah_args implements thrift.TBase {
         break;
 
       case STR:
-        if(value == null) {
+        if (value == null) {
           unsetStr();
         } else {
           this.str = value as String;
@@ -792,7 +824,7 @@ class blah_args implements thrift.TBase {
         break;
 
       case EVENT:
-        if(value == null) {
+        if (value == null) {
           unsetEvent();
         } else {
           this.event = value as t_variety.Event;
@@ -805,8 +837,9 @@ class blah_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NUM:
         return isSetNum();
       case STR:
@@ -818,17 +851,15 @@ class blah_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case NUM:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             num = iprot.readI32();
             this.__isset_num = true;
           } else {
@@ -836,14 +867,14 @@ class blah_args implements thrift.TBase {
           }
           break;
         case STR:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             str = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case EVENT:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             event = new t_variety.Event();
             event.read(iprot);
           } else {
@@ -862,6 +893,7 @@ class blah_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -869,12 +901,12 @@ class blah_args implements thrift.TBase {
     oprot.writeFieldBegin(_NUM_FIELD_DESC);
     oprot.writeI32(num);
     oprot.writeFieldEnd();
-    if(this.str != null) {
+    if (this.str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();
     }
-    if(this.event != null) {
+    if (this.event != null) {
       oprot.writeFieldBegin(_EVENT_FIELD_DESC);
       event.write(oprot);
       oprot.writeFieldEnd();
@@ -883,6 +915,7 @@ class blah_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("blah_args(");
 
@@ -891,7 +924,7 @@ class blah_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("str:");
-    if(this.str == null) {
+    if (this.str == null) {
       ret.write("null");
     } else {
       ret.write(this.str);
@@ -899,7 +932,7 @@ class blah_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("event:");
-    if(this.event == null) {
+    if (this.event == null) {
       ret.write("null");
     } else {
       ret.write(this.event);
@@ -910,16 +943,17 @@ class blah_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is blah_args)) {
-      return false;
+    if (o is blah_args) {
+      return this.num == o.num &&
+        this.str == o.str &&
+        this.event == o.event;
     }
-    blah_args other = o as blah_args;
-    return this.num == other.num
-      && this.str == other.str
-      && this.event == other.event;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ num.hashCode;
@@ -944,8 +978,10 @@ class blah_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class blah_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("blah_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
   static final thrift.TField _AWE_FIELD_DESC = new thrift.TField("awe", thrift.TType.STRUCT, 1);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 2);
@@ -999,6 +1035,7 @@ class blah_result implements thrift.TBase {
     this.api = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1012,10 +1049,11 @@ class blah_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as int;
@@ -1023,7 +1061,7 @@ class blah_result implements thrift.TBase {
         break;
 
       case AWE:
-        if(value == null) {
+        if (value == null) {
           unsetAwe();
         } else {
           this.awe = value as t_variety.AwesomeException;
@@ -1031,7 +1069,7 @@ class blah_result implements thrift.TBase {
         break;
 
       case API:
-        if(value == null) {
+        if (value == null) {
           unsetApi();
         } else {
           this.api = value as t_actual_base_dart.api_exception;
@@ -1044,8 +1082,9 @@ class blah_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       case AWE:
@@ -1057,17 +1096,15 @@ class blah_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.I64) {
+          if (field.type == thrift.TType.I64) {
             success = iprot.readI64();
             this.__isset_success = true;
           } else {
@@ -1075,7 +1112,7 @@ class blah_result implements thrift.TBase {
           }
           break;
         case AWE:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             awe = new t_variety.AwesomeException();
             awe.read(iprot);
           } else {
@@ -1083,7 +1120,7 @@ class blah_result implements thrift.TBase {
           }
           break;
         case API:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             api = new t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
@@ -1102,21 +1139,22 @@ class blah_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI64(success);
       oprot.writeFieldEnd();
     }
-    if(isSetAwe() && this.awe != null) {
+    if (isSetAwe() && this.awe != null) {
       oprot.writeFieldBegin(_AWE_FIELD_DESC);
       awe.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(isSetApi() && this.api != null) {
+    if (isSetApi() && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1125,28 +1163,29 @@ class blah_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("blah_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
       ret.write(this.success);
     }
 
-    if(isSetAwe()) {
+    if (isSetAwe()) {
       ret.write(", ");
       ret.write("awe:");
-      if(this.awe == null) {
+      if (this.awe == null) {
         ret.write("null");
       } else {
         ret.write(this.awe);
       }
     }
 
-    if(isSetApi()) {
+    if (isSetApi()) {
       ret.write(", ");
       ret.write("api:");
-      if(this.api == null) {
+      if (this.api == null) {
         ret.write("null");
       } else {
         ret.write(this.api);
@@ -1158,16 +1197,17 @@ class blah_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is blah_result)) {
-      return false;
+    if (o is blah_result) {
+      return this.success == o.success &&
+        this.awe == o.awe &&
+        this.api == o.api;
     }
-    blah_result other = o as blah_result;
-    return this.success == other.success
-      && this.awe == other.awe
-      && this.api == other.api;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -1192,8 +1232,10 @@ class blah_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class oneWay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("oneWay_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("oneWay_args");
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("id", thrift.TType.I64, 1);
   static final thrift.TField _REQ_FIELD_DESC = new thrift.TField("req", thrift.TType.MAP, 2);
 
@@ -1232,6 +1274,7 @@ class oneWay_args implements thrift.TBase {
     this.req = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -1243,10 +1286,11 @@ class oneWay_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case ID:
-        if(value == null) {
+        if (value == null) {
           unsetId();
         } else {
           this.id = value as int;
@@ -1254,7 +1298,7 @@ class oneWay_args implements thrift.TBase {
         break;
 
       case REQ:
-        if(value == null) {
+        if (value == null) {
           unsetReq();
         } else {
           this.req = value as Map<int, String>;
@@ -1267,8 +1311,9 @@ class oneWay_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case ID:
         return isSetId();
       case REQ:
@@ -1278,17 +1323,15 @@ class oneWay_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case ID:
-          if(field.type == thrift.TType.I64) {
+          if (field.type == thrift.TType.I64) {
             id = iprot.readI64();
             this.__isset_id = true;
           } else {
@@ -1296,7 +1339,7 @@ class oneWay_args implements thrift.TBase {
           }
           break;
         case REQ:
-          if(field.type == thrift.TType.MAP) {
+          if (field.type == thrift.TType.MAP) {
             thrift.TMap elem55 = iprot.readMapBegin();
             req = new Map<int, String>();
             for(int elem57 = 0; elem57 < elem55.length; ++elem57) {
@@ -1321,6 +1364,7 @@ class oneWay_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -1328,7 +1372,7 @@ class oneWay_args implements thrift.TBase {
     oprot.writeFieldBegin(_ID_FIELD_DESC);
     oprot.writeI64(id);
     oprot.writeFieldEnd();
-    if(this.req != null) {
+    if (this.req != null) {
       oprot.writeFieldBegin(_REQ_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, req.length));
       for(var elem59 in req.keys) {
@@ -1342,6 +1386,7 @@ class oneWay_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("oneWay_args(");
 
@@ -1350,7 +1395,7 @@ class oneWay_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("req:");
-    if(this.req == null) {
+    if (this.req == null) {
       ret.write("null");
     } else {
       ret.write(this.req);
@@ -1361,15 +1406,16 @@ class oneWay_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is oneWay_args)) {
-      return false;
+    if (o is oneWay_args) {
+      return this.id == o.id &&
+        this.req == o.req;
     }
-    oneWay_args other = o as oneWay_args;
-    return this.id == other.id
-      && this.req == other.req;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ id.hashCode;
@@ -1391,8 +1437,10 @@ class oneWay_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class bin_method_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("bin_method_args");
   static final thrift.TField _BIN_FIELD_DESC = new thrift.TField("bin", thrift.TType.STRING, 1);
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
 
@@ -1429,6 +1477,7 @@ class bin_method_args implements thrift.TBase {
     this.str = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case BIN:
@@ -1440,10 +1489,11 @@ class bin_method_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case BIN:
-        if(value == null) {
+        if (value == null) {
           unsetBin();
         } else {
           this.bin = value as Uint8List;
@@ -1451,7 +1501,7 @@ class bin_method_args implements thrift.TBase {
         break;
 
       case STR:
-        if(value == null) {
+        if (value == null) {
           unsetStr();
         } else {
           this.str = value as String;
@@ -1464,8 +1514,9 @@ class bin_method_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case BIN:
         return isSetBin();
       case STR:
@@ -1475,24 +1526,22 @@ class bin_method_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case BIN:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             bin = iprot.readBinary();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case STR:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             str = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1510,16 +1559,17 @@ class bin_method_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.bin != null) {
+    if (this.bin != null) {
       oprot.writeFieldBegin(_BIN_FIELD_DESC);
       oprot.writeBinary(bin);
       oprot.writeFieldEnd();
     }
-    if(this.str != null) {
+    if (this.str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();
@@ -1528,11 +1578,12 @@ class bin_method_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("bin_method_args(");
 
     ret.write("bin:");
-    if(this.bin == null) {
+    if (this.bin == null) {
       ret.write("null");
     } else {
       ret.write("BINARY");
@@ -1540,7 +1591,7 @@ class bin_method_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("str:");
-    if(this.str == null) {
+    if (this.str == null) {
       ret.write("null");
     } else {
       ret.write(this.str);
@@ -1551,15 +1602,16 @@ class bin_method_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is bin_method_args)) {
-      return false;
+    if (o is bin_method_args) {
+      return this.bin == o.bin &&
+        this.str == o.str;
     }
-    bin_method_args other = o as bin_method_args;
-    return this.bin == other.bin
-      && this.str == other.str;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ bin.hashCode;
@@ -1581,8 +1633,10 @@ class bin_method_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class bin_method_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("bin_method_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 1);
 
@@ -1619,6 +1673,7 @@ class bin_method_result implements thrift.TBase {
     this.api = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1630,10 +1685,11 @@ class bin_method_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as Uint8List;
@@ -1641,7 +1697,7 @@ class bin_method_result implements thrift.TBase {
         break;
 
       case API:
-        if(value == null) {
+        if (value == null) {
           unsetApi();
         } else {
           this.api = value as t_actual_base_dart.api_exception;
@@ -1654,8 +1710,9 @@ class bin_method_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       case API:
@@ -1665,24 +1722,22 @@ class bin_method_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             success = iprot.readBinary();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case API:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             api = new t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
@@ -1701,16 +1756,17 @@ class bin_method_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBinary(success);
       oprot.writeFieldEnd();
     }
-    if(isSetApi() && this.api != null) {
+    if (isSetApi() && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1719,22 +1775,23 @@ class bin_method_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("bin_method_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write("BINARY");
       }
     }
 
-    if(isSetApi()) {
+    if (isSetApi()) {
       ret.write(", ");
       ret.write("api:");
-      if(this.api == null) {
+      if (this.api == null) {
         ret.write("null");
       } else {
         ret.write(this.api);
@@ -1746,15 +1803,16 @@ class bin_method_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is bin_method_result)) {
-      return false;
+    if (o is bin_method_result) {
+      return this.success == o.success &&
+        this.api == o.api;
     }
-    bin_method_result other = o as bin_method_result;
-    return this.success == other.success
-      && this.api == other.api;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -1776,8 +1834,10 @@ class bin_method_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class param_modifiers_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("param_modifiers_args");
   static final thrift.TField _OPT_NUM_FIELD_DESC = new thrift.TField("opt_num", thrift.TType.I32, 1);
   static final thrift.TField _DEFAULT_NUM_FIELD_DESC = new thrift.TField("default_num", thrift.TType.I32, 2);
   static final thrift.TField _REQ_NUM_FIELD_DESC = new thrift.TField("req_num", thrift.TType.I32, 3);
@@ -1835,6 +1895,7 @@ class param_modifiers_args implements thrift.TBase {
     this.__isset_req_num = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case OPT_NUM:
@@ -1848,10 +1909,11 @@ class param_modifiers_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case OPT_NUM:
-        if(value == null) {
+        if (value == null) {
           unsetOpt_num();
         } else {
           this.opt_num = value as int;
@@ -1859,7 +1921,7 @@ class param_modifiers_args implements thrift.TBase {
         break;
 
       case DEFAULT_NUM:
-        if(value == null) {
+        if (value == null) {
           unsetDefault_num();
         } else {
           this.default_num = value as int;
@@ -1867,7 +1929,7 @@ class param_modifiers_args implements thrift.TBase {
         break;
 
       case REQ_NUM:
-        if(value == null) {
+        if (value == null) {
           unsetReq_num();
         } else {
           this.req_num = value as int;
@@ -1880,8 +1942,9 @@ class param_modifiers_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case OPT_NUM:
         return isSetOpt_num();
       case DEFAULT_NUM:
@@ -1893,17 +1956,15 @@ class param_modifiers_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case OPT_NUM:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             opt_num = iprot.readI32();
             this.__isset_opt_num = true;
           } else {
@@ -1911,7 +1972,7 @@ class param_modifiers_args implements thrift.TBase {
           }
           break;
         case DEFAULT_NUM:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             default_num = iprot.readI32();
             this.__isset_default_num = true;
           } else {
@@ -1919,7 +1980,7 @@ class param_modifiers_args implements thrift.TBase {
           }
           break;
         case REQ_NUM:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             req_num = iprot.readI32();
             this.__isset_req_num = true;
           } else {
@@ -1935,12 +1996,13 @@ class param_modifiers_args implements thrift.TBase {
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
-    if(!__isset_req_num) {
+    if (!__isset_req_num) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'req_num' is not present in struct 'param_modifiers_args'");
     }
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -1958,6 +2020,7 @@ class param_modifiers_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("param_modifiers_args(");
 
@@ -1977,16 +2040,17 @@ class param_modifiers_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is param_modifiers_args)) {
-      return false;
+    if (o is param_modifiers_args) {
+      return this.opt_num == o.opt_num &&
+        this.default_num == o.default_num &&
+        this.req_num == o.req_num;
     }
-    param_modifiers_args other = o as param_modifiers_args;
-    return this.opt_num == other.opt_num
-      && this.default_num == other.default_num
-      && this.req_num == other.req_num;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ opt_num.hashCode;
@@ -2011,8 +2075,10 @@ class param_modifiers_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class param_modifiers_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("param_modifiers_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
 
   int _success;
@@ -2036,6 +2102,7 @@ class param_modifiers_result implements thrift.TBase {
     this.__isset_success = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2045,10 +2112,11 @@ class param_modifiers_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as int;
@@ -2061,8 +2129,9 @@ class param_modifiers_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -2070,17 +2139,15 @@ class param_modifiers_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.I64) {
+          if (field.type == thrift.TType.I64) {
             success = iprot.readI64();
             this.__isset_success = true;
           } else {
@@ -2099,11 +2166,12 @@ class param_modifiers_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI64(success);
       oprot.writeFieldEnd();
@@ -2112,10 +2180,11 @@ class param_modifiers_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("param_modifiers_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -2125,14 +2194,15 @@ class param_modifiers_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is param_modifiers_result)) {
-      return false;
+    if (o is param_modifiers_result) {
+      return this.success == o.success;
     }
-    param_modifiers_result other = o as param_modifiers_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -2151,8 +2221,10 @@ class param_modifiers_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class underlying_types_test_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("underlying_types_test_args");
   static final thrift.TField _LIST_TYPE_FIELD_DESC = new thrift.TField("list_type", thrift.TType.LIST, 1);
   static final thrift.TField _SET_TYPE_FIELD_DESC = new thrift.TField("set_type", thrift.TType.SET, 2);
 
@@ -2189,6 +2261,7 @@ class underlying_types_test_args implements thrift.TBase {
     this.set_type = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case LIST_TYPE:
@@ -2200,10 +2273,11 @@ class underlying_types_test_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case LIST_TYPE:
-        if(value == null) {
+        if (value == null) {
           unsetList_type();
         } else {
           this.list_type = value as List<int>;
@@ -2211,7 +2285,7 @@ class underlying_types_test_args implements thrift.TBase {
         break;
 
       case SET_TYPE:
-        if(value == null) {
+        if (value == null) {
           unsetSet_type();
         } else {
           this.set_type = value as Set<int>;
@@ -2224,8 +2298,9 @@ class underlying_types_test_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case LIST_TYPE:
         return isSetList_type();
       case SET_TYPE:
@@ -2235,17 +2310,15 @@ class underlying_types_test_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case LIST_TYPE:
-          if(field.type == thrift.TType.LIST) {
+          if (field.type == thrift.TType.LIST) {
             thrift.TList elem60 = iprot.readListBegin();
             list_type = new List<int>();
             for(int elem62 = 0; elem62 < elem60.length; ++elem62) {
@@ -2258,7 +2331,7 @@ class underlying_types_test_args implements thrift.TBase {
           }
           break;
         case SET_TYPE:
-          if(field.type == thrift.TType.SET) {
+          if (field.type == thrift.TType.SET) {
             thrift.TSet elem63 = iprot.readSetBegin();
             set_type = new Set<int>();
             for(int elem65 = 0; elem65 < elem63.length; ++elem65) {
@@ -2282,11 +2355,12 @@ class underlying_types_test_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.list_type != null) {
+    if (this.list_type != null) {
       oprot.writeFieldBegin(_LIST_TYPE_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, list_type.length));
       for(var elem66 in list_type) {
@@ -2295,7 +2369,7 @@ class underlying_types_test_args implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if(this.set_type != null) {
+    if (this.set_type != null) {
       oprot.writeFieldBegin(_SET_TYPE_FIELD_DESC);
       oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, set_type.length));
       for(var elem67 in set_type) {
@@ -2308,11 +2382,12 @@ class underlying_types_test_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("underlying_types_test_args(");
 
     ret.write("list_type:");
-    if(this.list_type == null) {
+    if (this.list_type == null) {
       ret.write("null");
     } else {
       ret.write(this.list_type);
@@ -2320,7 +2395,7 @@ class underlying_types_test_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("set_type:");
-    if(this.set_type == null) {
+    if (this.set_type == null) {
       ret.write("null");
     } else {
       ret.write(this.set_type);
@@ -2331,15 +2406,16 @@ class underlying_types_test_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is underlying_types_test_args)) {
-      return false;
+    if (o is underlying_types_test_args) {
+      return this.list_type == o.list_type &&
+        this.set_type == o.set_type;
     }
-    underlying_types_test_args other = o as underlying_types_test_args;
-    return this.list_type == other.list_type
-      && this.set_type == other.set_type;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ list_type.hashCode;
@@ -2361,8 +2437,10 @@ class underlying_types_test_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class underlying_types_test_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("underlying_types_test_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.LIST, 0);
 
   List<int> _success;
@@ -2384,6 +2462,7 @@ class underlying_types_test_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2393,10 +2472,11 @@ class underlying_types_test_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as List<int>;
@@ -2409,8 +2489,9 @@ class underlying_types_test_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -2418,17 +2499,15 @@ class underlying_types_test_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.LIST) {
+          if (field.type == thrift.TType.LIST) {
             thrift.TList elem68 = iprot.readListBegin();
             success = new List<int>();
             for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
@@ -2452,11 +2531,12 @@ class underlying_types_test_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, success.length));
       for(var elem71 in success) {
@@ -2469,12 +2549,13 @@ class underlying_types_test_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("underlying_types_test_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -2486,14 +2567,15 @@ class underlying_types_test_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is underlying_types_test_result)) {
-      return false;
+    if (o is underlying_types_test_result) {
+      return this.success == o.success;
     }
-    underlying_types_test_result other = o as underlying_types_test_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -2512,14 +2594,16 @@ class underlying_types_test_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class getThing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getThing_args");
 
 
 
-  getThing_args() {
-  }
+  getThing_args() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -2527,30 +2611,30 @@ class getThing_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -2563,6 +2647,7 @@ class getThing_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -2571,6 +2656,7 @@ class getThing_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getThing_args(");
 
@@ -2579,13 +2665,12 @@ class getThing_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getThing_args)) {
-      return false;
-    }
-    return true;
+    return o is getThing_args;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;
@@ -2600,8 +2685,10 @@ class getThing_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class getThing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getThing_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
   t_validStructs.Thing _success;
@@ -2623,6 +2710,7 @@ class getThing_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2632,10 +2720,11 @@ class getThing_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as t_validStructs.Thing;
@@ -2648,8 +2737,9 @@ class getThing_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -2657,17 +2747,15 @@ class getThing_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             success = new t_validStructs.Thing();
             success.read(iprot);
           } else {
@@ -2686,11 +2774,12 @@ class getThing_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -2699,12 +2788,13 @@ class getThing_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getThing_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -2716,14 +2806,15 @@ class getThing_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getThing_result)) {
-      return false;
+    if (o is getThing_result) {
+      return this.success == o.success;
     }
-    getThing_result other = o as getThing_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -2742,14 +2833,16 @@ class getThing_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class getMyInt_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getMyInt_args");
 
 
 
-  getMyInt_args() {
-  }
+  getMyInt_args() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -2757,30 +2850,30 @@ class getMyInt_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -2793,6 +2886,7 @@ class getMyInt_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -2801,6 +2895,7 @@ class getMyInt_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getMyInt_args(");
 
@@ -2809,13 +2904,12 @@ class getMyInt_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getMyInt_args)) {
-      return false;
-    }
-    return true;
+    return o is getMyInt_args;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;
@@ -2830,8 +2924,10 @@ class getMyInt_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class getMyInt_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getMyInt_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I32, 0);
 
   int _success;
@@ -2855,6 +2951,7 @@ class getMyInt_result implements thrift.TBase {
     this.__isset_success = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2864,10 +2961,11 @@ class getMyInt_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as int;
@@ -2880,8 +2978,9 @@ class getMyInt_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -2889,17 +2988,15 @@ class getMyInt_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.I32) {
+          if (field.type == thrift.TType.I32) {
             success = iprot.readI32();
             this.__isset_success = true;
           } else {
@@ -2918,11 +3015,12 @@ class getMyInt_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeI32(success);
       oprot.writeFieldEnd();
@@ -2931,10 +3029,11 @@ class getMyInt_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getMyInt_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -2944,14 +3043,15 @@ class getMyInt_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getMyInt_result)) {
-      return false;
+    if (o is getMyInt_result) {
+      return this.success == o.success;
     }
-    getMyInt_result other = o as getMyInt_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -2970,8 +3070,10 @@ class getMyInt_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class use_subdir_struct_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("use_subdir_struct_args");
   static final thrift.TField _A_FIELD_DESC = new thrift.TField("a", thrift.TType.STRUCT, 1);
 
   t_subdir_include_ns.A _a;
@@ -2993,6 +3095,7 @@ class use_subdir_struct_args implements thrift.TBase {
     this.a = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case A:
@@ -3002,10 +3105,11 @@ class use_subdir_struct_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case A:
-        if(value == null) {
+        if (value == null) {
           unsetA();
         } else {
           this.a = value as t_subdir_include_ns.A;
@@ -3018,8 +3122,9 @@ class use_subdir_struct_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case A:
         return isSetA();
       default:
@@ -3027,17 +3132,15 @@ class use_subdir_struct_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case A:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             a = new t_subdir_include_ns.A();
             a.read(iprot);
           } else {
@@ -3056,11 +3159,12 @@ class use_subdir_struct_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.a != null) {
+    if (this.a != null) {
       oprot.writeFieldBegin(_A_FIELD_DESC);
       a.write(oprot);
       oprot.writeFieldEnd();
@@ -3069,11 +3173,12 @@ class use_subdir_struct_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("use_subdir_struct_args(");
 
     ret.write("a:");
-    if(this.a == null) {
+    if (this.a == null) {
       ret.write("null");
     } else {
       ret.write(this.a);
@@ -3084,14 +3189,15 @@ class use_subdir_struct_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is use_subdir_struct_args)) {
-      return false;
+    if (o is use_subdir_struct_args) {
+      return this.a == o.a;
     }
-    use_subdir_struct_args other = o as use_subdir_struct_args;
-    return this.a == other.a;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ a.hashCode;
@@ -3110,8 +3216,10 @@ class use_subdir_struct_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class use_subdir_struct_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("use_subdir_struct_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
   t_subdir_include_ns.A _success;
@@ -3133,6 +3241,7 @@ class use_subdir_struct_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3142,10 +3251,11 @@ class use_subdir_struct_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as t_subdir_include_ns.A;
@@ -3158,8 +3268,9 @@ class use_subdir_struct_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -3167,17 +3278,15 @@ class use_subdir_struct_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             success = new t_subdir_include_ns.A();
             success.read(iprot);
           } else {
@@ -3196,11 +3305,12 @@ class use_subdir_struct_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -3209,12 +3319,13 @@ class use_subdir_struct_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("use_subdir_struct_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -3226,14 +3337,15 @@ class use_subdir_struct_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is use_subdir_struct_result)) {
-      return false;
+    if (o is use_subdir_struct_result) {
+      return this.success == o.success;
     }
-    use_subdir_struct_result other = o as use_subdir_struct_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -3252,8 +3364,10 @@ class use_subdir_struct_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class sayHelloWith_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("sayHelloWith_args");
   static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
 
   String _newMessage;
@@ -3275,6 +3389,7 @@ class sayHelloWith_args implements thrift.TBase {
     this.newMessage = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
@@ -3284,10 +3399,11 @@ class sayHelloWith_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NEWMESSAGE:
-        if(value == null) {
+        if (value == null) {
           unsetNewMessage();
         } else {
           this.newMessage = value as String;
@@ -3300,8 +3416,9 @@ class sayHelloWith_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NEWMESSAGE:
         return isSetNewMessage();
       default:
@@ -3309,17 +3426,15 @@ class sayHelloWith_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case NEWMESSAGE:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             newMessage = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3337,11 +3452,12 @@ class sayHelloWith_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.newMessage != null) {
+    if (this.newMessage != null) {
       oprot.writeFieldBegin(_NEW_MESSAGE_FIELD_DESC);
       oprot.writeString(newMessage);
       oprot.writeFieldEnd();
@@ -3350,11 +3466,12 @@ class sayHelloWith_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("sayHelloWith_args(");
 
     ret.write("newMessage:");
-    if(this.newMessage == null) {
+    if (this.newMessage == null) {
       ret.write("null");
     } else {
       ret.write(this.newMessage);
@@ -3365,14 +3482,15 @@ class sayHelloWith_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is sayHelloWith_args)) {
-      return false;
+    if (o is sayHelloWith_args) {
+      return this.newMessage == o.newMessage;
     }
-    sayHelloWith_args other = o as sayHelloWith_args;
-    return this.newMessage == other.newMessage;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ newMessage.hashCode;
@@ -3391,8 +3509,10 @@ class sayHelloWith_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class sayHelloWith_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("sayHelloWith_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;
@@ -3414,6 +3534,7 @@ class sayHelloWith_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3423,10 +3544,11 @@ class sayHelloWith_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as String;
@@ -3439,8 +3561,9 @@ class sayHelloWith_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -3448,17 +3571,15 @@ class sayHelloWith_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3476,11 +3597,12 @@ class sayHelloWith_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3489,12 +3611,13 @@ class sayHelloWith_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("sayHelloWith_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -3506,14 +3629,15 @@ class sayHelloWith_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is sayHelloWith_result)) {
-      return false;
+    if (o is sayHelloWith_result) {
+      return this.success == o.success;
     }
-    sayHelloWith_result other = o as sayHelloWith_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -3532,8 +3656,10 @@ class sayHelloWith_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class whatDoYouSay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("whatDoYouSay_args");
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 1);
 
   String _messageArgs;
@@ -3555,6 +3681,7 @@ class whatDoYouSay_args implements thrift.TBase {
     this.messageArgs = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGEARGS:
@@ -3564,10 +3691,11 @@ class whatDoYouSay_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGEARGS:
-        if(value == null) {
+        if (value == null) {
           unsetMessageArgs();
         } else {
           this.messageArgs = value as String;
@@ -3580,8 +3708,9 @@ class whatDoYouSay_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGEARGS:
         return isSetMessageArgs();
       default:
@@ -3589,17 +3718,15 @@ class whatDoYouSay_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case MESSAGEARGS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             messageArgs = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3617,11 +3744,12 @@ class whatDoYouSay_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.messageArgs != null) {
+    if (this.messageArgs != null) {
       oprot.writeFieldBegin(_MESSAGE_ARGS_FIELD_DESC);
       oprot.writeString(messageArgs);
       oprot.writeFieldEnd();
@@ -3630,11 +3758,12 @@ class whatDoYouSay_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("whatDoYouSay_args(");
 
     ret.write("messageArgs:");
-    if(this.messageArgs == null) {
+    if (this.messageArgs == null) {
       ret.write("null");
     } else {
       ret.write(this.messageArgs);
@@ -3645,14 +3774,15 @@ class whatDoYouSay_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is whatDoYouSay_args)) {
-      return false;
+    if (o is whatDoYouSay_args) {
+      return this.messageArgs == o.messageArgs;
     }
-    whatDoYouSay_args other = o as whatDoYouSay_args;
-    return this.messageArgs == other.messageArgs;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ messageArgs.hashCode;
@@ -3671,8 +3801,10 @@ class whatDoYouSay_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class whatDoYouSay_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("whatDoYouSay_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;
@@ -3694,6 +3826,7 @@ class whatDoYouSay_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3703,10 +3836,11 @@ class whatDoYouSay_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as String;
@@ -3719,8 +3853,9 @@ class whatDoYouSay_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -3728,17 +3863,15 @@ class whatDoYouSay_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3756,11 +3889,12 @@ class whatDoYouSay_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3769,12 +3903,13 @@ class whatDoYouSay_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("whatDoYouSay_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -3786,14 +3921,15 @@ class whatDoYouSay_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is whatDoYouSay_result)) {
-      return false;
+    if (o is whatDoYouSay_result) {
+      return this.success == o.success;
     }
-    whatDoYouSay_result other = o as whatDoYouSay_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -3812,8 +3948,10 @@ class whatDoYouSay_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class sayAgain_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("sayAgain_args");
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 1);
 
   String _messageResult;
@@ -3835,6 +3973,7 @@ class sayAgain_args implements thrift.TBase {
     this.messageResult = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGERESULT:
@@ -3844,10 +3983,11 @@ class sayAgain_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGERESULT:
-        if(value == null) {
+        if (value == null) {
           unsetMessageResult();
         } else {
           this.messageResult = value as String;
@@ -3860,8 +4000,9 @@ class sayAgain_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case MESSAGERESULT:
         return isSetMessageResult();
       default:
@@ -3869,17 +4010,15 @@ class sayAgain_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case MESSAGERESULT:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             messageResult = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3897,11 +4036,12 @@ class sayAgain_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.messageResult != null) {
+    if (this.messageResult != null) {
       oprot.writeFieldBegin(_MESSAGE_RESULT_FIELD_DESC);
       oprot.writeString(messageResult);
       oprot.writeFieldEnd();
@@ -3910,11 +4050,12 @@ class sayAgain_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("sayAgain_args(");
 
     ret.write("messageResult:");
-    if(this.messageResult == null) {
+    if (this.messageResult == null) {
       ret.write("null");
     } else {
       ret.write(this.messageResult);
@@ -3925,14 +4066,15 @@ class sayAgain_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is sayAgain_args)) {
-      return false;
+    if (o is sayAgain_args) {
+      return this.messageResult == o.messageResult;
     }
-    sayAgain_args other = o as sayAgain_args;
-    return this.messageResult == other.messageResult;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ messageResult.hashCode;
@@ -3951,8 +4093,10 @@ class sayAgain_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class sayAgain_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("sayAgain_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;
@@ -3974,6 +4118,7 @@ class sayAgain_result implements thrift.TBase {
     this.success = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3983,10 +4128,11 @@ class sayAgain_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as String;
@@ -3999,8 +4145,9 @@ class sayAgain_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -4008,17 +4155,15 @@ class sayAgain_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -4036,11 +4181,12 @@ class sayAgain_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -4049,12 +4195,13 @@ class sayAgain_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("sayAgain_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
@@ -4066,14 +4213,15 @@ class sayAgain_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is sayAgain_result)) {
-      return false;
+    if (o is sayAgain_result) {
+      return this.success == o.success;
     }
-    sayAgain_result other = o as sayAgain_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;

@@ -11,7 +11,8 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestBase implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestBase");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("TestBase");
   static final thrift.TField _BASE_STRUCT_FIELD_DESC = new thrift.TField("base_struct", thrift.TType.STRUCT, 1);
 
   t_actual_base_dart.thing _base_struct;
@@ -33,6 +34,7 @@ class TestBase implements thrift.TBase {
     this.base_struct = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case BASE_STRUCT:
@@ -42,10 +44,11 @@ class TestBase implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case BASE_STRUCT:
-        if(value == null) {
+        if (value == null) {
           unsetBase_struct();
         } else {
           this.base_struct = value as t_actual_base_dart.thing;
@@ -58,8 +61,9 @@ class TestBase implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case BASE_STRUCT:
         return isSetBase_struct();
       default:
@@ -67,17 +71,15 @@ class TestBase implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case BASE_STRUCT:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             base_struct = new t_actual_base_dart.thing();
             base_struct.read(iprot);
           } else {
@@ -96,11 +98,12 @@ class TestBase implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.base_struct != null) {
+    if (this.base_struct != null) {
       oprot.writeFieldBegin(_BASE_STRUCT_FIELD_DESC);
       base_struct.write(oprot);
       oprot.writeFieldEnd();
@@ -109,11 +112,12 @@ class TestBase implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("TestBase(");
 
     ret.write("base_struct:");
-    if(this.base_struct == null) {
+    if (this.base_struct == null) {
       ret.write("null");
     } else {
       ret.write(this.base_struct);
@@ -124,14 +128,15 @@ class TestBase implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is TestBase)) {
-      return false;
+    if (o is TestBase) {
+      return this.base_struct == o.base_struct;
     }
-    TestBase other = o as TestBase;
-    return this.base_struct == other.base_struct;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ base_struct.hashCode;

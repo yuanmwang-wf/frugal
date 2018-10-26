@@ -51,7 +51,7 @@ class MyScopePublisher {
     oprot.writeMessageBegin(msg);
     req.write(oprot);
     oprot.writeMessageEnd();
-    await transport.publish(topic, memoryBuffer.writeBytes);
+    transport.publish(topic, memoryBuffer.writeBytes);
   }
 }
 

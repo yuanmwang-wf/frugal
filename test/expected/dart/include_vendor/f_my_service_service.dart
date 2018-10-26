@@ -16,7 +16,6 @@ import 'package:include_vendor/include_vendor.dart' as t_include_vendor;
 
 
 abstract class FMyService extends t_vendor_namespace.FVendoredBase {
-
   Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx);
 }
 
@@ -37,6 +36,7 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
 
+  @override
   Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx) {
     return this._methods['getItem']([ctx]) as Future<t_vendor_namespace.Item>;
   }
@@ -58,7 +58,8 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -79,14 +80,16 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
   }
 }
 
+// ignore: camel_case_types
 class getItem_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getItem_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getItem_args");
 
 
 
-  getItem_args() {
-  }
+  getItem_args() {}
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
@@ -94,30 +97,30 @@ class getItem_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         default:
           thrift.TProtocolUtil.skip(iprot, field.type);
           break;
@@ -130,6 +133,7 @@ class getItem_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
@@ -138,6 +142,7 @@ class getItem_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getItem_args(");
 
@@ -146,13 +151,12 @@ class getItem_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getItem_args)) {
-      return false;
-    }
-    return true;
+    return o is getItem_args;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     return value;
@@ -167,8 +171,10 @@ class getItem_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class getItem_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getItem_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("getItem_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _D_FIELD_DESC = new thrift.TField("d", thrift.TType.STRUCT, 1);
 
@@ -205,6 +211,7 @@ class getItem_result implements thrift.TBase {
     this.d = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -216,10 +223,11 @@ class getItem_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as t_vendor_namespace.Item;
@@ -227,7 +235,7 @@ class getItem_result implements thrift.TBase {
         break;
 
       case D:
-        if(value == null) {
+        if (value == null) {
           unsetD();
         } else {
           this.d = value as t_excepts.InvalidData;
@@ -240,8 +248,9 @@ class getItem_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       case D:
@@ -251,17 +260,15 @@ class getItem_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             success = new t_vendor_namespace.Item();
             success.read(iprot);
           } else {
@@ -269,7 +276,7 @@ class getItem_result implements thrift.TBase {
           }
           break;
         case D:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             d = new t_excepts.InvalidData();
             d.read(iprot);
           } else {
@@ -288,16 +295,17 @@ class getItem_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(isSetD() && this.d != null) {
+    if (isSetD() && this.d != null) {
       oprot.writeFieldBegin(_D_FIELD_DESC);
       d.write(oprot);
       oprot.writeFieldEnd();
@@ -306,22 +314,23 @@ class getItem_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("getItem_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
       }
     }
 
-    if(isSetD()) {
+    if (isSetD()) {
       ret.write(", ");
       ret.write("d:");
-      if(this.d == null) {
+      if (this.d == null) {
         ret.write("null");
       } else {
         ret.write(this.d);
@@ -333,15 +342,16 @@ class getItem_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is getItem_result)) {
-      return false;
+    if (o is getItem_result) {
+      return this.success == o.success &&
+        this.d == o.d;
     }
-    getItem_result other = o as getItem_result;
-    return this.success == other.success
-      && this.d == other.d;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;

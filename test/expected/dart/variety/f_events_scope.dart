@@ -58,7 +58,7 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     req.write(oprot);
     oprot.writeMessageEnd();
-    await transport.publish(topic, memoryBuffer.writeBytes);
+    transport.publish(topic, memoryBuffer.writeBytes);
   }
 
 
@@ -78,7 +78,7 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     oprot.writeI64(req);
     oprot.writeMessageEnd();
-    await transport.publish(topic, memoryBuffer.writeBytes);
+    transport.publish(topic, memoryBuffer.writeBytes);
   }
 
 
@@ -98,7 +98,7 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     oprot.writeString(req);
     oprot.writeMessageEnd();
-    await transport.publish(topic, memoryBuffer.writeBytes);
+    transport.publish(topic, memoryBuffer.writeBytes);
   }
 
 
@@ -127,7 +127,7 @@ class EventsPublisher {
     }
     oprot.writeListEnd();
     oprot.writeMessageEnd();
-    await transport.publish(topic, memoryBuffer.writeBytes);
+    transport.publish(topic, memoryBuffer.writeBytes);
   }
 }
 

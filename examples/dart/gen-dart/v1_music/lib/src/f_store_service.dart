@@ -16,7 +16,6 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 /// Services are the API for client and server interaction.
 /// Users can buy an album or enter a giveaway for a free album.
 abstract class FStore {
-
   Future<t_v1_music.Album> buyAlbum(frugal.FContext ctx, String aSIN, String acct);
 
   /// Deprecated: use something else
@@ -43,6 +42,7 @@ class FStoreClient implements FStore {
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
 
+  @override
   Future<t_v1_music.Album> buyAlbum(frugal.FContext ctx, String aSIN, String acct) {
     return this._methods['buyAlbum']([ctx, aSIN, acct]) as Future<t_v1_music.Album>;
   }
@@ -66,7 +66,8 @@ class FStoreClient implements FStore {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -87,6 +88,7 @@ class FStoreClient implements FStore {
   }
   /// Deprecated: use something else
   @deprecated
+  @override
   Future<bool> enterAlbumGiveaway(frugal.FContext ctx, String email, String name) {
     _frugalLog.warning("Call to deprecated function 'Store.enterAlbumGiveaway'");
     return this._methods['enterAlbumGiveaway']([ctx, email, name]) as Future<bool>;
@@ -111,7 +113,8 @@ class FStoreClient implements FStore {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
+        throw new thrift.TTransportError(
+            frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
@@ -129,8 +132,10 @@ class FStoreClient implements FStore {
   }
 }
 
+// ignore: camel_case_types
 class buyAlbum_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("buyAlbum_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("buyAlbum_args");
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 1);
   static final thrift.TField _ACCT_FIELD_DESC = new thrift.TField("acct", thrift.TType.STRING, 2);
 
@@ -167,6 +172,7 @@ class buyAlbum_args implements thrift.TBase {
     this.acct = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ASIN:
@@ -178,10 +184,11 @@ class buyAlbum_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case ASIN:
-        if(value == null) {
+        if (value == null) {
           unsetASIN();
         } else {
           this.aSIN = value as String;
@@ -189,7 +196,7 @@ class buyAlbum_args implements thrift.TBase {
         break;
 
       case ACCT:
-        if(value == null) {
+        if (value == null) {
           unsetAcct();
         } else {
           this.acct = value as String;
@@ -202,8 +209,9 @@ class buyAlbum_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case ASIN:
         return isSetASIN();
       case ACCT:
@@ -213,24 +221,22 @@ class buyAlbum_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case ASIN:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             aSIN = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case ACCT:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             acct = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -248,16 +254,17 @@ class buyAlbum_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.aSIN != null) {
+    if (this.aSIN != null) {
       oprot.writeFieldBegin(_ASIN_FIELD_DESC);
       oprot.writeString(aSIN);
       oprot.writeFieldEnd();
     }
-    if(this.acct != null) {
+    if (this.acct != null) {
       oprot.writeFieldBegin(_ACCT_FIELD_DESC);
       oprot.writeString(acct);
       oprot.writeFieldEnd();
@@ -266,11 +273,12 @@ class buyAlbum_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("buyAlbum_args(");
 
     ret.write("aSIN:");
-    if(this.aSIN == null) {
+    if (this.aSIN == null) {
       ret.write("null");
     } else {
       ret.write(this.aSIN);
@@ -278,7 +286,7 @@ class buyAlbum_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("acct:");
-    if(this.acct == null) {
+    if (this.acct == null) {
       ret.write("null");
     } else {
       ret.write(this.acct);
@@ -289,15 +297,16 @@ class buyAlbum_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is buyAlbum_args)) {
-      return false;
+    if (o is buyAlbum_args) {
+      return this.aSIN == o.aSIN &&
+        this.acct == o.acct;
     }
-    buyAlbum_args other = o as buyAlbum_args;
-    return this.aSIN == other.aSIN
-      && this.acct == other.acct;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ aSIN.hashCode;
@@ -319,8 +328,10 @@ class buyAlbum_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class buyAlbum_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("buyAlbum_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("buyAlbum_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _ERROR_FIELD_DESC = new thrift.TField("error", thrift.TType.STRUCT, 1);
 
@@ -357,6 +368,7 @@ class buyAlbum_result implements thrift.TBase {
     this.error = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -368,10 +380,11 @@ class buyAlbum_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as t_v1_music.Album;
@@ -379,7 +392,7 @@ class buyAlbum_result implements thrift.TBase {
         break;
 
       case ERROR:
-        if(value == null) {
+        if (value == null) {
           unsetError();
         } else {
           this.error = value as t_v1_music.PurchasingError;
@@ -392,8 +405,9 @@ class buyAlbum_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       case ERROR:
@@ -403,17 +417,15 @@ class buyAlbum_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             success = new t_v1_music.Album();
             success.read(iprot);
           } else {
@@ -421,7 +433,7 @@ class buyAlbum_result implements thrift.TBase {
           }
           break;
         case ERROR:
-          if(field.type == thrift.TType.STRUCT) {
+          if (field.type == thrift.TType.STRUCT) {
             error = new t_v1_music.PurchasingError();
             error.read(iprot);
           } else {
@@ -440,16 +452,17 @@ class buyAlbum_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess() && this.success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if(isSetError() && this.error != null) {
+    if (isSetError() && this.error != null) {
       oprot.writeFieldBegin(_ERROR_FIELD_DESC);
       error.write(oprot);
       oprot.writeFieldEnd();
@@ -458,22 +471,23 @@ class buyAlbum_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("buyAlbum_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
-      if(this.success == null) {
+      if (this.success == null) {
         ret.write("null");
       } else {
         ret.write(this.success);
       }
     }
 
-    if(isSetError()) {
+    if (isSetError()) {
       ret.write(", ");
       ret.write("error:");
-      if(this.error == null) {
+      if (this.error == null) {
         ret.write("null");
       } else {
         ret.write(this.error);
@@ -485,15 +499,16 @@ class buyAlbum_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is buyAlbum_result)) {
-      return false;
+    if (o is buyAlbum_result) {
+      return this.success == o.success &&
+        this.error == o.error;
     }
-    buyAlbum_result other = o as buyAlbum_result;
-    return this.success == other.success
-      && this.error == other.error;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;
@@ -515,8 +530,10 @@ class buyAlbum_result implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class enterAlbumGiveaway_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_args");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("enterAlbumGiveaway_args");
   static final thrift.TField _EMAIL_FIELD_DESC = new thrift.TField("email", thrift.TType.STRING, 1);
   static final thrift.TField _NAME_FIELD_DESC = new thrift.TField("name", thrift.TType.STRING, 2);
 
@@ -553,6 +570,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     this.name = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case EMAIL:
@@ -564,10 +582,11 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case EMAIL:
-        if(value == null) {
+        if (value == null) {
           unsetEmail();
         } else {
           this.email = value as String;
@@ -575,7 +594,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
         break;
 
       case NAME:
-        if(value == null) {
+        if (value == null) {
           unsetName();
         } else {
           this.name = value as String;
@@ -588,8 +607,9 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case EMAIL:
         return isSetEmail();
       case NAME:
@@ -599,24 +619,22 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case EMAIL:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             email = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case NAME:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             name = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -634,16 +652,17 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.email != null) {
+    if (this.email != null) {
       oprot.writeFieldBegin(_EMAIL_FIELD_DESC);
       oprot.writeString(email);
       oprot.writeFieldEnd();
     }
-    if(this.name != null) {
+    if (this.name != null) {
       oprot.writeFieldBegin(_NAME_FIELD_DESC);
       oprot.writeString(name);
       oprot.writeFieldEnd();
@@ -652,11 +671,12 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("enterAlbumGiveaway_args(");
 
     ret.write("email:");
-    if(this.email == null) {
+    if (this.email == null) {
       ret.write("null");
     } else {
       ret.write(this.email);
@@ -664,7 +684,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
 
     ret.write(", ");
     ret.write("name:");
-    if(this.name == null) {
+    if (this.name == null) {
       ret.write("null");
     } else {
       ret.write(this.name);
@@ -675,15 +695,16 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is enterAlbumGiveaway_args)) {
-      return false;
+    if (o is enterAlbumGiveaway_args) {
+      return this.email == o.email &&
+        this.name == o.name;
     }
-    enterAlbumGiveaway_args other = o as enterAlbumGiveaway_args;
-    return this.email == other.email
-      && this.name == other.name;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ email.hashCode;
@@ -705,8 +726,10 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     // check that fields of type enum have valid values
   }
 }
+// ignore: camel_case_types
 class enterAlbumGiveaway_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_result");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("enterAlbumGiveaway_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.BOOL, 0);
 
   bool _success;
@@ -730,6 +753,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     this.__isset_success = false;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -739,10 +763,11 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
-        if(value == null) {
+        if (value == null) {
           unsetSuccess();
         } else {
           this.success = value as bool;
@@ -755,8 +780,9 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case SUCCESS:
         return isSetSuccess();
       default:
@@ -764,17 +790,15 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case SUCCESS:
-          if(field.type == thrift.TType.BOOL) {
+          if (field.type == thrift.TType.BOOL) {
             success = iprot.readBool();
             this.__isset_success = true;
           } else {
@@ -793,11 +817,12 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBool(success);
       oprot.writeFieldEnd();
@@ -806,10 +831,11 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("enterAlbumGiveaway_result(");
 
-    if(isSetSuccess()) {
+    if (isSetSuccess()) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -819,14 +845,15 @@ class enterAlbumGiveaway_result implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is enterAlbumGiveaway_result)) {
-      return false;
+    if (o is enterAlbumGiveaway_result) {
+      return this.success == o.success;
     }
-    enterAlbumGiveaway_result other = o as enterAlbumGiveaway_result;
-    return this.success == other.success;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ success.hashCode;

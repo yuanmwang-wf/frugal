@@ -11,7 +11,8 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class FooArgs implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("FooArgs");
+  static final thrift.TStruct _STRUCT_DESC =
+    new thrift.TStruct("FooArgs");
   static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 2);
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 3);
@@ -63,6 +64,7 @@ class FooArgs implements thrift.TBase {
     this.messageResult = null;
   }
 
+  @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
@@ -76,10 +78,11 @@ class FooArgs implements thrift.TBase {
     }
   }
 
+  @override
   setFieldValue(int fieldID, Object value) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NEWMESSAGE:
-        if(value == null) {
+        if (value == null) {
           unsetNewMessage();
         } else {
           this.newMessage = value as String;
@@ -87,7 +90,7 @@ class FooArgs implements thrift.TBase {
         break;
 
       case MESSAGEARGS:
-        if(value == null) {
+        if (value == null) {
           unsetMessageArgs();
         } else {
           this.messageArgs = value as String;
@@ -95,7 +98,7 @@ class FooArgs implements thrift.TBase {
         break;
 
       case MESSAGERESULT:
-        if(value == null) {
+        if (value == null) {
           unsetMessageResult();
         } else {
           this.messageResult = value as String;
@@ -108,8 +111,9 @@ class FooArgs implements thrift.TBase {
   }
 
   // Returns true if the field corresponding to fieldID is set (has been assigned a value) and false otherwise
+  @override
   bool isSet(int fieldID) {
-    switch(fieldID) {
+    switch (fieldID) {
       case NEWMESSAGE:
         return isSetNewMessage();
       case MESSAGEARGS:
@@ -121,31 +125,29 @@ class FooArgs implements thrift.TBase {
     }
   }
 
+  @override
   read(thrift.TProtocol iprot) {
-    thrift.TField field;
     iprot.readStructBegin();
-    while(true) {
-      field = iprot.readFieldBegin();
-      if(field.type == thrift.TType.STOP) {
-        break;
-      }
-      switch(field.id) {
+    for (thrift.TField field = iprot.readFieldBegin();
+        field.type != thrift.TType.STOP;
+        field = iprot.readFieldBegin()) {
+      switch (field.id) {
         case NEWMESSAGE:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             newMessage = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case MESSAGEARGS:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             messageArgs = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case MESSAGERESULT:
-          if(field.type == thrift.TType.STRING) {
+          if (field.type == thrift.TType.STRING) {
             messageResult = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -163,21 +165,22 @@ class FooArgs implements thrift.TBase {
     validate();
   }
 
+  @override
   write(thrift.TProtocol oprot) {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if(this.newMessage != null) {
+    if (this.newMessage != null) {
       oprot.writeFieldBegin(_NEW_MESSAGE_FIELD_DESC);
       oprot.writeString(newMessage);
       oprot.writeFieldEnd();
     }
-    if(this.messageArgs != null) {
+    if (this.messageArgs != null) {
       oprot.writeFieldBegin(_MESSAGE_ARGS_FIELD_DESC);
       oprot.writeString(messageArgs);
       oprot.writeFieldEnd();
     }
-    if(this.messageResult != null) {
+    if (this.messageResult != null) {
       oprot.writeFieldBegin(_MESSAGE_RESULT_FIELD_DESC);
       oprot.writeString(messageResult);
       oprot.writeFieldEnd();
@@ -186,11 +189,12 @@ class FooArgs implements thrift.TBase {
     oprot.writeStructEnd();
   }
 
+  @override
   String toString() {
     StringBuffer ret = new StringBuffer("FooArgs(");
 
     ret.write("newMessage:");
-    if(this.newMessage == null) {
+    if (this.newMessage == null) {
       ret.write("null");
     } else {
       ret.write(this.newMessage);
@@ -198,7 +202,7 @@ class FooArgs implements thrift.TBase {
 
     ret.write(", ");
     ret.write("messageArgs:");
-    if(this.messageArgs == null) {
+    if (this.messageArgs == null) {
       ret.write("null");
     } else {
       ret.write(this.messageArgs);
@@ -206,7 +210,7 @@ class FooArgs implements thrift.TBase {
 
     ret.write(", ");
     ret.write("messageResult:");
-    if(this.messageResult == null) {
+    if (this.messageResult == null) {
       ret.write("null");
     } else {
       ret.write(this.messageResult);
@@ -217,16 +221,17 @@ class FooArgs implements thrift.TBase {
     return ret.toString();
   }
 
+  @override
   bool operator ==(Object o) {
-    if(o == null || !(o is FooArgs)) {
-      return false;
+    if (o is FooArgs) {
+      return this.newMessage == o.newMessage &&
+        this.messageArgs == o.messageArgs &&
+        this.messageResult == o.messageResult;
     }
-    FooArgs other = o as FooArgs;
-    return this.newMessage == other.newMessage
-      && this.messageArgs == other.messageArgs
-      && this.messageResult == other.messageResult;
+    return false;
   }
 
+  @override
   int get hashCode {
     var value = 17;
     value = (value * 31) ^ newMessage.hashCode;

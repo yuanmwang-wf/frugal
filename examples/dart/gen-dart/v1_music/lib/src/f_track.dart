@@ -32,6 +32,12 @@ class Track implements thrift.TBase {
   Track() {
   }
 
+  bool isSettitle() => title == null;
+  bool isSetartist() => artist == null;
+  bool isSetpublisher() => publisher == null;
+  bool isSetcomposer() => composer == null;
+  bool isSetduration() => duration == null;
+  bool isSetpro() => pro == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case TITLE:
@@ -56,7 +62,7 @@ class Track implements thrift.TBase {
       case TITLE:
         if (value == null) {
           title = null;
-        else if (value is String) {
+        } else if (value is String) {
           title = value;
         }
 
@@ -65,7 +71,7 @@ class Track implements thrift.TBase {
       case ARTIST:
         if (value == null) {
           artist = null;
-        else if (value is String) {
+        } else if (value is String) {
           artist = value;
         }
 
@@ -74,7 +80,7 @@ class Track implements thrift.TBase {
       case PUBLISHER:
         if (value == null) {
           publisher = null;
-        else if (value is String) {
+        } else if (value is String) {
           publisher = value;
         }
 
@@ -83,7 +89,7 @@ class Track implements thrift.TBase {
       case COMPOSER:
         if (value == null) {
           composer = null;
-        else if (value is String) {
+        } else if (value is String) {
           composer = value;
         }
 
@@ -92,7 +98,7 @@ class Track implements thrift.TBase {
       case DURATION:
         if (value == null) {
           duration = null;
-        else if (value is double) {
+        } else if (value is double) {
           duration = value;
         }
 
@@ -101,7 +107,7 @@ class Track implements thrift.TBase {
       case PRO:
         if (value == null) {
           pro = null;
-        else if (value is int) {
+        } else if (value is int) {
           pro = value;
         }
 

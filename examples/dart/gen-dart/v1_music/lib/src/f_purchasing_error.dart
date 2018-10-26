@@ -21,6 +21,8 @@ class PurchasingError extends Error implements thrift.TBase {
   PurchasingError() {
   }
 
+  bool isSetmessage() => message == null;
+  bool isSeterror_code() => error_code == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGE:
@@ -37,7 +39,7 @@ class PurchasingError extends Error implements thrift.TBase {
       case MESSAGE:
         if (value == null) {
           message = null;
-        else if (value is String) {
+        } else if (value is String) {
           message = value;
         }
 
@@ -46,7 +48,7 @@ class PurchasingError extends Error implements thrift.TBase {
       case ERROR_CODE:
         if (value == null) {
           error_code = null;
-        else if (value is int) {
+        } else if (value is int) {
           error_code = value;
         }
 

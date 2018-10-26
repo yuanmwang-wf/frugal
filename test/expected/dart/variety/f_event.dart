@@ -29,6 +29,8 @@ class Event implements thrift.TBase {
     this.iD = t_variety.VarietyConstants.DEFAULT_ID;
   }
 
+  bool isSetID() => ID == null;
+  bool isSetMessage() => Message == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -45,7 +47,7 @@ class Event implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD = value;
         }
 
@@ -54,7 +56,7 @@ class Event implements thrift.TBase {
       case MESSAGE:
         if (value == null) {
           message = null;
-        else if (value is String) {
+        } else if (value is String) {
           message = value;
         }
 

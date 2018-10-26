@@ -21,6 +21,7 @@ class TestBase implements thrift.TBase {
   TestBase() {
   }
 
+  bool isSetbase_struct() => base_struct == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case BASE_STRUCT:
@@ -35,7 +36,7 @@ class TestBase implements thrift.TBase {
       case BASE_STRUCT:
         if (value == null) {
           base_struct = null;
-        else if (value is t_actual_base_dart.thing) {
+        } else if (value is t_actual_base_dart.thing) {
           base_struct = value;
         }
 

@@ -41,6 +41,13 @@ class TestingUnions implements thrift.TBase {
   TestingUnions() {
   }
 
+  bool isSetAnID() => AnID == null;
+  bool isSetaString() => aString == null;
+  bool isSetsomeotherthing() => someotherthing == null;
+  bool isSetAnInt16() => AnInt16 == null;
+  bool isSetRequests() => Requests == null;
+  bool isSetbin_field_in_union() => bin_field_in_union == null;
+  bool isSetdepr() => depr == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ANID:
@@ -67,7 +74,7 @@ class TestingUnions implements thrift.TBase {
       case ANID:
         if (value == null) {
           anID = null;
-        else if (value is int) {
+        } else if (value is int) {
           anID = value;
         }
 
@@ -76,7 +83,7 @@ class TestingUnions implements thrift.TBase {
       case ASTRING:
         if (value == null) {
           aString = null;
-        else if (value is String) {
+        } else if (value is String) {
           aString = value;
         }
 
@@ -85,7 +92,7 @@ class TestingUnions implements thrift.TBase {
       case SOMEOTHERTHING:
         if (value == null) {
           someotherthing = null;
-        else if (value is int) {
+        } else if (value is int) {
           someotherthing = value;
         }
 
@@ -94,7 +101,7 @@ class TestingUnions implements thrift.TBase {
       case ANINT16:
         if (value == null) {
           anInt16 = null;
-        else if (value is int) {
+        } else if (value is int) {
           anInt16 = value;
         }
 
@@ -103,7 +110,7 @@ class TestingUnions implements thrift.TBase {
       case REQUESTS:
         if (value == null) {
           requests = null;
-        else if (value is Map<int, String>) {
+        } else if (value is Map<int, String>) {
           requests = value;
         }
 
@@ -112,7 +119,7 @@ class TestingUnions implements thrift.TBase {
       case BIN_FIELD_IN_UNION:
         if (value == null) {
           bin_field_in_union = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin_field_in_union = value;
         }
 
@@ -121,7 +128,7 @@ class TestingUnions implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        else if (value is bool) {
+        } else if (value is bool) {
           depr = value;
         }
 

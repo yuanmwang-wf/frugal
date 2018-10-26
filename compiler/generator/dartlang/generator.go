@@ -718,8 +718,13 @@ func (g *Generator) generateInitValue(field *parser.Field) string {
 }
 
 func (g *Generator) generateFieldMethods(s *parser.Struct) string {
+	contents := ""
+	for _, field := range s.Fields {
+		contents += fmt.Sprintf(tab+"bool isSet%s() => %s == null;\n", field.Name, field.Name)
+	}
+
 	// getFieldValue
-	contents := tab + "getFieldValue(int fieldID) {\n"
+	contents += tab + "getFieldValue(int fieldID) {\n"
 	contents += tabtab + "switch (fieldID) {\n"
 	for _, field := range s.Fields {
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
@@ -738,7 +743,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
 		contents += tabtabtabtab + "if (value == null) {\n"
 		contents += fmt.Sprintf(tabtabtabtabtab+"%s = null;\n", fName)
-		contents += fmt.Sprintf(tabtabtabtab+"else if (value is %s) {\n", g.getDartTypeFromThriftType(field.Type))
+		contents += fmt.Sprintf(tabtabtabtab+"} else if (value is %s) {\n", g.getDartTypeFromThriftType(field.Type))
 		contents += fmt.Sprintf(tabtabtabtabtab+"%s = value;\n", fName)
 		contents += tabtabtabtab + "}\n\n"
 		contents += tabtabtabtab + "break;\n\n"
@@ -1661,7 +1666,7 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 	if method.ReturnType == nil {
 		contents += g.generateErrors(method)
 	} else {
-		contents += tabtab + "if (result.isSetSuccess()) {\n"
+		contents += tabtab + "if (result.success != null) {\n"
 		contents += tabtabtab + "return result.success;\n"
 		contents += tabtab + "}\n\n"
 		contents += g.generateErrors(method)

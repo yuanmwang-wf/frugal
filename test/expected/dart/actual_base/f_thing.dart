@@ -19,6 +19,8 @@ class thing implements thrift.TBase {
   thing() {
   }
 
+  bool isSetan_id() => an_id == null;
+  bool isSeta_string() => a_string == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case AN_ID:
@@ -35,7 +37,7 @@ class thing implements thrift.TBase {
       case AN_ID:
         if (value == null) {
           an_id = null;
-        else if (value is int) {
+        } else if (value is int) {
           an_id = value;
         }
 
@@ -44,7 +46,7 @@ class thing implements thrift.TBase {
       case A_STRING:
         if (value == null) {
           a_string = null;
-        else if (value is String) {
+        } else if (value is String) {
           a_string = value;
         }
 

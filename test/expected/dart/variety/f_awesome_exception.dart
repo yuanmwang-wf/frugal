@@ -31,6 +31,9 @@ class AwesomeException extends Error implements thrift.TBase {
   AwesomeException() {
   }
 
+  bool isSetID() => ID == null;
+  bool isSetReason() => Reason == null;
+  bool isSetdepr() => depr == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -49,7 +52,7 @@ class AwesomeException extends Error implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD = value;
         }
 
@@ -58,7 +61,7 @@ class AwesomeException extends Error implements thrift.TBase {
       case REASON:
         if (value == null) {
           reason = null;
-        else if (value is String) {
+        } else if (value is String) {
           reason = value;
         }
 
@@ -67,7 +70,7 @@ class AwesomeException extends Error implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        else if (value is bool) {
+        } else if (value is bool) {
           depr = value;
         }
 

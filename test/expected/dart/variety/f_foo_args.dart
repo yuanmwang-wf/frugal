@@ -27,6 +27,9 @@ class FooArgs implements thrift.TBase {
   FooArgs() {
   }
 
+  bool isSetnewMessage() => newMessage == null;
+  bool isSetmessageArgs() => messageArgs == null;
+  bool isSetmessageResult() => messageResult == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
@@ -45,7 +48,7 @@ class FooArgs implements thrift.TBase {
       case NEWMESSAGE:
         if (value == null) {
           newMessage = null;
-        else if (value is String) {
+        } else if (value is String) {
           newMessage = value;
         }
 
@@ -54,7 +57,7 @@ class FooArgs implements thrift.TBase {
       case MESSAGEARGS:
         if (value == null) {
           messageArgs = null;
-        else if (value is String) {
+        } else if (value is String) {
           messageArgs = value;
         }
 
@@ -63,7 +66,7 @@ class FooArgs implements thrift.TBase {
       case MESSAGERESULT:
         if (value == null) {
           messageResult = null;
-        else if (value is String) {
+        } else if (value is String) {
           messageResult = value;
         }
 

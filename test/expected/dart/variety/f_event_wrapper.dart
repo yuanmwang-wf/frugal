@@ -65,6 +65,19 @@ class EventWrapper implements thrift.TBase {
   EventWrapper() {
   }
 
+  bool isSetID() => ID == null;
+  bool isSetEv() => Ev == null;
+  bool isSetEvents() => Events == null;
+  bool isSetEvents2() => Events2 == null;
+  bool isSetEventMap() => EventMap == null;
+  bool isSetNums() => Nums == null;
+  bool isSetEnums() => Enums == null;
+  bool isSetaBoolField() => aBoolField == null;
+  bool isSeta_union() => a_union == null;
+  bool isSettypedefOfTypedef() => typedefOfTypedef == null;
+  bool isSetdepr() => depr == null;
+  bool isSetdeprBinary() => deprBinary == null;
+  bool isSetdeprList() => deprList == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -103,7 +116,7 @@ class EventWrapper implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD = value;
         }
 
@@ -112,7 +125,7 @@ class EventWrapper implements thrift.TBase {
       case EV:
         if (value == null) {
           ev = null;
-        else if (value is t_variety.Event) {
+        } else if (value is t_variety.Event) {
           ev = value;
         }
 
@@ -121,7 +134,7 @@ class EventWrapper implements thrift.TBase {
       case EVENTS:
         if (value == null) {
           events = null;
-        else if (value is List<t_variety.Event>) {
+        } else if (value is List<t_variety.Event>) {
           events = value;
         }
 
@@ -130,7 +143,7 @@ class EventWrapper implements thrift.TBase {
       case EVENTS2:
         if (value == null) {
           events2 = null;
-        else if (value is Set<t_variety.Event>) {
+        } else if (value is Set<t_variety.Event>) {
           events2 = value;
         }
 
@@ -139,7 +152,7 @@ class EventWrapper implements thrift.TBase {
       case EVENTMAP:
         if (value == null) {
           eventMap = null;
-        else if (value is Map<int, t_variety.Event>) {
+        } else if (value is Map<int, t_variety.Event>) {
           eventMap = value;
         }
 
@@ -148,7 +161,7 @@ class EventWrapper implements thrift.TBase {
       case NUMS:
         if (value == null) {
           nums = null;
-        else if (value is List<List<int>>) {
+        } else if (value is List<List<int>>) {
           nums = value;
         }
 
@@ -157,7 +170,7 @@ class EventWrapper implements thrift.TBase {
       case ENUMS:
         if (value == null) {
           enums = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           enums = value;
         }
 
@@ -166,7 +179,7 @@ class EventWrapper implements thrift.TBase {
       case ABOOLFIELD:
         if (value == null) {
           aBoolField = null;
-        else if (value is bool) {
+        } else if (value is bool) {
           aBoolField = value;
         }
 
@@ -175,7 +188,7 @@ class EventWrapper implements thrift.TBase {
       case A_UNION:
         if (value == null) {
           a_union = null;
-        else if (value is t_variety.TestingUnions) {
+        } else if (value is t_variety.TestingUnions) {
           a_union = value;
         }
 
@@ -184,7 +197,7 @@ class EventWrapper implements thrift.TBase {
       case TYPEDEFOFTYPEDEF:
         if (value == null) {
           typedefOfTypedef = null;
-        else if (value is String) {
+        } else if (value is String) {
           typedefOfTypedef = value;
         }
 
@@ -193,7 +206,7 @@ class EventWrapper implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        else if (value is bool) {
+        } else if (value is bool) {
           depr = value;
         }
 
@@ -202,7 +215,7 @@ class EventWrapper implements thrift.TBase {
       case DEPRBINARY:
         if (value == null) {
           deprBinary = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           deprBinary = value;
         }
 
@@ -211,7 +224,7 @@ class EventWrapper implements thrift.TBase {
       case DEPRLIST:
         if (value == null) {
           deprList = null;
-        else if (value is List<bool>) {
+        } else if (value is List<bool>) {
           deprList = value;
         }
 

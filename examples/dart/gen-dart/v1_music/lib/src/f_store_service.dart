@@ -74,7 +74,7 @@ class FStoreClient implements FStore {
     buyAlbum_result result = new buyAlbum_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -119,7 +119,7 @@ class FStoreClient implements FStore {
     enterAlbumGiveaway_result result = new enterAlbumGiveaway_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -143,6 +143,8 @@ class buyAlbum_args implements thrift.TBase {
   buyAlbum_args() {
   }
 
+  bool isSetASIN() => ASIN == null;
+  bool isSetacct() => acct == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ASIN:
@@ -159,7 +161,7 @@ class buyAlbum_args implements thrift.TBase {
       case ASIN:
         if (value == null) {
           aSIN = null;
-        else if (value is String) {
+        } else if (value is String) {
           aSIN = value;
         }
 
@@ -168,7 +170,7 @@ class buyAlbum_args implements thrift.TBase {
       case ACCT:
         if (value == null) {
           acct = null;
-        else if (value is String) {
+        } else if (value is String) {
           acct = value;
         }
 
@@ -310,6 +312,8 @@ class buyAlbum_result implements thrift.TBase {
   buyAlbum_result() {
   }
 
+  bool isSetsuccess() => success == null;
+  bool isSeterror() => error == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -326,7 +330,7 @@ class buyAlbum_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is t_v1_music.Album) {
+        } else if (value is t_v1_music.Album) {
           success = value;
         }
 
@@ -335,7 +339,7 @@ class buyAlbum_result implements thrift.TBase {
       case ERROR:
         if (value == null) {
           error = null;
-        else if (value is t_v1_music.PurchasingError) {
+        } else if (value is t_v1_music.PurchasingError) {
           error = value;
         }
 
@@ -483,6 +487,8 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   enterAlbumGiveaway_args() {
   }
 
+  bool isSetemail() => email == null;
+  bool isSetname() => name == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case EMAIL:
@@ -499,7 +505,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
       case EMAIL:
         if (value == null) {
           email = null;
-        else if (value is String) {
+        } else if (value is String) {
           email = value;
         }
 
@@ -508,7 +514,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
       case NAME:
         if (value == null) {
           name = null;
-        else if (value is String) {
+        } else if (value is String) {
           name = value;
         }
 
@@ -647,6 +653,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   enterAlbumGiveaway_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -661,7 +668,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is bool) {
+        } else if (value is bool) {
           success = value;
         }
 

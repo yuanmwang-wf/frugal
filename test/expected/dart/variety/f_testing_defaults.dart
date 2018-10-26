@@ -110,6 +110,24 @@ class TestingDefaults implements thrift.TBase {
     this.base_status = t_actual_base_dart.base_health_condition.FAIL;
   }
 
+  bool isSetID2() => ID2 == null;
+  bool isSetev1() => ev1 == null;
+  bool isSetev2() => ev2 == null;
+  bool isSetID() => ID == null;
+  bool isSetthing() => thing == null;
+  bool isSetthing2() => thing2 == null;
+  bool isSetlistfield() => listfield == null;
+  bool isSetID3() => ID3 == null;
+  bool isSetbin_field() => bin_field == null;
+  bool isSetbin_field2() => bin_field2 == null;
+  bool isSetbin_field3() => bin_field3 == null;
+  bool isSetbin_field4() => bin_field4 == null;
+  bool isSetlist2() => list2 == null;
+  bool isSetlist3() => list3 == null;
+  bool isSetlist4() => list4 == null;
+  bool isSeta_map() => a_map == null;
+  bool isSetstatus() => status == null;
+  bool isSetbase_status() => base_status == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID2:
@@ -158,7 +176,7 @@ class TestingDefaults implements thrift.TBase {
       case ID2:
         if (value == null) {
           iD2 = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD2 = value;
         }
 
@@ -167,7 +185,7 @@ class TestingDefaults implements thrift.TBase {
       case EV1:
         if (value == null) {
           ev1 = null;
-        else if (value is t_variety.Event) {
+        } else if (value is t_variety.Event) {
           ev1 = value;
         }
 
@@ -176,7 +194,7 @@ class TestingDefaults implements thrift.TBase {
       case EV2:
         if (value == null) {
           ev2 = null;
-        else if (value is t_variety.Event) {
+        } else if (value is t_variety.Event) {
           ev2 = value;
         }
 
@@ -185,7 +203,7 @@ class TestingDefaults implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD = value;
         }
 
@@ -194,7 +212,7 @@ class TestingDefaults implements thrift.TBase {
       case THING:
         if (value == null) {
           thing = null;
-        else if (value is String) {
+        } else if (value is String) {
           thing = value;
         }
 
@@ -203,7 +221,7 @@ class TestingDefaults implements thrift.TBase {
       case THING2:
         if (value == null) {
           thing2 = null;
-        else if (value is String) {
+        } else if (value is String) {
           thing2 = value;
         }
 
@@ -212,7 +230,7 @@ class TestingDefaults implements thrift.TBase {
       case LISTFIELD:
         if (value == null) {
           listfield = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           listfield = value;
         }
 
@@ -221,7 +239,7 @@ class TestingDefaults implements thrift.TBase {
       case ID3:
         if (value == null) {
           iD3 = null;
-        else if (value is int) {
+        } else if (value is int) {
           iD3 = value;
         }
 
@@ -230,7 +248,7 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD:
         if (value == null) {
           bin_field = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin_field = value;
         }
 
@@ -239,7 +257,7 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD2:
         if (value == null) {
           bin_field2 = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin_field2 = value;
         }
 
@@ -248,7 +266,7 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD3:
         if (value == null) {
           bin_field3 = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin_field3 = value;
         }
 
@@ -257,7 +275,7 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD4:
         if (value == null) {
           bin_field4 = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin_field4 = value;
         }
 
@@ -266,7 +284,7 @@ class TestingDefaults implements thrift.TBase {
       case LIST2:
         if (value == null) {
           list2 = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           list2 = value;
         }
 
@@ -275,7 +293,7 @@ class TestingDefaults implements thrift.TBase {
       case LIST3:
         if (value == null) {
           list3 = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           list3 = value;
         }
 
@@ -284,7 +302,7 @@ class TestingDefaults implements thrift.TBase {
       case LIST4:
         if (value == null) {
           list4 = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           list4 = value;
         }
 
@@ -293,7 +311,7 @@ class TestingDefaults implements thrift.TBase {
       case A_MAP:
         if (value == null) {
           a_map = null;
-        else if (value is Map<String, String>) {
+        } else if (value is Map<String, String>) {
           a_map = value;
         }
 
@@ -302,7 +320,7 @@ class TestingDefaults implements thrift.TBase {
       case STATUS:
         if (value == null) {
           status = null;
-        else if (value is int) {
+        } else if (value is int) {
           status = value;
         }
 
@@ -311,7 +329,7 @@ class TestingDefaults implements thrift.TBase {
       case BASE_STATUS:
         if (value == null) {
           base_status = null;
-        else if (value is int) {
+        } else if (value is int) {
           base_status = value;
         }
 

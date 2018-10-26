@@ -148,7 +148,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     blah_result result = new blah_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -211,7 +211,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     bin_method_result result = new bin_method_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -254,7 +254,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     param_modifiers_result result = new param_modifiers_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -293,7 +293,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     underlying_types_test_result result = new underlying_types_test_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -330,7 +330,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     getThing_result result = new getThing_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -367,7 +367,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     getMyInt_result result = new getMyInt_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -405,7 +405,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     use_subdir_struct_result result = new use_subdir_struct_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -443,7 +443,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     sayHelloWith_result result = new sayHelloWith_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -481,7 +481,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     whatDoYouSay_result result = new whatDoYouSay_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -519,7 +519,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     sayAgain_result result = new sayAgain_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -716,6 +716,9 @@ class blah_args implements thrift.TBase {
   blah_args() {
   }
 
+  bool isSetnum() => num == null;
+  bool isSetStr() => Str == null;
+  bool isSetevent() => event == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NUM:
@@ -734,7 +737,7 @@ class blah_args implements thrift.TBase {
       case NUM:
         if (value == null) {
           num = null;
-        else if (value is int) {
+        } else if (value is int) {
           num = value;
         }
 
@@ -743,7 +746,7 @@ class blah_args implements thrift.TBase {
       case STR:
         if (value == null) {
           str = null;
-        else if (value is String) {
+        } else if (value is String) {
           str = value;
         }
 
@@ -752,7 +755,7 @@ class blah_args implements thrift.TBase {
       case EVENT:
         if (value == null) {
           event = null;
-        else if (value is t_variety.Event) {
+        } else if (value is t_variety.Event) {
           event = value;
         }
 
@@ -919,6 +922,9 @@ class blah_result implements thrift.TBase {
   blah_result() {
   }
 
+  bool isSetsuccess() => success == null;
+  bool isSetawe() => awe == null;
+  bool isSetapi() => api == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -937,7 +943,7 @@ class blah_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is int) {
+        } else if (value is int) {
           success = value;
         }
 
@@ -946,7 +952,7 @@ class blah_result implements thrift.TBase {
       case AWE:
         if (value == null) {
           awe = null;
-        else if (value is t_variety.AwesomeException) {
+        } else if (value is t_variety.AwesomeException) {
           awe = value;
         }
 
@@ -955,7 +961,7 @@ class blah_result implements thrift.TBase {
       case API:
         if (value == null) {
           api = null;
-        else if (value is t_actual_base_dart.api_exception) {
+        } else if (value is t_actual_base_dart.api_exception) {
           api = value;
         }
 
@@ -1128,6 +1134,8 @@ class oneWay_args implements thrift.TBase {
   oneWay_args() {
   }
 
+  bool isSetid() => id == null;
+  bool isSetreq() => req == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:
@@ -1144,7 +1152,7 @@ class oneWay_args implements thrift.TBase {
       case ID:
         if (value == null) {
           id = null;
-        else if (value is int) {
+        } else if (value is int) {
           id = value;
         }
 
@@ -1153,7 +1161,7 @@ class oneWay_args implements thrift.TBase {
       case REQ:
         if (value == null) {
           req = null;
-        else if (value is Map<int, String>) {
+        } else if (value is Map<int, String>) {
           req = value;
         }
 
@@ -1301,6 +1309,8 @@ class bin_method_args implements thrift.TBase {
   bin_method_args() {
   }
 
+  bool isSetbin() => bin == null;
+  bool isSetStr() => Str == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case BIN:
@@ -1317,7 +1327,7 @@ class bin_method_args implements thrift.TBase {
       case BIN:
         if (value == null) {
           bin = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           bin = value;
         }
 
@@ -1326,7 +1336,7 @@ class bin_method_args implements thrift.TBase {
       case STR:
         if (value == null) {
           str = null;
-        else if (value is String) {
+        } else if (value is String) {
           str = value;
         }
 
@@ -1468,6 +1478,8 @@ class bin_method_result implements thrift.TBase {
   bin_method_result() {
   }
 
+  bool isSetsuccess() => success == null;
+  bool isSetapi() => api == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1484,7 +1496,7 @@ class bin_method_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is Uint8List) {
+        } else if (value is Uint8List) {
           success = value;
         }
 
@@ -1493,7 +1505,7 @@ class bin_method_result implements thrift.TBase {
       case API:
         if (value == null) {
           api = null;
-        else if (value is t_actual_base_dart.api_exception) {
+        } else if (value is t_actual_base_dart.api_exception) {
           api = value;
         }
 
@@ -1643,6 +1655,9 @@ class param_modifiers_args implements thrift.TBase {
   param_modifiers_args() {
   }
 
+  bool isSetopt_num() => opt_num == null;
+  bool isSetdefault_num() => default_num == null;
+  bool isSetreq_num() => req_num == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case OPT_NUM:
@@ -1661,7 +1676,7 @@ class param_modifiers_args implements thrift.TBase {
       case OPT_NUM:
         if (value == null) {
           opt_num = null;
-        else if (value is int) {
+        } else if (value is int) {
           opt_num = value;
         }
 
@@ -1670,7 +1685,7 @@ class param_modifiers_args implements thrift.TBase {
       case DEFAULT_NUM:
         if (value == null) {
           default_num = null;
-        else if (value is int) {
+        } else if (value is int) {
           default_num = value;
         }
 
@@ -1679,7 +1694,7 @@ class param_modifiers_args implements thrift.TBase {
       case REQ_NUM:
         if (value == null) {
           req_num = null;
-        else if (value is int) {
+        } else if (value is int) {
           req_num = value;
         }
 
@@ -1832,6 +1847,7 @@ class param_modifiers_result implements thrift.TBase {
   param_modifiers_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -1846,7 +1862,7 @@ class param_modifiers_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is int) {
+        } else if (value is int) {
           success = value;
         }
 
@@ -1959,6 +1975,8 @@ class underlying_types_test_args implements thrift.TBase {
   underlying_types_test_args() {
   }
 
+  bool isSetlist_type() => list_type == null;
+  bool isSetset_type() => set_type == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case LIST_TYPE:
@@ -1975,7 +1993,7 @@ class underlying_types_test_args implements thrift.TBase {
       case LIST_TYPE:
         if (value == null) {
           list_type = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           list_type = value;
         }
 
@@ -1984,7 +2002,7 @@ class underlying_types_test_args implements thrift.TBase {
       case SET_TYPE:
         if (value == null) {
           set_type = null;
-        else if (value is Set<int>) {
+        } else if (value is Set<int>) {
           set_type = value;
         }
 
@@ -2143,6 +2161,7 @@ class underlying_types_test_result implements thrift.TBase {
   underlying_types_test_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2157,7 +2176,7 @@ class underlying_types_test_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is List<int>) {
+        } else if (value is List<int>) {
           success = value;
         }
 
@@ -2366,6 +2385,7 @@ class getThing_result implements thrift.TBase {
   getThing_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2380,7 +2400,7 @@ class getThing_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is t_validStructs.Thing) {
+        } else if (value is t_validStructs.Thing) {
           success = value;
         }
 
@@ -2580,6 +2600,7 @@ class getMyInt_result implements thrift.TBase {
   getMyInt_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2594,7 +2615,7 @@ class getMyInt_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is int) {
+        } else if (value is int) {
           success = value;
         }
 
@@ -2704,6 +2725,7 @@ class use_subdir_struct_args implements thrift.TBase {
   use_subdir_struct_args() {
   }
 
+  bool isSeta() => a == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case A:
@@ -2718,7 +2740,7 @@ class use_subdir_struct_args implements thrift.TBase {
       case A:
         if (value == null) {
           a = null;
-        else if (value is t_subdir_include_ns.A) {
+        } else if (value is t_subdir_include_ns.A) {
           a = value;
         }
 
@@ -2831,6 +2853,7 @@ class use_subdir_struct_result implements thrift.TBase {
   use_subdir_struct_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -2845,7 +2868,7 @@ class use_subdir_struct_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is t_subdir_include_ns.A) {
+        } else if (value is t_subdir_include_ns.A) {
           success = value;
         }
 
@@ -2960,6 +2983,7 @@ class sayHelloWith_args implements thrift.TBase {
   sayHelloWith_args() {
   }
 
+  bool isSetnewMessage() => newMessage == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
@@ -2974,7 +2998,7 @@ class sayHelloWith_args implements thrift.TBase {
       case NEWMESSAGE:
         if (value == null) {
           newMessage = null;
-        else if (value is String) {
+        } else if (value is String) {
           newMessage = value;
         }
 
@@ -3086,6 +3110,7 @@ class sayHelloWith_result implements thrift.TBase {
   sayHelloWith_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3100,7 +3125,7 @@ class sayHelloWith_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is String) {
+        } else if (value is String) {
           success = value;
         }
 
@@ -3214,6 +3239,7 @@ class whatDoYouSay_args implements thrift.TBase {
   whatDoYouSay_args() {
   }
 
+  bool isSetmessageArgs() => messageArgs == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGEARGS:
@@ -3228,7 +3254,7 @@ class whatDoYouSay_args implements thrift.TBase {
       case MESSAGEARGS:
         if (value == null) {
           messageArgs = null;
-        else if (value is String) {
+        } else if (value is String) {
           messageArgs = value;
         }
 
@@ -3340,6 +3366,7 @@ class whatDoYouSay_result implements thrift.TBase {
   whatDoYouSay_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3354,7 +3381,7 @@ class whatDoYouSay_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is String) {
+        } else if (value is String) {
           success = value;
         }
 
@@ -3468,6 +3495,7 @@ class sayAgain_args implements thrift.TBase {
   sayAgain_args() {
   }
 
+  bool isSetmessageResult() => messageResult == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case MESSAGERESULT:
@@ -3482,7 +3510,7 @@ class sayAgain_args implements thrift.TBase {
       case MESSAGERESULT:
         if (value == null) {
           messageResult = null;
-        else if (value is String) {
+        } else if (value is String) {
           messageResult = value;
         }
 
@@ -3594,6 +3622,7 @@ class sayAgain_result implements thrift.TBase {
   sayAgain_result() {
   }
 
+  bool isSetsuccess() => success == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -3608,7 +3637,7 @@ class sayAgain_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is String) {
+        } else if (value is String) {
           success = value;
         }
 

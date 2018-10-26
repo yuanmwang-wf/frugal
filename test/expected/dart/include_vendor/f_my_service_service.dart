@@ -66,7 +66,7 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
     getItem_result result = new getItem_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.isSetSuccess()) {
+    if (result.success != null) {
       return result.success;
     }
 
@@ -178,6 +178,8 @@ class getItem_result implements thrift.TBase {
   getItem_result() {
   }
 
+  bool isSetsuccess() => success == null;
+  bool isSetd() => d == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -194,7 +196,7 @@ class getItem_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        else if (value is t_vendor_namespace.Item) {
+        } else if (value is t_vendor_namespace.Item) {
           success = value;
         }
 
@@ -203,7 +205,7 @@ class getItem_result implements thrift.TBase {
       case D:
         if (value == null) {
           d = null;
-        else if (value is t_excepts.InvalidData) {
+        } else if (value is t_excepts.InvalidData) {
           d = value;
         }
 

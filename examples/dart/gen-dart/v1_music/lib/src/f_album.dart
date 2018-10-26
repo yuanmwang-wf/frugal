@@ -24,6 +24,9 @@ class Album implements thrift.TBase {
   Album() {
   }
 
+  bool isSettracks() => tracks == null;
+  bool isSetduration() => duration == null;
+  bool isSetASIN() => ASIN == null;
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case TRACKS:
@@ -42,7 +45,7 @@ class Album implements thrift.TBase {
       case TRACKS:
         if (value == null) {
           tracks = null;
-        else if (value is List<t_v1_music.Track>) {
+        } else if (value is List<t_v1_music.Track>) {
           tracks = value;
         }
 
@@ -51,7 +54,7 @@ class Album implements thrift.TBase {
       case DURATION:
         if (value == null) {
           duration = null;
-        else if (value is double) {
+        } else if (value is double) {
           duration = value;
         }
 
@@ -60,7 +63,7 @@ class Album implements thrift.TBase {
       case ASIN:
         if (value == null) {
           aSIN = null;
-        else if (value is String) {
+        } else if (value is String) {
           aSIN = value;
         }
 

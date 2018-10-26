@@ -67,30 +67,82 @@ class EventWrapper implements thrift.TBase {
 
   @deprecated
   bool isSetID() => ID == null;
+
+  @deprecated
+  unsetID() => ID = null;
+
   @deprecated
   bool isSetEv() => Ev == null;
+
+  @deprecated
+  unsetEv() => Ev = null;
+
   @deprecated
   bool isSetEvents() => Events == null;
+
+  @deprecated
+  unsetEvents() => Events = null;
+
   @deprecated
   bool isSetEvents2() => Events2 == null;
+
+  @deprecated
+  unsetEvents2() => Events2 = null;
+
   @deprecated
   bool isSetEventMap() => EventMap == null;
+
+  @deprecated
+  unsetEventMap() => EventMap = null;
+
   @deprecated
   bool isSetNums() => Nums == null;
+
+  @deprecated
+  unsetNums() => Nums = null;
+
   @deprecated
   bool isSetEnums() => Enums == null;
+
+  @deprecated
+  unsetEnums() => Enums = null;
+
   @deprecated
   bool isSetABoolField() => aBoolField == null;
+
+  @deprecated
+  unsetABoolField() => aBoolField = null;
+
   @deprecated
   bool isSetA_union() => a_union == null;
+
+  @deprecated
+  unsetA_union() => a_union = null;
+
   @deprecated
   bool isSetTypedefOfTypedef() => typedefOfTypedef == null;
+
+  @deprecated
+  unsetTypedefOfTypedef() => typedefOfTypedef = null;
+
   @deprecated
   bool isSetDepr() => depr == null;
+
+  @deprecated
+  unsetDepr() => depr = null;
+
   @deprecated
   bool isSetDeprBinary() => deprBinary == null;
+
+  @deprecated
+  unsetDeprBinary() => deprBinary = null;
+
   @deprecated
   bool isSetDeprList() => deprList == null;
+
+  @deprecated
+  unsetDeprList() => deprList = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:

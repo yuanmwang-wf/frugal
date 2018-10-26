@@ -18,6 +18,10 @@ class nested_thing implements thrift.TBase {
 
   @deprecated
   bool isSetThings() => things == null;
+
+  @deprecated
+  unsetThings() => things = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case THINGS:

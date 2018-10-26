@@ -31,8 +31,16 @@ class Event implements thrift.TBase {
 
   @deprecated
   bool isSetID() => ID == null;
+
+  @deprecated
+  unsetID() => ID = null;
+
   @deprecated
   bool isSetMessage() => Message == null;
+
+  @deprecated
+  unsetMessage() => Message = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ID:

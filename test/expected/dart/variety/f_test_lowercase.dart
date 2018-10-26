@@ -23,6 +23,10 @@ class TestLowercase implements thrift.TBase {
 
   @deprecated
   bool isSetLowercaseInt() => lowercaseInt == null;
+
+  @deprecated
+  unsetLowercaseInt() => lowercaseInt = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case LOWERCASEINT:

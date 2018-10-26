@@ -145,8 +145,16 @@ class buyAlbum_args implements thrift.TBase {
 
   @deprecated
   bool isSetASIN() => ASIN == null;
+
+  @deprecated
+  unsetASIN() => ASIN = null;
+
   @deprecated
   bool isSetAcct() => acct == null;
+
+  @deprecated
+  unsetAcct() => acct = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case ASIN:
@@ -316,8 +324,16 @@ class buyAlbum_result implements thrift.TBase {
 
   @deprecated
   bool isSetSuccess() => success == null;
+
+  @deprecated
+  unsetSuccess() => success = null;
+
   @deprecated
   bool isSetError() => error == null;
+
+  @deprecated
+  unsetError() => error = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
@@ -493,8 +509,16 @@ class enterAlbumGiveaway_args implements thrift.TBase {
 
   @deprecated
   bool isSetEmail() => email == null;
+
+  @deprecated
+  unsetEmail() => email = null;
+
   @deprecated
   bool isSetName() => name == null;
+
+  @deprecated
+  unsetName() => name = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case EMAIL:
@@ -661,6 +685,10 @@ class enterAlbumGiveaway_result implements thrift.TBase {
 
   @deprecated
   bool isSetSuccess() => success == null;
+
+  @deprecated
+  unsetSuccess() => success = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case SUCCESS:

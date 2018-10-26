@@ -21,8 +21,16 @@ class thing implements thrift.TBase {
 
   @deprecated
   bool isSetAn_id() => an_id == null;
+
+  @deprecated
+  unsetAn_id() => an_id = null;
+
   @deprecated
   bool isSetA_string() => a_string == null;
+
+  @deprecated
+  unsetA_string() => a_string = null;
+
   getFieldValue(int fieldID) {
     switch (fieldID) {
       case AN_ID:

@@ -722,7 +722,9 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		titleName := strings.Title(field.Name)
 		contents += fmt.Sprintf(tab + "@deprecated\n")
-		contents += fmt.Sprintf(tab+"bool isSet%s() => %s == null;\n", titleName, field.Name)
+		contents += fmt.Sprintf(tab+"bool isSet%s() => %s == null;\n\n", titleName, field.Name)
+		contents += fmt.Sprintf(tab + "@deprecated\n")
+		contents += fmt.Sprintf(tab+"unset%s() => %s = null;\n\n", titleName, field.Name)
 	}
 
 	// getFieldValue

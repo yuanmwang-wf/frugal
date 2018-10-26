@@ -732,15 +732,30 @@ class blah_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case NUM:
-        num = value;
+        if (value == null) {
+          num = null;
+        else if (value is int) {
+          num = value;
+        }
+
         break;
 
       case STR:
-        str = value;
+        if (value == null) {
+          str = null;
+        else if (value is String) {
+          str = value;
+        }
+
         break;
 
       case EVENT:
-        event = value;
+        if (value == null) {
+          event = null;
+        else if (value is t_variety.Event) {
+          event = value;
+        }
+
         break;
 
       default:
@@ -920,15 +935,30 @@ class blah_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is int) {
+          success = value;
+        }
+
         break;
 
       case AWE:
-        awe = value;
+        if (value == null) {
+          awe = null;
+        else if (value is t_variety.AwesomeException) {
+          awe = value;
+        }
+
         break;
 
       case API:
-        api = value;
+        if (value == null) {
+          api = null;
+        else if (value is t_actual_base_dart.api_exception) {
+          api = value;
+        }
+
         break;
 
       default:
@@ -1112,11 +1142,21 @@ class oneWay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ID:
-        id = value;
+        if (value == null) {
+          id = null;
+        else if (value is int) {
+          id = value;
+        }
+
         break;
 
       case REQ:
-        req = value;
+        if (value == null) {
+          req = null;
+        else if (value is Map<int, String>) {
+          req = value;
+        }
+
         break;
 
       default:
@@ -1275,11 +1315,21 @@ class bin_method_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case BIN:
-        bin = value;
+        if (value == null) {
+          bin = null;
+        else if (value is Uint8List) {
+          bin = value;
+        }
+
         break;
 
       case STR:
-        str = value;
+        if (value == null) {
+          str = null;
+        else if (value is String) {
+          str = value;
+        }
+
         break;
 
       default:
@@ -1432,11 +1482,21 @@ class bin_method_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is Uint8List) {
+          success = value;
+        }
+
         break;
 
       case API:
-        api = value;
+        if (value == null) {
+          api = null;
+        else if (value is t_actual_base_dart.api_exception) {
+          api = value;
+        }
+
         break;
 
       default:
@@ -1599,15 +1659,30 @@ class param_modifiers_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case OPT_NUM:
-        opt_num = value;
+        if (value == null) {
+          opt_num = null;
+        else if (value is int) {
+          opt_num = value;
+        }
+
         break;
 
       case DEFAULT_NUM:
-        default_num = value;
+        if (value == null) {
+          default_num = null;
+        else if (value is int) {
+          default_num = value;
+        }
+
         break;
 
       case REQ_NUM:
-        req_num = value;
+        if (value == null) {
+          req_num = null;
+        else if (value is int) {
+          req_num = value;
+        }
+
         break;
 
       default:
@@ -1769,7 +1844,12 @@ class param_modifiers_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is int) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -1893,11 +1973,21 @@ class underlying_types_test_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case LIST_TYPE:
-        list_type = value;
+        if (value == null) {
+          list_type = null;
+        else if (value is List<int>) {
+          list_type = value;
+        }
+
         break;
 
       case SET_TYPE:
-        set_type = value;
+        if (value == null) {
+          set_type = null;
+        else if (value is Set<int>) {
+          set_type = value;
+        }
+
         break;
 
       default:
@@ -2065,7 +2155,12 @@ class underlying_types_test_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is List<int>) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -2283,7 +2378,12 @@ class getThing_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is t_validStructs.Thing) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -2492,7 +2592,12 @@ class getMyInt_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is int) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -2611,7 +2716,12 @@ class use_subdir_struct_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case A:
-        a = value;
+        if (value == null) {
+          a = null;
+        else if (value is t_subdir_include_ns.A) {
+          a = value;
+        }
+
         break;
 
       default:
@@ -2733,7 +2843,12 @@ class use_subdir_struct_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is t_subdir_include_ns.A) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -2857,7 +2972,12 @@ class sayHelloWith_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case NEWMESSAGE:
-        newMessage = value;
+        if (value == null) {
+          newMessage = null;
+        else if (value is String) {
+          newMessage = value;
+        }
+
         break;
 
       default:
@@ -2978,7 +3098,12 @@ class sayHelloWith_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is String) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -3101,7 +3226,12 @@ class whatDoYouSay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case MESSAGEARGS:
-        messageArgs = value;
+        if (value == null) {
+          messageArgs = null;
+        else if (value is String) {
+          messageArgs = value;
+        }
+
         break;
 
       default:
@@ -3222,7 +3352,12 @@ class whatDoYouSay_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is String) {
+          success = value;
+        }
+
         break;
 
       default:
@@ -3345,7 +3480,12 @@ class sayAgain_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case MESSAGERESULT:
-        messageResult = value;
+        if (value == null) {
+          messageResult = null;
+        else if (value is String) {
+          messageResult = value;
+        }
+
         break;
 
       default:
@@ -3466,7 +3606,12 @@ class sayAgain_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is String) {
+          success = value;
+        }
+
         break;
 
       default:

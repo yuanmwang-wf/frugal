@@ -65,31 +65,66 @@ class TestingUnions implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ANID:
-        anID = value;
+        if (value == null) {
+          anID = null;
+        else if (value is int) {
+          anID = value;
+        }
+
         break;
 
       case ASTRING:
-        aString = value;
+        if (value == null) {
+          aString = null;
+        else if (value is String) {
+          aString = value;
+        }
+
         break;
 
       case SOMEOTHERTHING:
-        someotherthing = value;
+        if (value == null) {
+          someotherthing = null;
+        else if (value is int) {
+          someotherthing = value;
+        }
+
         break;
 
       case ANINT16:
-        anInt16 = value;
+        if (value == null) {
+          anInt16 = null;
+        else if (value is int) {
+          anInt16 = value;
+        }
+
         break;
 
       case REQUESTS:
-        requests = value;
+        if (value == null) {
+          requests = null;
+        else if (value is Map<int, String>) {
+          requests = value;
+        }
+
         break;
 
       case BIN_FIELD_IN_UNION:
-        bin_field_in_union = value;
+        if (value == null) {
+          bin_field_in_union = null;
+        else if (value is Uint8List) {
+          bin_field_in_union = value;
+        }
+
         break;
 
       case DEPR:
-        depr = value;
+        if (value == null) {
+          depr = null;
+        else if (value is bool) {
+          depr = value;
+        }
+
         break;
 
       default:

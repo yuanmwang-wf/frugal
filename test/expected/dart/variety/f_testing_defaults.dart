@@ -156,75 +156,165 @@ class TestingDefaults implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ID2:
-        iD2 = value;
+        if (value == null) {
+          iD2 = null;
+        else if (value is int) {
+          iD2 = value;
+        }
+
         break;
 
       case EV1:
-        ev1 = value;
+        if (value == null) {
+          ev1 = null;
+        else if (value is t_variety.Event) {
+          ev1 = value;
+        }
+
         break;
 
       case EV2:
-        ev2 = value;
+        if (value == null) {
+          ev2 = null;
+        else if (value is t_variety.Event) {
+          ev2 = value;
+        }
+
         break;
 
       case ID:
-        iD = value;
+        if (value == null) {
+          iD = null;
+        else if (value is int) {
+          iD = value;
+        }
+
         break;
 
       case THING:
-        thing = value;
+        if (value == null) {
+          thing = null;
+        else if (value is String) {
+          thing = value;
+        }
+
         break;
 
       case THING2:
-        thing2 = value;
+        if (value == null) {
+          thing2 = null;
+        else if (value is String) {
+          thing2 = value;
+        }
+
         break;
 
       case LISTFIELD:
-        listfield = value;
+        if (value == null) {
+          listfield = null;
+        else if (value is List<int>) {
+          listfield = value;
+        }
+
         break;
 
       case ID3:
-        iD3 = value;
+        if (value == null) {
+          iD3 = null;
+        else if (value is int) {
+          iD3 = value;
+        }
+
         break;
 
       case BIN_FIELD:
-        bin_field = value;
+        if (value == null) {
+          bin_field = null;
+        else if (value is Uint8List) {
+          bin_field = value;
+        }
+
         break;
 
       case BIN_FIELD2:
-        bin_field2 = value;
+        if (value == null) {
+          bin_field2 = null;
+        else if (value is Uint8List) {
+          bin_field2 = value;
+        }
+
         break;
 
       case BIN_FIELD3:
-        bin_field3 = value;
+        if (value == null) {
+          bin_field3 = null;
+        else if (value is Uint8List) {
+          bin_field3 = value;
+        }
+
         break;
 
       case BIN_FIELD4:
-        bin_field4 = value;
+        if (value == null) {
+          bin_field4 = null;
+        else if (value is Uint8List) {
+          bin_field4 = value;
+        }
+
         break;
 
       case LIST2:
-        list2 = value;
+        if (value == null) {
+          list2 = null;
+        else if (value is List<int>) {
+          list2 = value;
+        }
+
         break;
 
       case LIST3:
-        list3 = value;
+        if (value == null) {
+          list3 = null;
+        else if (value is List<int>) {
+          list3 = value;
+        }
+
         break;
 
       case LIST4:
-        list4 = value;
+        if (value == null) {
+          list4 = null;
+        else if (value is List<int>) {
+          list4 = value;
+        }
+
         break;
 
       case A_MAP:
-        a_map = value;
+        if (value == null) {
+          a_map = null;
+        else if (value is Map<String, String>) {
+          a_map = value;
+        }
+
         break;
 
       case STATUS:
-        status = value;
+        if (value == null) {
+          status = null;
+        else if (value is int) {
+          status = value;
+        }
+
         break;
 
       case BASE_STATUS:
-        base_status = value;
+        if (value == null) {
+          base_status = null;
+        else if (value is int) {
+          base_status = value;
+        }
+
         break;
 
       default:

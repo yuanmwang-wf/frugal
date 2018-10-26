@@ -47,15 +47,30 @@ class AwesomeException extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ID:
-        iD = value;
+        if (value == null) {
+          iD = null;
+        else if (value is int) {
+          iD = value;
+        }
+
         break;
 
       case REASON:
-        reason = value;
+        if (value == null) {
+          reason = null;
+        else if (value is String) {
+          reason = value;
+        }
+
         break;
 
       case DEPR:
-        depr = value;
+        if (value == null) {
+          depr = null;
+        else if (value is bool) {
+          depr = value;
+        }
+
         break;
 
       default:

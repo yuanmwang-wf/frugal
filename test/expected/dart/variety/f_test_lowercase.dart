@@ -33,7 +33,12 @@ class TestLowercase implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case LOWERCASEINT:
-        lowercaseInt = value;
+        if (value == null) {
+          lowercaseInt = null;
+        else if (value is int) {
+          lowercaseInt = value;
+        }
+
         break;
 
       default:

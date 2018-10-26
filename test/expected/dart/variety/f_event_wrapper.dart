@@ -101,55 +101,120 @@ class EventWrapper implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ID:
-        iD = value;
+        if (value == null) {
+          iD = null;
+        else if (value is int) {
+          iD = value;
+        }
+
         break;
 
       case EV:
-        ev = value;
+        if (value == null) {
+          ev = null;
+        else if (value is t_variety.Event) {
+          ev = value;
+        }
+
         break;
 
       case EVENTS:
-        events = value;
+        if (value == null) {
+          events = null;
+        else if (value is List<t_variety.Event>) {
+          events = value;
+        }
+
         break;
 
       case EVENTS2:
-        events2 = value;
+        if (value == null) {
+          events2 = null;
+        else if (value is Set<t_variety.Event>) {
+          events2 = value;
+        }
+
         break;
 
       case EVENTMAP:
-        eventMap = value;
+        if (value == null) {
+          eventMap = null;
+        else if (value is Map<int, t_variety.Event>) {
+          eventMap = value;
+        }
+
         break;
 
       case NUMS:
-        nums = value;
+        if (value == null) {
+          nums = null;
+        else if (value is List<List<int>>) {
+          nums = value;
+        }
+
         break;
 
       case ENUMS:
-        enums = value;
+        if (value == null) {
+          enums = null;
+        else if (value is List<int>) {
+          enums = value;
+        }
+
         break;
 
       case ABOOLFIELD:
-        aBoolField = value;
+        if (value == null) {
+          aBoolField = null;
+        else if (value is bool) {
+          aBoolField = value;
+        }
+
         break;
 
       case A_UNION:
-        a_union = value;
+        if (value == null) {
+          a_union = null;
+        else if (value is t_variety.TestingUnions) {
+          a_union = value;
+        }
+
         break;
 
       case TYPEDEFOFTYPEDEF:
-        typedefOfTypedef = value;
+        if (value == null) {
+          typedefOfTypedef = null;
+        else if (value is String) {
+          typedefOfTypedef = value;
+        }
+
         break;
 
       case DEPR:
-        depr = value;
+        if (value == null) {
+          depr = null;
+        else if (value is bool) {
+          depr = value;
+        }
+
         break;
 
       case DEPRBINARY:
-        deprBinary = value;
+        if (value == null) {
+          deprBinary = null;
+        else if (value is Uint8List) {
+          deprBinary = value;
+        }
+
         break;
 
       case DEPRLIST:
-        deprList = value;
+        if (value == null) {
+          deprList = null;
+        else if (value is List<bool>) {
+          deprList = value;
+        }
+
         break;
 
       default:

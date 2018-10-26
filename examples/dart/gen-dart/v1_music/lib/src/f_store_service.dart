@@ -157,11 +157,21 @@ class buyAlbum_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case ASIN:
-        aSIN = value;
+        if (value == null) {
+          aSIN = null;
+        else if (value is String) {
+          aSIN = value;
+        }
+
         break;
 
       case ACCT:
-        acct = value;
+        if (value == null) {
+          acct = null;
+        else if (value is String) {
+          acct = value;
+        }
+
         break;
 
       default:
@@ -314,11 +324,21 @@ class buyAlbum_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is t_v1_music.Album) {
+          success = value;
+        }
+
         break;
 
       case ERROR:
-        error = value;
+        if (value == null) {
+          error = null;
+        else if (value is t_v1_music.PurchasingError) {
+          error = value;
+        }
+
         break;
 
       default:
@@ -477,11 +497,21 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case EMAIL:
-        email = value;
+        if (value == null) {
+          email = null;
+        else if (value is String) {
+          email = value;
+        }
+
         break;
 
       case NAME:
-        name = value;
+        if (value == null) {
+          name = null;
+        else if (value is String) {
+          name = value;
+        }
+
         break;
 
       default:
@@ -629,7 +659,12 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case SUCCESS:
-        success = value;
+        if (value == null) {
+          success = null;
+        else if (value is bool) {
+          success = value;
+        }
+
         break;
 
       default:

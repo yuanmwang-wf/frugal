@@ -33,7 +33,12 @@ class TestBase implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch(fieldID) {
       case BASE_STRUCT:
-        base_struct = value;
+        if (value == null) {
+          base_struct = null;
+        else if (value is t_actual_base_dart.thing) {
+          base_struct = value;
+        }
+
         break;
 
       default:

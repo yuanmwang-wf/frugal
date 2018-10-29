@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -97,7 +96,7 @@ public class FNatsServer implements FServer {
         private final FProtocolFactory protoFactory;
         private final String[] subjects;
 
-        private String queue = UUID.randomUUID().toString().replace("-", "");
+        private String queue = "";
         private int workerCount = 1;
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;

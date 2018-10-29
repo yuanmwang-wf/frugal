@@ -64,7 +64,6 @@ public class FNatsSubscriberTransportTest {
     public void testSubscribe() throws Exception {
         when(conn.getStatus()).thenReturn(Status.CONNECTED);
         ArgumentCaptor<String> topicCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> queueCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MessageHandler> handlerCaptor = ArgumentCaptor.forClass(MessageHandler.class);
         when(conn.createDispatcher(handlerCaptor.capture())).thenReturn(mockDispatcher);
 
@@ -79,7 +78,7 @@ public class FNatsSubscriberTransportTest {
         when(mockDispatcher.isActive()).thenReturn(true);
         assertTrue(transport.isSubscribed());
         assertEquals(mockDispatcher, transport.dispatcher);
-        verify(mockDispatcher, times(1)).subscribe(topicCaptor.capture(), queueCaptor.capture());
+        verify(mockDispatcher, times(1)).subscribe(topicCaptor.capture());
         assertEquals(formattedSubject, topicCaptor.getValue());
 
         // Handle a good frame

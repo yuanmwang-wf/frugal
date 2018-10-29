@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 
@@ -70,7 +69,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
          * @param conn NATS connection
          */
         public Factory(Connection conn) {
-            this(conn, UUID.randomUUID().toString().replace("-", ""));
+            this(conn, "");
         }
 
         /**
@@ -124,7 +123,11 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             } catch (TException ignored) {
             }
         });
-        dispatcher.subscribe(getFormattedSubject(), queue);
+        if (queue.equals("")) {
+            dispatcher.subscribe(getFormattedSubject());
+        } else {
+            dispatcher.subscribe(getFormattedSubject(), queue);
+        }
     }
 
     @Override

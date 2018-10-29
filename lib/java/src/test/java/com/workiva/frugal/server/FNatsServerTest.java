@@ -74,7 +74,7 @@ public class FNatsServerTest {
     }
 
     @Test
-    public void testServe() throws TException, IOException, InterruptedException {
+    public void testServe() throws TException, InterruptedException {
         server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
                 .withQueueGroup(queue).build();
         ArgumentCaptor<String> subjectCaptor = ArgumentCaptor.forClass(String.class);

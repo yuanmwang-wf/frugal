@@ -124,9 +124,9 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             }
         });
         if (queue != null && !queue.isEmpty()) {
-            dispatcher.subscribe(getFormattedSubject());
-        } else {
             dispatcher.subscribe(getFormattedSubject(), queue);
+        } else {
+            dispatcher.subscribe(getFormattedSubject());
         }
     }
 

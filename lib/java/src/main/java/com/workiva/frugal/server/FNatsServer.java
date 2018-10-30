@@ -213,9 +213,9 @@ public class FNatsServer implements FServer {
         Dispatcher dispatcher = conn.createDispatcher(newRequestHandler());
         for (String subject : subjects) {
             if (queue != null && !queue.isEmpty()) {
-                dispatcher.subscribe(subject);
-            } else {
                 dispatcher.subscribe(subject, queue);
+            } else {
+                dispatcher.subscribe(subject);
             }
         }
 

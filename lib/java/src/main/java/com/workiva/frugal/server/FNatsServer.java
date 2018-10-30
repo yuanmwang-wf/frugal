@@ -212,7 +212,7 @@ public class FNatsServer implements FServer {
     public void serve() throws TException {
         Dispatcher dispatcher = conn.createDispatcher(newRequestHandler());
         for (String subject : subjects) {
-            if (queue.equals("")) {
+            if (queue != null && !queue.isEmpty()) {
                 dispatcher.subscribe(subject);
             } else {
                 dispatcher.subscribe(subject, queue);

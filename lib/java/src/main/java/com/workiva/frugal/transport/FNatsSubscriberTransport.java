@@ -123,7 +123,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             } catch (TException ignored) {
             }
         });
-        if (queue.equals("")) {
+        if (queue != null && !queue.isEmpty()) {
             dispatcher.subscribe(getFormattedSubject());
         } else {
             dispatcher.subscribe(getFormattedSubject(), queue);

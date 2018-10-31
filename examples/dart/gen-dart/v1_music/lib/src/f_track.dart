@@ -7,8 +7,7 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 
 /// Comments (with an @ symbol) will be added to generated code.
 class Track implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Track");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Track");
   static final thrift.TField _TITLE_FIELD_DESC = new thrift.TField("title", thrift.TType.STRING, 1);
   static final thrift.TField _ARTIST_FIELD_DESC = new thrift.TField("artist", thrift.TType.STRING, 2);
   static final thrift.TField _PUBLISHER_FIELD_DESC = new thrift.TField("publisher", thrift.TType.STRING, 3);

@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class EventWrapper implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("EventWrapper");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("EventWrapper");
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("ID", thrift.TType.I64, 1);
   static final thrift.TField _EV_FIELD_DESC = new thrift.TField("Ev", thrift.TType.STRUCT, 2);
   static final thrift.TField _EVENTS_FIELD_DESC = new thrift.TField("Events", thrift.TType.LIST, 3);

@@ -553,8 +553,7 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
 
 // ignore: camel_case_types
 class Ping_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Ping_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_args");
 
 
 
@@ -644,8 +643,7 @@ class Ping_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class Ping_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Ping_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_result");
 
 
 
@@ -735,8 +733,7 @@ class Ping_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class blah_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("blah_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_args");
   static final thrift.TField _NUM_FIELD_DESC = new thrift.TField("num", thrift.TType.I32, 1);
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
   static final thrift.TField _EVENT_FIELD_DESC = new thrift.TField("event", thrift.TType.STRUCT, 3);
@@ -980,8 +977,7 @@ class blah_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class blah_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("blah_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
   static final thrift.TField _AWE_FIELD_DESC = new thrift.TField("awe", thrift.TType.STRUCT, 1);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 2);
@@ -1234,8 +1230,7 @@ class blah_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class oneWay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("oneWay_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("oneWay_args");
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("id", thrift.TType.I64, 1);
   static final thrift.TField _REQ_FIELD_DESC = new thrift.TField("req", thrift.TType.MAP, 2);
 
@@ -1439,8 +1434,7 @@ class oneWay_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class bin_method_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("bin_method_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_args");
   static final thrift.TField _BIN_FIELD_DESC = new thrift.TField("bin", thrift.TType.STRING, 1);
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
 
@@ -1635,8 +1629,7 @@ class bin_method_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class bin_method_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("bin_method_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 1);
 
@@ -1836,8 +1829,7 @@ class bin_method_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class param_modifiers_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("param_modifiers_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_args");
   static final thrift.TField _OPT_NUM_FIELD_DESC = new thrift.TField("opt_num", thrift.TType.I32, 1);
   static final thrift.TField _DEFAULT_NUM_FIELD_DESC = new thrift.TField("default_num", thrift.TType.I32, 2);
   static final thrift.TField _REQ_NUM_FIELD_DESC = new thrift.TField("req_num", thrift.TType.I32, 3);
@@ -2077,8 +2069,7 @@ class param_modifiers_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class param_modifiers_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("param_modifiers_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
 
   int _success;
@@ -2223,8 +2214,7 @@ class param_modifiers_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class underlying_types_test_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("underlying_types_test_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_args");
   static final thrift.TField _LIST_TYPE_FIELD_DESC = new thrift.TField("list_type", thrift.TType.LIST, 1);
   static final thrift.TField _SET_TYPE_FIELD_DESC = new thrift.TField("set_type", thrift.TType.SET, 2);
 
@@ -2439,8 +2429,7 @@ class underlying_types_test_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class underlying_types_test_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("underlying_types_test_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.LIST, 0);
 
   List<int> _success;
@@ -2596,8 +2585,7 @@ class underlying_types_test_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getThing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("getThing_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_args");
 
 
 
@@ -2687,8 +2675,7 @@ class getThing_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getThing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("getThing_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
   t_validStructs.Thing _success;
@@ -2835,8 +2822,7 @@ class getThing_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getMyInt_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("getMyInt_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_args");
 
 
 
@@ -2926,8 +2912,7 @@ class getMyInt_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getMyInt_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("getMyInt_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I32, 0);
 
   int _success;
@@ -3072,8 +3057,7 @@ class getMyInt_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class use_subdir_struct_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("use_subdir_struct_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_args");
   static final thrift.TField _A_FIELD_DESC = new thrift.TField("a", thrift.TType.STRUCT, 1);
 
   t_subdir_include_ns.A _a;
@@ -3218,8 +3202,7 @@ class use_subdir_struct_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class use_subdir_struct_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("use_subdir_struct_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
   t_subdir_include_ns.A _success;
@@ -3366,8 +3349,7 @@ class use_subdir_struct_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayHelloWith_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("sayHelloWith_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_args");
   static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
 
   String _newMessage;
@@ -3511,8 +3493,7 @@ class sayHelloWith_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayHelloWith_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("sayHelloWith_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;
@@ -3658,8 +3639,7 @@ class sayHelloWith_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class whatDoYouSay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("whatDoYouSay_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_args");
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 1);
 
   String _messageArgs;
@@ -3803,8 +3783,7 @@ class whatDoYouSay_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class whatDoYouSay_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("whatDoYouSay_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;
@@ -3950,8 +3929,7 @@ class whatDoYouSay_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayAgain_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("sayAgain_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_args");
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 1);
 
   String _messageResult;
@@ -4095,8 +4073,7 @@ class sayAgain_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayAgain_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("sayAgain_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
   String _success;

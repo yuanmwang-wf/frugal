@@ -13,8 +13,7 @@ import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns
 /// This docstring gets added to the generated code because it has
 /// the @ sign.
 class Event implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Event");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Event");
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("ID", thrift.TType.I64, 1);
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("Message", thrift.TType.STRING, 2);
 

@@ -6,8 +6,7 @@ import 'package:thrift/thrift.dart' as thrift;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 class thing implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("thing");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("thing");
   static final thrift.TField _AN_ID_FIELD_DESC = new thrift.TField("an_id", thrift.TType.I32, 1);
   static final thrift.TField _A_STRING_FIELD_DESC = new thrift.TField("a_string", thrift.TType.STRING, 2);
 

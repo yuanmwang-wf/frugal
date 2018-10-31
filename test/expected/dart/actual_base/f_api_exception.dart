@@ -7,8 +7,7 @@ import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 // ignore: camel_case_types
 class api_exception extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("api_exception");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("api_exception");
 
 
 

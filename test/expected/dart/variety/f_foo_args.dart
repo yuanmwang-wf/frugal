@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class FooArgs implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("FooArgs");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("FooArgs");
   static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 2);
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 3);

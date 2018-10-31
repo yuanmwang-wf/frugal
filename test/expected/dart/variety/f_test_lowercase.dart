@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestLowercase implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("TestLowercase");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestLowercase");
   static final thrift.TField _LOWERCASE_INT_FIELD_DESC = new thrift.TField("lowercaseInt", thrift.TType.I32, 1);
 
   int _lowercaseInt = 0;

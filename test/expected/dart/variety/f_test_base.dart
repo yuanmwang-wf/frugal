@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestBase implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("TestBase");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestBase");
   static final thrift.TField _BASE_STRUCT_FIELD_DESC = new thrift.TField("base_struct", thrift.TType.STRUCT, 1);
 
   t_actual_base_dart.thing _base_struct;

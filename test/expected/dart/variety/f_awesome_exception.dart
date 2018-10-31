@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class AwesomeException extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("AwesomeException");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("AwesomeException");
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("ID", thrift.TType.I64, 1);
   static final thrift.TField _REASON_FIELD_DESC = new thrift.TField("Reason", thrift.TType.STRING, 2);
   static final thrift.TField _DEPR_FIELD_DESC = new thrift.TField("depr", thrift.TType.BOOL, 3);

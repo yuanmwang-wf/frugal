@@ -8,8 +8,7 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 /// Exceptions are converted to the native format for each compiled
 /// language.
 class PurchasingError extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("PurchasingError");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("PurchasingError");
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("message", thrift.TType.STRING, 1);
   static final thrift.TField _ERROR_CODE_FIELD_DESC = new thrift.TField("error_code", thrift.TType.I16, 2);
 

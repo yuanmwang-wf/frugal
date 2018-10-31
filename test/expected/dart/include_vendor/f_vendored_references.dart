@@ -8,8 +8,7 @@ import 'package:some_vendored_place/vendor_namespace.dart' as t_vendor_namespace
 import 'package:excepts/excepts.dart' as t_excepts;
 
 class VendoredReferences implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("VendoredReferences");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("VendoredReferences");
   static final thrift.TField _REFERENCE_VENDORED_CONST_FIELD_DESC = new thrift.TField("reference_vendored_const", thrift.TType.I32, 1);
   static final thrift.TField _REFERENCE_VENDORED_ENUM_FIELD_DESC = new thrift.TField("reference_vendored_enum", thrift.TType.I32, 2);
 

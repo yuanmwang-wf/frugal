@@ -6,8 +6,7 @@ import 'package:thrift/thrift.dart' as thrift;
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 class Item implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Item");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Item");
 
 
 

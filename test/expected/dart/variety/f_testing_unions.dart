@@ -11,8 +11,7 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestingUnions implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("TestingUnions");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestingUnions");
   static final thrift.TField _AN_ID_FIELD_DESC = new thrift.TField("AnID", thrift.TType.I64, 1);
   static final thrift.TField _A_STRING_FIELD_DESC = new thrift.TField("aString", thrift.TType.STRING, 2);
   static final thrift.TField _SOMEOTHERTHING_FIELD_DESC = new thrift.TField("someotherthing", thrift.TType.I32, 3);

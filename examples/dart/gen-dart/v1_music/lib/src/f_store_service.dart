@@ -134,8 +134,7 @@ class FStoreClient implements FStore {
 
 // ignore: camel_case_types
 class buyAlbum_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("buyAlbum_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("buyAlbum_args");
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 1);
   static final thrift.TField _ACCT_FIELD_DESC = new thrift.TField("acct", thrift.TType.STRING, 2);
 
@@ -330,8 +329,7 @@ class buyAlbum_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class buyAlbum_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("buyAlbum_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("buyAlbum_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _ERROR_FIELD_DESC = new thrift.TField("error", thrift.TType.STRUCT, 1);
 
@@ -532,8 +530,7 @@ class buyAlbum_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class enterAlbumGiveaway_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("enterAlbumGiveaway_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_args");
   static final thrift.TField _EMAIL_FIELD_DESC = new thrift.TField("email", thrift.TType.STRING, 1);
   static final thrift.TField _NAME_FIELD_DESC = new thrift.TField("name", thrift.TType.STRING, 2);
 
@@ -728,8 +725,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class enterAlbumGiveaway_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("enterAlbumGiveaway_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.BOOL, 0);
 
   bool _success;

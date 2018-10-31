@@ -8,8 +8,7 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 /// The IDL provides set, list, and map types for representing collections
 /// of data.  Our Album struct contains a list of Tracks.
 class Album implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("Album");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Album");
   static final thrift.TField _TRACKS_FIELD_DESC = new thrift.TField("tracks", thrift.TType.LIST, 1);
   static final thrift.TField _DURATION_FIELD_DESC = new thrift.TField("duration", thrift.TType.DOUBLE, 2);
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 3);

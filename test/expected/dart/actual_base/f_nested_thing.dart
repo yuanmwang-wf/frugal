@@ -7,8 +7,7 @@ import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 // ignore: camel_case_types
 class nested_thing implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("nested_thing");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("nested_thing");
   static final thrift.TField _THINGS_FIELD_DESC = new thrift.TField("things", thrift.TType.LIST, 1);
 
   List<t_actual_base_dart.thing> _things;

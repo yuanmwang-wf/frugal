@@ -69,8 +69,7 @@ class FBaseFooClient implements FBaseFoo {
 
 // ignore: camel_case_types
 class basePing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("basePing_args");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("basePing_args");
 
 
 
@@ -160,8 +159,7 @@ class basePing_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class basePing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC =
-    new thrift.TStruct("basePing_result");
+  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("basePing_result");
 
 
 

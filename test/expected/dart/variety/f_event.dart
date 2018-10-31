@@ -81,7 +81,7 @@ class Event implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return iD == null;
+        return iD == null && iD != t_variety.VarietyConstants.DEFAULT_ID;
 
       case MESSAGE:
         return message == null;

@@ -434,7 +434,7 @@ class TestingDefaults implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID2:
-        return iD2 == null;
+        return iD2 == null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
 
       case EV1:
         return ev1 == null;
@@ -443,7 +443,7 @@ class TestingDefaults implements thrift.TBase {
         return ev2 == null;
 
       case ID:
-        return iD == null;
+        return iD == null && iD != -2;
 
       case THING:
         return thing == null;
@@ -455,7 +455,7 @@ class TestingDefaults implements thrift.TBase {
         return listfield == null;
 
       case ID3:
-        return iD3 == null;
+        return iD3 == null && iD3 != t_variety.VarietyConstants.other_default;
 
       case BIN_FIELD:
         return bin_field == null;
@@ -482,10 +482,10 @@ class TestingDefaults implements thrift.TBase {
         return a_map == null;
 
       case STATUS:
-        return status == null;
+        return status == null && status != t_variety.HealthCondition.PASS;
 
       case BASE_STATUS:
-        return base_status == null;
+        return base_status == null && base_status != t_actual_base_dart.base_health_condition.FAIL;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

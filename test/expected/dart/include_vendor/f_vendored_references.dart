@@ -75,10 +75,10 @@ class VendoredReferences implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case REFERENCE_VENDORED_CONST:
-        return reference_vendored_const == null;
+        return reference_vendored_const == null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
 
       case REFERENCE_VENDORED_ENUM:
-        return reference_vendored_enum == null;
+        return reference_vendored_enum == null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

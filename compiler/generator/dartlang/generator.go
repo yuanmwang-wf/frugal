@@ -763,8 +763,15 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	contents += tab + "bool isSet(int fieldID) {\n"
 	contents += tabtab + "switch(fieldID) {\n"
 	for _, field := range s.Fields {
+		andIsNotDefault := ""
+
+		if g.isDartPrimitive(field.Type) && field.Default != nil {
+			value := g.generateConstantValue(field.Type, field.Default, tab)
+			andIsNotDefault = fmt.Sprintf(" && %s != %s", toFieldName(field.Name), value)
+		}
+
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += fmt.Sprintf(tabtabtabtab+"return %s == null;\n\n", toFieldName(field.Name))
+		contents += fmt.Sprintf(tabtabtabtab+"return %s == null%s;\n\n", toFieldName(field.Name), andIsNotDefault)
 	}
 	contents += tabtabtab + "default:\n"
 	contents += tabtabtabtab + "throw new ArgumentError(\"Field $fieldID doesn't exist!\");\n"

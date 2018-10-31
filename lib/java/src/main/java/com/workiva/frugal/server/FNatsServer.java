@@ -234,6 +234,7 @@ public class FNatsServer implements FServer {
                         e.getMessage());
             }
         }
+        conn.closeDispatcher(dispatcher);
     }
 
     /**

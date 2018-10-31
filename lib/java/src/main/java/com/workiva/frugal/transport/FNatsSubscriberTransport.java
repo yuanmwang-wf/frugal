@@ -141,10 +141,9 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             dispatcher.unsubscribe(getFormattedSubject());
         } catch (IllegalStateException e) {
             LOGGER.warn("could not unsubscribe from subscription. " + e.getMessage());
-        } finally {
-            dispatcher = null;
         }
-
+        conn.closeDispatcher(dispatcher);
+        dispatcher = null;
     }
 
     private String getFormattedSubject() {

@@ -17,7 +17,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-
 	"sort"
 	"strconv"
 	"strings"
@@ -649,8 +648,8 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 	contents += "implements thrift.TBase {\n"
 
 	// Struct and field descriptors
-	contents += tab + "static final thrift.TStruct _STRUCT_DESC =\n"
-	contents += fmt.Sprintf(tabtab+"new thrift.TStruct(\"%s\");\n", s.Name)
+	contents += fmt.Sprintf(tab+"static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct(\"%s\");\n", s.Name)
+
 	for _, field := range s.Fields {
 		constantName := toScreamingCapsConstant(field.Name)
 		contents += fmt.Sprintf(tab+"static final thrift.TField _%s_FIELD_DESC = new thrift.TField(\"%s\", %s, %d);\n",

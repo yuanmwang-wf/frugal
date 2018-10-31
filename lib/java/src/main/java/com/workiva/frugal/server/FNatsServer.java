@@ -229,7 +229,7 @@ public class FNatsServer implements FServer {
         for (String subject : subjects) {
             try {
                 dispatcher.unsubscribe(subject);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalStateException e) {
                 LOGGER.warn("Frugal server failed to unsubscribe from " + subject + ": " +
                         e.getMessage());
             }

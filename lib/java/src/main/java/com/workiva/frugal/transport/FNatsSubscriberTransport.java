@@ -97,7 +97,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
 
     @Override
     public boolean isSubscribed() {
-        return conn.getStatus() == Status.CONNECTED && dispatcher.isActive();
+        return conn.getStatus() == Status.CONNECTED && dispatcher != null && dispatcher.isActive();
     }
 
     @Override
@@ -141,8 +141,10 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             dispatcher.unsubscribe(getFormattedSubject());
         } catch (IllegalStateException e) {
             LOGGER.warn("could not unsubscribe from subscription. " + e.getMessage());
+        } finally {
+            dispatcher = null;
         }
-        dispatcher = null;
+
     }
 
     private String getFormattedSubject() {

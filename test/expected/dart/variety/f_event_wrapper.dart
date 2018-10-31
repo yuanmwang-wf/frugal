@@ -304,43 +304,43 @@ class EventWrapper implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return iD == null;
+        return iD != null;
 
       case EV:
-        return ev == null;
+        return ev != null;
 
       case EVENTS:
-        return events == null;
+        return events != null;
 
       case EVENTS2:
-        return events2 == null;
+        return events2 != null;
 
       case EVENTMAP:
-        return eventMap == null;
+        return eventMap != null;
 
       case NUMS:
-        return nums == null;
+        return nums != null;
 
       case ENUMS:
-        return enums == null;
+        return enums != null;
 
       case ABOOLFIELD:
-        return aBoolField == null;
+        return aBoolField != null;
 
       case A_UNION:
-        return a_union == null;
+        return a_union != null;
 
       case TYPEDEFOFTYPEDEF:
-        return typedefOfTypedef == null;
+        return typedefOfTypedef != null;
 
       case DEPR:
-        return depr == null;
+        return depr != null;
 
       case DEPRBINARY:
-        return deprBinary == null;
+        return deprBinary != null;
 
       case DEPRLIST:
-        return deprList == null;
+        return deprList != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

@@ -93,13 +93,13 @@ class Album implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case TRACKS:
-        return tracks == null;
+        return tracks != null;
 
       case DURATION:
-        return duration == null;
+        return duration != null;
 
       case ASIN:
-        return aSIN == null;
+        return aSIN != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

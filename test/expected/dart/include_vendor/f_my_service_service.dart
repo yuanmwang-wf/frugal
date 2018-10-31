@@ -230,10 +230,10 @@ class getItem_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       case D:
-        return d == null;
+        return d != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

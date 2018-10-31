@@ -152,22 +152,22 @@ class Track implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case TITLE:
-        return title == null;
+        return title != null;
 
       case ARTIST:
-        return artist == null;
+        return artist != null;
 
       case PUBLISHER:
-        return publisher == null;
+        return publisher != null;
 
       case COMPOSER:
-        return composer == null;
+        return composer != null;
 
       case DURATION:
-        return duration == null;
+        return duration != null;
 
       case PRO:
-        return pro == null;
+        return pro != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

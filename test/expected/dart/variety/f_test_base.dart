@@ -56,7 +56,7 @@ class TestBase implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case BASE_STRUCT:
-        return base_struct == null;
+        return base_struct != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

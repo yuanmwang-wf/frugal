@@ -73,10 +73,10 @@ class PurchasingError extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case MESSAGE:
-        return message == null;
+        return message != null;
 
       case ERROR_CODE:
-        return error_code == null;
+        return error_code != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

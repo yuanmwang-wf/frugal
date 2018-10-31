@@ -71,10 +71,10 @@ class thing implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case AN_ID:
-        return an_id == null;
+        return an_id != null;
 
       case A_STRING:
-        return a_string == null;
+        return a_string != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

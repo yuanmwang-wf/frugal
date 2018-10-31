@@ -100,13 +100,13 @@ class AwesomeException extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return iD == null;
+        return iD != null;
 
       case REASON:
-        return reason == null;
+        return reason != null;
 
       case DEPR:
-        return depr == null;
+        return depr != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

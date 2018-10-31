@@ -111,7 +111,7 @@ class TestingDefaults implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID2() => iD2 != null;
+  bool isSetID2() => iD2 != null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
 
   @deprecated
   unsetID2() => iD2 = null;
@@ -129,7 +129,7 @@ class TestingDefaults implements thrift.TBase {
   unsetEv2() => ev2 = null;
 
   @deprecated
-  bool isSetID() => iD != null;
+  bool isSetID() => iD != null && iD != -2;
 
   @deprecated
   unsetID() => iD = null;
@@ -153,7 +153,7 @@ class TestingDefaults implements thrift.TBase {
   unsetListfield() => listfield = null;
 
   @deprecated
-  bool isSetID3() => iD3 != null;
+  bool isSetID3() => iD3 != null && iD3 != t_variety.VarietyConstants.other_default;
 
   @deprecated
   unsetID3() => iD3 = null;
@@ -207,13 +207,13 @@ class TestingDefaults implements thrift.TBase {
   unsetA_map() => a_map = null;
 
   @deprecated
-  bool isSetStatus() => status != null;
+  bool isSetStatus() => status != null && status != t_variety.HealthCondition.PASS;
 
   @deprecated
   unsetStatus() => status = null;
 
   @deprecated
-  bool isSetBase_status() => base_status != null;
+  bool isSetBase_status() => base_status != null && base_status != t_actual_base_dart.base_health_condition.FAIL;
 
   @deprecated
   unsetBase_status() => base_status = null;
@@ -434,58 +434,58 @@ class TestingDefaults implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID2:
-        return iD2 == null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
+        return iD2 != null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
 
       case EV1:
-        return ev1 == null;
+        return ev1 != null;
 
       case EV2:
-        return ev2 == null;
+        return ev2 != null;
 
       case ID:
-        return iD == null && iD != -2;
+        return iD != null && iD != -2;
 
       case THING:
-        return thing == null;
+        return thing != null;
 
       case THING2:
-        return thing2 == null;
+        return thing2 != null;
 
       case LISTFIELD:
-        return listfield == null;
+        return listfield != null;
 
       case ID3:
-        return iD3 == null && iD3 != t_variety.VarietyConstants.other_default;
+        return iD3 != null && iD3 != t_variety.VarietyConstants.other_default;
 
       case BIN_FIELD:
-        return bin_field == null;
+        return bin_field != null;
 
       case BIN_FIELD2:
-        return bin_field2 == null;
+        return bin_field2 != null;
 
       case BIN_FIELD3:
-        return bin_field3 == null;
+        return bin_field3 != null;
 
       case BIN_FIELD4:
-        return bin_field4 == null;
+        return bin_field4 != null;
 
       case LIST2:
-        return list2 == null;
+        return list2 != null;
 
       case LIST3:
-        return list3 == null;
+        return list3 != null;
 
       case LIST4:
-        return list4 == null;
+        return list4 != null;
 
       case A_MAP:
-        return a_map == null;
+        return a_map != null;
 
       case STATUS:
-        return status == null && status != t_variety.HealthCondition.PASS;
+        return status != null && status != t_variety.HealthCondition.PASS;
 
       case BASE_STATUS:
-        return base_status == null && base_status != t_actual_base_dart.base_health_condition.FAIL;
+        return base_status != null && base_status != t_actual_base_dart.base_health_condition.FAIL;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

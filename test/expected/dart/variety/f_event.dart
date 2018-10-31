@@ -30,7 +30,7 @@ class Event implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetID() => iD != null;
+  bool isSetID() => iD != null && iD != t_variety.VarietyConstants.DEFAULT_ID;
 
   @deprecated
   unsetID() => iD = null;
@@ -81,10 +81,10 @@ class Event implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return iD == null && iD != t_variety.VarietyConstants.DEFAULT_ID;
+        return iD != null && iD != t_variety.VarietyConstants.DEFAULT_ID;
 
       case MESSAGE:
-        return message == null;
+        return message != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

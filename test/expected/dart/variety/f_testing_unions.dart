@@ -178,25 +178,25 @@ class TestingUnions implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ANID:
-        return anID == null;
+        return anID != null;
 
       case ASTRING:
-        return aString == null;
+        return aString != null;
 
       case SOMEOTHERTHING:
-        return someotherthing == null;
+        return someotherthing != null;
 
       case ANINT16:
-        return anInt16 == null;
+        return anInt16 != null;
 
       case REQUESTS:
-        return requests == null;
+        return requests != null;
 
       case BIN_FIELD_IN_UNION:
-        return bin_field_in_union == null;
+        return bin_field_in_union != null;
 
       case DEPR:
-        return depr == null;
+        return depr != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

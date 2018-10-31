@@ -785,13 +785,13 @@ class blah_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case NUM:
-        return num == null;
+        return num != null;
 
       case STR:
-        return str == null;
+        return str != null;
 
       case EVENT:
-        return event == null;
+        return event != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1006,13 +1006,13 @@ class blah_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       case AWE:
-        return awe == null;
+        return awe != null;
 
       case API:
-        return api == null;
+        return api != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1216,10 +1216,10 @@ class oneWay_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ID:
-        return id == null;
+        return id != null;
 
       case REQ:
-        return req == null;
+        return req != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1401,10 +1401,10 @@ class bin_method_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case BIN:
-        return bin == null;
+        return bin != null;
 
       case STR:
-        return str == null;
+        return str != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1580,10 +1580,10 @@ class bin_method_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       case API:
-        return api == null;
+        return api != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1784,13 +1784,13 @@ class param_modifiers_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case OPT_NUM:
-        return opt_num == null;
+        return opt_num != null;
 
       case DEFAULT_NUM:
-        return default_num == null;
+        return default_num != null;
 
       case REQ_NUM:
-        return req_num == null;
+        return req_num != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1957,7 +1957,7 @@ class param_modifiers_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2107,10 +2107,10 @@ class underlying_types_test_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case LIST_TYPE:
-        return list_type == null;
+        return list_type != null;
 
       case SET_TYPE:
-        return set_type == null;
+        return set_type != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2286,7 +2286,7 @@ class underlying_types_test_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2515,7 +2515,7 @@ class getThing_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2735,7 +2735,7 @@ class getMyInt_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2865,7 +2865,7 @@ class use_subdir_struct_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case A:
-        return a == null;
+        return a != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2998,7 +2998,7 @@ class use_subdir_struct_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3133,7 +3133,7 @@ class sayHelloWith_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case NEWMESSAGE:
-        return newMessage == null;
+        return newMessage != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3265,7 +3265,7 @@ class sayHelloWith_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3399,7 +3399,7 @@ class whatDoYouSay_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case MESSAGEARGS:
-        return messageArgs == null;
+        return messageArgs != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3531,7 +3531,7 @@ class whatDoYouSay_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3665,7 +3665,7 @@ class sayAgain_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case MESSAGERESULT:
-        return messageResult == null;
+        return messageResult != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3797,7 +3797,7 @@ class sayAgain_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

@@ -195,10 +195,10 @@ class buyAlbum_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case ASIN:
-        return aSIN == null;
+        return aSIN != null;
 
       case ACCT:
-        return acct == null;
+        return acct != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -374,10 +374,10 @@ class buyAlbum_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       case ERROR:
-        return error == null;
+        return error != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -559,10 +559,10 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case EMAIL:
-        return email == null;
+        return email != null;
 
       case NAME:
-        return name == null;
+        return name != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -718,7 +718,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case SUCCESS:
-        return success == null;
+        return success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

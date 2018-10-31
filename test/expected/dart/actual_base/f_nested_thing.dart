@@ -51,7 +51,7 @@ class nested_thing implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case THINGS:
-        return things == null;
+        return things != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

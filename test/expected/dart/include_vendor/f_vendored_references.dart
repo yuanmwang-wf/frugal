@@ -24,13 +24,13 @@ class VendoredReferences implements thrift.TBase {
   }
 
   @deprecated
-  bool isSetReference_vendored_const() => reference_vendored_const != null;
+  bool isSetReference_vendored_const() => reference_vendored_const != null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
 
   @deprecated
   unsetReference_vendored_const() => reference_vendored_const = null;
 
   @deprecated
-  bool isSetReference_vendored_enum() => reference_vendored_enum != null;
+  bool isSetReference_vendored_enum() => reference_vendored_enum != null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
 
   @deprecated
   unsetReference_vendored_enum() => reference_vendored_enum = null;
@@ -75,10 +75,10 @@ class VendoredReferences implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case REFERENCE_VENDORED_CONST:
-        return reference_vendored_const == null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
+        return reference_vendored_const != null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
 
       case REFERENCE_VENDORED_ENUM:
-        return reference_vendored_enum == null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
+        return reference_vendored_enum != null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

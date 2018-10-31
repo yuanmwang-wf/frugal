@@ -722,8 +722,17 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		titleName := strings.Title(field.Name)
 		fName := toFieldName(field.Name)
+
+		andIsNotDefault := ""
+
+		if g.isDartPrimitive(field.Type) && field.Default != nil {
+			value := g.generateConstantValue(field.Type, field.Default, tab)
+			andIsNotDefault = fmt.Sprintf(" && %s != %s", fName, value)
+		}
+
 		contents += fmt.Sprintf(tab + "@deprecated\n")
-		contents += fmt.Sprintf(tab+"bool isSet%s() => %s != null;\n\n", titleName, fName)
+		contents += fmt.Sprintf(tab+"bool isSet%s() => %s != null%s;\n\n", titleName, fName, andIsNotDefault)
+
 		contents += fmt.Sprintf(tab + "@deprecated\n")
 		contents += fmt.Sprintf(tab+"unset%s() => %s = null;\n\n", titleName, fName)
 	}
@@ -771,7 +780,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		}
 
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += fmt.Sprintf(tabtabtabtab+"return %s == null%s;\n\n", toFieldName(field.Name), andIsNotDefault)
+		contents += fmt.Sprintf(tabtabtabtab+"return %s != null%s;\n\n", toFieldName(field.Name), andIsNotDefault)
 	}
 	contents += tabtabtab + "default:\n"
 	contents += tabtabtabtab + "throw new ArgumentError(\"Field $fieldID doesn't exist!\");\n"

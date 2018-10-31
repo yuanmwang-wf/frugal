@@ -96,13 +96,13 @@ class FooArgs implements thrift.TBase {
   bool isSet(int fieldID) {
     switch(fieldID) {
       case NEWMESSAGE:
-        return newMessage == null;
+        return newMessage != null;
 
       case MESSAGEARGS:
-        return messageArgs == null;
+        return messageArgs != null;
 
       case MESSAGERESULT:
-        return messageResult == null;
+        return messageResult != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

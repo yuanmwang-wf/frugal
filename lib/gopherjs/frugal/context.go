@@ -17,7 +17,6 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -104,10 +103,6 @@ func Clone(ctx FContext) FContext {
 }
 
 var nextOpID uint64
-
-func getNextOpID() string {
-	return strconv.FormatUint(atomic.AddUint64(&nextOpID, 1), 10)
-}
 
 // FContextImpl is an implementation of FContext.
 type FContextImpl struct {

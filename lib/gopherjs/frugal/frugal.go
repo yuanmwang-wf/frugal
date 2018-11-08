@@ -17,7 +17,9 @@
 package frugal
 
 import (
+	"strconv"
 	"sync"
+	"sync/atomic"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/nats-io/nuid"
@@ -48,4 +50,8 @@ func logger() *logrus.Logger {
 // testability purposes.
 var generateCorrelationID = func() string {
 	return nuid.Next()
+}
+
+var getNextOpID = func() string {
+	return strconv.FormatUint(atomic.AddUint64(&nextOpID, 1), 10)
 }

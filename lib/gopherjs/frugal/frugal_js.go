@@ -38,3 +38,8 @@ func s4() string {
 	val := (js.Global.Get("Math").Call("random").Float() + 1) * 0x10000
 	return js.Global.Get("Math").Call("floor", val).Call("toString", 16).Call("substring", 1).String()
 }
+
+var getNextOpID = func() string {
+	nextOpID++
+	return js.InternalObject(float64(nextOpID)).Call("toString").String()
+}

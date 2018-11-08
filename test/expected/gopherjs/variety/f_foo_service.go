@@ -4,23 +4,16 @@
 package variety
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/Workiva/frugal/test/expected/gopherjs/ValidTypes"
+	"github.com/Workiva/frugal/test/expected/gopherjs/actual_base/golang"
 	"github.com/Workiva/frugal/test/expected/gopherjs/subdir_include"
 	"github.com/Workiva/frugal/test/expected/gopherjs/validStructs"
-	"github.com/Workiva/frugal/test/out/actual_base/golang"
 )
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-var _ = logrus.DebugLevel
 
 // This is a thrift service. Frugal will generate bindings that include
 // a frugal Context for each service call.

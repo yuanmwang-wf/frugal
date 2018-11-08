@@ -3,21 +3,5 @@
 
 package intermediate_include
 
-import (
-	"bytes"
-	"fmt"
-
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/Workiva/frugal/test/out/actual_base/golang"
-)
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-
-var _ = golang.GoUnusedProtection__
-var GoUnusedProtection__ int
-
 func init() {
 }

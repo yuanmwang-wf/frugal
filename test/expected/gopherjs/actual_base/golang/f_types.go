@@ -4,7 +4,6 @@
 package golang
 
 import (
-	"bytes"
 	"database/sql/driver"
 	"errors"
 	"fmt"
@@ -12,13 +11,6 @@ import (
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-
-var GoUnusedProtection__ int
 
 const ConstI32FromBase = 582
 

@@ -4,19 +4,11 @@
 package golang
 
 import (
-	"bytes"
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-var _ = logrus.DebugLevel
 
 type FBaseFoo interface {
 	BasePing(ctx frugal.FContext) (err error)

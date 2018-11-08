@@ -4,18 +4,10 @@
 package validStructs
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-
-var GoUnusedProtection__ int
 
 func init() {
 }

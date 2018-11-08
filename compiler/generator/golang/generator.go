@@ -1110,12 +1110,15 @@ func (g *Generator) GenerateTypesImports(file *os.File) error {
 	}
 
 	contents += ")\n\n"
-	contents += "// (needed to ensure safety because of naive import list construction.)\n"
-	contents += "var _ = thrift.ZERO\n"
-	contents += "var _ = fmt.Printf\n"
-	contents += "var _ = bytes.Equal\n\n"
-	contents += protections
-	contents += "var GoUnusedProtection__ int\n"
+
+	if !g.generateSlim() {
+		contents += "// (needed to ensure safety because of naive import list construction.)\n"
+		contents += "var _ = thrift.ZERO\n"
+		contents += "var _ = fmt.Printf\n"
+		contents += "var _ = bytes.Equal\n\n"
+		contents += protections
+		contents += "var GoUnusedProtection__ int\n"
+	}
 	_, err := file.WriteString(contents)
 	return err
 }
@@ -1145,11 +1148,14 @@ func (g *Generator) GenerateServiceResultArgsImports(file *os.File) error {
 	}
 
 	contents += ")\n\n"
-	contents += "// (needed to ensure safety because of naive import list construction.)\n"
-	contents += "var _ = thrift.ZERO\n"
-	contents += "var _ = fmt.Printf\n"
-	contents += "var _ = bytes.Equal\n\n"
-	contents += protections
+
+	if !g.generateSlim() {
+		contents += "// (needed to ensure safety because of naive import list construction.)\n"
+		contents += "var _ = thrift.ZERO\n"
+		contents += "var _ = fmt.Printf\n"
+		contents += "var _ = bytes.Equal\n\n"
+		contents += protections
+	}
 
 	_, err := file.WriteString(contents)
 	return err
@@ -1192,11 +1198,13 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 
 	imports += ")\n\n"
 
-	imports += "// (needed to ensure safety because of naive import list construction.)\n"
-	imports += "var _ = thrift.ZERO\n"
-	imports += "var _ = fmt.Printf\n"
-	imports += "var _ = bytes.Equal\n"
-	imports += "var _ = logrus.DebugLevel"
+	if !g.generateSlim() {
+		imports += "// (needed to ensure safety because of naive import list construction.)\n"
+		imports += "var _ = thrift.ZERO\n"
+		imports += "var _ = fmt.Printf\n"
+		imports += "var _ = bytes.Equal\n"
+		imports += "var _ = logrus.DebugLevel"
+	}
 
 	_, err = file.WriteString(imports)
 	return err

@@ -11,24 +11,8 @@ import (
 
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/Workiva/frugal/test/expected/gopherjs/ValidTypes"
-	"github.com/Workiva/frugal/test/expected/gopherjs/intermediate_include"
-	"github.com/Workiva/frugal/test/expected/gopherjs/subdir_include"
-	"github.com/Workiva/frugal/test/expected/gopherjs/validStructs"
-	"github.com/Workiva/frugal/test/out/actual_base/golang"
+	"github.com/Workiva/frugal/test/expected/gopherjs/actual_base/golang"
 )
-
-// (needed to ensure safety because of naive import list construction.)
-var _ = thrift.ZERO
-var _ = fmt.Printf
-var _ = bytes.Equal
-
-var _ = golang.GoUnusedProtection__
-var _ = intermediate_include.GoUnusedProtection__
-var _ = validStructs.GoUnusedProtection__
-var _ = ValidTypes.GoUnusedProtection__
-var _ = subdir_include.GoUnusedProtection__
-var GoUnusedProtection__ int
 
 const RedefConst = golang.ConstI32FromBase
 

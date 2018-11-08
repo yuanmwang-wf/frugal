@@ -1,3 +1,5 @@
+// +build !js
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
@@ -188,7 +190,7 @@ func (p *TSimpleServer) processRequests(client TTransport) error {
 		if err, ok := err.(TApplicationException); ok && err.TypeId() == UNKNOWN_METHOD {
 			continue
 		}
- 		if !ok {
+		if !ok {
 			break
 		}
 	}

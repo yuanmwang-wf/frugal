@@ -19,8 +19,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"github.com/nats-io/nuid"
 )
 
 const (
@@ -249,10 +247,4 @@ func getOpID(ctx FContext) (uint64, error) {
 // setResponseOpID sets the response operation id for context.
 func setResponseOpID(ctx FContext, id string) {
 	ctx.AddResponseHeader(opIDHeader, id)
-}
-
-// generateCorrelationID returns a random string id. It's assigned to a var for
-// testability purposes.
-var generateCorrelationID = func() string {
-	return nuid.Next()
 }

@@ -20,6 +20,7 @@ import (
 	"sync"
 
 	"github.com/Sirupsen/logrus"
+	"github.com/nats-io/nuid"
 )
 
 var (
@@ -41,4 +42,10 @@ func logger() *logrus.Logger {
 	logger := packageLogger
 	loggerMu.RUnlock()
 	return logger
+}
+
+// generateCorrelationID returns a random string id. It's assigned to a var for
+// testability purposes.
+var generateCorrelationID = func() string {
+	return nuid.Next()
 }

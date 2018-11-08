@@ -23,7 +23,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io"
 	"math"
@@ -137,18 +136,6 @@ func init() {
 	JSON_NEGATIVE_INFINITY_BYTES = []byte{'-', 'I', 'n', 'f', 'i', 'n', 'i', 't', 'y'}
 	JSON_NAN_BYTES = []byte{'N', 'a', 'N'}
 	json_nonbase_map_elem_bytes = []byte{']', ',', '['}
-}
-
-func jsonQuote(s string) string {
-	b, _ := json.Marshal(s)
-	s1 := string(b)
-	return s1
-}
-
-func jsonUnquote(s string) (string, bool) {
-	s1 := new(string)
-	err := json.Unmarshal([]byte(s), s1)
-	return *s1, err == nil
 }
 
 func mismatch(expected, actual string) error {

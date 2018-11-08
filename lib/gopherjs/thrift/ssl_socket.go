@@ -1,3 +1,5 @@
+// +build !js
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
@@ -166,6 +168,5 @@ func (p *TSSLSocket) Interrupt() error {
 
 func (p *TSSLSocket) RemainingBytes() (num_bytes uint64) {
 	const maxSize = ^uint64(0)
-	return maxSize  // the thruth is, we just don't know unless framed is used
+	return maxSize // the thruth is, we just don't know unless framed is used
 }
-

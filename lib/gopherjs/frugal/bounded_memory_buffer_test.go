@@ -16,7 +16,7 @@ package frugal
 import (
 	"testing"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/stretchr/testify/assert"
 )
 

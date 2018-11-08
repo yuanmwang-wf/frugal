@@ -18,7 +18,7 @@ import (
 	"encoding/binary"
 	//"errors"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
 
 // FPublisherTransportFactory produces FPublisherTransports and is typically

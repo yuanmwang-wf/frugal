@@ -19,7 +19,7 @@ import (
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/nats-io/gnatsd/server"
 	"github.com/nats-io/go-nats"
 	"github.com/stretchr/testify/assert"

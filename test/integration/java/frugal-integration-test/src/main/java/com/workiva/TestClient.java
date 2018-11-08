@@ -36,7 +36,8 @@ import com.workiva.frugal.transport.FSubscriberTransportFactory;
 import com.workiva.Utils;
 import frugal.test.*;
 import io.nats.client.Connection;
-import io.nats.client.ConnectionFactory;
+import io.nats.client.Nats;
+import io.nats.client.Options;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.thrift.TApplicationException;
@@ -67,8 +68,10 @@ public class TestClient {
         String protocolType = parser.getProtocolType();
         String transportType = parser.getTransportType();
 
-        ConnectionFactory cf = new ConnectionFactory("nats://localhost:4222");
-        Connection conn = cf.createConnection();
+        Properties properties = new Properties();
+        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+        Options.Builder optionsBuilder = new Options.Builder(properties);
+        Connection conn = Nats.connect(optionsBuilder.build());
 
         TProtocolFactory protocolFactory = whichProtocolFactory(protocolType);
 

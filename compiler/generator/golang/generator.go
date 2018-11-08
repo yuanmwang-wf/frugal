@@ -285,8 +285,17 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}) str
 			panic("no struct for type " + underlyingType.Name)
 		}
 
+		// All structs types should start with a pointer
+		// Need to extract the struct name from the package prefix
+		// ie *base.APIException -> base.NewAPIException()
+		var prefix string
+		goUnderlyingType := g.getGoTypeFromThriftTypePtr(underlyingType, false)
+		if lastInd := strings.LastIndex(goUnderlyingType, "."); lastInd != -1 {
+			prefix = goUnderlyingType[1 : lastInd+1]
+		}
+
 		contents := ""
-		contents += fmt.Sprintf("&%s{\n", title(s.Name))
+		contents += fmt.Sprintf("&%s{\n", prefix+title(s.Name))
 
 		for _, pair := range value.([]parser.KeyValue) {
 			name := title(pair.KeyToString())

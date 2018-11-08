@@ -485,17 +485,20 @@ func (g *Generator) generateStructDeclaration(s *parser.Struct, sName string) st
 
 		contents += g.generateCommentWithDeprecated(field.Comment, "\t", field.Annotations)
 
-		// Use the actual field name for annotations because the serialized
-		// name needs to be the same for all languages
-		thriftAnnotation := fmt.Sprintf("%s,%d", field.Name, field.ID)
-		if field.Modifier == parser.Required {
-			thriftAnnotation += ",required"
+		var annotation string
+		if !g.generateSlim() {
+			// Use the actual field name for annotations because the serialized
+			// name needs to be the same for all languages
+			thriftAnnotation := fmt.Sprintf("%s,%d", field.Name, field.ID)
+			if field.Modifier == parser.Required {
+				thriftAnnotation += ",required"
+			}
+			jsonAnnotation := field.Name
+			if field.Modifier == parser.Optional {
+				jsonAnnotation += ",omitempty"
+			}
+			annotation = fmt.Sprintf("`thrift:\"%s\" db:\"%s\" json:\"%s\"`", thriftAnnotation, field.Name, jsonAnnotation)
 		}
-		jsonAnnotation := field.Name
-		if field.Modifier == parser.Optional {
-			jsonAnnotation += ",omitempty"
-		}
-		annotation := fmt.Sprintf("`thrift:\"%s\" db:\"%s\" json:\"%s\"`", thriftAnnotation, field.Name, jsonAnnotation)
 
 		goType := g.getGoTypeFromThriftTypePtr(field.Type, g.isPointerField(field))
 		contents += fmt.Sprintf("\t%s %s %s\n", fName, goType, annotation)

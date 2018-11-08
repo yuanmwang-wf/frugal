@@ -2154,9 +2154,9 @@ func (p *FooPingResult) String() string {
 }
 
 type FooBlahArgs struct {
-	Num   int32  `thrift:"num,1" db:"num" json:"num"`
-	Str   string `thrift:"Str,2" db:"Str" json:"Str"`
-	Event *Event `thrift:"event,3" db:"event" json:"event"`
+	Num   int32
+	Str   string
+	Event *Event
 }
 
 func NewFooBlahArgs() *FooBlahArgs {
@@ -2260,9 +2260,9 @@ func (p *FooBlahArgs) String() string {
 }
 
 type FooBlahResult struct {
-	Success *int64               `thrift:"success,0" db:"success" json:"success,omitempty"`
-	Awe     *AwesomeException    `thrift:"awe,1" db:"awe" json:"awe,omitempty"`
-	API     *golang.APIException `thrift:"api,2" db:"api" json:"api,omitempty"`
+	Success *int64
+	Awe     *AwesomeException
+	API     *golang.APIException
 }
 
 func NewFooBlahResult() *FooBlahResult {
@@ -2389,8 +2389,8 @@ func (p *FooBlahResult) String() string {
 }
 
 type FooOneWayArgs struct {
-	ID  ID      `thrift:"id,1" db:"id" json:"id"`
-	Req Request `thrift:"req,2" db:"req" json:"req"`
+	ID  ID
+	Req Request
 }
 
 func NewFooOneWayArgs() *FooOneWayArgs {
@@ -2517,8 +2517,8 @@ func (p *FooOneWayArgs) String() string {
 }
 
 type FooBinMethodArgs struct {
-	Bin []byte `thrift:"bin,1" db:"bin" json:"bin"`
-	Str string `thrift:"Str,2" db:"Str" json:"Str"`
+	Bin []byte
+	Str string
 }
 
 func NewFooBinMethodArgs() *FooBinMethodArgs {
@@ -2601,8 +2601,8 @@ func (p *FooBinMethodArgs) String() string {
 }
 
 type FooBinMethodResult struct {
-	Success []byte               `thrift:"success,0" db:"success" json:"success,omitempty"`
-	API     *golang.APIException `thrift:"api,1" db:"api" json:"api,omitempty"`
+	Success []byte
+	API     *golang.APIException
 }
 
 func NewFooBinMethodResult() *FooBinMethodResult {
@@ -2703,9 +2703,9 @@ func (p *FooBinMethodResult) String() string {
 }
 
 type FooParamModifiersArgs struct {
-	OptNum     int32 `thrift:"opt_num,1" db:"opt_num" json:"opt_num"`
-	DefaultNum int32 `thrift:"default_num,2" db:"default_num" json:"default_num"`
-	ReqNum     int32 `thrift:"req_num,3,required" db:"req_num" json:"req_num"`
+	OptNum     int32
+	DefaultNum int32
+	ReqNum     int32
 }
 
 func NewFooParamModifiersArgs() *FooParamModifiersArgs {
@@ -2807,7 +2807,7 @@ func (p *FooParamModifiersArgs) String() string {
 }
 
 type FooParamModifiersResult struct {
-	Success *int64 `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *int64
 }
 
 func NewFooParamModifiersResult() *FooParamModifiersResult {
@@ -2888,8 +2888,8 @@ func (p *FooParamModifiersResult) String() string {
 }
 
 type FooUnderlyingTypesTestArgs struct {
-	ListType []ID        `thrift:"list_type,1" db:"list_type" json:"list_type"`
-	SetType  map[ID]bool `thrift:"set_type,2" db:"set_type" json:"set_type"`
+	ListType []ID
+	SetType  map[ID]bool
 }
 
 func NewFooUnderlyingTypesTestArgs() *FooUnderlyingTypesTestArgs {
@@ -3040,7 +3040,7 @@ func (p *FooUnderlyingTypesTestArgs) String() string {
 }
 
 type FooUnderlyingTypesTestResult struct {
-	Success []ID `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success []ID
 }
 
 func NewFooUnderlyingTypesTestResult() *FooUnderlyingTypesTestResult {
@@ -3205,7 +3205,7 @@ func (p *FooGetThingArgs) String() string {
 }
 
 type FooGetThingResult struct {
-	Success *validStructs.Thing `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *validStructs.Thing
 }
 
 func NewFooGetThingResult() *FooGetThingResult {
@@ -3338,7 +3338,7 @@ func (p *FooGetMyIntArgs) String() string {
 }
 
 type FooGetMyIntResult struct {
-	Success *ValidTypes.MyInt `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *ValidTypes.MyInt
 }
 
 func NewFooGetMyIntResult() *FooGetMyIntResult {
@@ -3420,7 +3420,7 @@ func (p *FooGetMyIntResult) String() string {
 }
 
 type FooUseSubdirStructArgs struct {
-	A *subdir_include.A `thrift:"a,1" db:"a" json:"a"`
+	A *subdir_include.A
 }
 
 func NewFooUseSubdirStructArgs() *FooUseSubdirStructArgs {
@@ -3498,7 +3498,7 @@ func (p *FooUseSubdirStructArgs) String() string {
 }
 
 type FooUseSubdirStructResult struct {
-	Success *subdir_include.A `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *subdir_include.A
 }
 
 func NewFooUseSubdirStructResult() *FooUseSubdirStructResult {
@@ -3578,7 +3578,7 @@ func (p *FooUseSubdirStructResult) String() string {
 }
 
 type FooSayHelloWithArgs struct {
-	NewMessage_ string `thrift:"newMessage,1" db:"newMessage" json:"newMessage"`
+	NewMessage_ string
 }
 
 func NewFooSayHelloWithArgs() *FooSayHelloWithArgs {
@@ -3648,7 +3648,7 @@ func (p *FooSayHelloWithArgs) String() string {
 }
 
 type FooSayHelloWithResult struct {
-	Success *string `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *string
 }
 
 func NewFooSayHelloWithResult() *FooSayHelloWithResult {
@@ -3729,7 +3729,7 @@ func (p *FooSayHelloWithResult) String() string {
 }
 
 type FooWhatDoYouSayArgs struct {
-	MessageArgs_ string `thrift:"messageArgs,1" db:"messageArgs" json:"messageArgs"`
+	MessageArgs_ string
 }
 
 func NewFooWhatDoYouSayArgs() *FooWhatDoYouSayArgs {
@@ -3799,7 +3799,7 @@ func (p *FooWhatDoYouSayArgs) String() string {
 }
 
 type FooWhatDoYouSayResult struct {
-	Success *string `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *string
 }
 
 func NewFooWhatDoYouSayResult() *FooWhatDoYouSayResult {
@@ -3880,7 +3880,7 @@ func (p *FooWhatDoYouSayResult) String() string {
 }
 
 type FooSayAgainArgs struct {
-	MessageResult_ string `thrift:"messageResult,1" db:"messageResult" json:"messageResult"`
+	MessageResult_ string
 }
 
 func NewFooSayAgainArgs() *FooSayAgainArgs {
@@ -3950,7 +3950,7 @@ func (p *FooSayAgainArgs) String() string {
 }
 
 type FooSayAgainResult struct {
-	Success *string `thrift:"success,0" db:"success" json:"success,omitempty"`
+	Success *string
 }
 
 func NewFooSayAgainResult() *FooSayAgainResult {

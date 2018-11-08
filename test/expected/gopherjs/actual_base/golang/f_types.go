@@ -53,8 +53,8 @@ func BaseHealthConditionFromString(s string) (BaseHealthCondition, error) {
 }
 
 type Thing struct {
-	AnID    int32  `thrift:"an_id,1" db:"an_id" json:"an_id"`
-	AString string `thrift:"a_string,2" db:"a_string" json:"a_string"`
+	AnID    int32
+	AString string
 }
 
 func NewThing() *Thing {
@@ -137,7 +137,7 @@ func (p *Thing) String() string {
 }
 
 type NestedThing struct {
-	Things []*Thing `thrift:"things,1" db:"things" json:"things"`
+	Things []*Thing
 }
 
 func NewNestedThing() *NestedThing {

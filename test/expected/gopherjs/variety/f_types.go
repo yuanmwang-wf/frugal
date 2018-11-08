@@ -189,7 +189,7 @@ func ItsAnEnumFromString(s string) (ItsAnEnum, error) {
 }
 
 type TestBase struct {
-	BaseStruct *golang.Thing `thrift:"base_struct,1" db:"base_struct" json:"base_struct"`
+	BaseStruct *golang.Thing
 }
 
 func NewTestBase() *TestBase {
@@ -267,7 +267,7 @@ func (p *TestBase) String() string {
 }
 
 type TestLowercase struct {
-	LowercaseInt int32 `thrift:"lowercaseInt,1" db:"lowercaseInt" json:"lowercaseInt"`
+	LowercaseInt int32
 }
 
 func NewTestLowercase() *TestLowercase {
@@ -340,9 +340,9 @@ func (p *TestLowercase) String() string {
 // the @ sign.
 type Event struct {
 	// ID is a unique identifier for an event.
-	ID ID `thrift:"ID,1" db:"ID" json:"ID"`
+	ID ID
 	// Message contains the event payload.
-	Message string `thrift:"Message,2" db:"Message" json:"Message"`
+	Message string
 }
 
 func NewEvent() *Event {
@@ -428,24 +428,24 @@ func (p *Event) String() string {
 }
 
 type TestingDefaults struct {
-	ID2        ID                         `thrift:"ID2,1" db:"ID2" json:"ID2,omitempty"`
-	Ev1        *Event                     `thrift:"ev1,2" db:"ev1" json:"ev1"`
-	Ev2        *Event                     `thrift:"ev2,3" db:"ev2" json:"ev2"`
-	ID         ID                         `thrift:"ID,4" db:"ID" json:"ID"`
-	Thing      string                     `thrift:"thing,5" db:"thing" json:"thing"`
-	Thing2     string                     `thrift:"thing2,6" db:"thing2" json:"thing2,omitempty"`
-	Listfield  []Int                      `thrift:"listfield,7" db:"listfield" json:"listfield"`
-	ID3        ID                         `thrift:"ID3,8" db:"ID3" json:"ID3"`
-	BinField   []byte                     `thrift:"bin_field,9" db:"bin_field" json:"bin_field"`
-	BinField2  []byte                     `thrift:"bin_field2,10" db:"bin_field2" json:"bin_field2,omitempty"`
-	BinField3  []byte                     `thrift:"bin_field3,11" db:"bin_field3" json:"bin_field3"`
-	BinField4  []byte                     `thrift:"bin_field4,12" db:"bin_field4" json:"bin_field4,omitempty"`
-	List2      *[]Int                     `thrift:"list2,13" db:"list2" json:"list2,omitempty"`
-	List3      []Int                      `thrift:"list3,14" db:"list3" json:"list3,omitempty"`
-	List4      []Int                      `thrift:"list4,15" db:"list4" json:"list4"`
-	AMap       *map[string]string         `thrift:"a_map,16" db:"a_map" json:"a_map,omitempty"`
-	Status     HealthCondition            `thrift:"status,17,required" db:"status" json:"status"`
-	BaseStatus golang.BaseHealthCondition `thrift:"base_status,18,required" db:"base_status" json:"base_status"`
+	ID2        ID
+	Ev1        *Event
+	Ev2        *Event
+	ID         ID
+	Thing      string
+	Thing2     string
+	Listfield  []Int
+	ID3        ID
+	BinField   []byte
+	BinField2  []byte
+	BinField3  []byte
+	BinField4  []byte
+	List2      *[]Int
+	List3      []Int
+	List4      []Int
+	AMap       *map[string]string
+	Status     HealthCondition
+	BaseStatus golang.BaseHealthCondition
 }
 
 func NewTestingDefaults() *TestingDefaults {
@@ -1047,24 +1047,24 @@ func (p *TestingDefaults) String() string {
 }
 
 type EventWrapper struct {
-	ID               *ID             `thrift:"ID,1" db:"ID" json:"ID,omitempty"`
-	Ev               *Event          `thrift:"Ev,2,required" db:"Ev" json:"Ev"`
-	Events           []*Event        `thrift:"Events,3" db:"Events" json:"Events"`
-	Events2          map[*Event]bool `thrift:"Events2,4" db:"Events2" json:"Events2"`
-	EventMap         map[ID]*Event   `thrift:"EventMap,5" db:"EventMap" json:"EventMap"`
-	Nums             [][]Int         `thrift:"Nums,6" db:"Nums" json:"Nums"`
-	Enums            []ItsAnEnum     `thrift:"Enums,7" db:"Enums" json:"Enums"`
-	ABoolField       bool            `thrift:"aBoolField,8" db:"aBoolField" json:"aBoolField"`
-	AUnion           *TestingUnions  `thrift:"a_union,9" db:"a_union" json:"a_union"`
-	TypedefOfTypedef T2String        `thrift:"typedefOfTypedef,10" db:"typedefOfTypedef" json:"typedefOfTypedef"`
+	ID               *ID
+	Ev               *Event
+	Events           []*Event
+	Events2          map[*Event]bool
+	EventMap         map[ID]*Event
+	Nums             [][]Int
+	Enums            []ItsAnEnum
+	ABoolField       bool
+	AUnion           *TestingUnions
+	TypedefOfTypedef T2String
 	// This is a docstring comment for a deprecated field that has been spread
 	// across two lines.
 	// Deprecated: use something else
-	Depr bool `thrift:"depr,11" db:"depr" json:"depr"`
+	Depr bool
 	// Deprecated: use something else
-	DeprBinary []byte `thrift:"deprBinary,12" db:"deprBinary" json:"deprBinary"`
+	DeprBinary []byte
 	// Deprecated: use something else
-	DeprList []bool `thrift:"deprList,13" db:"deprList" json:"deprList"`
+	DeprList []bool
 }
 
 func NewEventWrapper() *EventWrapper {
@@ -1548,9 +1548,9 @@ func (p *EventWrapper) String() string {
 }
 
 type FooArgs_ struct {
-	NewMessage_    string `thrift:"newMessage,1" db:"newMessage" json:"newMessage"`
-	MessageArgs_   string `thrift:"messageArgs,2" db:"messageArgs" json:"messageArgs"`
-	MessageResult_ string `thrift:"messageResult,3" db:"messageResult" json:"messageResult"`
+	NewMessage_    string
+	MessageArgs_   string
+	MessageResult_ string
 }
 
 func NewFooArgs_() *FooArgs_ {
@@ -1646,14 +1646,14 @@ func (p *FooArgs_) String() string {
 }
 
 type TestingUnions struct {
-	AnID            *ID     `thrift:"AnID,1" db:"AnID" json:"AnID,omitempty"`
-	AString         *string `thrift:"aString,2" db:"aString" json:"aString,omitempty"`
-	Someotherthing  *Int    `thrift:"someotherthing,3" db:"someotherthing" json:"someotherthing,omitempty"`
-	AnInt16         *int16  `thrift:"AnInt16,4" db:"AnInt16" json:"AnInt16,omitempty"`
-	Requests        Request `thrift:"Requests,5" db:"Requests" json:"Requests,omitempty"`
-	BinFieldInUnion []byte  `thrift:"bin_field_in_union,6" db:"bin_field_in_union" json:"bin_field_in_union,omitempty"`
+	AnID            *ID
+	AString         *string
+	Someotherthing  *Int
+	AnInt16         *int16
+	Requests        Request
+	BinFieldInUnion []byte
 	// Deprecated: use something else
-	Depr *bool `thrift:"depr,7" db:"depr" json:"depr,omitempty"`
+	Depr *bool
 }
 
 func NewTestingUnions() *TestingUnions {
@@ -1950,11 +1950,11 @@ func (p *TestingUnions) String() string {
 
 type AwesomeException struct {
 	// ID is a unique identifier for an awesome exception.
-	ID ID `thrift:"ID,1" db:"ID" json:"ID"`
+	ID ID
 	// Reason contains the error message.
-	Reason string `thrift:"Reason,2" db:"Reason" json:"Reason"`
+	Reason string
 	// Deprecated: use something else
-	Depr bool `thrift:"depr,3" db:"depr" json:"depr"`
+	Depr bool
 }
 
 func NewAwesomeException() *AwesomeException {

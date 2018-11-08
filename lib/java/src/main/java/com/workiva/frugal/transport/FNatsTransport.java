@@ -15,18 +15,17 @@ package com.workiva.frugal.transport;
 
 import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
-import io.nats.client.Connection.Status;
-import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
-
+import io.nats.client.Nats;
+import io.nats.client.Subscription;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * FNatsTransport is an extension of FTransport. This is a "stateless" transport
@@ -40,22 +39,18 @@ public class FNatsTransport extends FAsyncTransport {
 
     public static final int NATS_MAX_MESSAGE_SIZE = 1024 * 1024;
     public static final String FRUGAL_PREFIX = "frugal.";
-    private static final String INBOX_PREFIX = "_INBOX.";
 
     private final Connection conn;
     private final String subject;
     private final String inbox;
-    private Dispatcher dispatcher;
+
+    private Subscription sub;
 
     private FNatsTransport(Connection conn, String subject, String inbox) {
         this.requestSizeLimit = NATS_MAX_MESSAGE_SIZE;
         this.conn = conn;
         this.subject = subject;
         this.inbox = inbox;
-    }
-
-    private static String createInbox() {
-        return INBOX_PREFIX + UUID.randomUUID().toString().replace("-", "");
     }
 
     /**
@@ -70,7 +65,7 @@ public class FNatsTransport extends FAsyncTransport {
      * @return FNatsTransport for communicating via NATS.
      */
     public static FNatsTransport of(Connection conn, String subject) {
-        return new FNatsTransport(conn, subject, createInbox());
+        return new FNatsTransport(conn, subject, conn.newInbox());
     }
 
     /**
@@ -91,7 +86,7 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public boolean isOpen() {
-        return dispatcher != null && conn.getStatus() == Status.CONNECTED;
+        return sub != null && conn.getState() == Nats.ConnState.CONNECTED;
     }
 
     /**
@@ -101,14 +96,13 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void open() throws TTransportException {
-        if (conn.getStatus() != Status.CONNECTED) {
-            throw getClosedConditionException(conn.getStatus(), "open:");
+        if (conn.getState() != Nats.ConnState.CONNECTED) {
+            throw getClosedConditionException(conn.getState(), "open:");
         }
-        if (dispatcher != null) {
+        if (sub != null) {
             throw new TTransportException(TTransportExceptionType.ALREADY_OPEN, "NATS transport already open");
         }
-        dispatcher = conn.createDispatcher(new Handler());
-        dispatcher.subscribe(inbox);
+        sub = conn.subscribe(inbox, new Handler());
     }
 
     /**
@@ -116,24 +110,28 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void close() {
-        if (dispatcher == null) {
+        if (sub == null) {
             return;
         }
         try {
-            dispatcher.unsubscribe(subject);
-        } catch (IllegalStateException e) {
+            sub.unsubscribe();
+        } catch (IOException e) {
             LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
         }
-        dispatcher = null;
+        sub = null;
         super.close();
     }
 
     @Override
     protected void flush(byte[] payload) throws TTransportException {
         if (!isOpen()) {
-            throw getClosedConditionException(conn.getStatus(), "flush:");
+            throw getClosedConditionException(conn.getState(), "flush:");
         }
-        conn.publish(subject, inbox, payload);
+        try {
+            conn.publish(subject, inbox, payload);
+        } catch (IOException e) {
+            throw new TTransportException("request: unable to publish data: " + e.getMessage());
+        }
     }
 
     /**
@@ -154,14 +152,14 @@ public class FNatsTransport extends FAsyncTransport {
     /**
      * Convert NATS connection state to a suitable exception type.
      *
-     * @param connStatus nats connection state
+     * @param connState nats connection state
      * @param prefix    prefix to add to exception message
      * @return a TTransportException type
      */
-    protected static TTransportException getClosedConditionException(Status connStatus, String prefix) {
-        if (connStatus != Status.CONNECTED) {
+    protected static TTransportException getClosedConditionException(Nats.ConnState connState, String prefix) {
+        if (connState != Nats.ConnState.CONNECTED) {
             return new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    String.format("%s NATS client not connected (has status %s)", prefix, connStatus.name()));
+                    String.format("%s NATS client not connected (has status %s)", prefix, connState.name()));
         }
         return new TTransportException(TTransportExceptionType.NOT_OPEN,
                 String.format("%s NATS Transport not open", prefix));

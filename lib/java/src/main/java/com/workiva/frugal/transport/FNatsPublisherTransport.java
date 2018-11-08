@@ -15,11 +15,12 @@ package com.workiva.frugal.transport;
 
 import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
-import io.nats.client.Connection.Status;
-
+import io.nats.client.Nats;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
@@ -71,15 +72,15 @@ public class FNatsPublisherTransport implements FPublisherTransport {
 
     @Override
     public synchronized boolean isOpen() {
-        return conn.getStatus() == Status.CONNECTED;
+        return conn.getState() == Nats.ConnState.CONNECTED;
     }
 
     @Override
     public synchronized void open() throws TTransportException {
         // We only need to check that the NATS client is connected
-        if (conn.getStatus() != Status.CONNECTED) {
+        if (conn.getState() != Nats.ConnState.CONNECTED) {
             throw new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    "NATS not connected, has status " + conn.getStatus());
+                    "NATS not connected, has status " + conn.getState());
         }
     }
 
@@ -96,7 +97,7 @@ public class FNatsPublisherTransport implements FPublisherTransport {
     @Override
     public void publish(String topic, byte[] payload) throws TTransportException {
         if (!isOpen()) {
-            throw getClosedConditionException(conn.getStatus(), "publish:");
+            throw getClosedConditionException(conn.getState(), "publish:");
         }
 
         if ("".equals(topic)) {
@@ -108,7 +109,12 @@ public class FNatsPublisherTransport implements FPublisherTransport {
                     String.format("Message exceeds %d bytes, was %d bytes",
                             NATS_MAX_MESSAGE_SIZE, payload.length));
         }
-        conn.publish(getFormattedSubject(topic), payload);
+
+        try {
+            conn.publish(getFormattedSubject(topic), payload);
+        } catch (IOException e) {
+            throw new TTransportException("publish: unable to publish data: " + e.getMessage());
+        }
     }
 
     private String getFormattedSubject(String topic) {

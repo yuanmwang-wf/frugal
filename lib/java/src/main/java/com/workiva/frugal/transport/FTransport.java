@@ -46,7 +46,7 @@ public abstract class FTransport {
     /**
      * Opens the transport.
      *
-     * @throws TTransportException if the request times out or encounters other problems
+     * @throws TTransportException
      */
     public synchronized void open() throws TTransportException {
         isOpen = true;

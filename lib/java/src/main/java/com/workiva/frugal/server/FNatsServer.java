@@ -18,22 +18,22 @@ import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
 import com.workiva.frugal.util.BlockingRejectedExecutionHandler;
 import io.nats.client.Connection;
-import io.nats.client.Dispatcher;
 import io.nats.client.MessageHandler;
+import io.nats.client.Subscription;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryInputTransport;
 import org.apache.thrift.transport.TTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Duration;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 
 import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
 
@@ -210,13 +210,9 @@ public class FNatsServer implements FServer {
      */
     @Override
     public void serve() throws TException {
-        Dispatcher dispatcher = conn.createDispatcher(newRequestHandler());
+        ArrayList<Subscription> subscriptionArrayList = new ArrayList<>();
         for (String subject : subjects) {
-            if (queue != null && !queue.isEmpty()) {
-                dispatcher.subscribe(subject, queue);
-            } else {
-                dispatcher.subscribe(subject);
-            }
+            subscriptionArrayList.add(conn.subscribe(subject, queue, newRequestHandler()));
         }
 
         LOGGER.info("Frugal server running...");
@@ -226,15 +222,14 @@ public class FNatsServer implements FServer {
         }
         LOGGER.info("Frugal server stopping...");
 
-        for (String subject : subjects) {
+        for (Subscription subscription : subscriptionArrayList) {
             try {
-                dispatcher.unsubscribe(subject);
-            } catch (IllegalStateException e) {
-                LOGGER.warn("Frugal server failed to unsubscribe from " + subject + ": " +
+                subscription.unsubscribe();
+            } catch (IOException e) {
+                LOGGER.warn("Frugal server failed to unsubscribe from " + subscription.getSubject() + ": " +
                         e.getMessage());
             }
         }
-        conn.closeDispatcher(dispatcher);
     }
 
     /**
@@ -329,7 +324,7 @@ public class FNatsServer implements FServer {
             } catch (RuntimeException e) {
                 try {
                     conn.publish(reply, output.getWriteBytes());
-                    conn.flush(Duration.ofSeconds(60));
+                    conn.flush();
                 } catch (Exception ignored) {
                 }
                 return;
@@ -340,8 +335,13 @@ public class FNatsServer implements FServer {
             }
 
             // Send response.
-            conn.publish(reply, output.getWriteBytes());
+            try {
+                conn.publish(reply, output.getWriteBytes());
+            } catch (IOException e) {
+                LOGGER.warn("failed to request response: " + e.getMessage());
+            }
         }
+
     }
 
     /**

@@ -125,7 +125,7 @@ func (r *monitorRunner) handleCleanClose() {
 
 // Handle an unclean close of the transport.
 func (r *monitorRunner) handleUncleanClose(cause error) bool {
-	logger().Warnf("frugal: FTransportMonitor signaled FTransport was closed uncleanly because: %v", cause)
+	logger().Warn("frugal: FTransportMonitor signaled FTransport was closed uncleanly because: " + cause.Error())
 
 	reopen, InitialWait := r.monitor.OnClosedUncleanly(cause)
 	if !reopen {
@@ -143,11 +143,11 @@ func (r *monitorRunner) attemptReopen(InitialWait time.Duration) bool {
 	prevAttempts := uint(0)
 
 	for reopen {
-		logger().Infof("frugal: FTransportMonitor attempting to reopen after %v", wait)
+		logger().Info("frugal: FTransportMonitor attempting to reopen after " + wait.String())
 		time.Sleep(wait)
 
 		if err := r.transport.Open(); err != nil {
-			logger().Errorf("frugal: FTransportMonitor failed to re-open transport due to: %v", err)
+			logger().Error("frugal: FTransportMonitor failed to re-open transport due to: " + err.Error())
 			prevAttempts++
 
 			reopen, wait = r.monitor.OnReopenFailed(prevAttempts, wait)

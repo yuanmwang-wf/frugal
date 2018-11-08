@@ -102,14 +102,14 @@ func (f *fAdapterTransport) readLoop() {
 				return
 			}
 
-			logger().Error("frugal: error reading protocol frame, closing transport: ", err)
+			logger().Error("frugal: error reading protocol frame, closing transport: " + err.Error())
 			f.close(err)
 			return
 		}
 
 		if err := f.registry.Execute(frame); err != nil {
 			// An error here indicates an unrecoverable error, teardown transport.
-			logger().Error("frugal: closing transport due to unrecoverable error processing frame: ", err)
+			logger().Error("frugal: closing transport due to unrecoverable error processing frame: " + err.Error())
 			f.close(err)
 			return
 		}
@@ -168,7 +168,7 @@ func (f *fAdapterTransport) close(cause error) error {
 	if cause == nil {
 		logger().Debug("frugal: transport closed")
 	} else {
-		logger().Debugf("frugal: transport closed with cause: %s", cause)
+		logger().Debug("frugal: transport closed with cause: " + cause.Error())
 	}
 
 	// Signal transport monitor of close.

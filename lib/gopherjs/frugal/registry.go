@@ -86,7 +86,7 @@ func (c *fRegistryImpl) Register(ctx FContext, resultC chan []byte) error {
 func (c *fRegistryImpl) Unregister(ctx FContext) {
 	opID, err := getOpID(ctx)
 	if err != nil {
-		logger().Warnf("Attempted to unregister an FContext with a malformed opid: %s", err)
+		logger().Warn("Attempted to unregister an FContext with a malformed opid: " + err.Error())
 		return
 	}
 	c.mu.Lock()
@@ -98,13 +98,13 @@ func (c *fRegistryImpl) Unregister(ctx FContext) {
 func (c *fRegistryImpl) Execute(frame []byte) error {
 	headers, err := getHeadersFromFrame(frame)
 	if err != nil {
-		logger().Warn("frugal: invalid protocol frame headers:", err)
+		logger().Warn("frugal: invalid protocol frame headers:" + err.Error())
 		return err
 	}
 
 	opid, err := strconv.ParseUint(headers[opIDHeader], 10, 64)
 	if err != nil {
-		logger().Warn("frugal: invalid protocol frame, op id not a uint64:", err)
+		logger().Warn("frugal: invalid protocol frame, op id not a uint64:" + err.Error())
 		return err
 	}
 

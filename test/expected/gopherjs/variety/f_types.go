@@ -5,8 +5,6 @@ package variety
 
 import (
 	"bytes"
-	"database/sql/driver"
-	"errors"
 	"fmt"
 
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
@@ -51,7 +49,7 @@ const EvilString2 = "th'ing\"ad\"f"
 var ConstLower *TestLowercase
 
 func init() {
-	ConstThing = &Thing{
+	ConstThing = &golang.Thing{
 		AnID:    1,
 		AString: "some string",
 	}
@@ -143,35 +141,6 @@ func HealthConditionFromString(s string) (HealthCondition, error) {
 	return HealthCondition(0), fmt.Errorf("not a valid HealthCondition string")
 }
 
-func (p HealthCondition) MarshalText() ([]byte, error) {
-	return []byte(p.String()), nil
-}
-
-func (p *HealthCondition) UnmarshalText(text []byte) error {
-	q, err := HealthConditionFromString(string(text))
-	if err != nil {
-		return err
-	}
-	*p = q
-	return nil
-}
-
-func (p *HealthCondition) Scan(value interface{}) error {
-	v, ok := value.(int64)
-	if !ok {
-		return errors.New("Scan value is not int64")
-	}
-	*p = HealthCondition(v)
-	return nil
-}
-
-func (p *HealthCondition) Value() (driver.Value, error) {
-	if p == nil {
-		return nil, nil
-	}
-	return int64(*p), nil
-}
-
 type ItsAnEnum int64
 
 const (
@@ -217,35 +186,6 @@ func ItsAnEnumFromString(s string) (ItsAnEnum, error) {
 		return ItsAnEnum_sIxItH, nil
 	}
 	return ItsAnEnum(0), fmt.Errorf("not a valid ItsAnEnum string")
-}
-
-func (p ItsAnEnum) MarshalText() ([]byte, error) {
-	return []byte(p.String()), nil
-}
-
-func (p *ItsAnEnum) UnmarshalText(text []byte) error {
-	q, err := ItsAnEnumFromString(string(text))
-	if err != nil {
-		return err
-	}
-	*p = q
-	return nil
-}
-
-func (p *ItsAnEnum) Scan(value interface{}) error {
-	v, ok := value.(int64)
-	if !ok {
-		return errors.New("Scan value is not int64")
-	}
-	*p = ItsAnEnum(v)
-	return nil
-}
-
-func (p *ItsAnEnum) Value() (driver.Value, error) {
-	if p == nil {
-		return nil, nil
-	}
-	return int64(*p), nil
 }
 
 type TestBase struct {

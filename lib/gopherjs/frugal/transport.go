@@ -16,7 +16,6 @@ package frugal
 import (
 	"bytes"
 	"encoding/binary"
-	//"errors"
 
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
@@ -142,7 +141,7 @@ func (f *fBaseTransport) Close(cause error) {
 	select {
 	case f.closed <- cause:
 	default:
-		logger().Warnf("frugal: unable to put close error '%s' on fBaseTransport closed channel", cause)
+		logger().Warn("frugal: unable to put close error '" + cause.Error() + "' on fBaseTransport closed channel")
 	}
 	close(f.closed)
 }

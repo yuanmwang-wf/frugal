@@ -4,8 +4,6 @@
 package golang
 
 import (
-	"database/sql/driver"
-	"errors"
 	"fmt"
 
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
@@ -52,35 +50,6 @@ func BaseHealthConditionFromString(s string) (BaseHealthCondition, error) {
 		return BaseHealthCondition_UNKNOWN, nil
 	}
 	return BaseHealthCondition(0), fmt.Errorf("not a valid BaseHealthCondition string")
-}
-
-func (p BaseHealthCondition) MarshalText() ([]byte, error) {
-	return []byte(p.String()), nil
-}
-
-func (p *BaseHealthCondition) UnmarshalText(text []byte) error {
-	q, err := BaseHealthConditionFromString(string(text))
-	if err != nil {
-		return err
-	}
-	*p = q
-	return nil
-}
-
-func (p *BaseHealthCondition) Scan(value interface{}) error {
-	v, ok := value.(int64)
-	if !ok {
-		return errors.New("Scan value is not int64")
-	}
-	*p = BaseHealthCondition(v)
-	return nil
-}
-
-func (p *BaseHealthCondition) Value() (driver.Value, error) {
-	if p == nil {
-		return nil, nil
-	}
-	return int64(*p), nil
 }
 
 type Thing struct {

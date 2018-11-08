@@ -6,7 +6,6 @@ package variety
 import (
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/gopherjs/frugal"
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/Workiva/frugal/test/expected/gopherjs/ValidTypes"
@@ -74,7 +73,6 @@ func NewFFooClient(provider *frugal.FServiceProvider, middleware ...frugal.Servi
 // Ping the server.
 // Deprecated: don't use this; use "something else"
 func (f *FFooClient) Ping(ctx frugal.FContext) (err error) {
-	logrus.Warn("Call to deprecated function 'Foo.Ping'")
 	ret := f.methods["ping"].Invoke([]interface{}{ctx})
 	if len(ret) != 1 {
 		panic(fmt.Sprintf("Middleware returned %d arguments, expected 1", len(ret)))
@@ -1074,7 +1072,6 @@ type fooFPing struct {
 }
 
 func (p *fooFPing) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) error {
-	logrus.Warn("Deprecated function 'Foo.Ping' was called by a client")
 	args := FooPingArgs{}
 	var err error
 	if err = args.Read(iprot); err != nil {

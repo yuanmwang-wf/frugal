@@ -356,34 +356,36 @@ func (g *Generator) GenerateEnum(enum *parser.Enum) error {
 	contents += fmt.Sprintf("\treturn %s(0), fmt.Errorf(\"not a valid %s string\")\n", eName, eName)
 	contents += "}\n\n"
 
-	contents += fmt.Sprintf("func (p %s) MarshalText() ([]byte, error) {\n", eName)
-	contents += "\treturn []byte(p.String()), nil\n"
-	contents += "}\n\n"
+	if !g.generateSlim() {
+		contents += fmt.Sprintf("func (p %s) MarshalText() ([]byte, error) {\n", eName)
+		contents += "\treturn []byte(p.String()), nil\n"
+		contents += "}\n\n"
 
-	contents += fmt.Sprintf("func (p *%s) UnmarshalText(text []byte) error {\n", eName)
-	contents += fmt.Sprintf("\tq, err := %sFromString(string(text))\n", eName)
-	contents += "\tif err != nil {\n"
-	contents += "\t\treturn err\n"
-	contents += "\t}\n"
-	contents += "\t*p = q\n"
-	contents += "\treturn nil\n"
-	contents += "}\n\n"
+		contents += fmt.Sprintf("func (p *%s) UnmarshalText(text []byte) error {\n", eName)
+		contents += fmt.Sprintf("\tq, err := %sFromString(string(text))\n", eName)
+		contents += "\tif err != nil {\n"
+		contents += "\t\treturn err\n"
+		contents += "\t}\n"
+		contents += "\t*p = q\n"
+		contents += "\treturn nil\n"
+		contents += "}\n\n"
 
-	contents += fmt.Sprintf("func (p *%s) Scan(value interface{}) error {\n", eName)
-	contents += "\tv, ok := value.(int64)\n"
-	contents += "\tif !ok {\n"
-	contents += "\t\treturn errors.New(\"Scan value is not int64\")\n"
-	contents += "\t}\n"
-	contents += fmt.Sprintf("\t*p = %s(v)\n", eName)
-	contents += fmt.Sprintf("\treturn nil\n")
-	contents += "}\n\n"
+		contents += fmt.Sprintf("func (p *%s) Scan(value interface{}) error {\n", eName)
+		contents += "\tv, ok := value.(int64)\n"
+		contents += "\tif !ok {\n"
+		contents += "\t\treturn errors.New(\"Scan value is not int64\")\n"
+		contents += "\t}\n"
+		contents += fmt.Sprintf("\t*p = %s(v)\n", eName)
+		contents += fmt.Sprintf("\treturn nil\n")
+		contents += "}\n\n"
 
-	contents += fmt.Sprintf("func (p *%s) Value() (driver.Value, error) {\n", eName)
-	contents += "\tif p == nil {\n"
-	contents += "\t\treturn nil, nil\n"
-	contents += "\t}\n"
-	contents += "\treturn int64(*p), nil\n"
-	contents += "}\n\n"
+		contents += fmt.Sprintf("func (p *%s) Value() (driver.Value, error) {\n", eName)
+		contents += "\tif p == nil {\n"
+		contents += "\t\treturn nil, nil\n"
+		contents += "\t}\n"
+		contents += "\treturn int64(*p), nil\n"
+		contents += "}\n\n"
+	}
 
 	_, err := g.typesFile.WriteString(contents)
 	return err
@@ -1763,7 +1765,7 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 	contents += fmt.Sprintf("func (f *F%sClient) %s(ctx frugal.FContext%s) %s {\n",
 		servTitle, nameTitle, g.generateInputArgs(method.Arguments), g.generateReturnArgs(method))
 
-	if deprecated {
+	if deprecated && !g.generateSlim() {
 		contents += fmt.Sprintf("\tlogrus.Warn(\"Call to deprecated function '%s.%s'\")\n", service.Name, nameTitle)
 	}
 
@@ -1969,7 +1971,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 
 	contents += fmt.Sprintf("func (p *%sF%s) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) error {\n", servLower, nameTitle)
 
-	if _, ok := method.Annotations.Deprecated(); ok {
+	if _, ok := method.Annotations.Deprecated(); ok && !g.generateSlim() {
 		contents += fmt.Sprintf("\tlogrus.Warn(\"Deprecated function '%s.%s' was called by a client\")\n", service.Name, nameTitle)
 	}
 

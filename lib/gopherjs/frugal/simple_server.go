@@ -61,7 +61,7 @@ func (p *FSimpleServer) acceptLoop() error {
 		if client != nil {
 			go func() {
 				if err := p.accept(client); err != nil {
-					logger().Error("frugal: error accepting client transport:", err)
+					logger().Error("frugal: error accepting client transport:" + err.Error())
 				}
 			}()
 		}
@@ -97,7 +97,7 @@ func (p *FSimpleServer) accept(client thrift.TTransport) error {
 		if err, ok := err.(thrift.TTransportException); ok && err.TypeId() == TRANSPORT_EXCEPTION_END_OF_FILE {
 			return nil
 		} else if err != nil {
-			logger().Printf("error processing request: %s", err)
+			logger().Print("error processing request: " + err.Error())
 			return err
 		}
 		if err, ok := err.(thrift.TApplicationException); ok && err.TypeId() == APPLICATION_EXCEPTION_UNKNOWN_METHOD {

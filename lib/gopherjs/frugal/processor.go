@@ -68,21 +68,18 @@ func (f *FBaseProcessor) Process(iprot, oprot *FProtocol) error {
 	if processor, ok := f.processMap[name]; ok {
 		if err := processor.Process(ctx, iprot, oprot); err != nil {
 			if _, ok := err.(thrift.TException); ok {
-				logger().Errorf(
-					"frugal: error occurred while processing request with correlation id %s: %s",
-					ctx.CorrelationID(), err.Error())
+				logger().Error(
+					"frugal: error occurred while processing request with correlation id " + ctx.CorrelationID() + ": " + err.Error())
 			} else {
-				logger().Errorf(
-					"frugal: user handler code returned unhandled error on request with correlation id %s: %s",
-					ctx.CorrelationID(), err.Error())
+				logger().Error(
+					"frugal: user handler code returned unhandled error on request with correlation id " + ctx.CorrelationID() + ": " + err.Error())
 			}
 		}
 		// Return nil because the server should still send a response to the client.
 		return nil
 	}
 
-	logger().Warnf("frugal: client invoked unknown function %s on request with correlation id %s",
-		name, ctx.CorrelationID())
+	logger().Warn("frugal: client invoked unknown function " + name + " on request with correlation id " + ctx.CorrelationID())
 	if err := iprot.Skip(thrift.STRUCT); err != nil {
 		return err
 	}

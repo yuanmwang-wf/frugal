@@ -41,14 +41,17 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
      */
     public static class Factory implements FSubscriberTransportFactory {
         private final Connection connection;
+        private final String topicPrefix;
 
-        public Factory(Connection connection) {
+        // TODO should we make a builder for this?
+        public Factory(Connection connection, String topicPrefix) {
             this.connection = connection;
+            this.topicPrefix = topicPrefix;
         }
 
         @Override
         public FSubscriberTransport getTransport() {
-            return new FJmsSubscriberTransport(connection, "");
+            return new FJmsSubscriberTransport(connection, topicPrefix);
         }
     }
 

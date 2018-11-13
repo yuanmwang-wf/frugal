@@ -56,7 +56,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
     }
 
     @Override
-    public boolean isSubscribed() {
+    public synchronized boolean isSubscribed() {
         return session != null && consumer != null;
     }
 

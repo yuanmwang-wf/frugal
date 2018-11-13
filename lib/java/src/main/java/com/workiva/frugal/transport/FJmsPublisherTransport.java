@@ -59,12 +59,12 @@ public class FJmsPublisherTransport implements FPublisherTransport {
     }
 
     @Override
-    public boolean isOpen() {
+    public synchronized boolean isOpen() {
         return session != null && producer != null;
     }
 
     @Override
-    public void open() throws TTransportException {
+    public synchronized void open() throws TTransportException {
         // TODO test
         if (isOpen()) {
             LOGGER.info("jms transport already open, returning");
@@ -83,7 +83,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
     }
 
     @Override
-    public void close() {
+    public synchronized void close() {
         if (!isOpen()) {
             LOGGER.info("jms transport already closed, returning");
             return;

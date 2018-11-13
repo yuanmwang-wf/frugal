@@ -44,12 +44,8 @@ public class TestSubscriber {
                 javax.jms.Connection connection = connectionFactory.createConnection();
                 connection.start();
 
-                // Create a Session
-                Session publisherSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-                publisherFactory = new FJmsPublisherTransport.Factory(publisherSession);
-
-                Session subscriberSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-                subscriberFactory = new FJmsSubscriberTransport.Factory(subscriberSession);
+                publisherFactory = new FJmsPublisherTransport.Factory(connection, "", true);
+                subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown transport type " + transportType);

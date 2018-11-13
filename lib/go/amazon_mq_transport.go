@@ -197,7 +197,6 @@ func (m *fAmazonMqSubscriberTransport) Unsubscribe() error {
 		return thrift.NewTTransportExceptionFromError(err)
 	}
 
-	m.sub = nil
 	m.isSubscribed = false
 	m.callback = nil
 	return nil

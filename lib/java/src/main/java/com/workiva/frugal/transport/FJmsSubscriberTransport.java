@@ -105,8 +105,8 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                     callback.onMessage(
                             new TMemoryInputTransport(Arrays.copyOfRange(payload, 4, payload.length))
                     );
-                } catch (TException ignored) {
-                    // TODO is this right?
+                } catch (TException e) {
+                    LOGGER.error("error executing user provided callback", e);
                 }
 
                 try {

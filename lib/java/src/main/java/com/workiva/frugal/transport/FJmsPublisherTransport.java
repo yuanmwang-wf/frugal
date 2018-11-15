@@ -88,10 +88,9 @@ public class FJmsPublisherTransport implements FPublisherTransport {
             LOGGER.info("jms transport already closed, returning");
             return;
         }
-        // TODO test
-        try {
+
+        try (Session closeSession = session) {
             producer.close();
-            session.close();
         } catch (JMSException e) {
             LOGGER.error("failed to close jms producer", e);
         } finally {

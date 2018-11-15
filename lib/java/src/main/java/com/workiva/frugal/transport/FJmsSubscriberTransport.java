@@ -12,6 +12,7 @@ import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
 import javax.jms.Session;
 import java.util.Arrays;
 
@@ -101,9 +102,8 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                     return;
                 }
                 try {
-                    // TODO better way than copying? what we do for other transports
                     callback.onMessage(
-                            new TMemoryInputTransport(Arrays.copyOfRange(payload, 4, payload.length))
+                            new TMemoryInputTransport(payload, 4, payload.length - 4)
                     );
                 } catch (TException e) {
                     LOGGER.error("error executing user provided callback", e);
@@ -128,9 +128,8 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
             return;
         }
 
-        try {
+        try (Session closeSession = session) {
             consumer.close();
-            session.close();
         } catch (JMSException e) {
             LOGGER.error("failed to close jms consumer", e);
         } finally {

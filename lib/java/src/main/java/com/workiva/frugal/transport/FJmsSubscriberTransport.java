@@ -105,6 +105,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                     );
                 } catch (TException e) {
                     LOGGER.error("error executing user provided callback", e);
+                    return;
                 }
 
                 try {

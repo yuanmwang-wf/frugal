@@ -137,6 +137,6 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
     }
 
     private String getFormattedTopic(String subject) {
-        return FRUGAL_PREFIX + topicPrefix + subject;
+        return topicPrefix + FRUGAL_PREFIX + subject;
     }
 }

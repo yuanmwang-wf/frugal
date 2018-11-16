@@ -138,6 +138,6 @@ public class FJmsPublisherTransport implements FPublisherTransport {
     }
 
     private String getFormattedTopic(String subject) {
-        return FRUGAL_PREFIX + topicPrefix + subject;
+        return topicPrefix + FRUGAL_PREFIX + subject;
     }
 }

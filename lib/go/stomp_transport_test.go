@@ -13,8 +13,8 @@ import (
 
 const stompPort = ":61614"
 
-// Ensures Amazon Mq transport is able to open and close.
-func TestAmazonMqPublisherOpenPublish(t *testing.T) {
+// Ensures stomp transport is able to open and close.
+func TestStompPublisherOpenPublish(t *testing.T) {
 	// starts a tcp server.
 	l, _ := net.Listen("tcp", stompPort)
 	defer func() { l.Close() }()
@@ -30,19 +30,14 @@ func TestAmazonMqPublisherOpenPublish(t *testing.T) {
 	assert.Nil(t, err)
 	defer client.Disconnect()
 
-	amazonMq := NewAmazonMqFPublisherTransport(client)
+	amazonMq := NewStompFPublisherTransport(client, 32 * 1024 * 1024)
 	err = amazonMq.Open()
 	assert.Nil(t, err)
 	assert.True(t, amazonMq.IsOpen())
-	assert.Equal(t, amazonMq.GetPublishSizeLimit(), uint(0))
+	assert.Equal(t, amazonMq.GetPublishSizeLimit(), uint(32 * 1024 * 1024))
 
 	err = amazonMq.Close()
 	assert.Nil(t, err)
-
-	// stomp connection is disconnected and nil-ed, cannot open again.
-	err = amazonMq.Open()
-	assert.Error(t, err)
-	assert.False(t, amazonMq.IsOpen())
 }
 
 // Ensures Amazon Mq transport is able to publish to the expected topic.
@@ -55,7 +50,7 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 
 	// start subscriber subscribing to the expected topic.
 	started := make(chan bool)
-	go startSubscriber(t, "/topic/frugal.VirtualTopic.test123", started, workC)
+	go startSubscriber(t, "/topic/frugal.test123", started, workC)
 	<-started
 
 	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
@@ -66,11 +61,11 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 	assert.Nil(t, err)
 	defer client.Disconnect()
 
-	amazonMq := NewAmazonMqFPublisherTransport(client)
-	err = amazonMq.Open()
+	stompTransport := NewStompFPublisherTransport(client, 32 * 1024 * 1024)
+	err = stompTransport.Open()
 	assert.Nil(t, err)
 
-	err = amazonMq.Publish("test123", []byte("foo"))
+	err = stompTransport.Publish("test123", []byte("foo"))
 	assert.Nil(t, err)
 
 	msg := <-workC
@@ -113,11 +108,11 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	amazonMq := NewAmazonMqFSubscriberTransport(client, "testConsumer")
+	amazonMq := NewStompFSubscriberTransport(client, "frugal.testConsumer")
 	amazonMq.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 50)
-	startPublisher(t, "/queue/frugalConsumer.testConsumer.testQueue", started, append(make([]byte, 4), frame...))
+	startPublisher(t, "/queue/frugal.testConsumer.testQueue", started, append(make([]byte, 4), frame...))
 	<-started
 
 	select {
@@ -152,11 +147,11 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	amazonMq := NewAmazonMqFSubscriberTransport(client, "testConsumer")
+	amazonMq := NewStompFSubscriberTransport(client, "frugal.testConsumer")
 	amazonMq.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 1)
-	startPublisher(t, "/queue/frugalConsumer.testConsumer.testQueue", started, append(make([]byte, 1), frame...))
+	startPublisher(t, "/queue/frugal.testConsumer.testQueue", started, append(make([]byte, 1), frame...))
 	<-started
 
 	assert.True(t, amazonMq.IsSubscribed())

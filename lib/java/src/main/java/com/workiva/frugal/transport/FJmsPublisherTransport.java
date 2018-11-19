@@ -37,7 +37,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
     }
 
     /**
-     * An FPublisherTransportFacory implementation which creates
+     * An FPublisherTransportFactory implementation which creates
      * FPublisherTransports backed by a JMS connection.
      */
     public static class Factory implements FPublisherTransportFactory {

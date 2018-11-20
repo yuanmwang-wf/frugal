@@ -1163,6 +1163,8 @@ func (g *Generator) generateToString(s *parser.Struct) string {
 }
 
 func (g *Generator) generateEquals(s *parser.Struct) string {
+	// Note: Dart automatically checks if `o` is null before calling this handler
+	// so we don't need to
 	contents := tab + "@override\n"
 	contents += tab + "bool operator ==(Object o) {\n"
 

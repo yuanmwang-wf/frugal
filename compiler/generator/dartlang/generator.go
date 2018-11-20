@@ -1465,7 +1465,9 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 		publishers += tabtab + "oprot.writeMessageBegin(msg);\n"
 		publishers += g.generateWriteFieldRec(parser.FieldFromType(op.Type, "req"), false, "")
 		publishers += tabtab + "oprot.writeMessageEnd();\n"
-		publishers += tabtab + "transport.publish(topic, memoryBuffer.writeBytes);\n"
+		publishers += tabtab + "// sync in this version but async in v2. Mitigate breaking changes by always awaiting.\n"
+		publishers += tabtab + "// ignore: await_only_futures\n"
+		publishers += tabtab + "await transport.publish(topic, memoryBuffer.writeBytes);\n"
 		publishers += tab + "}\n"
 	}
 

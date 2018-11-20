@@ -44,8 +44,7 @@ public class TestPublisher {
                 connection.start();
 
                 publisherFactory = new FJmsPublisherTransport.Factory(connection, "", true);
-
-                subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "");
+                subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "", false);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown transport type " + transportType);

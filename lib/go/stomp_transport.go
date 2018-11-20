@@ -103,26 +103,26 @@ func (m *fStompPublisherTransport) formatStompPublishTopic(topic string) string 
 
 // FStompSubscribeTransportFactory creates fStompSubscriberTransports.
 type FStompSubscribeTransportFactory struct {
-	conn         *stomp.Conn
-	queue        string
-	consumerName string
+	conn           *stomp.Conn
+	queue          string
+	consumerPrefix string
 }
 
 // NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
 // connection and consumer name.
-func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerName string) *FStompSubscribeTransportFactory {
-	return &FStompSubscribeTransportFactory{conn: conn, consumerName: consumerName}
+func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerPrefix string) *FStompSubscribeTransportFactory {
+	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix}
 }
 
 // NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
 // connection, consumer name and topic.
-func NewFStompSubscriberTransportFactoryWithQueue(conn *stomp.Conn, consumerName string, queue string) *FStompSubscribeTransportFactory {
-	return &FStompSubscribeTransportFactory{conn: conn, consumerName: consumerName, queue: queue}
+func NewFStompSubscriberTransportFactoryWithQueue(conn *stomp.Conn, consumerPrefix string, queue string) *FStompSubscribeTransportFactory {
+	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix, queue: queue}
 }
 
 // GetTransport creates a new fStompSubscriberTransport.
 func (m *FStompSubscribeTransportFactory) GetTransport() FSubscriberTransport {
-	return NewStompFSubscriberTransportWithQueue(m.conn, m.consumerName, m.queue)
+	return NewStompFSubscriberTransportWithQueue(m.conn, m.consumerPrefix, m.queue)
 }
 
 // fStompSubscriberTransport implements FSubscriberTransport.

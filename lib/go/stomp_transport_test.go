@@ -11,30 +11,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const stompPort = ":61614"
-
 // Ensures stomp transport is able to open and close.
 func TestStompPublisherOpenPublish(t *testing.T) {
 	// starts a tcp server.
-	l, _ := net.Listen("tcp", stompPort)
+	l, _ := net.Listen("tcp", ":0")
 	defer func() { l.Close() }()
 	go server.Serve(l)
 
 	// creates a tcp connection
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+	conn, err := net.Dial("tcp", l.Addr().String())
 	assert.Nil(t, err)
 	defer conn.Close()
 
 	// creates stomp client
 	client, err := stomp.Connect(conn)
 	assert.Nil(t, err)
-	defer client.Disconnect()
 
-	amazonMq := NewStompFPublisherTransport(client, 32 * 1024 * 1024)
+	amazonMq := NewStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
 	err = amazonMq.Open()
 	assert.Nil(t, err)
 	assert.True(t, amazonMq.IsOpen())
-	assert.Equal(t, amazonMq.GetPublishSizeLimit(), uint(32 * 1024 * 1024))
+	assert.Equal(t, amazonMq.GetPublishSizeLimit(), uint(32*1024*1024))
 
 	err = amazonMq.Close()
 	assert.Nil(t, err)
@@ -44,16 +41,16 @@ func TestStompPublisherOpenPublish(t *testing.T) {
 func TestAmazonMqPublisherPublish(t *testing.T) {
 	workC := make(chan *stomp.Message)
 
-	l, _ := net.Listen("tcp", stompPort)
+	l, _ := net.Listen("tcp", ":0")
 	defer func() { l.Close() }()
 	go server.Serve(l)
 
 	// start subscriber subscribing to the expected topic.
 	started := make(chan bool)
-	go startSubscriber(t, "/topic/frugal.test123", started, workC)
+	go startSubscriber(t, "/topic/VirtualTopic.frugal.test123", l.Addr().String(), started, workC)
 	<-started
 
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+	conn, err := net.Dial("tcp", l.Addr().String())
 	assert.Nil(t, err)
 	defer conn.Close()
 
@@ -61,7 +58,7 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 	assert.Nil(t, err)
 	defer client.Disconnect()
 
-	stompTransport := NewStompFPublisherTransport(client, 32 * 1024 * 1024)
+	stompTransport := NewStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
 	err = stompTransport.Open()
 	assert.Nil(t, err)
 
@@ -72,8 +69,8 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 	assert.Equal(t, string(msg.Body[:]), "foo")
 }
 
-func startSubscriber(t *testing.T, topic string, started chan bool, workC chan *stomp.Message) {
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+func startSubscriber(t *testing.T, topic string, addr string, started chan bool, workC chan *stomp.Message) {
+	conn, err := net.Dial("tcp", addr)
 	assert.Nil(t, err)
 
 	client, err := stomp.Connect(conn)
@@ -88,17 +85,16 @@ func startSubscriber(t *testing.T, topic string, started chan bool, workC chan *
 	workC <- msg
 }
 
-// Ensures Amazon Mq transport is able to subscribe to the expected queue and invoke callback on incoming messages.
+// Ensures Amazon Mq transport is able to subscribe to the expected topic and invoke callback on incoming messages.
 func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 	started := make(chan bool, 1)
 
-	l, _ := net.Listen("tcp", stompPort)
+	l, _ := net.Listen("tcp", ":0")
 	defer func() { l.Close() }()
 	go server.Serve(l)
 
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+	conn, err := net.Dial("tcp", l.Addr().String())
 	assert.Nil(t, err)
-	defer conn.Close()
 
 	client, err := stomp.Connect(conn)
 	assert.Nil(t, err)
@@ -108,11 +104,11 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	amazonMq := NewStompFSubscriberTransport(client, "frugal.testConsumer")
-	amazonMq.Subscribe("testQueue", cb)
+	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.")
+	stompTransport.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 50)
-	startPublisher(t, "/queue/frugal.testConsumer.testQueue", started, append(make([]byte, 4), frame...))
+	startPublisher(t, "/queue/frugal.testConsumer.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
 	<-started
 
 	select {
@@ -120,24 +116,23 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 	case <-time.After(time.Second):
 		assert.True(t, false, "Callback was not called")
 	}
-	assert.True(t, amazonMq.IsSubscribed())
+	assert.True(t, stompTransport.IsSubscribed())
 
-	err = amazonMq.Unsubscribe()
+	err = stompTransport.Unsubscribe()
 	assert.Nil(t, err)
-	assert.False(t, amazonMq.IsSubscribed())
+	assert.False(t, stompTransport.IsSubscribed())
 }
 
-// Ensures Amazon Mq transport is able to subscribe to the expected queue and discard messages with invalid frames (size<4).
+// Ensures Amazon Mq transport is able to subscribe to the expected topic and discard messages with invalid frames (size<4).
 func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 	started := make(chan bool, 1)
 
-	l, _ := net.Listen("tcp", stompPort)
+	l, _ := net.Listen("tcp", ":0")
 	defer func() { l.Close() }()
 	go server.Serve(l)
 
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+	conn, err := net.Dial("tcp", l.Addr().String())
 	assert.Nil(t, err)
-	defer conn.Close()
 
 	client, err := stomp.Connect(conn)
 	assert.Nil(t, err)
@@ -147,20 +142,20 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	amazonMq := NewStompFSubscriberTransport(client, "frugal.testConsumer")
-	amazonMq.Subscribe("testQueue", cb)
+	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.")
+	stompTransport.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 1)
-	startPublisher(t, "/queue/frugal.testConsumer.testQueue", started, append(make([]byte, 1), frame...))
+	startPublisher(t, "/topic/frugal.testConsumer.testQueue", l.Addr().String(), started, append(make([]byte, 1), frame...))
 	<-started
 
-	assert.True(t, amazonMq.IsSubscribed())
+	assert.True(t, stompTransport.IsSubscribed())
 	time.Sleep(10 * time.Millisecond)
 	assert.False(t, cbCalled)
 }
 
-func startPublisher(t *testing.T, queue string, started chan bool, frame []byte) {
-	conn, err := net.Dial("tcp", "127.0.0.1"+stompPort)
+func startPublisher(t *testing.T, queue string, addr string, started chan bool, frame []byte) {
+	conn, err := net.Dial("tcp", addr)
 	assert.Nil(t, err)
 
 	client, err := stomp.Connect(conn)

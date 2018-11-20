@@ -24,31 +24,33 @@ import (
 
 // FStompPublisherTransportFactory creates fStompPublisherTransports.
 type FStompPublisherTransportFactory struct {
-	conn *stomp.Conn 
+	conn           *stomp.Conn
 	maxPublishSize int
+	topicPrefix    string
 }
 
 // NewFStompPublisherTransportFactory creates an FStompPublisherTransportFactory using the
 // provided stomp connection.
-func NewFStompPublisherTransportFactory(conn *stomp.Conn, maxPublishSize int) *FStompPublisherTransportFactory {
-	return &FStompPublisherTransportFactory{conn: conn, maxPublishSize: maxPublishSize}
+func NewFStompPublisherTransportFactory(conn *stomp.Conn, maxPublishSize int, topicPrefix string) *FStompPublisherTransportFactory {
+	return &FStompPublisherTransportFactory{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix}
 }
 
 // GetTransport creates a new stomp FPublisherTransport.
 func (m *FStompPublisherTransportFactory) GetTransport() FPublisherTransport {
-	return NewStompFPublisherTransport(m.conn, m.maxPublishSize)
+	return NewStompFPublisherTransport(m.conn, m.maxPublishSize, m.topicPrefix)
 }
 
 // fStompPublisherTransport implements FPublisherTransport.
 type fStompPublisherTransport struct {
-	conn *stomp.Conn
+	conn           *stomp.Conn
 	maxPublishSize int
+	topicPrefix    string
 }
 
 // NewStompFPublisherTransport creates a new FPublisherTransport which is used for
 // publishing using stomp protocol with scopes.
-func NewStompFPublisherTransport(conn *stomp.Conn, maxPublishSize int) FPublisherTransport {
-	return &fStompPublisherTransport{conn: conn, maxPublishSize: maxPublishSize}
+func NewStompFPublisherTransport(conn *stomp.Conn, maxPublishSize int, topicPrefix string) FPublisherTransport {
+	return &fStompPublisherTransport{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix}
 }
 
 // Open initializes the transport.
@@ -88,12 +90,15 @@ func (m *fStompPublisherTransport) Publish(topic string, data []byte) error {
 			fmt.Sprintf("Message exceeds %d bytes, was %d bytes", m.maxPublishSize, len(data)))
 	}
 
-	destination := fmt.Sprintf("/topic/%s%s", frugalPrefix, topic)
-
+	destination := m.formatStompPublishTopic(topic)
 	if err := m.conn.Send(destination, "application/octet-stream", data); err != nil {
 		return thrift.NewTTransportExceptionFromError(err)
 	}
 	return nil
+}
+
+func (m *fStompPublisherTransport) formatStompPublishTopic(topic string) string {
+	return fmt.Sprintf("/topic/%s%s%s", m.topicPrefix, frugalPrefix, topic)
 }
 
 // FStompSubscribeTransportFactory creates fStompSubscriberTransports.
@@ -110,7 +115,7 @@ func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerName string) 
 }
 
 // NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
-// connection, consumer name and queue.
+// connection, consumer name and topic.
 func NewFStompSubscriberTransportFactoryWithQueue(conn *stomp.Conn, consumerName string, queue string) *FStompSubscribeTransportFactory {
 	return &FStompSubscribeTransportFactory{conn: conn, consumerName: consumerName, queue: queue}
 }
@@ -122,30 +127,30 @@ func (m *FStompSubscribeTransportFactory) GetTransport() FSubscriberTransport {
 
 // fStompSubscriberTransport implements FSubscriberTransport.
 type fStompSubscriberTransport struct {
-	conn         *stomp.Conn
-	consumerName string
-	queue        string
-	sub          *stomp.Subscription
-	openMu       sync.RWMutex
-	isSubscribed bool
-	callback     FAsyncCallback
-	stopC        chan bool
+	conn           *stomp.Conn
+	consumerPrefix string
+	topic          string
+	sub            *stomp.Subscription
+	openMu         sync.RWMutex
+	isSubscribed   bool
+	callback       FAsyncCallback
+	stopC          chan bool
 }
 
 // NewStompFSubscriberTransport creates a new FSubscriberTransport which is used for
 // pub/sub.
-func NewStompFSubscriberTransport(conn *stomp.Conn, consumerName string) FSubscriberTransport {
-	return &fStompSubscriberTransport{conn: conn, consumerName: consumerName}
+func NewStompFSubscriberTransport(conn *stomp.Conn, consumerPrefix string) FSubscriberTransport {
+	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix}
 }
 
 // NewStompFSubscriberTransport creates a new FSubscriberTransport which is used for
-// pub/sub with a queue.
-func NewStompFSubscriberTransportWithQueue(conn *stomp.Conn, consumerName string, queue string) FSubscriberTransport {
-	return &fStompSubscriberTransport{conn: conn, consumerName: consumerName, queue: queue}
+// pub/sub with a topic.
+func NewStompFSubscriberTransportWithQueue(conn *stomp.Conn, consumerPrefix string, topic string) FSubscriberTransport {
+	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix, topic: topic}
 }
 
-// Subscribe sets the subscribe queue and opens the transport.
-func (m *fStompSubscriberTransport) Subscribe(queue string, callback FAsyncCallback) error {
+// Subscribe sets the subscribe topic and opens the transport.
+func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallback) error {
 	m.openMu.Lock()
 	defer m.openMu.Unlock()
 
@@ -157,11 +162,11 @@ func (m *fStompSubscriberTransport) Subscribe(queue string, callback FAsyncCallb
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_ALREADY_OPEN, "frugal: stomp transport already has a subscription")
 	}
 
-	if queue == "" {
-		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN, "frugal: stomp transport cannot subscribe to empty queue")
+	if topic == "" {
+		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN, "frugal: stomp transport cannot subscribe to empty topic")
 	}
 
-	destination := fmt.Sprintf("/queue/%s.%s", m.consumerName, queue)
+	destination := fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
 	sub, err := m.conn.Subscribe(destination, stomp.AckClientIndividual)
 	if err != nil {
 		return thrift.NewTTransportExceptionFromError(err)
@@ -174,7 +179,7 @@ func (m *fStompSubscriberTransport) Subscribe(queue string, callback FAsyncCallb
 	return nil
 }
 
-// IsSubscribed returns true if the transport is subscribed to a queue, false
+// IsSubscribed returns true if the transport is subscribed to a topic, false
 // otherwise.
 func (m *fStompSubscriberTransport) IsSubscribed() bool {
 	m.openMu.RLock()

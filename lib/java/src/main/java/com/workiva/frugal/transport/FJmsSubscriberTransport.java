@@ -63,6 +63,16 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
         return session != null && consumer != null;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * If an exception is raised by the provided callback, the message will
+     * not be acked with the broker. This behaviour allows the message to be
+     * redelivered and processing to be attempted again. If an exception is
+     * not raised by the provided callback, the message will be acked. This is
+     * used if processing succeeded, or if it's apparent processing will never
+     * succeed, as the message won't continue to be redelivered.
+     */
     @Override
     public synchronized void subscribe(String topic, FAsyncCallback callback) throws TException {
         // TODO test

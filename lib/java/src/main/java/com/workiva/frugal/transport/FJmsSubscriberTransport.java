@@ -64,7 +64,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      *
      * If an exception is raised by the provided callback, the message will
      * not be acked with the broker. This behaviour allows the message to be

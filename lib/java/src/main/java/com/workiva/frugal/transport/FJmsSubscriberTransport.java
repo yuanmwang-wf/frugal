@@ -26,12 +26,14 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
     // TODO sessions aren't threadsafe, do we need to do more than sync on sub/unsub?
     private final Connection connection;
     private final String topicPrefix;
+    private final boolean useQueues;
     Session session;
     MessageConsumer consumer;
 
-    FJmsSubscriberTransport(Connection connection, String topicPrefix) {
+    FJmsSubscriberTransport(Connection connection, String topicPrefix, boolean useQueues) {
         this.connection = connection;
         this.topicPrefix = topicPrefix;
+        this.useQueues = useQueues;
     }
 
     /**
@@ -41,16 +43,18 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
     public static class Factory implements FSubscriberTransportFactory {
         private final Connection connection;
         private final String topicPrefix;
+        private final boolean useQueues;
 
         // TODO should we make a builder for this?
-        public Factory(Connection connection, String topicPrefix) {
+        public Factory(Connection connection, String topicPrefix, boolean useQueues) {
             this.connection = connection;
             this.topicPrefix = topicPrefix;
+            this.useQueues = useQueues;
         }
 
         @Override
         public FSubscriberTransport getTransport() {
-            return new FJmsSubscriberTransport(connection, topicPrefix);
+            return new FJmsSubscriberTransport(connection, topicPrefix, useQueues);
         }
     }
 
@@ -74,7 +78,14 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
         try {
             // TODO I think these are the defaults we want
             session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
-            Destination destination = session.createTopic(formattedTopic);
+
+            Destination destination;
+            if (useQueues) {
+                destination = session.createQueue(formattedTopic);
+            } else {
+                destination = session.createTopic(formattedTopic);
+            }
+
             consumer = session.createConsumer(destination);
             consumer.setMessageListener(message -> {
                 LOGGER.debug("received a message on topic '%s'", formattedTopic);

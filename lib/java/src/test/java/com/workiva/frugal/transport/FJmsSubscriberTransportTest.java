@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import javax.jms.Connection;
 import javax.jms.MessageConsumer;
+import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.Topic;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -51,13 +51,13 @@ public class FJmsSubscriberTransportTest {
     @Test
     public void testSubscribe() throws Exception {
         FAsyncCallback callback = mock(FAsyncCallback.class);
-        Topic destination = mock(Topic.class);
-        when(session.createTopic("frugal.some-topic")).thenReturn(destination);
+        Queue destination = mock(Queue.class);
+        when(session.createQueue("frugal.some-topic")).thenReturn(destination);
         MessageConsumer consumer = mock(MessageConsumer.class);
         when(session.createConsumer(destination)).thenReturn(consumer);
 
         transport.subscribe("some-topic", callback);
-        verify(session, times(1)).createTopic("frugal.some-topic");
+        verify(session, times(1)).createQueue("frugal.some-topic");
         verify(session, times(1)).createConsumer(destination);
         verify(consumer, times(1)).setMessageListener(any());
     }

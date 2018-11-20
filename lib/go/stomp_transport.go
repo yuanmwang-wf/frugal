@@ -16,6 +16,7 @@ package frugal
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"sync"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
@@ -166,7 +167,7 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN, "frugal: stomp transport cannot subscribe to empty topic")
 	}
 
-	destination := fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
+	destination := m.formatDestination(topic)
 	sub, err := m.conn.Subscribe(destination, stomp.AckClientIndividual)
 	if err != nil {
 		return thrift.NewTTransportExceptionFromError(err)
@@ -203,6 +204,16 @@ func (m *fStompSubscriberTransport) Unsubscribe() error {
 	m.isSubscribed = false
 	m.callback = nil
 	return nil
+}
+
+// Format subscription destination - subscribe to queue if consumer is using virtual topic, otherwise subscribe to a
+// regular topic.
+func (m *fStompSubscriberTransport) formatDestination(topic string) string {
+	subTopics := strings.SplitAfterN(m.consumerPrefix, ".", 3)
+	if len(subTopics) >= 3 && subTopics[0] == "Consumer." && subTopics[2] == "VirtualTopic." {
+		return fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
+	}
+	return fmt.Sprintf("/topic/%s%s", m.consumerPrefix, topic)
 }
 
 // Processes messages from subscription channel with the given FAsyncCallback.

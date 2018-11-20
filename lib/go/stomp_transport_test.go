@@ -104,11 +104,11 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.")
+	stompTransport := NewStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.")
 	stompTransport.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 50)
-	startPublisher(t, "/queue/frugal.testConsumer.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
+	startPublisher(t, "/queue/Consumer.testConsumer.VirtualTopic.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
 	<-started
 
 	select {
@@ -143,10 +143,10 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		return nil
 	}
 	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.")
-	stompTransport.Subscribe("testQueue", cb)
+	stompTransport.Subscribe("testTopic", cb)
 
 	frame := make([]byte, 1)
-	startPublisher(t, "/topic/frugal.testConsumer.testQueue", l.Addr().String(), started, append(make([]byte, 1), frame...))
+	startPublisher(t, "/topic/frugal.testConsumer.testTopic", l.Addr().String(), started, append(make([]byte, 1), frame...))
 	<-started
 
 	assert.True(t, stompTransport.IsSubscribed())
@@ -154,7 +154,7 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 	assert.False(t, cbCalled)
 }
 
-func startPublisher(t *testing.T, queue string, addr string, started chan bool, frame []byte) {
+func startPublisher(t *testing.T, destination string, addr string, started chan bool, frame []byte) {
 	conn, err := net.Dial("tcp", addr)
 	assert.Nil(t, err)
 
@@ -163,6 +163,6 @@ func startPublisher(t *testing.T, queue string, addr string, started chan bool, 
 
 	started <- true
 
-	err = client.Send(queue, "", frame)
+	err = client.Send(destination, "", frame)
 	assert.Nil(t, err)
 }

@@ -52,7 +52,7 @@ func Run(testDefinitions, outDir *string, getCommand func (config Config, port i
 
 	// pairs is a struct of valid client/server pairs loaded from the provided
 	// json file
-	pairs, err := Load(*testDefinitions)
+	rpcPairs, pubsubPairs, err := Load(*testDefinitions)
 	if err != nil {
 		log.Info("Error in parsing json test definitions")
 		panic(err)
@@ -84,13 +84,14 @@ func Run(testDefinitions, outDir *string, getCommand func (config Config, port i
 		wg       sync.WaitGroup
 		port     int
 	)
+	wg.Add(len(rpcPairs))
+	wg.Add(len(pubsubPairs))
 
 	PrintConsoleHeader()
 
 	for workers := 1; workers <= runtime.NumCPU()*2; workers++ {
 		go func(crossrunnerTasks <-chan *testCase) {
 			for task := range crossrunnerTasks {
-				wg.Add(1)
 				// Run each configuration
 				RunConfig(task.pair, task.port, getCommand)
 				errorLog := "\n"
@@ -130,9 +131,14 @@ func Run(testDefinitions, outDir *string, getCommand func (config Config, port i
 	// TODO: This could run into issues if run outside of Skynet/Skynet-cli
 	port = 9000
 	// Add each configuration to the crossrunnerTasks channel
-	for _, pair := range pairs {
+	for _, pair := range rpcPairs {
 		tCase := testCase{pair, port}
 		// put the test case on the crossrunnerTasks channel
+		crossrunnerTasks <- &tCase
+		port++
+	}
+	for _, pair := range pubsubPairs {
+		tCase := testCase{pair, port}
 		crossrunnerTasks <- &tCase
 		port++
 	}

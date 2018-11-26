@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 
@@ -120,7 +119,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
             }
             try {
                 callback.onMessage(
-                        new TMemoryInputTransport(Arrays.copyOfRange(msg.getData(), 4, msg.getData().length))
+                        new TMemoryInputTransport(msg.getData(), 4, msg.getData().length - 4)
                 );
             } catch (TException ignored) {
             }

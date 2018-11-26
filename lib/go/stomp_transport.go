@@ -16,7 +16,6 @@ package frugal
 import (
 	"bytes"
 	"fmt"
-	"strings"
 	"sync"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
@@ -73,8 +72,7 @@ func (m *fStompPublisherTransport) Close() error {
 }
 
 // GetPublishSizeLimit returns the maximum allowable size of a payload
-// to be published. A non-positive number is returned to indicate an
-// unbounded allowable size.
+// to be published. 0 is returned to indicate an unbounded allowable size.
 func (m *fStompPublisherTransport) GetPublishSizeLimit() uint {
 	return uint(m.maxPublishSize)
 }
@@ -92,7 +90,7 @@ func (m *fStompPublisherTransport) Publish(topic string, data []byte) error {
 	}
 
 	destination := m.formatStompPublishTopic(topic)
-	if err := m.conn.Send(destination, "application/octet-stream", data); err != nil {
+	if err := m.conn.Send(destination, "application/octet-stream", data, stomp.SendOpt.Header("persistent", "true")); err != nil {
 		return thrift.NewTTransportExceptionFromError(err)
 	}
 	return nil
@@ -105,25 +103,19 @@ func (m *fStompPublisherTransport) formatStompPublishTopic(topic string) string 
 // FStompSubscribeTransportFactory creates fStompSubscriberTransports.
 type FStompSubscribeTransportFactory struct {
 	conn           *stomp.Conn
-	queue          string
 	consumerPrefix string
+	useQueue       bool
 }
 
 // NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
 // connection and consumer name.
-func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerPrefix string) *FStompSubscribeTransportFactory {
-	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix}
-}
-
-// NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
-// connection, consumer name and topic.
-func NewFStompSubscriberTransportFactoryWithQueue(conn *stomp.Conn, consumerPrefix string, queue string) *FStompSubscribeTransportFactory {
-	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix, queue: queue}
+func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerPrefix string, useQueue bool) *FStompSubscribeTransportFactory {
+	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix, useQueue: useQueue}
 }
 
 // GetTransport creates a new fStompSubscriberTransport.
 func (m *FStompSubscribeTransportFactory) GetTransport() FSubscriberTransport {
-	return NewStompFSubscriberTransportWithQueue(m.conn, m.consumerPrefix, m.queue)
+	return NewStompFSubscriberTransport(m.conn, m.consumerPrefix, m.useQueue)
 }
 
 // fStompSubscriberTransport implements FSubscriberTransport.
@@ -131,6 +123,7 @@ type fStompSubscriberTransport struct {
 	conn           *stomp.Conn
 	consumerPrefix string
 	topic          string
+	useQueue       bool
 	sub            *stomp.Subscription
 	openMu         sync.RWMutex
 	isSubscribed   bool
@@ -140,14 +133,8 @@ type fStompSubscriberTransport struct {
 
 // NewStompFSubscriberTransport creates a new FSubscriberTransport which is used for
 // pub/sub.
-func NewStompFSubscriberTransport(conn *stomp.Conn, consumerPrefix string) FSubscriberTransport {
-	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix}
-}
-
-// NewStompFSubscriberTransport creates a new FSubscriberTransport which is used for
-// pub/sub with a topic.
-func NewStompFSubscriberTransportWithQueue(conn *stomp.Conn, consumerPrefix string, topic string) FSubscriberTransport {
-	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix, topic: topic}
+func NewStompFSubscriberTransport(conn *stomp.Conn, consumerPrefix string, useQueue bool) FSubscriberTransport {
+	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix, useQueue: useQueue}
 }
 
 // Subscribe sets the subscribe topic and opens the transport.
@@ -167,7 +154,13 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN, "frugal: stomp transport cannot subscribe to empty topic")
 	}
 
-	destination := m.formatDestination(topic)
+	var destination string
+	if m.useQueue {
+		destination = fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
+	} else {
+		destination = fmt.Sprintf("/topic/%s%s", m.consumerPrefix, topic)
+	}
+
 	sub, err := m.conn.Subscribe(destination, stomp.AckClientIndividual)
 	if err != nil {
 		return thrift.NewTTransportExceptionFromError(err)
@@ -193,6 +186,7 @@ func (m *fStompSubscriberTransport) Unsubscribe() error {
 	m.openMu.Lock()
 	defer m.openMu.Unlock()
 	if !m.isSubscribed {
+		logger().Info("frugal: unable to unsubscribe, subscription already unsubscribed")
 		return nil
 	}
 
@@ -204,16 +198,6 @@ func (m *fStompSubscriberTransport) Unsubscribe() error {
 	m.isSubscribed = false
 	m.callback = nil
 	return nil
-}
-
-// Format subscription destination - subscribe to queue if consumer is using virtual topic, otherwise subscribe to a
-// regular topic.
-func (m *fStompSubscriberTransport) formatDestination(topic string) string {
-	subTopics := strings.SplitAfterN(m.consumerPrefix, ".", 3)
-	if len(subTopics) >= 3 && subTopics[0] == "Consumer." && subTopics[2] == "VirtualTopic." {
-		return fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
-	}
-	return fmt.Sprintf("/topic/%s%s", m.consumerPrefix, topic)
 }
 
 // Processes messages from subscription channel with the given FAsyncCallback.
@@ -230,6 +214,7 @@ func (m *fStompSubscriberTransport) processMessages() {
 			}
 
 			if len(message.Body) < 4 {
+				logger().Warnf("frugal: discarding invalid scope message frame")
 				continue
 			}
 

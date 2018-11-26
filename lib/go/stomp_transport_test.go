@@ -104,7 +104,7 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.")
+	stompTransport := NewStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.", true)
 	stompTransport.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 50)
@@ -142,7 +142,7 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.")
+	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.", false)
 	stompTransport.Subscribe("testTopic", cb)
 
 	frame := make([]byte, 1)

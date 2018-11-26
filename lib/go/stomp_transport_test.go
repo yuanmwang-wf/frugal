@@ -108,7 +108,7 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 	stompTransport.Subscribe("testQueue", cb)
 
 	frame := make([]byte, 50)
-	startPublisher(t, "/queue/Consumer.testConsumer.VirtualTopic.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
+	startPublisher(t, "/queue/Consumer.testConsumer.VirtualTopic.frugal.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
 	<-started
 
 	select {
@@ -142,11 +142,11 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "frugal.testConsumer.", false)
+	stompTransport := NewStompFSubscriberTransport(client, "testConsumer.", false)
 	stompTransport.Subscribe("testTopic", cb)
 
 	frame := make([]byte, 1)
-	startPublisher(t, "/topic/frugal.testConsumer.testTopic", l.Addr().String(), started, append(make([]byte, 1), frame...))
+	startPublisher(t, "/topic/testConsumer.frugal.testTopic", l.Addr().String(), started, append(make([]byte, 1), frame...))
 	<-started
 
 	assert.True(t, stompTransport.IsSubscribed())

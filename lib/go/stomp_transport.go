@@ -156,9 +156,9 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 
 	var destination string
 	if m.useQueue {
-		destination = fmt.Sprintf("/queue/%s%s", m.consumerPrefix, topic)
+		destination = fmt.Sprintf("/queue/%s%s%s", m.consumerPrefix, frugalPrefix, topic)
 	} else {
-		destination = fmt.Sprintf("/topic/%s%s", m.consumerPrefix, topic)
+		destination = fmt.Sprintf("/topic/%s%s%s", m.consumerPrefix, frugalPrefix, topic)
 	}
 
 	sub, err := m.conn.Subscribe(destination, stomp.AckClientIndividual)

@@ -9,7 +9,6 @@ if [ -z "${IN_SKYNET_CLI+yes}" ]; then
 else
     cd ${FRUGAL_HOME}/lib/java
     mvn clean verify -q
-    ls target
     mv target/frugal-LOCAL.jar ${FRUGAL_HOME}/test/integration/java/frugal-integration-test/frugal.jar
 fi
 

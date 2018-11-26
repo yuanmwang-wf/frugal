@@ -18,7 +18,7 @@ cd $GOPATH/src/github.com/Workiva/frugal && go install
 gnatsd &
 
 # TODO this install should be in messaging-docker-images
-wget https://archive.apache.org/dist/activemq/5.15.2/apache-activemq-5.15.2-bin.tar.gz
+wget http://archive.apache.org/dist/activemq/5.15.6/apache-activemq-5.15.6-bin.tar.gz
 tar -xzf apache-activemq-5.15.2-bin.tar.gz
 cd apache-activemq-5.15.2/bin
 ./activemq start

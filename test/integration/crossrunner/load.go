@@ -15,10 +15,10 @@ package crossrunner
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"time"
-	"fmt"
 )
 
 const (

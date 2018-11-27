@@ -13,8 +13,7 @@ import 'package:frugal/frugal.dart' as frugal;
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 
-abstract class FVendoredBase {
-}
+abstract class FVendoredBase {}
 
 class FVendoredBaseClient implements FVendoredBase {
   static final logging.Logger _frugalLog = new logging.Logger('VendoredBase');

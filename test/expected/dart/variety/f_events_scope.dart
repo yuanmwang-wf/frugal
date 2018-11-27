@@ -58,6 +58,8 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     req.write(oprot);
     oprot.writeMessageEnd();
+    // sync in this version but async in v2. Mitigate breaking changes by always awaiting.
+    // ignore: await_only_futures
     await transport.publish(topic, memoryBuffer.writeBytes);
   }
 
@@ -78,6 +80,8 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     oprot.writeI64(req);
     oprot.writeMessageEnd();
+    // sync in this version but async in v2. Mitigate breaking changes by always awaiting.
+    // ignore: await_only_futures
     await transport.publish(topic, memoryBuffer.writeBytes);
   }
 
@@ -98,6 +102,8 @@ class EventsPublisher {
     oprot.writeMessageBegin(msg);
     oprot.writeString(req);
     oprot.writeMessageEnd();
+    // sync in this version but async in v2. Mitigate breaking changes by always awaiting.
+    // ignore: await_only_futures
     await transport.publish(topic, memoryBuffer.writeBytes);
   }
 
@@ -127,6 +133,8 @@ class EventsPublisher {
     }
     oprot.writeListEnd();
     oprot.writeMessageEnd();
+    // sync in this version but async in v2. Mitigate breaking changes by always awaiting.
+    // ignore: await_only_futures
     await transport.publish(topic, memoryBuffer.writeBytes);
   }
 }

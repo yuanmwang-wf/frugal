@@ -43,11 +43,20 @@ public class FNatsSubscriberTransportTest {
     private class Handler implements FAsyncCallback {
         TTransport transport;
         TException exception;
+        RuntimeException runtimeException;
+        Error error;
+
         @Override
         public void onMessage(TTransport transport) throws TException {
             this.transport = transport;
             if (exception != null) {
                 throw exception;
+            }
+            if (runtimeException != null) {
+                throw runtimeException;
+            }
+            if (error != null) {
+                throw error;
             }
         }
     }
@@ -101,8 +110,17 @@ public class FNatsSubscriberTransportTest {
         // Handler an FAsyncCallback error
         handler.exception = new TException("Bad things!");
         messageHandler.onMessage(new Message("foo", null, frame));
-        actualPayload = new byte[4];
+        handler.exception = null;
 
+        handler.runtimeException = new RuntimeException("error");
+        messageHandler.onMessage(new Message("foo", null, frame));
+        handler.runtimeException = null;
+
+        handler.error = new Error("error");
+        messageHandler.onMessage(new Message("foo", null, frame));
+        handler.error = null;
+
+        actualPayload = new byte[4];
         handler.transport.read(actualPayload, 0, 4);
         assertArrayEquals(expectedPayload, actualPayload);
     }

@@ -165,12 +165,12 @@ class FBaseProcessor(FProcessor):
             except Exception:
                 # Don't raise an exception because the server should still send
                 # a response to the client.
-                logging.exception(
+                logger.exception(
                     "frugal: exception occurred while processing request with "
                     "correlation id %s", context.correlation_id)
             return
 
-        logging.warn("frugal: client invoked unknown method %s on request " +
+        logger.warn("frugal: client invoked unknown method %s on request " +
                      "with correlation id %s", name, context.correlation_id)
         iprot.skip(TType.STRUCT)
         iprot.readMessageEnd()

@@ -10,10 +10,8 @@
 # limitations under the License.
 
 import inspect
-from uuid import uuid4
 
-from stomp import Connection
-from stomp import ConnectionListener
+from aiostomp import AioStomp
 from thrift.transport.TTransport import TMemoryBuffer
 from thrift.transport.TTransport import TTransportException
 
@@ -33,9 +31,10 @@ class FStompPublisherTransportFactory(FPublisherTransportFactory):
     FStompPublisherTransports.
     """
 
-    def __init__(self, stomp_conn: Connection, topic_prefix: str,
-                 max_message_size: int = 32 * 1024 * 1024):
-        self._stomp_conn = stomp_conn
+    def __init__(self, stomp_client: AioStomp,
+                 topic_prefix: str='VirtualTopic.',
+                 max_message_size: int=32 * 1024 * 1024):
+        self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
         self._max_message_size = max_message_size
 
@@ -44,7 +43,7 @@ class FStompPublisherTransportFactory(FPublisherTransportFactory):
         Get a new FStompPublisherTransport.
         """
         return FStompPublisherTransport(
-            self._stomp_conn, self._topic_prefix, self._max_message_size)
+            self._stomp_client, self._topic_prefix, self._max_message_size)
 
 
 class FStompPublisherTransport(FPublisherTransport):
@@ -54,38 +53,33 @@ class FStompPublisherTransport(FPublisherTransport):
     stomp protocol can be used as the underlying bus.
     """
 
-    def __init__(self, stomp_conn: Connection, topic_prefix: str,
-                 max_message_size: int):
+    def __init__(self, stomp_client: AioStomp,
+                 topic_prefix: str='VirtualTopic.',
+                 max_message_size: int=32 * 1024 * 1024):
         super().__init__(max_message_size)
-        self._stomp_conn = stomp_conn
+        self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
 
-    async def open(self):
+    def open(self):
         """
-        Open the stomp publisher in preparation for publishing.
+        No-op. Client connection should be established outside of frugal.
         """
-        if not self._stomp_conn.is_connected():
-            raise TTransportException(TTransportException.NOT_OPEN,
-                                      'stomp connection is not connected')
+        pass
 
-    async def close(self):
+    def close(self):
         """
-        Close the stomp publisher transport and disconnect from the stomp
-        broker.
+        No-op. Client close should be handled outside of frugal.
         :return:
         """
-        if not self.is_open():
-            return
-
-        await self._stomp_conn.disconnect()
+        pass
 
     def is_open(self) -> bool:
         """
-        Check to see if the transport is open.
+        No-op.
         """
-        return self._stomp_conn.is_connected()
+        return True
 
-    async def publish(self, topic: str, data):
+    def publish(self, topic: str, data):
         """
         Publish a message to stomp broker on a given topic.
 
@@ -93,10 +87,6 @@ class FStompPublisherTransport(FPublisherTransport):
             topic: string
             data: bytearray
         """
-        if not self.is_open():
-            raise TTransportException(
-                type=TTransportExceptionType.NOT_OPEN,
-                message='Transport is not connected')
         if self._check_publish_size(data):
             raise TTransportException(
                 type=TTransportExceptionType.REQUEST_TOO_LARGE,
@@ -107,10 +97,12 @@ class FStompPublisherTransport(FPublisherTransport):
             frugal_prefix=FRUGAL_PREFIX,
             topic=topic
         )
-        await self._stomp_conn.send(destination,
-                                    data,
-                                    content_type='application/octet-stream',
-                                    headers={'persistent': 'true'})
+        self._stomp_client.send(
+            destination,
+            data,
+            headers={'persistent': 'true',
+                     'content-type': 'application/octet-stream'}
+        )
 
 
 class FStompSubscriberTransportFactory(FSubscriberTransportFactory):
@@ -119,9 +111,9 @@ class FStompSubscriberTransportFactory(FSubscriberTransportFactory):
     FStompSubscriberTransports.
     """
 
-    def __init__(self, stomp_conn: Connection, consumer_prefix: str,
-                 use_queue: bool):
-        self._stomp_conn = stomp_conn
+    def __init__(self, stomp_client: AioStomp, consumer_prefix: str,
+                 use_queue: bool=True):
+        self._stomp_client = stomp_client
         self._consumer_prefix = consumer_prefix
         self._use_queue = use_queue
 
@@ -130,7 +122,7 @@ class FStompSubscriberTransportFactory(FSubscriberTransportFactory):
         Get a new FStompSubscriberTransport.
         """
         return FStompSubscriberTransport(
-            self._stomp_conn, self._consumer_prefix, self._use_queue)
+            self._stomp_client, self._consumer_prefix, self._use_queue)
 
 
 class FStompSubscriberTransport(FSubscriberTransport):
@@ -140,16 +132,12 @@ class FStompSubscriberTransport(FSubscriberTransport):
     support stomp protocol can be used as the underlying bus.
     """
 
-    def __init__(self, stomp_conn: Connection, consumer_prefix: str,
-                 use_queue: bool):
-        self._stomp_conn = stomp_conn
+    def __init__(self, stomp_client: AioStomp, consumer_prefix: str,
+                 use_queue: bool=True):
+        self._stomp_client = stomp_client
         self._consumer_prefix = consumer_prefix
         self._use_queue = use_queue
-        self._sub_id = None
-
-    @property
-    def _is_subscribed(self):
-        return self._sub_id is not None
+        self._sub = None
 
     async def subscribe(self, topic: str, callback):
         """
@@ -160,10 +148,6 @@ class FStompSubscriberTransport(FSubscriberTransport):
             topic: str
             callback: func
         """
-        if not self._stomp_conn.is_connected():
-            raise TTransportException(TTransportException.NOT_OPEN,
-                                      'stomp connection is not connected')
-
         if self.is_subscribed():
             raise TTransportException(
                 TTransportExceptionType.ALREADY_OPEN,
@@ -174,61 +158,33 @@ class FStompSubscriberTransport(FSubscriberTransport):
                 TTransportExceptionType.UNKNOWN,
                 'stomp transport cannot subscribe to empty topic')
 
-        msg_listener = FStompConnectionListener(callback, self._stomp_conn)
-        sub_id = str(uuid4())
-        self._stomp_conn.set_listener('msg_listener', msg_listener)
+        async def msg_handler(frame, _):
+            ret = callback(TMemoryBuffer(frame.body[4:]))
+            if inspect.iscoroutine(ret):
+                ret = await ret
+            return ret
+
         destination = '/{type}/{consumer_prefix}{frugal_prefix}{topic}'.format(
             type='queue' if self._use_queue else 'topic',
             consumer_prefix=self._consumer_prefix,
             frugal_prefix=FRUGAL_PREFIX,
             topic=topic
         )
-        self._stomp_conn.subscribe(
-            destination, sub_id, ack='client-individual')
-        self._sub_id = sub_id
+        self._sub = self._stomp_client.subscribe(
+            destination, ack='client-individual', handler=msg_handler)
 
-    async def unsubscribe(self):
+    def unsubscribe(self):
         """
         Unsubscribe from the currently subscribed topic.
         """
         if not self.is_subscribed():
             return
 
-        await self._stomp_conn.unsubscribe(self._sub_id)
-        self._sub_id = None
+        self._stomp_client.unsubscribe(self._sub)
+        self._sub = None
 
     def is_subscribed(self) -> bool:
         """
         Check whether the client is subscribed or not.
         """
-        return self._is_subscribed
-
-
-class FStompConnectionListener(ConnectionListener):
-    """
-    FStompConnectionListener can be used to register callback functions to a
-    connection when frames are received from the stomp broker.
-    """
-
-    def __init__(self, msg_callback, conn: Connection):
-        self._msg_callback = msg_callback
-        self._stomp_conn = conn
-
-    async def on_message(self, headers: dict, body):
-        """
-        Called when a MESSAGE frame is received.
-        Calls the registered callback function on the received body, then
-        acknowledge the message if no exception is raised.
-
-        Args:
-            headers: dict
-            body: frame's payload
-        """
-        ret = self._msg_callback(TMemoryBuffer(body.data[4:]))
-        if inspect.iscoroutine(ret):
-            ret = await ret
-
-        msg_id = headers['message-id']
-        sub_id = headers['subscription']
-        self._stomp_conn.ack(msg_id, sub_id)
-        return ret
+        return bool(self._sub)

@@ -17,7 +17,6 @@ from .nats_scope_transport import FNatsSubscriberTransportFactory
 from .nats_scope_transport import FNatsSubscriberTransport
 from .nats_transport import FNatsTransport
 from .http_transport import FHttpTransport
-from .stomp_transport import FStompConnectionListener
 from .stomp_transport import FStompPublisherTransportFactory
 from .stomp_transport import FStompPublisherTransport
 from .stomp_transport import FStompSubscriberTransportFactory
@@ -33,7 +32,6 @@ __all__ = [
     'FNatsPublisherTransport',
     'FNatsSubscriberTransportFactory',
     'FNatsSubscriberTransport',
-    'FStompConnectionListener',
     'FStompPublisherTransportFactory',
     'FStompPublisherTransport',
     'FStompSubscriberTransportFactory',

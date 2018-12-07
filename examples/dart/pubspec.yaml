@@ -12,6 +12,8 @@ dependencies:
     version: ^0.0.5
   v1_music:
     path: gen-dart/v1_music
+dev_dependencies:
+  browser: any
 environment:
   sdk: ^1.12.0
 name: client_example

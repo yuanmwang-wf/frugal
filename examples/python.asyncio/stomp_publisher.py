@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
+import asyncio
 import logging
+import os
 import sys
 import uuid
-import asyncio
 
 from aiostomp import AioStomp
 from thrift.protocol import TBinaryProtocol

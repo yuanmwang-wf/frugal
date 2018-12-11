@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
-import logging
-import sys
-import uuid
 import asyncio
+import logging
+import os
+import sys
 
 from aiostomp import AioStomp
 from thrift.protocol import TBinaryProtocol
 
 from frugal.protocol import FProtocolFactory
 from frugal.provider import FScopeProvider
-from frugal.context import FContext
 from frugal.aio.transport import FStompSubscriberTransportFactory
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "gen-py.asyncio"))

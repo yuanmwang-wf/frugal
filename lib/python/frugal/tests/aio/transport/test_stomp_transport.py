@@ -30,10 +30,11 @@ class TestFStompPublisherTransport(utils.AsyncIOTestCase):
         self.assertEqual(
             self.pub_trans.get_publish_size_limit(), 32 * 1024 * 1024)
 
-    def test_stomp_publisher_publish_successfully(self):
+    @utils.async_runner
+    async def test_stomp_publisher_publish_successfully(self):
         data = bytearray([0, 0, 5, 2, 3, 4, 5, 6])
         self.mock_stomp_client.send.return_value = None
-        self.pub_trans.publish('foo', data)
+        await self.pub_trans.publish('foo', data)
 
         self.mock_stomp_client.send.assert_called_once_with(
             '/topic/frugal.foo',
@@ -42,11 +43,12 @@ class TestFStompPublisherTransport(utils.AsyncIOTestCase):
                      'content-type': 'application/octet-stream'}
         )
 
-    def test_stomp_publisher_fails_publishing_payload_too_large(self):
+    @utils.async_runner
+    async def test_stomp_publisher_fails_publishing_payload_too_large(self):
         mock_check_publish_size = mock.Mock(return_value=True)
         self.pub_trans._check_publish_size = mock_check_publish_size
         with self.assertRaises(TTransportException) as cm:
-            self.pub_trans.publish('foo', bytearray([0, 0, 5, 2, 3]))
+            await self.pub_trans.publish('foo', bytearray([0, 0, 5, 2, 3]))
         self.assertEqual(
             TTransportExceptionType.REQUEST_TOO_LARGE, cm.exception.type)
 
@@ -85,11 +87,12 @@ class TestFStompSubscriberTransport(utils.AsyncIOTestCase):
         )
         self.assertTrue(self.sub_trans.is_subscribed())
 
-    def test_stomp_subscriber_unsubscribe(self):
+    @utils.async_runner
+    async def test_stomp_subscriber_unsubscribe(self):
         mock_sub = mock.Mock()
         self.sub_trans._sub = mock_sub
         self.mock_stomp_client.unsubscribe.return_value = None
-        self.sub_trans.unsubscribe()
+        await self.sub_trans.unsubscribe()
 
         self.mock_stomp_client.unsubscribe.assert_called_once_with(mock_sub)
         self.assertFalse(self.sub_trans.is_subscribed())

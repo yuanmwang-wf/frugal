@@ -32,7 +32,7 @@ class FStompPublisherTransportFactory(FPublisherTransportFactory):
     """
 
     def __init__(self, stomp_client: AioStomp,
-                 topic_prefix: str='VirtualTopic.',
+                 topic_prefix: str='',
                  max_message_size: int=32 * 1024 * 1024):
         self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
@@ -54,19 +54,19 @@ class FStompPublisherTransport(FPublisherTransport):
     """
 
     def __init__(self, stomp_client: AioStomp,
-                 topic_prefix: str='VirtualTopic.',
+                 topic_prefix: str='',
                  max_message_size: int=32 * 1024 * 1024):
         super().__init__(max_message_size)
         self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
 
-    def open(self):
+    async def open(self):
         """
         No-op. Client connection should be established outside of frugal.
         """
         pass
 
-    def close(self):
+    async def close(self):
         """
         No-op. Client close should be handled outside of frugal.
         :return:
@@ -79,7 +79,7 @@ class FStompPublisherTransport(FPublisherTransport):
         """
         return True
 
-    def publish(self, topic: str, data):
+    async def publish(self, topic: str, data):
         """
         Publish a message to stomp broker on a given topic.
 
@@ -111,8 +111,8 @@ class FStompSubscriberTransportFactory(FSubscriberTransportFactory):
     FStompSubscriberTransports.
     """
 
-    def __init__(self, stomp_client: AioStomp, consumer_prefix: str,
-                 use_queue: bool=True):
+    def __init__(self, stomp_client: AioStomp, consumer_prefix: str='',
+                 use_queue: bool=False):
         self._stomp_client = stomp_client
         self._consumer_prefix = consumer_prefix
         self._use_queue = use_queue
@@ -161,8 +161,10 @@ class FStompSubscriberTransport(FSubscriberTransport):
         async def msg_handler(frame, _):
             ret = callback(TMemoryBuffer(frame.body[4:]))
             if inspect.iscoroutine(ret):
-                ret = await ret
-            return ret
+                await ret
+            # aiostomp acks message automatically in client-individual mode
+            # as long as handler function returns non-falsy value
+            return True
 
         destination = '/{type}/{consumer_prefix}{frugal_prefix}{topic}'.format(
             type='queue' if self._use_queue else 'topic',
@@ -173,7 +175,7 @@ class FStompSubscriberTransport(FSubscriberTransport):
         self._sub = self._stomp_client.subscribe(
             destination, ack='client-individual', handler=msg_handler)
 
-    def unsubscribe(self):
+    async def unsubscribe(self):
         """
         Unsubscribe from the currently subscribed topic.
         """

@@ -36,7 +36,7 @@ class TestFStompPublisherTransport(utils.AsyncIOTestCase):
         self.pub_trans.publish('foo', data)
 
         self.mock_stomp_client.send.assert_called_once_with(
-            '/topic/VirtualTopic.frugal.foo',
+            '/topic/frugal.foo',
             data,
             headers={'persistent': 'true',
                      'content-type': 'application/octet-stream'}

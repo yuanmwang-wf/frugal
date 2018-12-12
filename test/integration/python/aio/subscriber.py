@@ -62,7 +62,6 @@ async def main():
                      ).start()
 
     async def subscribe_handler(context, event):
-        print('received ' + context + ':' + event)
         publisher = EventsPublisher(provider)
         try:
             await publisher.open()

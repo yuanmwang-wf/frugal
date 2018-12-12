@@ -78,7 +78,7 @@ async def main():
 
     subscriber = EventsSubscriber(provider)
     await subscriber.subscribe_EventCreated(
-        "*", "*", "call", "{}".format(args.port), subscribe_handler)
+        "foo", "bar", "call", "{}".format(args.port), subscribe_handler)
 
     # Loop with sleep interval. Fail if not received within 3 seconds
     total_time = 0

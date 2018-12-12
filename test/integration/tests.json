@@ -85,6 +85,11 @@
       "timeout": 7,
       "command": [ "python3.5", "-u", "server.py" ]
     },
+    "publisher": {
+      "timeout": 20,
+      "command": ["python3.5", "-u", "publisher.py"],
+      "transports": ["activemq"]
+    },
     "rpcTransports": [ "nats", "http" ],
     "protocols": [ "binary", "compact", "json" ],
     "workdir": "python/aio"

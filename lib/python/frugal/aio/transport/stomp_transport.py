@@ -97,7 +97,6 @@ class FStompPublisherTransport(FPublisherTransport):
             frugal_prefix=FRUGAL_PREFIX,
             topic=topic
         )
-        print('Stomp publish destination: {}'.format(destination))
         self._stomp_client.send(
             destination,
             data,
@@ -173,7 +172,6 @@ class FStompSubscriberTransport(FSubscriberTransport):
             frugal_prefix=FRUGAL_PREFIX,
             topic=topic
         )
-        print('Stomp subscribe destination: {}'.format(destination))
         self._sub = self._stomp_client.subscribe(
             destination, ack='client-individual', handler=msg_handler)
 

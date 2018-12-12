@@ -1,6 +1,6 @@
+import argparse
 import asyncio
 import sys
-import argparse
 
 from aiostomp import AioStomp
 
@@ -18,7 +18,6 @@ from frugal.aio.transport import (
 from frugal_test.f_Events_publisher import EventsPublisher
 from frugal_test.ttypes import Xception, Insanity, Xception2, Event
 from frugal_test.f_Events_subscriber import EventsSubscriber
-from frugal_test.f_FrugalTest import Client as FrugalTestClient
 
 from common.utils import *
 
@@ -30,10 +29,10 @@ async def main():
     parser = argparse.ArgumentParser(
         description='Run a python asyncio stomp publisher')
     parser.add_argument('--port', dest='port', default='9090')
-    parser.add_argument('--protocol', dest='protocol_type', default="binary",
-                        choices="binary, compact, json")
+    parser.add_argument('--protocol', dest='protocol_type', default='binary',
+                        choices='binary, compact, json')
     parser.add_argument('--transport', dest='transport_type',
-                        default=ACTIVEMQ_NAME, choices="activemq")
+                        default=ACTIVEMQ_NAME, choices='activemq')
     args = parser.parse_args()
 
     protocol_factory = get_protocol_factory(args.protocol_type)
@@ -49,32 +48,32 @@ async def main():
         publisher = EventsPublisher(provider)
     else:
         print(
-            "Unknown transport type: {type}".format(type=args.transport_type))
+            'Unknown transport type: {type}'.format(type=args.transport_type))
         sys.exit(1)
 
     await publisher.open()
 
     def subscribe_handler(context, event):
-        print("Response received {}".format(event))
+        print('Response received {}'.format(event))
         global response_received
         if context:
             response_received = True
 
     # Subscribe to response
-    preamble = "foo"
-    ramble = "bar"
+    preamble = 'foo'
+    ramble = 'bar'
     subscriber = EventsSubscriber(provider)
-    await subscriber.subscribe_EventCreated(preamble, ramble, "response",
-                                            "{}".format(args.port),
+    await subscriber.subscribe_EventCreated(preamble, ramble, 'response',
+                                            '{}'.format(args.port),
                                             subscribe_handler)
 
-    event = Event(Message="Sending Call")
-    context = FContext("Call")
+    event = Event(Message='Sending Call')
+    context = FContext('Call')
     context.set_request_header(PREAMBLE_HEADER, preamble)
     context.set_request_header(RAMBLE_HEADER, ramble)
-    print("Publishing...")
-    await publisher.publish_EventCreated(context, preamble, ramble, "call",
-                                         "{}".format(args.port), event)
+    print('Publishing...')
+    await publisher.publish_EventCreated(context, preamble, ramble, 'call',
+                                         '{}'.format(args.port), event)
 
     # Loop with sleep interval. Fail if not received within 3 seconds
     total_time = 0
@@ -87,7 +86,7 @@ async def main():
             total_time += interval
 
     if not response_received:
-        print("Pub/Sub response timed out!")
+        print('publisher did not get a response from subscriber!')
         exit(1)
 
     await publisher.close()

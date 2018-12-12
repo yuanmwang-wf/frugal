@@ -83,7 +83,7 @@ async def main():
     # Loop with sleep interval. Fail if not received within 3 seconds
     total_time = 0
     interval = 0.1
-    while total_time < 3:
+    while total_time < 15:
         if message_received:
             break
         else:

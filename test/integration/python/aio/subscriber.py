@@ -1,6 +1,9 @@
 import asyncio
 import sys
+import socketserver
+import threading
 import argparse
+import http
 
 from aiostomp import AioStomp
 
@@ -53,6 +56,9 @@ async def main():
     provider = FScopeProvider(
         pub_transport_factory, sub_transport_factory, protocol_factory)
 
+    # start healthcheck so the test runner knows the server is running
+    threading.Thread(target=healthcheck, args=args.port).start()
+
     async def subscribe_handler(context, event):
         print('received ' + context + ':' + event)
         publisher = EventsPublisher(provider)
@@ -78,7 +84,7 @@ async def main():
 
     subscriber = EventsSubscriber(provider)
     await subscriber.subscribe_EventCreated(
-        "foo", "bar", "call", "{}".format(args.port), subscribe_handler)
+        "*", "*", "call", "{}".format(args.port), subscribe_handler)
 
     # Loop with sleep interval. Fail if not received within 3 seconds
     total_time = 0
@@ -95,6 +101,12 @@ async def main():
         exit(1)
 
     exit(0)
+
+
+def healthcheck(port):
+    health_handler = http.server.SimpleHTTPRequestHandler
+    healthcheck = socketserver.TCPServer(("", int(port)), health_handler)
+    healthcheck.serve_forever()
 
 
 if __name__ == '__main__':

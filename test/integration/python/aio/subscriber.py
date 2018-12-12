@@ -57,7 +57,9 @@ async def main():
         pub_transport_factory, sub_transport_factory, protocol_factory)
 
     # start healthcheck so the test runner knows the server is running
-    threading.Thread(target=healthcheck, args=args.port).start()
+    threading.Thread(target=healthcheck,
+                     args=(args.port,)
+                     ).start()
 
     async def subscribe_handler(context, event):
         print('received ' + context + ':' + event)

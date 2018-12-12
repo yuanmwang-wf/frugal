@@ -22,6 +22,8 @@ from frugal_test.f_FrugalTest import Client as FrugalTestClient
 
 from common.utils import *
 
+response_received = False
+
 
 async def main():
     global response_received

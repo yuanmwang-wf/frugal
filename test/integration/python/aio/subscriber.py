@@ -52,7 +52,6 @@ async def main():
 
     provider = FScopeProvider(
         pub_transport_factory, sub_transport_factory, protocol_factory)
-    subscriber = EventsSubscriber(provider)
 
     async def subscribe_handler(context, event):
         print('received ' + context + ':' + event)
@@ -77,6 +76,7 @@ async def main():
         except Exception as e:
             print('Error opening publisher to respond:' + repr(e))
 
+    subscriber = EventsSubscriber(provider)
     await subscriber.subscribe_EventCreated(
         "*", "*", "call", "{}".format(args.port), subscribe_handler)
 

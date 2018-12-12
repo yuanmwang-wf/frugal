@@ -63,7 +63,7 @@ async def main():
     ramble = "bar"
     subscriber = EventsSubscriber(provider)
     await subscriber.subscribe_EventCreated(preamble, ramble, "response",
-                                            "{}".format(port),
+                                            "{}".format(args.port),
                                             subscribe_handler)
 
     event = Event(Message="Sending Call")
@@ -72,7 +72,7 @@ async def main():
     context.set_request_header(RAMBLE_HEADER, ramble)
     print("Publishing...")
     await publisher.publish_EventCreated(context, preamble, ramble, "call",
-                                         "{}".format(port), event)
+                                         "{}".format(args.port), event)
 
     # Loop with sleep interval. Fail if not received within 3 seconds
     total_time = 0

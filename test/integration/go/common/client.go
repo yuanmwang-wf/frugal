@@ -57,6 +57,7 @@ func StartClient(
 	}
 
 	fProtocolFactory := frugal.NewFProtocolFactory(protocolFactory)
+	natsConn := getNatsConn()
 
 	/*
 		Pub/Sub Test
@@ -76,13 +77,12 @@ func StartClient(
 
 			switch transport {
 			case NatsName:
-				conn := getNatsConn()
-				pfactory = frugal.NewFNatsPublisherTransportFactory(conn)
-				sfactory = frugal.NewFNatsSubscriberTransportFactory(conn)
+				pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
+				sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
 			case ActiveMqName:
-				conn := getStompConn()
-				pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32 * 1024 * 1024, "")
-				sfactory = frugal.NewFStompSubscriberTransportFactory(conn, "", false)
+				stompConn := getStompConn()
+				pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
+				sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
 			}
 
 			provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
@@ -127,12 +127,14 @@ func StartClient(
 	var trans frugal.FTransport
 	switch transport {
 	case NatsName:
-		conn := getNatsConn()
-		trans = frugal.NewFNatsTransport(conn, fmt.Sprintf("frugal.foo.bar.rpc.%d", port), "")
+		trans = frugal.NewFNatsTransport(natsConn, fmt.Sprintf("frugal.foo.bar.rpc.%d", port), "")
 	case HttpName:
 		// Set request and response capacity to 1mb
 		maxSize := uint(1048576)
 		trans = frugal.NewFHTTPTransportBuilder(&http.Client{}, fmt.Sprintf("http://localhost:%d", port)).WithRequestSizeLimit(maxSize).WithResponseSizeLimit(maxSize).Build()
+	case ActiveMqName:
+		stompConn := getStompConn()
+		trans = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "").GetTransport()
 	default:
 		return nil, fmt.Errorf("Invalid transport specified %s", transport)
 	}

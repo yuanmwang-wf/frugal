@@ -186,8 +186,8 @@ class EventWrapper implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        } else if (value is int) {
-          iD = value;
+        } else {
+          iD = value as int; // ignore: avoid_as
         }
 
         break;
@@ -195,8 +195,8 @@ class EventWrapper implements thrift.TBase {
       case EV:
         if (value == null) {
           ev = null;
-        } else if (value is t_variety.Event) {
-          ev = value;
+        } else {
+          ev = value as t_variety.Event; // ignore: avoid_as
         }
 
         break;
@@ -204,8 +204,8 @@ class EventWrapper implements thrift.TBase {
       case EVENTS:
         if (value == null) {
           events = null;
-        } else if (value is List<t_variety.Event>) {
-          events = value;
+        } else {
+          events = value as List<t_variety.Event>; // ignore: avoid_as
         }
 
         break;
@@ -213,8 +213,8 @@ class EventWrapper implements thrift.TBase {
       case EVENTS2:
         if (value == null) {
           events2 = null;
-        } else if (value is Set<t_variety.Event>) {
-          events2 = value;
+        } else {
+          events2 = value as Set<t_variety.Event>; // ignore: avoid_as
         }
 
         break;
@@ -222,8 +222,8 @@ class EventWrapper implements thrift.TBase {
       case EVENTMAP:
         if (value == null) {
           eventMap = null;
-        } else if (value is Map<int, t_variety.Event>) {
-          eventMap = value;
+        } else {
+          eventMap = value as Map<int, t_variety.Event>; // ignore: avoid_as
         }
 
         break;
@@ -231,8 +231,8 @@ class EventWrapper implements thrift.TBase {
       case NUMS:
         if (value == null) {
           nums = null;
-        } else if (value is List<List<int>>) {
-          nums = value;
+        } else {
+          nums = value as List<List<int>>; // ignore: avoid_as
         }
 
         break;
@@ -240,8 +240,8 @@ class EventWrapper implements thrift.TBase {
       case ENUMS:
         if (value == null) {
           enums = null;
-        } else if (value is List<int>) {
-          enums = value;
+        } else {
+          enums = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -249,8 +249,8 @@ class EventWrapper implements thrift.TBase {
       case ABOOLFIELD:
         if (value == null) {
           aBoolField = null;
-        } else if (value is bool) {
-          aBoolField = value;
+        } else {
+          aBoolField = value as bool; // ignore: avoid_as
         }
 
         break;
@@ -258,8 +258,8 @@ class EventWrapper implements thrift.TBase {
       case A_UNION:
         if (value == null) {
           a_union = null;
-        } else if (value is t_variety.TestingUnions) {
-          a_union = value;
+        } else {
+          a_union = value as t_variety.TestingUnions; // ignore: avoid_as
         }
 
         break;
@@ -267,8 +267,8 @@ class EventWrapper implements thrift.TBase {
       case TYPEDEFOFTYPEDEF:
         if (value == null) {
           typedefOfTypedef = null;
-        } else if (value is String) {
-          typedefOfTypedef = value;
+        } else {
+          typedefOfTypedef = value as String; // ignore: avoid_as
         }
 
         break;
@@ -276,8 +276,8 @@ class EventWrapper implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        } else if (value is bool) {
-          depr = value;
+        } else {
+          depr = value as bool; // ignore: avoid_as
         }
 
         break;
@@ -285,8 +285,8 @@ class EventWrapper implements thrift.TBase {
       case DEPRBINARY:
         if (value == null) {
           deprBinary = null;
-        } else if (value is Uint8List) {
-          deprBinary = value;
+        } else {
+          deprBinary = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -294,8 +294,8 @@ class EventWrapper implements thrift.TBase {
       case DEPRLIST:
         if (value == null) {
           deprList = null;
-        } else if (value is List<bool>) {
-          deprList = value;
+        } else {
+          deprList = value as List<bool>; // ignore: avoid_as
         }
 
         break;

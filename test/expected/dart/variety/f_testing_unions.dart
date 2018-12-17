@@ -112,8 +112,8 @@ class TestingUnions implements thrift.TBase {
       case ANID:
         if (value == null) {
           anID = null;
-        } else if (value is int) {
-          anID = value;
+        } else {
+          anID = value as int; // ignore: avoid_as
         }
 
         break;
@@ -121,8 +121,8 @@ class TestingUnions implements thrift.TBase {
       case ASTRING:
         if (value == null) {
           aString = null;
-        } else if (value is String) {
-          aString = value;
+        } else {
+          aString = value as String; // ignore: avoid_as
         }
 
         break;
@@ -130,8 +130,8 @@ class TestingUnions implements thrift.TBase {
       case SOMEOTHERTHING:
         if (value == null) {
           someotherthing = null;
-        } else if (value is int) {
-          someotherthing = value;
+        } else {
+          someotherthing = value as int; // ignore: avoid_as
         }
 
         break;
@@ -139,8 +139,8 @@ class TestingUnions implements thrift.TBase {
       case ANINT16:
         if (value == null) {
           anInt16 = null;
-        } else if (value is int) {
-          anInt16 = value;
+        } else {
+          anInt16 = value as int; // ignore: avoid_as
         }
 
         break;
@@ -148,8 +148,8 @@ class TestingUnions implements thrift.TBase {
       case REQUESTS:
         if (value == null) {
           requests = null;
-        } else if (value is Map<int, String>) {
-          requests = value;
+        } else {
+          requests = value as Map<int, String>; // ignore: avoid_as
         }
 
         break;
@@ -157,8 +157,8 @@ class TestingUnions implements thrift.TBase {
       case BIN_FIELD_IN_UNION:
         if (value == null) {
           bin_field_in_union = null;
-        } else if (value is Uint8List) {
-          bin_field_in_union = value;
+        } else {
+          bin_field_in_union = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -166,8 +166,8 @@ class TestingUnions implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        } else if (value is bool) {
-          depr = value;
+        } else {
+          depr = value as bool; // ignore: avoid_as
         }
 
         break;

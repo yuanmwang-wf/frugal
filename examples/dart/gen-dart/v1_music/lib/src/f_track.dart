@@ -94,8 +94,8 @@ class Track implements thrift.TBase {
       case TITLE:
         if (value == null) {
           title = null;
-        } else if (value is String) {
-          title = value;
+        } else {
+          title = value as String; // ignore: avoid_as
         }
 
         break;
@@ -103,8 +103,8 @@ class Track implements thrift.TBase {
       case ARTIST:
         if (value == null) {
           artist = null;
-        } else if (value is String) {
-          artist = value;
+        } else {
+          artist = value as String; // ignore: avoid_as
         }
 
         break;
@@ -112,8 +112,8 @@ class Track implements thrift.TBase {
       case PUBLISHER:
         if (value == null) {
           publisher = null;
-        } else if (value is String) {
-          publisher = value;
+        } else {
+          publisher = value as String; // ignore: avoid_as
         }
 
         break;
@@ -121,8 +121,8 @@ class Track implements thrift.TBase {
       case COMPOSER:
         if (value == null) {
           composer = null;
-        } else if (value is String) {
-          composer = value;
+        } else {
+          composer = value as String; // ignore: avoid_as
         }
 
         break;
@@ -130,8 +130,8 @@ class Track implements thrift.TBase {
       case DURATION:
         if (value == null) {
           duration = null;
-        } else if (value is double) {
-          duration = value;
+        } else {
+          duration = value as double; // ignore: avoid_as
         }
 
         break;
@@ -139,8 +139,8 @@ class Track implements thrift.TBase {
       case PRO:
         if (value == null) {
           pro = null;
-        } else if (value is int) {
-          pro = value;
+        } else {
+          pro = value as int; // ignore: avoid_as
         }
 
         break;

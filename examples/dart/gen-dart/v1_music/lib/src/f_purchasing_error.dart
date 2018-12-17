@@ -51,8 +51,8 @@ class PurchasingError extends Error implements thrift.TBase {
       case MESSAGE:
         if (value == null) {
           message = null;
-        } else if (value is String) {
-          message = value;
+        } else {
+          message = value as String; // ignore: avoid_as
         }
 
         break;
@@ -60,8 +60,8 @@ class PurchasingError extends Error implements thrift.TBase {
       case ERROR_CODE:
         if (value == null) {
           error_code = null;
-        } else if (value is int) {
-          error_code = value;
+        } else {
+          error_code = value as int; // ignore: avoid_as
         }
 
         break;

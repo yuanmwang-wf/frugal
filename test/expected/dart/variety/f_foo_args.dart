@@ -65,8 +65,8 @@ class FooArgs implements thrift.TBase {
       case NEWMESSAGE:
         if (value == null) {
           newMessage = null;
-        } else if (value is String) {
-          newMessage = value;
+        } else {
+          newMessage = value as String; // ignore: avoid_as
         }
 
         break;
@@ -74,8 +74,8 @@ class FooArgs implements thrift.TBase {
       case MESSAGEARGS:
         if (value == null) {
           messageArgs = null;
-        } else if (value is String) {
-          messageArgs = value;
+        } else {
+          messageArgs = value as String; // ignore: avoid_as
         }
 
         break;
@@ -83,8 +83,8 @@ class FooArgs implements thrift.TBase {
       case MESSAGERESULT:
         if (value == null) {
           messageResult = null;
-        } else if (value is String) {
-          messageResult = value;
+        } else {
+          messageResult = value as String; // ignore: avoid_as
         }
 
         break;

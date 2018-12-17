@@ -43,8 +43,8 @@ class TestLowercase implements thrift.TBase {
       case LOWERCASEINT:
         if (value == null) {
           lowercaseInt = null;
-        } else if (value is int) {
-          lowercaseInt = value;
+        } else {
+          lowercaseInt = value as int; // ignore: avoid_as
         }
 
         break;

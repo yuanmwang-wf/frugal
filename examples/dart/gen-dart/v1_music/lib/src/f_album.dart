@@ -62,8 +62,8 @@ class Album implements thrift.TBase {
       case TRACKS:
         if (value == null) {
           tracks = null;
-        } else if (value is List<t_v1_music.Track>) {
-          tracks = value;
+        } else {
+          tracks = value as List<t_v1_music.Track>; // ignore: avoid_as
         }
 
         break;
@@ -71,8 +71,8 @@ class Album implements thrift.TBase {
       case DURATION:
         if (value == null) {
           duration = null;
-        } else if (value is double) {
-          duration = value;
+        } else {
+          duration = value as double; // ignore: avoid_as
         }
 
         break;
@@ -80,8 +80,8 @@ class Album implements thrift.TBase {
       case ASIN:
         if (value == null) {
           aSIN = null;
-        } else if (value is String) {
-          aSIN = value;
+        } else {
+          aSIN = value as String; // ignore: avoid_as
         }
 
         break;

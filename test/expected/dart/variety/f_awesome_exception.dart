@@ -70,8 +70,8 @@ class AwesomeException extends Error implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        } else if (value is int) {
-          iD = value;
+        } else {
+          iD = value as int; // ignore: avoid_as
         }
 
         break;
@@ -79,8 +79,8 @@ class AwesomeException extends Error implements thrift.TBase {
       case REASON:
         if (value == null) {
           reason = null;
-        } else if (value is String) {
-          reason = value;
+        } else {
+          reason = value as String; // ignore: avoid_as
         }
 
         break;
@@ -88,8 +88,8 @@ class AwesomeException extends Error implements thrift.TBase {
       case DEPR:
         if (value == null) {
           depr = null;
-        } else if (value is bool) {
-          depr = value;
+        } else {
+          depr = value as bool; // ignore: avoid_as
         }
 
         break;

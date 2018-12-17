@@ -39,8 +39,8 @@ class nested_thing implements thrift.TBase {
       case THINGS:
         if (value == null) {
           things = null;
-        } else if (value is List<t_actual_base_dart.thing>) {
-          things = value;
+        } else {
+          things = value as List<t_actual_base_dart.thing>; // ignore: avoid_as
         }
 
         break;

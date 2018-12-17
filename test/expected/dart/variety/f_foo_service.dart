@@ -781,8 +781,8 @@ class blah_args implements thrift.TBase {
       case NUM:
         if (value == null) {
           num = null;
-        } else if (value is int) {
-          num = value;
+        } else {
+          num = value as int; // ignore: avoid_as
         }
 
         break;
@@ -790,8 +790,8 @@ class blah_args implements thrift.TBase {
       case STR:
         if (value == null) {
           str = null;
-        } else if (value is String) {
-          str = value;
+        } else {
+          str = value as String; // ignore: avoid_as
         }
 
         break;
@@ -799,8 +799,8 @@ class blah_args implements thrift.TBase {
       case EVENT:
         if (value == null) {
           event = null;
-        } else if (value is t_variety.Event) {
-          event = value;
+        } else {
+          event = value as t_variety.Event; // ignore: avoid_as
         }
 
         break;
@@ -1007,8 +1007,8 @@ class blah_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is int) {
-          success = value;
+        } else {
+          success = value as int; // ignore: avoid_as
         }
 
         break;
@@ -1016,8 +1016,8 @@ class blah_result implements thrift.TBase {
       case AWE:
         if (value == null) {
           awe = null;
-        } else if (value is t_variety.AwesomeException) {
-          awe = value;
+        } else {
+          awe = value as t_variety.AwesomeException; // ignore: avoid_as
         }
 
         break;
@@ -1025,8 +1025,8 @@ class blah_result implements thrift.TBase {
       case API:
         if (value == null) {
           api = null;
-        } else if (value is t_actual_base_dart.api_exception) {
-          api = value;
+        } else {
+          api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         }
 
         break;
@@ -1231,8 +1231,8 @@ class oneWay_args implements thrift.TBase {
       case ID:
         if (value == null) {
           id = null;
-        } else if (value is int) {
-          id = value;
+        } else {
+          id = value as int; // ignore: avoid_as
         }
 
         break;
@@ -1240,8 +1240,8 @@ class oneWay_args implements thrift.TBase {
       case REQ:
         if (value == null) {
           req = null;
-        } else if (value is Map<int, String>) {
-          req = value;
+        } else {
+          req = value as Map<int, String>; // ignore: avoid_as
         }
 
         break;
@@ -1421,8 +1421,8 @@ class bin_method_args implements thrift.TBase {
       case BIN:
         if (value == null) {
           bin = null;
-        } else if (value is Uint8List) {
-          bin = value;
+        } else {
+          bin = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -1430,8 +1430,8 @@ class bin_method_args implements thrift.TBase {
       case STR:
         if (value == null) {
           str = null;
-        } else if (value is String) {
-          str = value;
+        } else {
+          str = value as String; // ignore: avoid_as
         }
 
         break;
@@ -1605,8 +1605,8 @@ class bin_method_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is Uint8List) {
-          success = value;
+        } else {
+          success = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -1614,8 +1614,8 @@ class bin_method_result implements thrift.TBase {
       case API:
         if (value == null) {
           api = null;
-        } else if (value is t_actual_base_dart.api_exception) {
-          api = value;
+        } else {
+          api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         }
 
         break;
@@ -1805,8 +1805,8 @@ class param_modifiers_args implements thrift.TBase {
       case OPT_NUM:
         if (value == null) {
           opt_num = null;
-        } else if (value is int) {
-          opt_num = value;
+        } else {
+          opt_num = value as int; // ignore: avoid_as
         }
 
         break;
@@ -1814,8 +1814,8 @@ class param_modifiers_args implements thrift.TBase {
       case DEFAULT_NUM:
         if (value == null) {
           default_num = null;
-        } else if (value is int) {
-          default_num = value;
+        } else {
+          default_num = value as int; // ignore: avoid_as
         }
 
         break;
@@ -1823,8 +1823,8 @@ class param_modifiers_args implements thrift.TBase {
       case REQ_NUM:
         if (value == null) {
           req_num = null;
-        } else if (value is int) {
-          req_num = value;
+        } else {
+          req_num = value as int; // ignore: avoid_as
         }
 
         break;
@@ -2001,8 +2001,8 @@ class param_modifiers_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is int) {
-          success = value;
+        } else {
+          success = value as int; // ignore: avoid_as
         }
 
         break;
@@ -2147,8 +2147,8 @@ class underlying_types_test_args implements thrift.TBase {
       case LIST_TYPE:
         if (value == null) {
           list_type = null;
-        } else if (value is List<int>) {
-          list_type = value;
+        } else {
+          list_type = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -2156,8 +2156,8 @@ class underlying_types_test_args implements thrift.TBase {
       case SET_TYPE:
         if (value == null) {
           set_type = null;
-        } else if (value is Set<int>) {
-          set_type = value;
+        } else {
+          set_type = value as Set<int>; // ignore: avoid_as
         }
 
         break;
@@ -2340,8 +2340,8 @@ class underlying_types_test_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is List<int>) {
-          success = value;
+        } else {
+          success = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -2576,8 +2576,8 @@ class getThing_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is t_validStructs.Thing) {
-          success = value;
+        } else {
+          success = value as t_validStructs.Thing; // ignore: avoid_as
         }
 
         break;
@@ -2803,8 +2803,8 @@ class getMyInt_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is int) {
-          success = value;
+        } else {
+          success = value as int; // ignore: avoid_as
         }
 
         break;
@@ -2938,8 +2938,8 @@ class use_subdir_struct_args implements thrift.TBase {
       case A:
         if (value == null) {
           a = null;
-        } else if (value is t_subdir_include_ns.A) {
-          a = value;
+        } else {
+          a = value as t_subdir_include_ns.A; // ignore: avoid_as
         }
 
         break;
@@ -3076,8 +3076,8 @@ class use_subdir_struct_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is t_subdir_include_ns.A) {
-          success = value;
+        } else {
+          success = value as t_subdir_include_ns.A; // ignore: avoid_as
         }
 
         break;
@@ -3216,8 +3216,8 @@ class sayHelloWith_args implements thrift.TBase {
       case NEWMESSAGE:
         if (value == null) {
           newMessage = null;
-        } else if (value is String) {
-          newMessage = value;
+        } else {
+          newMessage = value as String; // ignore: avoid_as
         }
 
         break;
@@ -3353,8 +3353,8 @@ class sayHelloWith_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is String) {
-          success = value;
+        } else {
+          success = value as String; // ignore: avoid_as
         }
 
         break;
@@ -3492,8 +3492,8 @@ class whatDoYouSay_args implements thrift.TBase {
       case MESSAGEARGS:
         if (value == null) {
           messageArgs = null;
-        } else if (value is String) {
-          messageArgs = value;
+        } else {
+          messageArgs = value as String; // ignore: avoid_as
         }
 
         break;
@@ -3629,8 +3629,8 @@ class whatDoYouSay_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is String) {
-          success = value;
+        } else {
+          success = value as String; // ignore: avoid_as
         }
 
         break;
@@ -3768,8 +3768,8 @@ class sayAgain_args implements thrift.TBase {
       case MESSAGERESULT:
         if (value == null) {
           messageResult = null;
-        } else if (value is String) {
-          messageResult = value;
+        } else {
+          messageResult = value as String; // ignore: avoid_as
         }
 
         break;
@@ -3905,8 +3905,8 @@ class sayAgain_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is String) {
-          success = value;
+        } else {
+          success = value as String; // ignore: avoid_as
         }
 
         break;

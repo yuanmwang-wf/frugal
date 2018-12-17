@@ -43,8 +43,8 @@ class TestBase implements thrift.TBase {
       case BASE_STRUCT:
         if (value == null) {
           base_struct = null;
-        } else if (value is t_actual_base_dart.thing) {
-          base_struct = value;
+        } else {
+          base_struct = value as t_actual_base_dart.thing; // ignore: avoid_as
         }
 
         break;

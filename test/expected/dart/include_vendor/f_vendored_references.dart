@@ -53,8 +53,8 @@ class VendoredReferences implements thrift.TBase {
       case REFERENCE_VENDORED_CONST:
         if (value == null) {
           reference_vendored_const = null;
-        } else if (value is int) {
-          reference_vendored_const = value;
+        } else {
+          reference_vendored_const = value as int; // ignore: avoid_as
         }
 
         break;
@@ -62,8 +62,8 @@ class VendoredReferences implements thrift.TBase {
       case REFERENCE_VENDORED_ENUM:
         if (value == null) {
           reference_vendored_enum = null;
-        } else if (value is int) {
-          reference_vendored_enum = value;
+        } else {
+          reference_vendored_enum = value as int; // ignore: avoid_as
         }
 
         break;

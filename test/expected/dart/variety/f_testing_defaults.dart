@@ -268,8 +268,8 @@ class TestingDefaults implements thrift.TBase {
       case ID2:
         if (value == null) {
           iD2 = null;
-        } else if (value is int) {
-          iD2 = value;
+        } else {
+          iD2 = value as int; // ignore: avoid_as
         }
 
         break;
@@ -277,8 +277,8 @@ class TestingDefaults implements thrift.TBase {
       case EV1:
         if (value == null) {
           ev1 = null;
-        } else if (value is t_variety.Event) {
-          ev1 = value;
+        } else {
+          ev1 = value as t_variety.Event; // ignore: avoid_as
         }
 
         break;
@@ -286,8 +286,8 @@ class TestingDefaults implements thrift.TBase {
       case EV2:
         if (value == null) {
           ev2 = null;
-        } else if (value is t_variety.Event) {
-          ev2 = value;
+        } else {
+          ev2 = value as t_variety.Event; // ignore: avoid_as
         }
 
         break;
@@ -295,8 +295,8 @@ class TestingDefaults implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        } else if (value is int) {
-          iD = value;
+        } else {
+          iD = value as int; // ignore: avoid_as
         }
 
         break;
@@ -304,8 +304,8 @@ class TestingDefaults implements thrift.TBase {
       case THING:
         if (value == null) {
           thing = null;
-        } else if (value is String) {
-          thing = value;
+        } else {
+          thing = value as String; // ignore: avoid_as
         }
 
         break;
@@ -313,8 +313,8 @@ class TestingDefaults implements thrift.TBase {
       case THING2:
         if (value == null) {
           thing2 = null;
-        } else if (value is String) {
-          thing2 = value;
+        } else {
+          thing2 = value as String; // ignore: avoid_as
         }
 
         break;
@@ -322,8 +322,8 @@ class TestingDefaults implements thrift.TBase {
       case LISTFIELD:
         if (value == null) {
           listfield = null;
-        } else if (value is List<int>) {
-          listfield = value;
+        } else {
+          listfield = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -331,8 +331,8 @@ class TestingDefaults implements thrift.TBase {
       case ID3:
         if (value == null) {
           iD3 = null;
-        } else if (value is int) {
-          iD3 = value;
+        } else {
+          iD3 = value as int; // ignore: avoid_as
         }
 
         break;
@@ -340,8 +340,8 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD:
         if (value == null) {
           bin_field = null;
-        } else if (value is Uint8List) {
-          bin_field = value;
+        } else {
+          bin_field = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -349,8 +349,8 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD2:
         if (value == null) {
           bin_field2 = null;
-        } else if (value is Uint8List) {
-          bin_field2 = value;
+        } else {
+          bin_field2 = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -358,8 +358,8 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD3:
         if (value == null) {
           bin_field3 = null;
-        } else if (value is Uint8List) {
-          bin_field3 = value;
+        } else {
+          bin_field3 = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -367,8 +367,8 @@ class TestingDefaults implements thrift.TBase {
       case BIN_FIELD4:
         if (value == null) {
           bin_field4 = null;
-        } else if (value is Uint8List) {
-          bin_field4 = value;
+        } else {
+          bin_field4 = value as Uint8List; // ignore: avoid_as
         }
 
         break;
@@ -376,8 +376,8 @@ class TestingDefaults implements thrift.TBase {
       case LIST2:
         if (value == null) {
           list2 = null;
-        } else if (value is List<int>) {
-          list2 = value;
+        } else {
+          list2 = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -385,8 +385,8 @@ class TestingDefaults implements thrift.TBase {
       case LIST3:
         if (value == null) {
           list3 = null;
-        } else if (value is List<int>) {
-          list3 = value;
+        } else {
+          list3 = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -394,8 +394,8 @@ class TestingDefaults implements thrift.TBase {
       case LIST4:
         if (value == null) {
           list4 = null;
-        } else if (value is List<int>) {
-          list4 = value;
+        } else {
+          list4 = value as List<int>; // ignore: avoid_as
         }
 
         break;
@@ -403,8 +403,8 @@ class TestingDefaults implements thrift.TBase {
       case A_MAP:
         if (value == null) {
           a_map = null;
-        } else if (value is Map<String, String>) {
-          a_map = value;
+        } else {
+          a_map = value as Map<String, String>; // ignore: avoid_as
         }
 
         break;
@@ -412,8 +412,8 @@ class TestingDefaults implements thrift.TBase {
       case STATUS:
         if (value == null) {
           status = null;
-        } else if (value is int) {
-          status = value;
+        } else {
+          status = value as int; // ignore: avoid_as
         }
 
         break;
@@ -421,8 +421,8 @@ class TestingDefaults implements thrift.TBase {
       case BASE_STATUS:
         if (value == null) {
           base_status = null;
-        } else if (value is int) {
-          base_status = value;
+        } else {
+          base_status = value as int; // ignore: avoid_as
         }
 
         break;

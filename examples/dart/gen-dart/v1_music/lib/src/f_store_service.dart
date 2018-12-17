@@ -177,8 +177,8 @@ class buyAlbum_args implements thrift.TBase {
       case ASIN:
         if (value == null) {
           aSIN = null;
-        } else if (value is String) {
-          aSIN = value;
+        } else {
+          aSIN = value as String; // ignore: avoid_as
         }
 
         break;
@@ -186,8 +186,8 @@ class buyAlbum_args implements thrift.TBase {
       case ACCT:
         if (value == null) {
           acct = null;
-        } else if (value is String) {
-          acct = value;
+        } else {
+          acct = value as String; // ignore: avoid_as
         }
 
         break;
@@ -361,8 +361,8 @@ class buyAlbum_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is t_v1_music.Album) {
-          success = value;
+        } else {
+          success = value as t_v1_music.Album; // ignore: avoid_as
         }
 
         break;
@@ -370,8 +370,8 @@ class buyAlbum_result implements thrift.TBase {
       case ERROR:
         if (value == null) {
           error = null;
-        } else if (value is t_v1_music.PurchasingError) {
-          error = value;
+        } else {
+          error = value as t_v1_music.PurchasingError; // ignore: avoid_as
         }
 
         break;
@@ -551,8 +551,8 @@ class enterAlbumGiveaway_args implements thrift.TBase {
       case EMAIL:
         if (value == null) {
           email = null;
-        } else if (value is String) {
-          email = value;
+        } else {
+          email = value as String; // ignore: avoid_as
         }
 
         break;
@@ -560,8 +560,8 @@ class enterAlbumGiveaway_args implements thrift.TBase {
       case NAME:
         if (value == null) {
           name = null;
-        } else if (value is String) {
-          name = value;
+        } else {
+          name = value as String; // ignore: avoid_as
         }
 
         break;
@@ -724,8 +724,8 @@ class enterAlbumGiveaway_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is bool) {
-          success = value;
+        } else {
+          success = value as bool; // ignore: avoid_as
         }
 
         break;

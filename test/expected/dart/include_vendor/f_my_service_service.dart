@@ -212,8 +212,8 @@ class getItem_result implements thrift.TBase {
       case SUCCESS:
         if (value == null) {
           success = null;
-        } else if (value is t_vendor_namespace.Item) {
-          success = value;
+        } else {
+          success = value as t_vendor_namespace.Item; // ignore: avoid_as
         }
 
         break;
@@ -221,8 +221,8 @@ class getItem_result implements thrift.TBase {
       case D:
         if (value == null) {
           d = null;
-        } else if (value is t_excepts.InvalidData) {
-          d = value;
+        } else {
+          d = value as t_excepts.InvalidData; // ignore: avoid_as
         }
 
         break;

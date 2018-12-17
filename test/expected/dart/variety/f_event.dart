@@ -59,8 +59,8 @@ class Event implements thrift.TBase {
       case ID:
         if (value == null) {
           iD = null;
-        } else if (value is int) {
-          iD = value;
+        } else {
+          iD = value as int; // ignore: avoid_as
         }
 
         break;
@@ -68,8 +68,8 @@ class Event implements thrift.TBase {
       case MESSAGE:
         if (value == null) {
           message = null;
-        } else if (value is String) {
-          message = value;
+        } else {
+          message = value as String; // ignore: avoid_as
         }
 
         break;

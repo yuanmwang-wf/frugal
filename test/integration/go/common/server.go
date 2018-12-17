@@ -18,10 +18,9 @@ import (
 	"net/http"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
 	log "github.com/Sirupsen/logrus"
-	"github.com/nats-io/go-nats"
 
+	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
@@ -47,6 +46,7 @@ func StartServer(
 		panic(fmt.Errorf("Invalid protocol specified %s", protocol))
 	}
 
+	conn := getNatsConn()
 	var err error
 
 	/*
@@ -54,20 +54,8 @@ func StartServer(
 		Subscribe to events, publish response upon receipt
 	*/
 	go func() {
-		var pfactory frugal.FPublisherTransportFactory
-		var sfactory frugal.FSubscriberTransportFactory
-		var natsConn *nats.Conn
-
-		switch transport {
-		case NatsName:
-			natsConn = getNatsConn()
-			pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-			sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
-		case ActiveMqName:
-			stompConn := getStompConn()
-			pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
-			sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
-		}
+		pfactory := frugal.NewFNatsPublisherTransportFactory(conn)
+		sfactory := frugal.NewFNatsSubscriberTransportFactory(conn)
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		subscriber := frugaltest.NewEventsSubscriber(provider)
 
@@ -95,9 +83,7 @@ func StartServer(
 				panic(err)
 			}
 			// Explicitly flushing the publish to ensure it is sent before the main thread exits
-			if transport == NatsName {
-				natsConn.Flush()
-			}
+			conn.Flush()
 			pubSubResponseSent <- true
 		})
 		if err != nil {
@@ -115,7 +101,6 @@ func StartServer(
 	var server frugal.FServer
 	switch transport {
 	case NatsName:
-		conn := getNatsConn()
 		builder := frugal.NewFNatsServerBuilder(
 			conn,
 			processor,

@@ -18,12 +18,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/Workiva/frugal/test/integration/go/common"
+	"github.com/Workiva/frugal_local/test/integration/go/common"
 )
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "nats", "Transport: nats, http")
+var transport = flag.String("transport", "nats", "Transport: nats, http, activemq")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {

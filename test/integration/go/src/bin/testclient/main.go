@@ -22,7 +22,7 @@ import (
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "nats", "Transport: nats, http")
+var transport = flag.String("transport", "nats", "Transport: nats, http, activemq")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {
@@ -43,7 +43,7 @@ func main() {
 		log.Fatal("Client middleware not invoked")
 	}
 
-	if *transport == common.NatsName {
+	if *transport == common.NatsName ||  *transport == common.ActiveMqName {
 		close(pubSub)
 		<-sent
 	}

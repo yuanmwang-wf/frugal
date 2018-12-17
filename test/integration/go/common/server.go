@@ -46,7 +46,7 @@ func StartServer(
 		panic(fmt.Errorf("Invalid protocol specified %s", protocol))
 	}
 
-	conn := getNatsConn()
+	natsConn := getNatsConn()
 	var err error
 
 	/*
@@ -54,8 +54,20 @@ func StartServer(
 		Subscribe to events, publish response upon receipt
 	*/
 	go func() {
-		pfactory := frugal.NewFNatsPublisherTransportFactory(conn)
-		sfactory := frugal.NewFNatsSubscriberTransportFactory(conn)
+		var pfactory frugal.FPublisherTransportFactory
+		var sfactory frugal.FSubscriberTransportFactory
+		switch transport {
+		case NatsName:
+			pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
+			sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
+		case ActiveMqName:
+			conn := getStompConn()
+			pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32 * 1024 * 1024, "")
+			sfactory = frugal.NewFStompSubscriberTransportFactory(conn, "", false)
+		default:
+			return
+		}
+
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		subscriber := frugaltest.NewEventsSubscriber(provider)
 
@@ -83,7 +95,9 @@ func StartServer(
 				panic(err)
 			}
 			// Explicitly flushing the publish to ensure it is sent before the main thread exits
-			conn.Flush()
+			if transport == NatsName {
+				natsConn.Flush()
+			}
 			pubSubResponseSent <- true
 		})
 		if err != nil {
@@ -102,11 +116,16 @@ func StartServer(
 	switch transport {
 	case NatsName:
 		builder := frugal.NewFNatsServerBuilder(
-			conn,
+			natsConn,
 			processor,
 			frugal.NewFProtocolFactory(protocolFactory),
 			[]string{fmt.Sprintf("frugal.*.*.rpc.%d", port)})
 		server = builder.Build()
+		// Start http server
+		// Healthcheck used in the cross language runner to check for server availability
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
+		go http.ListenAndServe(hostPort, nil)
+	case ActiveMqName:
 		// Start http server
 		// Healthcheck used in the cross language runner to check for server availability
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})

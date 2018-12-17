@@ -249,12 +249,12 @@ class buyAlbum_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.aSIN != null) {
+    if (ASIN != null) {
       oprot.writeFieldBegin(_ASIN_FIELD_DESC);
       oprot.writeString(aSIN);
       oprot.writeFieldEnd();
     }
-    if (this.acct != null) {
+    if (acct != null) {
       oprot.writeFieldBegin(_ACCT_FIELD_DESC);
       oprot.writeString(acct);
       oprot.writeFieldEnd();
@@ -435,12 +435,12 @@ class buyAlbum_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (error != null && this.error != null) {
+    if (error != null) {
       oprot.writeFieldBegin(_ERROR_FIELD_DESC);
       error.write(oprot);
       oprot.writeFieldEnd();
@@ -453,7 +453,7 @@ class buyAlbum_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("buyAlbum_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -462,7 +462,7 @@ class buyAlbum_result implements thrift.TBase {
       }
     }
 
-    if(error != null) {
+    if (error != null) {
       ret.write(", ");
       ret.write("error:");
       if (this.error == null) {
@@ -623,12 +623,12 @@ class enterAlbumGiveaway_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.email != null) {
+    if (email != null) {
       oprot.writeFieldBegin(_EMAIL_FIELD_DESC);
       oprot.writeString(email);
       oprot.writeFieldEnd();
     }
-    if (this.name != null) {
+    if (name != null) {
       oprot.writeFieldBegin(_NAME_FIELD_DESC);
       oprot.writeString(name);
       oprot.writeFieldEnd();
@@ -790,7 +790,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("enterAlbumGiveaway_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       ret.write(this.success);
     }

@@ -160,7 +160,7 @@ class Album implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.tracks != null) {
+    if (tracks != null) {
       oprot.writeFieldBegin(_TRACKS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, tracks.length));
       for(var elem3 in tracks) {
@@ -172,7 +172,7 @@ class Album implements thrift.TBase {
     oprot.writeFieldBegin(_DURATION_FIELD_DESC);
     oprot.writeDouble(duration);
     oprot.writeFieldEnd();
-    if (this.aSIN != null) {
+    if (ASIN != null) {
       oprot.writeFieldBegin(_ASIN_FIELD_DESC);
       oprot.writeString(aSIN);
       oprot.writeFieldEnd();

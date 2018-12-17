@@ -97,7 +97,7 @@ class TestBase implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.base_struct != null) {
+    if (base_struct != null) {
       oprot.writeFieldBegin(_BASE_STRUCT_FIELD_DESC);
       base_struct.write(oprot);
       oprot.writeFieldEnd();

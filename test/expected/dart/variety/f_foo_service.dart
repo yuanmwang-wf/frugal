@@ -876,12 +876,12 @@ class blah_args implements thrift.TBase {
     oprot.writeFieldBegin(_NUM_FIELD_DESC);
     oprot.writeI32(num);
     oprot.writeFieldEnd();
-    if (this.str != null) {
+    if (Str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();
     }
-    if (this.event != null) {
+    if (event != null) {
       oprot.writeFieldBegin(_EVENT_FIELD_DESC);
       event.write(oprot);
       oprot.writeFieldEnd();
@@ -1105,12 +1105,12 @@ class blah_result implements thrift.TBase {
       oprot.writeI64(success);
       oprot.writeFieldEnd();
     }
-    if (awe != null && this.awe != null) {
+    if (awe != null) {
       oprot.writeFieldBegin(_AWE_FIELD_DESC);
       awe.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (api != null && this.api != null) {
+    if (api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1123,12 +1123,12 @@ class blah_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("blah_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
 
-    if(awe != null) {
+    if (awe != null) {
       ret.write(", ");
       ret.write("awe:");
       if (this.awe == null) {
@@ -1138,7 +1138,7 @@ class blah_result implements thrift.TBase {
       }
     }
 
-    if(api != null) {
+    if (api != null) {
       ret.write(", ");
       ret.write("api:");
       if (this.api == null) {
@@ -1313,7 +1313,7 @@ class oneWay_args implements thrift.TBase {
     oprot.writeFieldBegin(_ID_FIELD_DESC);
     oprot.writeI64(id);
     oprot.writeFieldEnd();
-    if (this.req != null) {
+    if (req != null) {
       oprot.writeFieldBegin(_REQ_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, req.length));
       for(var elem59 in req.keys) {
@@ -1493,12 +1493,12 @@ class bin_method_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.bin != null) {
+    if (bin != null) {
       oprot.writeFieldBegin(_BIN_FIELD_DESC);
       oprot.writeBinary(bin);
       oprot.writeFieldEnd();
     }
-    if (this.str != null) {
+    if (Str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();
@@ -1678,12 +1678,12 @@ class bin_method_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeBinary(success);
       oprot.writeFieldEnd();
     }
-    if (api != null && this.api != null) {
+    if (api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
       api.write(oprot);
       oprot.writeFieldEnd();
@@ -1696,7 +1696,7 @@ class bin_method_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("bin_method_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -1705,7 +1705,7 @@ class bin_method_result implements thrift.TBase {
       }
     }
 
-    if(api != null) {
+    if (api != null) {
       ret.write(", ");
       ret.write("api:");
       if (this.api == null) {
@@ -1889,7 +1889,7 @@ class param_modifiers_args implements thrift.TBase {
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
-    if(req_num != null) {
+    if (req_num != null) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'req_num' is not present in struct 'param_modifiers_args'");
     }
     validate();
@@ -2067,7 +2067,7 @@ class param_modifiers_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("param_modifiers_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -2231,7 +2231,7 @@ class underlying_types_test_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.list_type != null) {
+    if (list_type != null) {
       oprot.writeFieldBegin(_LIST_TYPE_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, list_type.length));
       for(var elem66 in list_type) {
@@ -2240,7 +2240,7 @@ class underlying_types_test_args implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (this.set_type != null) {
+    if (set_type != null) {
       oprot.writeFieldBegin(_SET_TYPE_FIELD_DESC);
       oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, set_type.length));
       for(var elem67 in set_type) {
@@ -2399,7 +2399,7 @@ class underlying_types_test_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, success.length));
       for(var elem71 in success) {
@@ -2416,7 +2416,7 @@ class underlying_types_test_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("underlying_types_test_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -2630,7 +2630,7 @@ class getThing_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -2643,7 +2643,7 @@ class getThing_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getThing_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -2869,7 +2869,7 @@ class getMyInt_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getMyInt_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       ret.write(this.success);
     }
@@ -2992,7 +2992,7 @@ class use_subdir_struct_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.a != null) {
+    if (a != null) {
       oprot.writeFieldBegin(_A_FIELD_DESC);
       a.write(oprot);
       oprot.writeFieldEnd();
@@ -3130,7 +3130,7 @@ class use_subdir_struct_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
@@ -3143,7 +3143,7 @@ class use_subdir_struct_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("use_subdir_struct_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -3269,7 +3269,7 @@ class sayHelloWith_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.newMessage != null) {
+    if (newMessage != null) {
       oprot.writeFieldBegin(_NEW_MESSAGE_FIELD_DESC);
       oprot.writeString(newMessage);
       oprot.writeFieldEnd();
@@ -3406,7 +3406,7 @@ class sayHelloWith_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3419,7 +3419,7 @@ class sayHelloWith_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("sayHelloWith_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -3545,7 +3545,7 @@ class whatDoYouSay_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.messageArgs != null) {
+    if (messageArgs != null) {
       oprot.writeFieldBegin(_MESSAGE_ARGS_FIELD_DESC);
       oprot.writeString(messageArgs);
       oprot.writeFieldEnd();
@@ -3682,7 +3682,7 @@ class whatDoYouSay_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3695,7 +3695,7 @@ class whatDoYouSay_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("whatDoYouSay_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -3821,7 +3821,7 @@ class sayAgain_args implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.messageResult != null) {
+    if (messageResult != null) {
       oprot.writeFieldBegin(_MESSAGE_RESULT_FIELD_DESC);
       oprot.writeString(messageResult);
       oprot.writeFieldEnd();
@@ -3958,7 +3958,7 @@ class sayAgain_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeString(success);
       oprot.writeFieldEnd();
@@ -3971,7 +3971,7 @@ class sayAgain_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("sayAgain_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");

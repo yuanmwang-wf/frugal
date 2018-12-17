@@ -143,12 +143,12 @@ class VendoredReferences implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("VendoredReferences(");
 
-    if(reference_vendored_const != null) {
+    if (reference_vendored_const != null) {
       ret.write("reference_vendored_const:");
       ret.write(this.reference_vendored_const);
     }
 
-    if(reference_vendored_enum != null) {
+    if (reference_vendored_enum != null) {
       ret.write(", ");
       ret.write("reference_vendored_enum:");
       String reference_vendored_enum_name = t_vendor_namespace.MyEnum.VALUES_TO_NAMES[this.reference_vendored_enum];
@@ -194,7 +194,7 @@ class VendoredReferences implements thrift.TBase {
   }
 
   validate() {
-    if(reference_vendored_enum != null && !t_vendor_namespace.MyEnum.VALID_VALUES.contains(reference_vendored_enum)) {
+    if (reference_vendored_enum != null && !t_vendor_namespace.MyEnum.VALID_VALUES.contains(reference_vendored_enum)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'reference_vendored_enum' has been assigned the invalid value $reference_vendored_enum");
     }
   }

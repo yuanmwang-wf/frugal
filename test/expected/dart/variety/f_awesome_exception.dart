@@ -166,7 +166,7 @@ class AwesomeException extends Error implements thrift.TBase {
     oprot.writeFieldBegin(_ID_FIELD_DESC);
     oprot.writeI64(iD);
     oprot.writeFieldEnd();
-    if (this.reason != null) {
+    if (Reason != null) {
       oprot.writeFieldBegin(_REASON_FIELD_DESC);
       oprot.writeString(reason);
       oprot.writeFieldEnd();

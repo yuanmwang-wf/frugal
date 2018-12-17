@@ -123,7 +123,7 @@ class PurchasingError extends Error implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.message != null) {
+    if (message != null) {
       oprot.writeFieldBegin(_MESSAGE_FIELD_DESC);
       oprot.writeString(message);
       oprot.writeFieldEnd();

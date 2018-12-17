@@ -293,7 +293,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI64(anID);
       oprot.writeFieldEnd();
     }
-    if (aString != null && this.aString != null) {
+    if (aString != null) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
       oprot.writeString(aString);
       oprot.writeFieldEnd();
@@ -308,7 +308,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI16(anInt16);
       oprot.writeFieldEnd();
     }
-    if (Requests != null && this.requests != null) {
+    if (Requests != null) {
       oprot.writeFieldBegin(_REQUESTS_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, requests.length));
       for(var elem54 in requests.keys) {
@@ -318,7 +318,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
     }
-    if (bin_field_in_union != null && this.bin_field_in_union != null) {
+    if (bin_field_in_union != null) {
       oprot.writeFieldBegin(_BIN_FIELD_IN_UNION_FIELD_DESC);
       oprot.writeBinary(bin_field_in_union);
       oprot.writeFieldEnd();
@@ -338,12 +338,12 @@ class TestingUnions implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("TestingUnions(");
 
-    if(AnID != null) {
+    if (AnID != null) {
       ret.write("anID:");
       ret.write(this.anID);
     }
 
-    if(aString != null) {
+    if (aString != null) {
       ret.write(", ");
       ret.write("aString:");
       if (this.aString == null) {
@@ -353,19 +353,19 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(someotherthing != null) {
+    if (someotherthing != null) {
       ret.write(", ");
       ret.write("someotherthing:");
       ret.write(this.someotherthing);
     }
 
-    if(AnInt16 != null) {
+    if (AnInt16 != null) {
       ret.write(", ");
       ret.write("anInt16:");
       ret.write(this.anInt16);
     }
 
-    if(Requests != null) {
+    if (Requests != null) {
       ret.write(", ");
       ret.write("requests:");
       if (this.requests == null) {
@@ -375,7 +375,7 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(bin_field_in_union != null) {
+    if (bin_field_in_union != null) {
       ret.write(", ");
       ret.write("bin_field_in_union:");
       if (this.bin_field_in_union == null) {
@@ -385,7 +385,7 @@ class TestingUnions implements thrift.TBase {
       }
     }
 
-    if(depr != null) {
+    if (depr != null) {
       ret.write(", ");
       ret.write("depr:");
       // ignore: deprecated_member_use
@@ -450,25 +450,25 @@ class TestingUnions implements thrift.TBase {
   validate() {
     // check exactly one field is set
     int setFields = 0;
-    if(AnID != null) {
+    if (AnID != null) {
       setFields++;
     }
-    if(AString != null) {
+    if (AString != null) {
       setFields++;
     }
-    if(Someotherthing != null) {
+    if (Someotherthing != null) {
       setFields++;
     }
-    if(AnInt16 != null) {
+    if (AnInt16 != null) {
       setFields++;
     }
-    if(Requests != null) {
+    if (Requests != null) {
       setFields++;
     }
-    if(Bin_field_in_union != null) {
+    if (Bin_field_in_union != null) {
       setFields++;
     }
-    if(Depr != null) {
+    if (Depr != null) {
       setFields++;
     }
     if (setFields != 1) {

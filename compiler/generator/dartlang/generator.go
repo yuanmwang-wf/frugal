@@ -840,7 +840,7 @@ func (g *Generator) generateRead(s *parser.Struct) string {
 				contents += tabtab + "// check for required fields of primitive type, which can't be checked in the validate method\n"
 			}
 			fName := toFieldName(field.Name)
-			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", fName)
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", fName)
 			contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Required field '%s' is not present in struct '%s'\");\n", fName, s.Name)
 			contents += tabtab + "}\n"
 		}
@@ -958,7 +958,6 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 	contents += tabtab + "validate();\n\n"
 	contents += tabtab + "oprot.writeStructBegin(_STRUCT_DESC);\n"
 	for _, field := range s.Fields {
-		fName := toFieldName(field.Name)
 		optional := field.Modifier == parser.Optional
 		nullable := !g.isDartPrimitive(g.Frugal.UnderlyingType(field.Type))
 		ind := ""
@@ -966,14 +965,8 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 			ind = tab
 			contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
 			contents += tabtab + "if ("
-			if optional {
+			if optional || nullable {
 				contents += fmt.Sprintf("%s != null", field.Name)
-			}
-			if optional && nullable {
-				contents += " && "
-			}
-			if nullable {
-				contents += fmt.Sprintf("this.%s != null", fName)
 			}
 			contents += ") {\n"
 		}
@@ -1085,7 +1078,7 @@ func (g *Generator) generateToString(s *parser.Struct) string {
 		ind := ""
 		optInd := ""
 		if optional {
-			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", field.Name)
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", field.Name)
 			ind += tab
 			optInd = tab
 		}
@@ -1245,7 +1238,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 		contents += tabtab + "// check exactly one field is set\n"
 		contents += tabtab + "int setFields = 0;\n"
 		for _, field := range s.Fields {
-			contents += fmt.Sprintf(tabtab+"if(%s != null) {\n", strings.Title(field.Name))
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", strings.Title(field.Name))
 			contents += tabtabtab + "setFields++;\n"
 			contents += tabtab + "}\n"
 		}
@@ -1263,7 +1256,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 					contents += tabtab + "// check that fields of type enum have valid values\n"
 				}
 				fName := toFieldName(field.Name)
-				contents += fmt.Sprintf(tabtab+"if(%s != null && !%s.VALID_VALUES.contains(%s)) {\n",
+				contents += fmt.Sprintf(tabtab+"if (%s != null && !%s.VALID_VALUES.contains(%s)) {\n",
 					fName, g.qualifiedTypeName(field.Type), fName)
 				contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"The field '%s' has been assigned the invalid value $%s\");\n", fName, fName)
 				contents += tabtab + "}\n"

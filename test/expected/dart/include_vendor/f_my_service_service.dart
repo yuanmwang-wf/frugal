@@ -286,12 +286,12 @@ class getItem_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null && this.success != null) {
+    if (success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (d != null && this.d != null) {
+    if (d != null) {
       oprot.writeFieldBegin(_D_FIELD_DESC);
       d.write(oprot);
       oprot.writeFieldEnd();
@@ -304,7 +304,7 @@ class getItem_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getItem_result(");
 
-    if(success != null) {
+    if (success != null) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -313,7 +313,7 @@ class getItem_result implements thrift.TBase {
       }
     }
 
-    if(d != null) {
+    if (d != null) {
       ret.write(", ");
       ret.write("d:");
       if (this.d == null) {

@@ -527,12 +527,12 @@ class EventWrapper implements thrift.TBase {
       oprot.writeI64(iD);
       oprot.writeFieldEnd();
     }
-    if (this.ev != null) {
+    if (Ev != null) {
       oprot.writeFieldBegin(_EV_FIELD_DESC);
       ev.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (this.events != null) {
+    if (Events != null) {
       oprot.writeFieldBegin(_EVENTS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, events.length));
       for(var elem43 in events) {
@@ -541,7 +541,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (this.events2 != null) {
+    if (Events2 != null) {
       oprot.writeFieldBegin(_EVENTS2_FIELD_DESC);
       oprot.writeSetBegin(new thrift.TSet(thrift.TType.STRUCT, events2.length));
       for(var elem44 in events2) {
@@ -550,7 +550,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeSetEnd();
       oprot.writeFieldEnd();
     }
-    if (this.eventMap != null) {
+    if (EventMap != null) {
       oprot.writeFieldBegin(_EVENT_MAP_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I64, thrift.TType.STRUCT, eventMap.length));
       for(var elem45 in eventMap.keys) {
@@ -560,7 +560,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
     }
-    if (this.nums != null) {
+    if (Nums != null) {
       oprot.writeFieldBegin(_NUMS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.LIST, nums.length));
       for(var elem46 in nums) {
@@ -573,7 +573,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (this.enums != null) {
+    if (Enums != null) {
       oprot.writeFieldBegin(_ENUMS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, enums.length));
       for(var elem48 in enums) {
@@ -585,12 +585,12 @@ class EventWrapper implements thrift.TBase {
     oprot.writeFieldBegin(_A_BOOL_FIELD_FIELD_DESC);
     oprot.writeBool(aBoolField);
     oprot.writeFieldEnd();
-    if (this.a_union != null) {
+    if (a_union != null) {
       oprot.writeFieldBegin(_A_UNION_FIELD_DESC);
       a_union.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (this.typedefOfTypedef != null) {
+    if (typedefOfTypedef != null) {
       oprot.writeFieldBegin(_TYPEDEF_OF_TYPEDEF_FIELD_DESC);
       oprot.writeString(typedefOfTypedef);
       oprot.writeFieldEnd();
@@ -600,14 +600,14 @@ class EventWrapper implements thrift.TBase {
     oprot.writeBool(depr);
     oprot.writeFieldEnd();
     // ignore: deprecated_member_use
-    if (this.deprBinary != null) {
+    if (deprBinary != null) {
       oprot.writeFieldBegin(_DEPR_BINARY_FIELD_DESC);
     // ignore: deprecated_member_use
       oprot.writeBinary(deprBinary);
       oprot.writeFieldEnd();
     }
     // ignore: deprecated_member_use
-    if (this.deprList != null) {
+    if (deprList != null) {
       oprot.writeFieldBegin(_DEPR_LIST_FIELD_DESC);
     // ignore: deprecated_member_use
       oprot.writeListBegin(new thrift.TList(thrift.TType.BOOL, deprList.length));
@@ -626,7 +626,7 @@ class EventWrapper implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("EventWrapper(");
 
-    if(ID != null) {
+    if (ID != null) {
       ret.write("iD:");
       ret.write(this.iD);
     }

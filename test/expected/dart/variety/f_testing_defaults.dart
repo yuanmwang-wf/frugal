@@ -670,10 +670,10 @@ class TestingDefaults implements thrift.TBase {
     iprot.readStructEnd();
 
     // check for required fields of primitive type, which can't be checked in the validate method
-    if(status != null) {
+    if (status != null) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'status' is not present in struct 'TestingDefaults'");
     }
-    if(base_status != null) {
+    if (base_status != null) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'base_status' is not present in struct 'TestingDefaults'");
     }
     validate();
@@ -689,12 +689,12 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeI64(iD2);
       oprot.writeFieldEnd();
     }
-    if (this.ev1 != null) {
+    if (ev1 != null) {
       oprot.writeFieldBegin(_EV1_FIELD_DESC);
       ev1.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (this.ev2 != null) {
+    if (ev2 != null) {
       oprot.writeFieldBegin(_EV2_FIELD_DESC);
       ev2.write(oprot);
       oprot.writeFieldEnd();
@@ -702,17 +702,17 @@ class TestingDefaults implements thrift.TBase {
     oprot.writeFieldBegin(_ID_FIELD_DESC);
     oprot.writeI64(iD);
     oprot.writeFieldEnd();
-    if (this.thing != null) {
+    if (thing != null) {
       oprot.writeFieldBegin(_THING_FIELD_DESC);
       oprot.writeString(thing);
       oprot.writeFieldEnd();
     }
-    if (thing2 != null && this.thing2 != null) {
+    if (thing2 != null) {
       oprot.writeFieldBegin(_THING2_FIELD_DESC);
       oprot.writeString(thing2);
       oprot.writeFieldEnd();
     }
-    if (this.listfield != null) {
+    if (listfield != null) {
       oprot.writeFieldBegin(_LISTFIELD_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, listfield.length));
       for(var elem16 in listfield) {
@@ -724,27 +724,27 @@ class TestingDefaults implements thrift.TBase {
     oprot.writeFieldBegin(_I_D3_FIELD_DESC);
     oprot.writeI64(iD3);
     oprot.writeFieldEnd();
-    if (this.bin_field != null) {
+    if (bin_field != null) {
       oprot.writeFieldBegin(_BIN_FIELD_FIELD_DESC);
       oprot.writeBinary(bin_field);
       oprot.writeFieldEnd();
     }
-    if (bin_field2 != null && this.bin_field2 != null) {
+    if (bin_field2 != null) {
       oprot.writeFieldBegin(_BIN_FIELD2_FIELD_DESC);
       oprot.writeBinary(bin_field2);
       oprot.writeFieldEnd();
     }
-    if (this.bin_field3 != null) {
+    if (bin_field3 != null) {
       oprot.writeFieldBegin(_BIN_FIELD3_FIELD_DESC);
       oprot.writeBinary(bin_field3);
       oprot.writeFieldEnd();
     }
-    if (bin_field4 != null && this.bin_field4 != null) {
+    if (bin_field4 != null) {
       oprot.writeFieldBegin(_BIN_FIELD4_FIELD_DESC);
       oprot.writeBinary(bin_field4);
       oprot.writeFieldEnd();
     }
-    if (list2 != null && this.list2 != null) {
+    if (list2 != null) {
       oprot.writeFieldBegin(_LIST2_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, list2.length));
       for(var elem17 in list2) {
@@ -753,7 +753,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (list3 != null && this.list3 != null) {
+    if (list3 != null) {
       oprot.writeFieldBegin(_LIST3_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, list3.length));
       for(var elem18 in list3) {
@@ -762,7 +762,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (this.list4 != null) {
+    if (list4 != null) {
       oprot.writeFieldBegin(_LIST4_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, list4.length));
       for(var elem19 in list4) {
@@ -771,7 +771,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (a_map != null && this.a_map != null) {
+    if (a_map != null) {
       oprot.writeFieldBegin(_A_MAP_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.STRING, thrift.TType.STRING, a_map.length));
       for(var elem20 in a_map.keys) {
@@ -795,7 +795,7 @@ class TestingDefaults implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("TestingDefaults(");
 
-    if(ID2 != null) {
+    if (ID2 != null) {
       ret.write("iD2:");
       ret.write(this.iD2);
     }
@@ -828,7 +828,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write(this.thing);
     }
 
-    if(thing2 != null) {
+    if (thing2 != null) {
       ret.write(", ");
       ret.write("thing2:");
       if (this.thing2 == null) {
@@ -858,7 +858,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write("BINARY");
     }
 
-    if(bin_field2 != null) {
+    if (bin_field2 != null) {
       ret.write(", ");
       ret.write("bin_field2:");
       if (this.bin_field2 == null) {
@@ -876,7 +876,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write("BINARY");
     }
 
-    if(bin_field4 != null) {
+    if (bin_field4 != null) {
       ret.write(", ");
       ret.write("bin_field4:");
       if (this.bin_field4 == null) {
@@ -886,7 +886,7 @@ class TestingDefaults implements thrift.TBase {
       }
     }
 
-    if(list2 != null) {
+    if (list2 != null) {
       ret.write(", ");
       ret.write("list2:");
       if (this.list2 == null) {
@@ -896,7 +896,7 @@ class TestingDefaults implements thrift.TBase {
       }
     }
 
-    if(list3 != null) {
+    if (list3 != null) {
       ret.write(", ");
       ret.write("list3:");
       if (this.list3 == null) {
@@ -914,7 +914,7 @@ class TestingDefaults implements thrift.TBase {
       ret.write(this.list4);
     }
 
-    if(a_map != null) {
+    if (a_map != null) {
       ret.write(", ");
       ret.write("a_map:");
       if (this.a_map == null) {
@@ -1045,10 +1045,10 @@ class TestingDefaults implements thrift.TBase {
 
   validate() {
     // check for required fields
-    if(status != null && !t_variety.HealthCondition.VALID_VALUES.contains(status)) {
+    if (status != null && !t_variety.HealthCondition.VALID_VALUES.contains(status)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'status' has been assigned the invalid value $status");
     }
-    if(base_status != null && !t_actual_base_dart.base_health_condition.VALID_VALUES.contains(base_status)) {
+    if (base_status != null && !t_actual_base_dart.base_health_condition.VALID_VALUES.contains(base_status)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'base_status' has been assigned the invalid value $base_status");
     }
   }

@@ -242,22 +242,22 @@ class Track implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.title != null) {
+    if (title != null) {
       oprot.writeFieldBegin(_TITLE_FIELD_DESC);
       oprot.writeString(title);
       oprot.writeFieldEnd();
     }
-    if (this.artist != null) {
+    if (artist != null) {
       oprot.writeFieldBegin(_ARTIST_FIELD_DESC);
       oprot.writeString(artist);
       oprot.writeFieldEnd();
     }
-    if (this.publisher != null) {
+    if (publisher != null) {
       oprot.writeFieldBegin(_PUBLISHER_FIELD_DESC);
       oprot.writeString(publisher);
       oprot.writeFieldEnd();
     }
-    if (this.composer != null) {
+    if (composer != null) {
       oprot.writeFieldBegin(_COMPOSER_FIELD_DESC);
       oprot.writeString(composer);
       oprot.writeFieldEnd();
@@ -371,7 +371,7 @@ class Track implements thrift.TBase {
   }
 
   validate() {
-    if(pro != null && !t_v1_music.PerfRightsOrg.VALID_VALUES.contains(pro)) {
+    if (pro != null && !t_v1_music.PerfRightsOrg.VALID_VALUES.contains(pro)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'pro' has been assigned the invalid value $pro");
     }
   }

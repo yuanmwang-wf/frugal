@@ -17,14 +17,17 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Workiva/frugal/lib/go"
+	"github.com/go-stomp/stomp"
 	"github.com/nats-io/go-nats"
+
+	"github.com/Workiva/frugal/lib/go"
 )
 
 const (
 	preambleHeader = "preamble"
 	rambleHeader   = "ramble"
 
+	ActiveMqName = "activemq"
 	NatsName = "nats"
 	HttpName = "http"
 )
@@ -39,6 +42,14 @@ func getNatsConn() *nats.Conn {
 		panic(err)
 	}
 
+	return conn
+}
+
+func getStompConn() *stomp.Conn {
+	conn, err := stomp.Dial("tcp", "localhost:61613")
+	if err != nil {
+		panic(err)
+	}
 	return conn
 }
 

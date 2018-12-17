@@ -34,7 +34,6 @@ func init() {
 }
 
 func StartClient(
-	host string,
 	port int64,
 	transport string,
 	protocol string,
@@ -58,26 +57,36 @@ func StartClient(
 
 	fProtocolFactory := frugal.NewFProtocolFactory(protocolFactory)
 
-	conn := getNatsConn()
-
 	/*
 		Pub/Sub Test
 		Publish a message, verify that a subscriber receives the message and publishes a response.
 		Verifies that scopes are correctly generated.
 		Only runs if the transport is nats.
 	*/
-	if transport == NatsName {
+	if transport == NatsName || transport == ActiveMqName {
 		go func() {
 			<-pubSub
 
 			if err != nil {
 				panic(err)
 			}
+			var pfactory frugal.FPublisherTransportFactory
+			var sfactory frugal.FSubscriberTransportFactory
 
-			pfactory := frugal.NewFNatsPublisherTransportFactory(conn)
-			sfactory := frugal.NewFNatsSubscriberTransportFactory(conn)
+			switch transport {
+			case NatsName:
+				conn := getNatsConn()
+				pfactory = frugal.NewFNatsPublisherTransportFactory(conn)
+				sfactory = frugal.NewFNatsSubscriberTransportFactory(conn)
+			case ActiveMqName:
+				conn := getStompConn()
+				pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32 * 1024 * 1024, "")
+				sfactory = frugal.NewFStompSubscriberTransportFactory(conn, "", false)
+			}
+
 			provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 			publisher := frugaltest.NewEventsPublisher(provider)
+
 			if err := publisher.Open(); err != nil {
 				panic(err)
 			}
@@ -117,6 +126,7 @@ func StartClient(
 	var trans frugal.FTransport
 	switch transport {
 	case NatsName:
+		conn := getNatsConn()
 		trans = frugal.NewFNatsTransport(conn, fmt.Sprintf("frugal.foo.bar.rpc.%d", port), "")
 	case HttpName:
 		// Set request and response capacity to 1mb

@@ -125,6 +125,9 @@ func StartServer(
 		// Healthcheck used in the cross language runner to check for server availability
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
 		go http.ListenAndServe(hostPort, nil)
+		if err := server.Serve(); err != nil {
+			log.Fatal("Failed to start server:", err)
+		}
 	case ActiveMqName:
 		// Start http server
 		// Healthcheck used in the cross language runner to check for server availability
@@ -135,11 +138,11 @@ func StartServer(
 			frugal.NewFrugalHandlerFunc(processor,
 				frugal.NewFProtocolFactory(protocolFactory)))
 		server = &httpServer{hostPort: hostPort}
+		if err := server.Serve(); err != nil {
+			log.Fatal("Failed to start server:", err)
+		}
 	}
 	fmt.Printf("Starting %v server...\n", transport)
-	if err := server.Serve(); err != nil {
-		log.Fatal("Failed to start server:", err)
-	}
 }
 
 type httpServer struct {

@@ -34,6 +34,7 @@ func init() {
 }
 
 func StartClient(
+	host string,
 	port int64,
 	transport string,
 	protocol string,
@@ -61,7 +62,7 @@ func StartClient(
 		Pub/Sub Test
 		Publish a message, verify that a subscriber receives the message and publishes a response.
 		Verifies that scopes are correctly generated.
-		Only runs if the transport is nats.
+		Only runs if the transport is nats or activemq.
 	*/
 	if transport == NatsName || transport == ActiveMqName {
 		go func() {

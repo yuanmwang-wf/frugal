@@ -23,7 +23,7 @@
         "go/bin/testclient"
       ]
     },
-    "rpcTransports": ["nats", "http"],
+    "rpcTransports": ["nats", "http", "activemq"],
     "protocols": ["binary", "compact", "json"]
   },
   {

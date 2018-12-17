@@ -35,12 +35,14 @@ func main() {
 		log.Fatal("Unable to start client: ", err)
 	}
 
-	common.CallEverything(client)
+	if *transport == common.NatsName || *transport == common.HttpName {
+		common.CallEverything(client)
 
-	select {
-	case <-clientMiddlewareCalled:
-	default:
-		log.Fatal("Client middleware not invoked")
+		select {
+		case <-clientMiddlewareCalled:
+		default:
+			log.Fatal("Client middleware not invoked")
+		}
 	}
 
 	if *transport == common.NatsName ||  *transport == common.ActiveMqName {

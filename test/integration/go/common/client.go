@@ -133,8 +133,7 @@ func StartClient(
 		maxSize := uint(1048576)
 		trans = frugal.NewFHTTPTransportBuilder(&http.Client{}, fmt.Sprintf("http://localhost:%d", port)).WithRequestSizeLimit(maxSize).WithResponseSizeLimit(maxSize).Build()
 	case ActiveMqName:
-		stompConn := getStompConn()
-		trans = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "").GetTransport()
+		return nil, nil
 	default:
 		return nil, fmt.Errorf("Invalid transport specified %s", transport)
 	}

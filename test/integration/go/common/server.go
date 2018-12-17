@@ -67,8 +67,6 @@ func StartServer(
 			stompConn := getStompConn()
 			pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
 			sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
-		default:
-			panic(fmt.Errorf("invalid transport specified %s", transport))
 		}
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		subscriber := frugaltest.NewEventsSubscriber(provider)

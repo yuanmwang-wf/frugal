@@ -23,21 +23,21 @@
       "command": [
         "go/bin/testclient"
       ],
-      "transports": [ "nats", "http", "activemq" ]
+      "transports": [ "nats", "http"]
     },
     "publisher": {
       "timeout": 20,
       "command": [
         "go/bin/testpublisher"
       ],
-      "transports": ["activemq"]
+      "transports": ["nats", "activemq"]
     },
     "subscriber": {
       "timeout": 20,
       "command": [
         "go/bin/testsubscriber"
       ],
-      "transports": ["activemq"]
+      "transports": ["nats", "activemq"]
     },
     "protocols": ["binary", "compact", "json"]
   },

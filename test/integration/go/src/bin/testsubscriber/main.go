@@ -23,7 +23,7 @@ import (
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "activemq", "Transport: activemq")
+var transport = flag.String("transport", "activemq", "Transport: activemq, nats")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {

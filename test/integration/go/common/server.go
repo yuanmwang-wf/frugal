@@ -47,55 +47,6 @@ func StartServer(
 	}
 
 	natsConn := getNatsConn()
-	var err error
-
-	/*
-		Subscriber for Pub/Sub tests
-		Subscribe to events, publish response upon receipt
-	*/
-	go func() {
-		var pfactory frugal.FPublisherTransportFactory
-		var sfactory frugal.FSubscriberTransportFactory
-
-		pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-		sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
-
-		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
-		subscriber := frugaltest.NewEventsSubscriber(provider)
-
-		// TODO: Document SubscribeEventCreated "user" cannot contain spaces
-		_, err = subscriber.SubscribeEventCreated("*", "*", "call", fmt.Sprintf("%d", port), func(ctx frugal.FContext, e *frugaltest.Event) {
-			// Send a message back to the client
-			fmt.Printf("received %+v : %+v\n", ctx, e)
-			publisher := frugaltest.NewEventsPublisher(provider)
-			if err := publisher.Open(); err != nil {
-				panic(err)
-			}
-			defer publisher.Close()
-			preamble, ok := ctx.RequestHeader(preambleHeader)
-			if !ok {
-				log.Fatal("Client did provide a preamble header")
-			}
-			ramble, ok := ctx.RequestHeader(rambleHeader)
-			if !ok {
-				log.Fatal("Client did provide a ramble header")
-			}
-
-			ctx = frugal.NewFContext("Response")
-			event := &frugaltest.Event{Message: "received call"}
-			if err := publisher.PublishEventCreated(ctx, preamble, ramble, "response", fmt.Sprintf("%d", port), event); err != nil {
-				panic(err)
-			}
-			// Explicitly flushing the publish to ensure it is sent before the main thread exits
-			if transport == NatsName {
-				natsConn.Flush()
-			}
-			pubSubResponseSent <- true
-		})
-		if err != nil {
-			panic(err)
-		}
-	}()
 
 	hostPort := fmt.Sprintf("%s:%d", host, port)
 

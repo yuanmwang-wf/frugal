@@ -24,13 +24,6 @@ import (
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
-
-/*
-	Pub/Sub Test
-	Publish a message, verify that a subscriber receives the message and publishes a response.
-	Verifies that scopes are correctly generated.
-	Only runs if the transport is nats or activemq.
-*/
 func StartPublisher(
 	host string,
 	port int64,
@@ -39,6 +32,7 @@ func StartPublisher(
 	pubSub chan bool,
 	sent chan bool) error {
 
+	fmt.Printf(protocol)
 	var protocolFactory thrift.TProtocolFactory
 	switch protocol {
 	case "compact":
@@ -48,27 +42,18 @@ func StartPublisher(
 	case "binary":
 		protocolFactory = thrift.NewTBinaryProtocolFactoryDefault()
 	default:
-		return fmt.Errorf("invalid protocol specified %s", protocol)
+		return fmt.Errorf("Invalid protocol specified %s", protocol)
 	}
 
 	go func() {
 		<-pubSub
-
+		fmt.Printf("starting")
 		var pfactory frugal.FPublisherTransportFactory
 		var sfactory frugal.FSubscriberTransportFactory
 
-		switch transport{
-		case NatsName:
-			natsConn := getNatsConn()
-			pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-			sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
-		case ActiveMqName:
-			stompConn := getStompConn()
-			pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
-			sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
-		default:
-			panic(fmt.Errorf("invalid transport specified %s", transport))
-		}
+		stompConn := getStompConn()
+		pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
+		sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
 
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		publisher := frugaltest.NewEventsPublisher(provider)

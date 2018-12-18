@@ -21,7 +21,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/Workiva/frugal_local/test/integration/go/gen/frugaltest"
+	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
 func StartPublisher(

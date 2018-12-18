@@ -11,41 +11,44 @@
  * limitations under the License.
  */
 
+
 package main
 
 import (
 	"flag"
-	"log"
-
 	"github.com/Workiva/frugal/test/integration/go/common"
+	"log"
+	"time"
 )
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "nats", "Transport: nats, http, activemq")
+var transport = flag.String("transport", "activemq", "Transport: activemq")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {
 	flag.Parse()
-	pubSub := make(chan bool)
-	sent := make(chan bool)
-	clientMiddlewareCalled := make(chan bool, 1)
-	client, err := common.StartClient(*host, *port, *transport, *protocol, pubSub, sent, clientMiddlewareCalled)
-	if err != nil {
-		log.Fatal("Unable to start client: ", err)
-	}
 
-	common.CallEverything(client)
+	pubSubResponseSent := make(chan bool, 1)
+	go common.StartSubscriber(
+		*host,
+		*port,
+		*transport,
+		*protocol,
+		common.PrintingHandler,
+		pubSubResponseSent)
+
+	// This matches the Java client timeout, which is the highest client timeout in the cross language tests
+	timeout := time.After(time.Second * 20)
 
 	select {
-	case <-clientMiddlewareCalled:
-	default:
-		log.Fatal("Client middleware not invoked")
+	case <-pubSubResponseSent:
+		log.Println("Pub/Sub response sent")
+	case <-timeout:
+		log.Fatal("Pub/Sub response not sent within 20 seconds")
 	}
 
-	if *transport == common.NatsName {
-		close(pubSub)
-		<-sent
-	}
+	// The cross runner takes care of killing the server. Tests will fail if the server dies before the cross runner
+	// terminates it
+	select {}
 }
-

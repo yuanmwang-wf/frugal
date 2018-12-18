@@ -63,9 +63,9 @@ func StartClient(
 		Pub/Sub Test
 		Publish a message, verify that a subscriber receives the message and publishes a response.
 		Verifies that scopes are correctly generated.
-		Only runs if the transport is nats or activemq.
+		Only runs if the transport is nats.
 	*/
-	if transport == NatsName || transport == ActiveMqName {
+	if transport == NatsName {
 		go func() {
 			<-pubSub
 
@@ -75,15 +75,8 @@ func StartClient(
 			var pfactory frugal.FPublisherTransportFactory
 			var sfactory frugal.FSubscriberTransportFactory
 
-			switch transport {
-			case NatsName:
-				pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-				sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
-			case ActiveMqName:
-				stompConn := getStompConn()
-				pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
-				sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
-			}
+			pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
+			sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
 
 			provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 			publisher := frugaltest.NewEventsPublisher(provider)
@@ -132,8 +125,6 @@ func StartClient(
 		// Set request and response capacity to 1mb
 		maxSize := uint(1048576)
 		trans = frugal.NewFHTTPTransportBuilder(&http.Client{}, fmt.Sprintf("http://localhost:%d", port)).WithRequestSizeLimit(maxSize).WithResponseSizeLimit(maxSize).Build()
-	case ActiveMqName:
-		return nil, nil
 	default:
 		return nil, fmt.Errorf("Invalid transport specified %s", transport)
 	}

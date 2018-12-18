@@ -15,23 +15,18 @@ package common
 
 import (
 	"fmt"
-	"net/http"
-	"time"
-
-	log "github.com/Sirupsen/logrus"
-
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
+	"log"
+	"net/http"
 )
 
-func StartServer(
-	host string,
+func StartSubscriber(host string,
 	port int64,
 	transport string,
 	protocol string,
 	handler frugaltest.FFrugalTest,
-	serverMiddlewareCalled chan bool,
 	pubSubResponseSent chan bool) {
 
 	var protocolFactory thrift.TProtocolFactory
@@ -46,25 +41,19 @@ func StartServer(
 		panic(fmt.Errorf("Invalid protocol specified %s", protocol))
 	}
 
-	natsConn := getNatsConn()
-	var err error
-
-	/*
-		Subscriber for Pub/Sub tests
-		Subscribe to events, publish response upon receipt
-	*/
 	go func() {
 		var pfactory frugal.FPublisherTransportFactory
 		var sfactory frugal.FSubscriberTransportFactory
 
-		pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-		sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
+		conn := getStompConn()
+		pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32 * 1024 * 1024, "")
+		sfactory = frugal.NewFStompSubscriberTransportFactory(conn, "", false)
 
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		subscriber := frugaltest.NewEventsSubscriber(provider)
 
 		// TODO: Document SubscribeEventCreated "user" cannot contain spaces
-		_, err = subscriber.SubscribeEventCreated("*", "*", "call", fmt.Sprintf("%d", port), func(ctx frugal.FContext, e *frugaltest.Event) {
+		_, err := subscriber.SubscribeEventCreated("*", "*", "call", fmt.Sprintf("%d", port), func(ctx frugal.FContext, e *frugaltest.Event) {
 			// Send a message back to the client
 			fmt.Printf("received %+v : %+v\n", ctx, e)
 			publisher := frugaltest.NewEventsPublisher(provider)
@@ -86,10 +75,7 @@ func StartServer(
 			if err := publisher.PublishEventCreated(ctx, preamble, ramble, "response", fmt.Sprintf("%d", port), event); err != nil {
 				panic(err)
 			}
-			// Explicitly flushing the publish to ensure it is sent before the main thread exits
-			if transport == NatsName {
-				natsConn.Flush()
-			}
+
 			pubSubResponseSent <- true
 		})
 		if err != nil {
@@ -98,51 +84,9 @@ func StartServer(
 	}()
 
 	hostPort := fmt.Sprintf("%s:%d", host, port)
-
-	/*
-		Server for RPC tests
-		Server handler is defined in printing_handler.go
-	*/
-	processor := frugaltest.NewFFrugalTestProcessor(handler, serverLoggingMiddleware(serverMiddlewareCalled))
-	var server frugal.FServer
-	switch transport {
-	case NatsName:
-		builder := frugal.NewFNatsServerBuilder(
-			natsConn,
-			processor,
-			frugal.NewFProtocolFactory(protocolFactory),
-			[]string{fmt.Sprintf("frugal.*.*.rpc.%d", port)})
-		server = builder.Build()
-		// Start http server
-		// Healthcheck used in the cross language runner to check for server availability
-		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
-		go http.ListenAndServe(hostPort, nil)
-		if err := server.Serve(); err != nil {
-			log.Fatal("Failed to start server:", err)
-		}
-	case HttpName:
-		http.HandleFunc("/",
-			frugal.NewFrugalHandlerFunc(processor,
-				frugal.NewFProtocolFactory(protocolFactory)))
-		server = &httpServer{hostPort: hostPort}
-		if err := server.Serve(); err != nil {
-			log.Fatal("Failed to start server:", err)
-		}
-	}
-	fmt.Printf("Starting %v server...\n", transport)
-}
-
-type httpServer struct {
-	hostPort string
-}
-
-func (h *httpServer) Serve() error {
-	return http.ListenAndServe(h.hostPort, http.DefaultServeMux)
-}
-
-func (h *httpServer) Stop() error {
-	return nil
-}
-
-func (h *httpServer) SetHighWatermark(_ time.Duration) {
+	// Start http server
+	// Healthcheck used in the cross language runner to check for server availability
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
+	go http.ListenAndServe(hostPort, nil)
+	fmt.Printf("Starting %v subscriber...\n", transport)
 }

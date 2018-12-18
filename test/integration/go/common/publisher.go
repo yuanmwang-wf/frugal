@@ -32,7 +32,6 @@ func StartPublisher(
 	pubSub chan bool,
 	sent chan bool) error {
 
-	fmt.Printf(protocol)
 	var protocolFactory thrift.TProtocolFactory
 	switch protocol {
 	case "compact":
@@ -47,7 +46,6 @@ func StartPublisher(
 
 	go func() {
 		<-pubSub
-		fmt.Printf("starting")
 		var pfactory frugal.FPublisherTransportFactory
 		var sfactory frugal.FSubscriberTransportFactory
 

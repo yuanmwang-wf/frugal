@@ -23,7 +23,7 @@
       "command": [
         "go/bin/testclient"
       ],
-      "transports": [ "nats", "http", "activemq" ]
+      "transports": [ "nats", "http" ]
     },
     "publisher": {
       "timeout": 20,

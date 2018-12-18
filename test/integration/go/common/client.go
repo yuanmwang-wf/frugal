@@ -67,6 +67,7 @@ func StartClient(
 	*/
 	if transport == NatsName {
 		go func() {
+			fmt.Printf("starting nats pubsub")
 			<-pubSub
 
 			if err != nil {

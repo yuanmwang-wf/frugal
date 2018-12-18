@@ -11,16 +11,16 @@
  * limitations under the License.
  */
 
-
 package common
 
 import (
 	"fmt"
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
 	"log"
 	"time"
 
+	"git.apache.org/thrift.git/lib/go/thrift"
+
+	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
@@ -52,7 +52,7 @@ func StartPublisher(
 		var sfactory frugal.FSubscriberTransportFactory
 
 		stompConn := getStompConn()
-		pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32 * 1024 * 1024, "")
+		pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32*1024*1024, "")
 		sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
 
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))

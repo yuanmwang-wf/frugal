@@ -11,13 +11,13 @@
  * limitations under the License.
  */
 
-
 package main
 
 import (
 	"flag"
-	"github.com/Workiva/frugal/test/integration/go/common"
 	"log"
+
+	"github.com/Workiva/frugal/test/integration/go/common"
 )
 
 var host = flag.String("host", "localhost", "Host to connect")

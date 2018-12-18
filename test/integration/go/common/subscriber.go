@@ -15,11 +15,13 @@ package common
 
 import (
 	"fmt"
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
-	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 	"log"
 	"net/http"
+
+	"git.apache.org/thrift.git/lib/go/thrift"
+
+	"github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
 func StartSubscriber(host string,
@@ -46,7 +48,7 @@ func StartSubscriber(host string,
 		var sfactory frugal.FSubscriberTransportFactory
 
 		conn := getStompConn()
-		pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32 * 1024 * 1024, "")
+		pfactory = frugal.NewFStompPublisherTransportFactory(conn, 32*1024*1024, "")
 		sfactory = frugal.NewFStompSubscriberTransportFactory(conn, "", false)
 
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))

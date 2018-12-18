@@ -42,9 +42,7 @@ type failures struct {
 	mu     sync.Mutex
 }
 
-
-
-func Run(testDefinitions, outDir *string, getCommand func (config Config, port int) (cmd *exec.Cmd, formatted string)) error {
+func Run(testDefinitions, outDir *string, getCommand func(config Config, port int) (cmd *exec.Cmd, formatted string)) error {
 	startTime := time.Now()
 
 	// TODO: Allow setting loglevel to debug with -V flag/-debug/similar

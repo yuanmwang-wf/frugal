@@ -7,8 +7,8 @@ import (
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/go-stomp/stomp"
 
+	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"
 	"github.com/Workiva/frugal/lib/go"
-	"github.com/Workiva/frugal_local/examples/go/gen-go/v1/music"
 )
 
 // Run a Stomp Subscriber

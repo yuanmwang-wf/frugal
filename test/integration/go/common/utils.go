@@ -28,8 +28,8 @@ const (
 	rambleHeader   = "ramble"
 
 	ActiveMqName = "activemq"
-	NatsName = "nats"
-	HttpName = "http"
+	NatsName     = "nats"
+	HttpName     = "http"
 )
 
 func getNatsConn() *nats.Conn {

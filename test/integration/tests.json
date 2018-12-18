@@ -32,13 +32,6 @@
       ],
       "transports": ["activemq"]
     },
-    "subscriber": {
-      "timeout": 20,
-      "command": [
-        "go/bin/testsubscriber"
-      ],
-      "transports": ["activemq"]
-    },
     "protocols": ["binary", "compact", "json"]
   },
   {

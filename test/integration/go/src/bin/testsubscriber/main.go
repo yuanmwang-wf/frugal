@@ -23,21 +23,19 @@ import (
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "nats", "Transport: nats, http, activemq")
+var transport = flag.String("transport", "activemq", "Transport: activemq")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {
 	flag.Parse()
 
-	serverMiddlewareCalled := make(chan bool, 1)
 	pubSubResponseSent := make(chan bool, 1)
-	go common.StartServer(
+	go common.StartSubscriber(
 		*host,
 		*port,
 		*transport,
 		*protocol,
 		common.PrintingHandler,
-		serverMiddlewareCalled,
 		pubSubResponseSent)
 
 	// This matches the Java client timeout, which is the highest client timeout in the cross language tests
@@ -50,18 +48,7 @@ func main() {
 		log.Fatal("Pub/Sub response not sent within 20 seconds")
 	}
 
-	select {
-	case <-serverMiddlewareCalled:
-		log.Println("Server middleware called successfully")
-	case <-timeout:
-		log.Fatalf("Server middleware not called within 20 seconds")
-	}
-
 	// The cross runner takes care of killing the server. Tests will fail if the server dies before the cross runner
 	// terminates it
-	blockForever()
-}
-
-func blockForever() {
 	select {}
 }

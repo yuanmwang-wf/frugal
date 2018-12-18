@@ -16,11 +16,8 @@ package common
 import (
 	"flag"
 	"fmt"
-	"time"
 
 	"net/http"
-
-	log "github.com/Sirupsen/logrus"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"

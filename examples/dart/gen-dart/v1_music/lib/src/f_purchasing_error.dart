@@ -49,21 +49,11 @@ class PurchasingError extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGE:
-        if (value == null) {
-          message = null;
-        } else {
-          message = value as String; // ignore: avoid_as
-        }
-
+        message = value as String; // ignore: avoid_as
         break;
 
       case ERROR_CODE:
-        if (value == null) {
-          error_code = null;
-        } else {
-          error_code = value as int; // ignore: avoid_as
-        }
-
+        error_code = value as int; // ignore: avoid_as
         break;
 
       default:

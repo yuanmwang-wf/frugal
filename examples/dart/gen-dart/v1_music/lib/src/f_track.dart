@@ -92,57 +92,27 @@ class Track implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case TITLE:
-        if (value == null) {
-          title = null;
-        } else {
-          title = value as String; // ignore: avoid_as
-        }
-
+        title = value as String; // ignore: avoid_as
         break;
 
       case ARTIST:
-        if (value == null) {
-          artist = null;
-        } else {
-          artist = value as String; // ignore: avoid_as
-        }
-
+        artist = value as String; // ignore: avoid_as
         break;
 
       case PUBLISHER:
-        if (value == null) {
-          publisher = null;
-        } else {
-          publisher = value as String; // ignore: avoid_as
-        }
-
+        publisher = value as String; // ignore: avoid_as
         break;
 
       case COMPOSER:
-        if (value == null) {
-          composer = null;
-        } else {
-          composer = value as String; // ignore: avoid_as
-        }
-
+        composer = value as String; // ignore: avoid_as
         break;
 
       case DURATION:
-        if (value == null) {
-          duration = null;
-        } else {
-          duration = value as double; // ignore: avoid_as
-        }
-
+        duration = value as double; // ignore: avoid_as
         break;
 
       case PRO:
-        if (value == null) {
-          pro = null;
-        } else {
-          pro = value as int; // ignore: avoid_as
-        }
-
+        pro = value as int; // ignore: avoid_as
         break;
 
       default:

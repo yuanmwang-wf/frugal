@@ -110,66 +110,31 @@ class TestingUnions implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ANID:
-        if (value == null) {
-          anID = null;
-        } else {
-          anID = value as int; // ignore: avoid_as
-        }
-
+        anID = value as int; // ignore: avoid_as
         break;
 
       case ASTRING:
-        if (value == null) {
-          aString = null;
-        } else {
-          aString = value as String; // ignore: avoid_as
-        }
-
+        aString = value as String; // ignore: avoid_as
         break;
 
       case SOMEOTHERTHING:
-        if (value == null) {
-          someotherthing = null;
-        } else {
-          someotherthing = value as int; // ignore: avoid_as
-        }
-
+        someotherthing = value as int; // ignore: avoid_as
         break;
 
       case ANINT16:
-        if (value == null) {
-          anInt16 = null;
-        } else {
-          anInt16 = value as int; // ignore: avoid_as
-        }
-
+        anInt16 = value as int; // ignore: avoid_as
         break;
 
       case REQUESTS:
-        if (value == null) {
-          requests = null;
-        } else {
-          requests = value as Map<int, String>; // ignore: avoid_as
-        }
-
+        requests = value as Map<int, String>; // ignore: avoid_as
         break;
 
       case BIN_FIELD_IN_UNION:
-        if (value == null) {
-          bin_field_in_union = null;
-        } else {
-          bin_field_in_union = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin_field_in_union = value as Uint8List; // ignore: avoid_as
         break;
 
       case DEPR:
-        if (value == null) {
-          depr = null;
-        } else {
-          depr = value as bool; // ignore: avoid_as
-        }
-
+        depr = value as bool; // ignore: avoid_as
         break;
 
       default:

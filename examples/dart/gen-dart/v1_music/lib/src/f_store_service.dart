@@ -175,21 +175,11 @@ class buyAlbum_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ASIN:
-        if (value == null) {
-          aSIN = null;
-        } else {
-          aSIN = value as String; // ignore: avoid_as
-        }
-
+        aSIN = value as String; // ignore: avoid_as
         break;
 
       case ACCT:
-        if (value == null) {
-          acct = null;
-        } else {
-          acct = value as String; // ignore: avoid_as
-        }
-
+        acct = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -359,21 +349,11 @@ class buyAlbum_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as t_v1_music.Album; // ignore: avoid_as
-        }
-
+        success = value as t_v1_music.Album; // ignore: avoid_as
         break;
 
       case ERROR:
-        if (value == null) {
-          error = null;
-        } else {
-          error = value as t_v1_music.PurchasingError; // ignore: avoid_as
-        }
-
+        error = value as t_v1_music.PurchasingError; // ignore: avoid_as
         break;
 
       default:
@@ -549,21 +529,11 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case EMAIL:
-        if (value == null) {
-          email = null;
-        } else {
-          email = value as String; // ignore: avoid_as
-        }
-
+        email = value as String; // ignore: avoid_as
         break;
 
       case NAME:
-        if (value == null) {
-          name = null;
-        } else {
-          name = value as String; // ignore: avoid_as
-        }
-
+        name = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -722,12 +692,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as bool; // ignore: avoid_as
-        }
-
+        success = value as bool; // ignore: avoid_as
         break;
 
       default:

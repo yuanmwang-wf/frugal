@@ -184,120 +184,55 @@ class EventWrapper implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        if (value == null) {
-          iD = null;
-        } else {
-          iD = value as int; // ignore: avoid_as
-        }
-
+        iD = value as int; // ignore: avoid_as
         break;
 
       case EV:
-        if (value == null) {
-          ev = null;
-        } else {
-          ev = value as t_variety.Event; // ignore: avoid_as
-        }
-
+        ev = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case EVENTS:
-        if (value == null) {
-          events = null;
-        } else {
-          events = value as List<t_variety.Event>; // ignore: avoid_as
-        }
-
+        events = value as List<t_variety.Event>; // ignore: avoid_as
         break;
 
       case EVENTS2:
-        if (value == null) {
-          events2 = null;
-        } else {
-          events2 = value as Set<t_variety.Event>; // ignore: avoid_as
-        }
-
+        events2 = value as Set<t_variety.Event>; // ignore: avoid_as
         break;
 
       case EVENTMAP:
-        if (value == null) {
-          eventMap = null;
-        } else {
-          eventMap = value as Map<int, t_variety.Event>; // ignore: avoid_as
-        }
-
+        eventMap = value as Map<int, t_variety.Event>; // ignore: avoid_as
         break;
 
       case NUMS:
-        if (value == null) {
-          nums = null;
-        } else {
-          nums = value as List<List<int>>; // ignore: avoid_as
-        }
-
+        nums = value as List<List<int>>; // ignore: avoid_as
         break;
 
       case ENUMS:
-        if (value == null) {
-          enums = null;
-        } else {
-          enums = value as List<int>; // ignore: avoid_as
-        }
-
+        enums = value as List<int>; // ignore: avoid_as
         break;
 
       case ABOOLFIELD:
-        if (value == null) {
-          aBoolField = null;
-        } else {
-          aBoolField = value as bool; // ignore: avoid_as
-        }
-
+        aBoolField = value as bool; // ignore: avoid_as
         break;
 
       case A_UNION:
-        if (value == null) {
-          a_union = null;
-        } else {
-          a_union = value as t_variety.TestingUnions; // ignore: avoid_as
-        }
-
+        a_union = value as t_variety.TestingUnions; // ignore: avoid_as
         break;
 
       case TYPEDEFOFTYPEDEF:
-        if (value == null) {
-          typedefOfTypedef = null;
-        } else {
-          typedefOfTypedef = value as String; // ignore: avoid_as
-        }
-
+        typedefOfTypedef = value as String; // ignore: avoid_as
         break;
 
       case DEPR:
-        if (value == null) {
-          depr = null;
-        } else {
-          depr = value as bool; // ignore: avoid_as
-        }
-
+        depr = value as bool; // ignore: avoid_as
         break;
 
       case DEPRBINARY:
-        if (value == null) {
-          deprBinary = null;
-        } else {
-          deprBinary = value as Uint8List; // ignore: avoid_as
-        }
-
+        deprBinary = value as Uint8List; // ignore: avoid_as
         break;
 
       case DEPRLIST:
-        if (value == null) {
-          deprList = null;
-        } else {
-          deprList = value as List<bool>; // ignore: avoid_as
-        }
-
+        deprList = value as List<bool>; // ignore: avoid_as
         break;
 
       default:

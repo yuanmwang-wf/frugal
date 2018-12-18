@@ -779,30 +779,15 @@ class blah_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NUM:
-        if (value == null) {
-          num = null;
-        } else {
-          num = value as int; // ignore: avoid_as
-        }
-
+        num = value as int; // ignore: avoid_as
         break;
 
       case STR:
-        if (value == null) {
-          str = null;
-        } else {
-          str = value as String; // ignore: avoid_as
-        }
-
+        str = value as String; // ignore: avoid_as
         break;
 
       case EVENT:
-        if (value == null) {
-          event = null;
-        } else {
-          event = value as t_variety.Event; // ignore: avoid_as
-        }
-
+        event = value as t_variety.Event; // ignore: avoid_as
         break;
 
       default:
@@ -1005,30 +990,15 @@ class blah_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as int; // ignore: avoid_as
-        }
-
+        success = value as int; // ignore: avoid_as
         break;
 
       case AWE:
-        if (value == null) {
-          awe = null;
-        } else {
-          awe = value as t_variety.AwesomeException; // ignore: avoid_as
-        }
-
+        awe = value as t_variety.AwesomeException; // ignore: avoid_as
         break;
 
       case API:
-        if (value == null) {
-          api = null;
-        } else {
-          api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
-        }
-
+        api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         break;
 
       default:
@@ -1229,21 +1199,11 @@ class oneWay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        if (value == null) {
-          id = null;
-        } else {
-          id = value as int; // ignore: avoid_as
-        }
-
+        id = value as int; // ignore: avoid_as
         break;
 
       case REQ:
-        if (value == null) {
-          req = null;
-        } else {
-          req = value as Map<int, String>; // ignore: avoid_as
-        }
-
+        req = value as Map<int, String>; // ignore: avoid_as
         break;
 
       default:
@@ -1419,21 +1379,11 @@ class bin_method_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case BIN:
-        if (value == null) {
-          bin = null;
-        } else {
-          bin = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin = value as Uint8List; // ignore: avoid_as
         break;
 
       case STR:
-        if (value == null) {
-          str = null;
-        } else {
-          str = value as String; // ignore: avoid_as
-        }
-
+        str = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -1603,21 +1553,11 @@ class bin_method_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as Uint8List; // ignore: avoid_as
-        }
-
+        success = value as Uint8List; // ignore: avoid_as
         break;
 
       case API:
-        if (value == null) {
-          api = null;
-        } else {
-          api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
-        }
-
+        api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         break;
 
       default:
@@ -1803,30 +1743,15 @@ class param_modifiers_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case OPT_NUM:
-        if (value == null) {
-          opt_num = null;
-        } else {
-          opt_num = value as int; // ignore: avoid_as
-        }
-
+        opt_num = value as int; // ignore: avoid_as
         break;
 
       case DEFAULT_NUM:
-        if (value == null) {
-          default_num = null;
-        } else {
-          default_num = value as int; // ignore: avoid_as
-        }
-
+        default_num = value as int; // ignore: avoid_as
         break;
 
       case REQ_NUM:
-        if (value == null) {
-          req_num = null;
-        } else {
-          req_num = value as int; // ignore: avoid_as
-        }
-
+        req_num = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -1999,12 +1924,7 @@ class param_modifiers_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as int; // ignore: avoid_as
-        }
-
+        success = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -2145,21 +2065,11 @@ class underlying_types_test_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case LIST_TYPE:
-        if (value == null) {
-          list_type = null;
-        } else {
-          list_type = value as List<int>; // ignore: avoid_as
-        }
-
+        list_type = value as List<int>; // ignore: avoid_as
         break;
 
       case SET_TYPE:
-        if (value == null) {
-          set_type = null;
-        } else {
-          set_type = value as Set<int>; // ignore: avoid_as
-        }
-
+        set_type = value as Set<int>; // ignore: avoid_as
         break;
 
       default:
@@ -2338,12 +2248,7 @@ class underlying_types_test_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as List<int>; // ignore: avoid_as
-        }
-
+        success = value as List<int>; // ignore: avoid_as
         break;
 
       default:
@@ -2574,12 +2479,7 @@ class getThing_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as t_validStructs.Thing; // ignore: avoid_as
-        }
-
+        success = value as t_validStructs.Thing; // ignore: avoid_as
         break;
 
       default:
@@ -2801,12 +2701,7 @@ class getMyInt_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as int; // ignore: avoid_as
-        }
-
+        success = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -2936,12 +2831,7 @@ class use_subdir_struct_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case A:
-        if (value == null) {
-          a = null;
-        } else {
-          a = value as t_subdir_include_ns.A; // ignore: avoid_as
-        }
-
+        a = value as t_subdir_include_ns.A; // ignore: avoid_as
         break;
 
       default:
@@ -3074,12 +2964,7 @@ class use_subdir_struct_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as t_subdir_include_ns.A; // ignore: avoid_as
-        }
-
+        success = value as t_subdir_include_ns.A; // ignore: avoid_as
         break;
 
       default:
@@ -3214,12 +3099,7 @@ class sayHelloWith_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NEWMESSAGE:
-        if (value == null) {
-          newMessage = null;
-        } else {
-          newMessage = value as String; // ignore: avoid_as
-        }
-
+        newMessage = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3351,12 +3231,7 @@ class sayHelloWith_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as String; // ignore: avoid_as
-        }
-
+        success = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3490,12 +3365,7 @@ class whatDoYouSay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGEARGS:
-        if (value == null) {
-          messageArgs = null;
-        } else {
-          messageArgs = value as String; // ignore: avoid_as
-        }
-
+        messageArgs = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3627,12 +3497,7 @@ class whatDoYouSay_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as String; // ignore: avoid_as
-        }
-
+        success = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3766,12 +3631,7 @@ class sayAgain_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGERESULT:
-        if (value == null) {
-          messageResult = null;
-        } else {
-          messageResult = value as String; // ignore: avoid_as
-        }
-
+        messageResult = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3903,12 +3763,7 @@ class sayAgain_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as String; // ignore: avoid_as
-        }
-
+        success = value as String; // ignore: avoid_as
         break;
 
       default:

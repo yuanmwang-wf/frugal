@@ -51,21 +51,11 @@ class VendoredReferences implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case REFERENCE_VENDORED_CONST:
-        if (value == null) {
-          reference_vendored_const = null;
-        } else {
-          reference_vendored_const = value as int; // ignore: avoid_as
-        }
-
+        reference_vendored_const = value as int; // ignore: avoid_as
         break;
 
       case REFERENCE_VENDORED_ENUM:
-        if (value == null) {
-          reference_vendored_enum = null;
-        } else {
-          reference_vendored_enum = value as int; // ignore: avoid_as
-        }
-
+        reference_vendored_enum = value as int; // ignore: avoid_as
         break;
 
       default:

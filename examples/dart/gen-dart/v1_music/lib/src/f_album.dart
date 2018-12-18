@@ -60,30 +60,15 @@ class Album implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case TRACKS:
-        if (value == null) {
-          tracks = null;
-        } else {
-          tracks = value as List<t_v1_music.Track>; // ignore: avoid_as
-        }
-
+        tracks = value as List<t_v1_music.Track>; // ignore: avoid_as
         break;
 
       case DURATION:
-        if (value == null) {
-          duration = null;
-        } else {
-          duration = value as double; // ignore: avoid_as
-        }
-
+        duration = value as double; // ignore: avoid_as
         break;
 
       case ASIN:
-        if (value == null) {
-          aSIN = null;
-        } else {
-          aSIN = value as String; // ignore: avoid_as
-        }
-
+        aSIN = value as String; // ignore: avoid_as
         break;
 
       default:

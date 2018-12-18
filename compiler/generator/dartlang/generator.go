@@ -769,13 +769,8 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		fName := toFieldName(field.Name)
 		contents += fmt.Sprintf(tabtabtab+"case %s:\n", strings.ToUpper(field.Name))
-		contents += tabtabtabtab + "if (value == null) {\n"
-		contents += fmt.Sprintf(tabtabtabtabtab+"%s = null;\n", fName)
-		contents += fmt.Sprintf(tabtabtabtab + "} else {\n")
-
-		contents += fmt.Sprintf(tabtabtabtabtab+"%s = value as %s; // ignore: avoid_as\n",
+		contents += fmt.Sprintf(tabtabtabtab+"%s = value as %s; // ignore: avoid_as\n",
 			fName, g.getDartTypeFromThriftType(field.Type))
-		contents += tabtabtabtab + "}\n\n"
 		contents += tabtabtabtab + "break;\n\n"
 	}
 	contents += tabtabtab + "default:\n"

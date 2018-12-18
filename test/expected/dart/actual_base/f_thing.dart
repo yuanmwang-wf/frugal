@@ -47,21 +47,11 @@ class thing implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case AN_ID:
-        if (value == null) {
-          an_id = null;
-        } else {
-          an_id = value as int; // ignore: avoid_as
-        }
-
+        an_id = value as int; // ignore: avoid_as
         break;
 
       case A_STRING:
-        if (value == null) {
-          a_string = null;
-        } else {
-          a_string = value as String; // ignore: avoid_as
-        }
-
+        a_string = value as String; // ignore: avoid_as
         break;
 
       default:

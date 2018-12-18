@@ -63,30 +63,15 @@ class FooArgs implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NEWMESSAGE:
-        if (value == null) {
-          newMessage = null;
-        } else {
-          newMessage = value as String; // ignore: avoid_as
-        }
-
+        newMessage = value as String; // ignore: avoid_as
         break;
 
       case MESSAGEARGS:
-        if (value == null) {
-          messageArgs = null;
-        } else {
-          messageArgs = value as String; // ignore: avoid_as
-        }
-
+        messageArgs = value as String; // ignore: avoid_as
         break;
 
       case MESSAGERESULT:
-        if (value == null) {
-          messageResult = null;
-        } else {
-          messageResult = value as String; // ignore: avoid_as
-        }
-
+        messageResult = value as String; // ignore: avoid_as
         break;
 
       default:

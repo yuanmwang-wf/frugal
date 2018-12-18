@@ -266,165 +266,75 @@ class TestingDefaults implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID2:
-        if (value == null) {
-          iD2 = null;
-        } else {
-          iD2 = value as int; // ignore: avoid_as
-        }
-
+        iD2 = value as int; // ignore: avoid_as
         break;
 
       case EV1:
-        if (value == null) {
-          ev1 = null;
-        } else {
-          ev1 = value as t_variety.Event; // ignore: avoid_as
-        }
-
+        ev1 = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case EV2:
-        if (value == null) {
-          ev2 = null;
-        } else {
-          ev2 = value as t_variety.Event; // ignore: avoid_as
-        }
-
+        ev2 = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case ID:
-        if (value == null) {
-          iD = null;
-        } else {
-          iD = value as int; // ignore: avoid_as
-        }
-
+        iD = value as int; // ignore: avoid_as
         break;
 
       case THING:
-        if (value == null) {
-          thing = null;
-        } else {
-          thing = value as String; // ignore: avoid_as
-        }
-
+        thing = value as String; // ignore: avoid_as
         break;
 
       case THING2:
-        if (value == null) {
-          thing2 = null;
-        } else {
-          thing2 = value as String; // ignore: avoid_as
-        }
-
+        thing2 = value as String; // ignore: avoid_as
         break;
 
       case LISTFIELD:
-        if (value == null) {
-          listfield = null;
-        } else {
-          listfield = value as List<int>; // ignore: avoid_as
-        }
-
+        listfield = value as List<int>; // ignore: avoid_as
         break;
 
       case ID3:
-        if (value == null) {
-          iD3 = null;
-        } else {
-          iD3 = value as int; // ignore: avoid_as
-        }
-
+        iD3 = value as int; // ignore: avoid_as
         break;
 
       case BIN_FIELD:
-        if (value == null) {
-          bin_field = null;
-        } else {
-          bin_field = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin_field = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD2:
-        if (value == null) {
-          bin_field2 = null;
-        } else {
-          bin_field2 = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin_field2 = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD3:
-        if (value == null) {
-          bin_field3 = null;
-        } else {
-          bin_field3 = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin_field3 = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD4:
-        if (value == null) {
-          bin_field4 = null;
-        } else {
-          bin_field4 = value as Uint8List; // ignore: avoid_as
-        }
-
+        bin_field4 = value as Uint8List; // ignore: avoid_as
         break;
 
       case LIST2:
-        if (value == null) {
-          list2 = null;
-        } else {
-          list2 = value as List<int>; // ignore: avoid_as
-        }
-
+        list2 = value as List<int>; // ignore: avoid_as
         break;
 
       case LIST3:
-        if (value == null) {
-          list3 = null;
-        } else {
-          list3 = value as List<int>; // ignore: avoid_as
-        }
-
+        list3 = value as List<int>; // ignore: avoid_as
         break;
 
       case LIST4:
-        if (value == null) {
-          list4 = null;
-        } else {
-          list4 = value as List<int>; // ignore: avoid_as
-        }
-
+        list4 = value as List<int>; // ignore: avoid_as
         break;
 
       case A_MAP:
-        if (value == null) {
-          a_map = null;
-        } else {
-          a_map = value as Map<String, String>; // ignore: avoid_as
-        }
-
+        a_map = value as Map<String, String>; // ignore: avoid_as
         break;
 
       case STATUS:
-        if (value == null) {
-          status = null;
-        } else {
-          status = value as int; // ignore: avoid_as
-        }
-
+        status = value as int; // ignore: avoid_as
         break;
 
       case BASE_STATUS:
-        if (value == null) {
-          base_status = null;
-        } else {
-          base_status = value as int; // ignore: avoid_as
-        }
-
+        base_status = value as int; // ignore: avoid_as
         break;
 
       default:

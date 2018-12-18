@@ -210,21 +210,11 @@ class getItem_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        if (value == null) {
-          success = null;
-        } else {
-          success = value as t_vendor_namespace.Item; // ignore: avoid_as
-        }
-
+        success = value as t_vendor_namespace.Item; // ignore: avoid_as
         break;
 
       case D:
-        if (value == null) {
-          d = null;
-        } else {
-          d = value as t_excepts.InvalidData; // ignore: avoid_as
-        }
-
+        d = value as t_excepts.InvalidData; // ignore: avoid_as
         break;
 
       default:

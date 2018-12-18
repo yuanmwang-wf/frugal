@@ -57,21 +57,11 @@ class Event implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        if (value == null) {
-          iD = null;
-        } else {
-          iD = value as int; // ignore: avoid_as
-        }
-
+        iD = value as int; // ignore: avoid_as
         break;
 
       case MESSAGE:
-        if (value == null) {
-          message = null;
-        } else {
-          message = value as String; // ignore: avoid_as
-        }
-
+        message = value as String; // ignore: avoid_as
         break;
 
       default:

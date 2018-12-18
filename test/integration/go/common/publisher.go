@@ -45,8 +45,6 @@ func StartPublisher(
 	}
 
 	go func() {
-		<-pubSub
-
 		var pfactory frugal.FPublisherTransportFactory
 		var sfactory frugal.FSubscriberTransportFactory
 

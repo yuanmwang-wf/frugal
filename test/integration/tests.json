@@ -15,13 +15,15 @@
       "timeout": 8,
       "command": [
         "go/bin/testserver"
-      ]
+      ],
+      "transports": [ "nats", "http" ]
     },
     "client": {
       "timeout": 8,
       "command": [
         "go/bin/testclient"
-      ]
+      ],
+      "transports": [ "nats", "http", "activemq" ]
     },
     "publisher": {
       "timeout": 20,
@@ -37,7 +39,6 @@
       ],
       "transports": ["activemq"]
     },
-    "rpcTransports": ["nats", "http"],
     "protocols": ["binary", "compact", "json"]
   },
   {

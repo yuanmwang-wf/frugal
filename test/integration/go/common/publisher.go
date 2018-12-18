@@ -46,6 +46,7 @@ func StartPublisher(
 	}
 
 	go func() {
+		<-pubSub
 		fmt.Printf("starting")
 		var pfactory frugal.FPublisherTransportFactory
 		var sfactory frugal.FSubscriberTransportFactory

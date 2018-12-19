@@ -13,7 +13,8 @@ else
 fi
 
 cd ${FRUGAL_HOME}/test/integration/java/frugal-integration-test
-mvn clean install:install-file -Dfile=frugal.jar -U -q
+mvn -v
+mvn clean install:install-file -Dfile=frugal.jar -U -q -X
 
 # Compile java tests
 mvn clean compile assembly:single -U -q

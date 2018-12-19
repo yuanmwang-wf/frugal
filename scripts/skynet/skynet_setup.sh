@@ -18,7 +18,7 @@ cd $GOPATH/src/github.com/Workiva/frugal && go install
 gnatsd &
 
 # Start activemq broker
-cd ~/apache-activemq-5.15.6/bin
+cd /opt/apache-activemq-5.15.6/bin
 ./activemq start
 
 cd $GOPATH/src/github.com/Workiva/frugal

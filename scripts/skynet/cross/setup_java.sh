@@ -14,7 +14,6 @@ else
 fi
 
 cd ${FRUGAL_HOME}/test/integration/java/frugal-integration-test
-mvn help:system
 mvn clean install:install-file -Dfile=frugal.jar -U -q -e
 
 # Compile java tests

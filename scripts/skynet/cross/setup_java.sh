@@ -13,7 +13,7 @@ else
 fi
 
 cd ${FRUGAL_HOME}/test/integration/java/frugal-integration-test
-mvn -Dhttps.protocols=TLSv1.2 clean org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=frugal.jar -U -q -e -X
+mvn clean install:install-file -Dfile=frugal.jar -U -q -X
 
 # Compile java tests
 mvn clean compile assembly:single -U -q

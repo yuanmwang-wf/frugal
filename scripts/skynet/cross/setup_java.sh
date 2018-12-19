@@ -13,6 +13,7 @@ else
 fi
 
 cd ${FRUGAL_HOME}/test/integration/java/frugal-integration-test
+mvn -Dhttps.protocols=TLSv1.2 install
 mvn clean install:install-file -Dfile=frugal.jar -U -q -e
 
 # Compile java tests

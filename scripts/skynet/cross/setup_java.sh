@@ -3,6 +3,7 @@
 set -ex
 
 export FRUGAL_HOME=$GOPATH/src/github.com/Workiva/frugal
+export MAVEN_OPTS=-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2
 
 if [ -z "${IN_SKYNET_CLI+yes}" ]; then
     cp ${SKYNET_APPLICATION_FRUGAL_ARTIFACTORY} ${FRUGAL_HOME}/test/integration/java/frugal-integration-test/frugal.jar
@@ -13,7 +14,6 @@ else
 fi
 
 cd ${FRUGAL_HOME}/test/integration/java/frugal-integration-test
-mvn -Dhttps.protocols=TLSv1.2 install
 mvn clean install:install-file -Dfile=frugal.jar -U -q -e
 
 # Compile java tests

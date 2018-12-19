@@ -38,7 +38,6 @@ requires:
     - release
     - pub
     - pypi
-    - maven
 
 contact: messaging@workiva.com
 

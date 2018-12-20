@@ -157,7 +157,7 @@ class Album implements thrift.TBase {
     oprot.writeFieldBegin(_DURATION_FIELD_DESC);
     oprot.writeDouble(duration);
     oprot.writeFieldEnd();
-    if (ASIN != null) {
+    if (aSIN != null) {
       oprot.writeFieldBegin(_ASIN_FIELD_DESC);
       oprot.writeString(aSIN);
       oprot.writeFieldEnd();

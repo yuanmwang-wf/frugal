@@ -861,7 +861,7 @@ class blah_args implements thrift.TBase {
     oprot.writeFieldBegin(_NUM_FIELD_DESC);
     oprot.writeI32(num);
     oprot.writeFieldEnd();
-    if (Str != null) {
+    if (str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();
@@ -1448,7 +1448,7 @@ class bin_method_args implements thrift.TBase {
       oprot.writeBinary(bin);
       oprot.writeFieldEnd();
     }
-    if (Str != null) {
+    if (str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
       oprot.writeString(str);
       oprot.writeFieldEnd();

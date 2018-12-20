@@ -457,17 +457,17 @@ class EventWrapper implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (ID != null) {
+    if (iD != null) {
       oprot.writeFieldBegin(_ID_FIELD_DESC);
       oprot.writeI64(iD);
       oprot.writeFieldEnd();
     }
-    if (Ev != null) {
+    if (ev != null) {
       oprot.writeFieldBegin(_EV_FIELD_DESC);
       ev.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (Events != null) {
+    if (events != null) {
       oprot.writeFieldBegin(_EVENTS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, events.length));
       for(var elem43 in events) {
@@ -476,7 +476,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (Events2 != null) {
+    if (events2 != null) {
       oprot.writeFieldBegin(_EVENTS2_FIELD_DESC);
       oprot.writeSetBegin(new thrift.TSet(thrift.TType.STRUCT, events2.length));
       for(var elem44 in events2) {
@@ -485,7 +485,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeSetEnd();
       oprot.writeFieldEnd();
     }
-    if (EventMap != null) {
+    if (eventMap != null) {
       oprot.writeFieldBegin(_EVENT_MAP_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I64, thrift.TType.STRUCT, eventMap.length));
       for(var elem45 in eventMap.keys) {
@@ -495,7 +495,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
     }
-    if (Nums != null) {
+    if (nums != null) {
       oprot.writeFieldBegin(_NUMS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.LIST, nums.length));
       for(var elem46 in nums) {
@@ -508,7 +508,7 @@ class EventWrapper implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (Enums != null) {
+    if (enums != null) {
       oprot.writeFieldBegin(_ENUMS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I32, enums.length));
       for(var elem48 in enums) {
@@ -561,7 +561,7 @@ class EventWrapper implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("EventWrapper(");
 
-    if (ID != null) {
+    if (iD != null) {
       ret.write("iD:");
       ret.write(this.iD);
     }

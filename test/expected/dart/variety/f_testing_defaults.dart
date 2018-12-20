@@ -594,7 +594,7 @@ class TestingDefaults implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (ID2 != null) {
+    if (iD2 != null) {
       oprot.writeFieldBegin(_I_D2_FIELD_DESC);
       oprot.writeI64(iD2);
       oprot.writeFieldEnd();
@@ -705,7 +705,7 @@ class TestingDefaults implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("TestingDefaults(");
 
-    if (ID2 != null) {
+    if (iD2 != null) {
       ret.write("iD2:");
       ret.write(this.iD2);
     }

@@ -961,11 +961,7 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 		if optional || nullable {
 			ind = tab
 			contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
-			contents += tabtab + "if ("
-			if optional || nullable {
-				contents += fmt.Sprintf("%s != null", field.Name)
-			}
-			contents += ") {\n"
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", toFieldName(field.Name))
 		}
 
 		contents += fmt.Sprintf(tabtab+ind+"oprot.writeFieldBegin(_%s_FIELD_DESC);\n", toScreamingCapsConstant(field.Name))
@@ -1075,7 +1071,7 @@ func (g *Generator) generateToString(s *parser.Struct) string {
 		ind := ""
 		optInd := ""
 		if optional {
-			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", field.Name)
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", fName)
 			ind += tab
 			optInd = tab
 		}
@@ -1235,7 +1231,8 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 		contents += tabtab + "// check exactly one field is set\n"
 		contents += tabtab + "int setFields = 0;\n"
 		for _, field := range s.Fields {
-			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", strings.Title(field.Name))
+			fName := toFieldName(field.Name)
+			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", fName)
 			contents += tabtabtab + "setFields++;\n"
 			contents += tabtab + "}\n"
 		}

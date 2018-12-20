@@ -124,7 +124,7 @@ class Event implements thrift.TBase {
     oprot.writeFieldBegin(_ID_FIELD_DESC);
     oprot.writeI64(iD);
     oprot.writeFieldEnd();
-    if (Message != null) {
+    if (message != null) {
       oprot.writeFieldBegin(_MESSAGE_FIELD_DESC);
       oprot.writeString(message);
       oprot.writeFieldEnd();

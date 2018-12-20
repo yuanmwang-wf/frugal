@@ -253,7 +253,7 @@ class TestingUnions implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (AnID != null) {
+    if (anID != null) {
       oprot.writeFieldBegin(_AN_ID_FIELD_DESC);
       oprot.writeI64(anID);
       oprot.writeFieldEnd();
@@ -268,12 +268,12 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI32(someotherthing);
       oprot.writeFieldEnd();
     }
-    if (AnInt16 != null) {
+    if (anInt16 != null) {
       oprot.writeFieldBegin(_AN_INT16_FIELD_DESC);
       oprot.writeI16(anInt16);
       oprot.writeFieldEnd();
     }
-    if (Requests != null) {
+    if (requests != null) {
       oprot.writeFieldBegin(_REQUESTS_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, requests.length));
       for(var elem54 in requests.keys) {
@@ -303,7 +303,7 @@ class TestingUnions implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("TestingUnions(");
 
-    if (AnID != null) {
+    if (anID != null) {
       ret.write("anID:");
       ret.write(this.anID);
     }
@@ -324,13 +324,13 @@ class TestingUnions implements thrift.TBase {
       ret.write(this.someotherthing);
     }
 
-    if (AnInt16 != null) {
+    if (anInt16 != null) {
       ret.write(", ");
       ret.write("anInt16:");
       ret.write(this.anInt16);
     }
 
-    if (Requests != null) {
+    if (requests != null) {
       ret.write(", ");
       ret.write("requests:");
       if (this.requests == null) {
@@ -415,25 +415,25 @@ class TestingUnions implements thrift.TBase {
   validate() {
     // check exactly one field is set
     int setFields = 0;
-    if (AnID != null) {
+    if (anID != null) {
       setFields++;
     }
-    if (AString != null) {
+    if (aString != null) {
       setFields++;
     }
-    if (Someotherthing != null) {
+    if (someotherthing != null) {
       setFields++;
     }
-    if (AnInt16 != null) {
+    if (anInt16 != null) {
       setFields++;
     }
-    if (Requests != null) {
+    if (requests != null) {
       setFields++;
     }
-    if (Bin_field_in_union != null) {
+    if (bin_field_in_union != null) {
       setFields++;
     }
-    if (Depr != null) {
+    if (depr != null) {
       setFields++;
     }
     if (setFields != 1) {

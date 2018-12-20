@@ -1242,7 +1242,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 	}
 
 	if !g.useEnums() {
-		first := false
+		first := true
 		for _, field := range s.Fields {
 			if g.Frugal.IsEnum(field.Type) {
 				if first {

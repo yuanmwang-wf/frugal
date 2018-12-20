@@ -341,6 +341,7 @@ class Track implements thrift.TBase {
   }
 
   validate() {
+    // check that fields of type enum have valid values
     if (pro != null && !t_v1_music.PerfRightsOrg.VALID_VALUES.contains(pro)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'pro' has been assigned the invalid value $pro");
     }

@@ -955,6 +955,7 @@ class TestingDefaults implements thrift.TBase {
 
   validate() {
     // check for required fields
+    // check that fields of type enum have valid values
     if (status != null && !t_variety.HealthCondition.VALID_VALUES.contains(status)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'status' has been assigned the invalid value $status");
     }

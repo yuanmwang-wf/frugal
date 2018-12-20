@@ -184,6 +184,7 @@ class VendoredReferences implements thrift.TBase {
   }
 
   validate() {
+    // check that fields of type enum have valid values
     if (reference_vendored_enum != null && !t_vendor_namespace.MyEnum.VALID_VALUES.contains(reference_vendored_enum)) {
       throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'reference_vendored_enum' has been assigned the invalid value $reference_vendored_enum");
     }

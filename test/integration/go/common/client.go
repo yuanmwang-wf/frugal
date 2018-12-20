@@ -67,17 +67,14 @@ func StartClient(
 	*/
 	if transport == NatsName {
 		go func() {
-			fmt.Printf("starting nats pubsub")
 			<-pubSub
 
 			if err != nil {
 				panic(err)
 			}
-			var pfactory frugal.FPublisherTransportFactory
-			var sfactory frugal.FSubscriberTransportFactory
 
-			pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-			sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
+			pfactory := frugal.NewFNatsPublisherTransportFactory(natsConn)
+			sfactory := frugal.NewFNatsSubscriberTransportFactory(natsConn)
 
 			provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 			publisher := frugaltest.NewEventsPublisher(provider)

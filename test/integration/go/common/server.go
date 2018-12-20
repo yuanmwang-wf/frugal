@@ -46,7 +46,7 @@ func StartServer(
 		panic(fmt.Errorf("Invalid protocol specified %s", protocol))
 	}
 
-	natsConn := getNatsConn()
+	conn := getNatsConn()
 	var err error
 
 	/*
@@ -54,11 +54,8 @@ func StartServer(
 		Subscribe to events, publish response upon receipt
 	*/
 	go func() {
-		var pfactory frugal.FPublisherTransportFactory
-		var sfactory frugal.FSubscriberTransportFactory
-
-		pfactory = frugal.NewFNatsPublisherTransportFactory(natsConn)
-		sfactory = frugal.NewFNatsSubscriberTransportFactory(natsConn)
+		pfactory := frugal.NewFNatsPublisherTransportFactory(conn)
+		sfactory := frugal.NewFNatsSubscriberTransportFactory(conn)
 
 		provider := frugal.NewFScopeProvider(pfactory, sfactory, frugal.NewFProtocolFactory(protocolFactory))
 		subscriber := frugaltest.NewEventsSubscriber(provider)
@@ -87,9 +84,7 @@ func StartServer(
 				panic(err)
 			}
 			// Explicitly flushing the publish to ensure it is sent before the main thread exits
-			if transport == NatsName {
-				natsConn.Flush()
-			}
+			conn.Flush()
 			pubSubResponseSent <- true
 		})
 		if err != nil {
@@ -108,7 +103,7 @@ func StartServer(
 	switch transport {
 	case NatsName:
 		builder := frugal.NewFNatsServerBuilder(
-			natsConn,
+			conn,
 			processor,
 			frugal.NewFProtocolFactory(protocolFactory),
 			[]string{fmt.Sprintf("frugal.*.*.rpc.%d", port)})
@@ -117,19 +112,16 @@ func StartServer(
 		// Healthcheck used in the cross language runner to check for server availability
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {})
 		go http.ListenAndServe(hostPort, nil)
-		if err := server.Serve(); err != nil {
-			log.Fatal("Failed to start server:", err)
-		}
 	case HttpName:
 		http.HandleFunc("/",
 			frugal.NewFrugalHandlerFunc(processor,
 				frugal.NewFProtocolFactory(protocolFactory)))
 		server = &httpServer{hostPort: hostPort}
-		if err := server.Serve(); err != nil {
-			log.Fatal("Failed to start server:", err)
-		}
 	}
 	fmt.Printf("Starting %v server...\n", transport)
+	if err := server.Serve(); err != nil {
+		log.Fatal("Failed to start server:", err)
+	}
 }
 
 type httpServer struct {

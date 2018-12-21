@@ -101,12 +101,12 @@
     },
     "publisher": {
       "timeout": 20,
-      "command": ["python3.5", "-u", "publisher.py"],
+      "command": ["python3", "-u", "publisher.py"],
       "transports": ["activemq"]
     },
     "subscriber": {
       "timeout": 20,
-      "command": ["python3.5", "-u", "subscriber.py"],
+      "command": ["python3", "-u", "subscriber.py"],
       "transports": ["activemq"]
     },
     "rpcTransports": [ "nats", "http" ],

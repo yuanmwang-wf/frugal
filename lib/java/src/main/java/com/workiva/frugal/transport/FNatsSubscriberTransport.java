@@ -121,7 +121,8 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
                 callback.onMessage(
                         new TMemoryInputTransport(msg.getData(), 4, msg.getData().length - 4)
                 );
-            } catch (TException ignored) {
+            } catch (Throwable t) {
+                LOGGER.error("error executing user provided callback", t);
             }
         });
     }

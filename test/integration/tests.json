@@ -23,7 +23,21 @@
         "go/bin/testclient"
       ]
     },
-    "rpcTransports": ["nats", "http"],
+    "publisher": {
+      "timeout": 20,
+      "command": [
+        "go/bin/testpublisher"
+      ],
+      "transports": [ "activemq" ]
+    },
+    "subscriber": {
+      "timeout": 20,
+      "command": [
+        "go/bin/testsubscriber"
+      ],
+      "transports": [ "activemq" ]
+    },
+    "rpcTransports": [ "nats", "http" ],
     "protocols": ["binary", "compact", "json"]
   },
   {

@@ -11,6 +11,6 @@ else
 fi
 
 pip install -e ".[tornado]"
-python3.5 /usr/bin/pip3 install Cython==0.27.2
-python3.5 /usr/bin/pip3 install -e ".[asyncio]"
-python3.5 /usr/bin/pip3 install aiostomp==1.4.0
+python3 /usr/bin/pip3 install Cython==0.27.2
+python3 /usr/bin/pip3 install -e ".[asyncio]"
+python3 /usr/bin/pip3 install aiostomp==1.4.0

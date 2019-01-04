@@ -104,16 +104,21 @@ class FHttpTransport extends FTransport {
     wt.Request request = client.newRequest()
       ..headers = requestHeaders
       ..uri = uri
-      ..body = requestBody;
+      ..body = requestBody
+      ..timeoutThreshold = ctx.timeout;
 
     // Attempt the request
     wt.Response response;
     try {
-      response = await request.post().timeout(ctx.timeout);
+      response = await request.post();
     } on StateError catch (ex) {
       throw new TTransportError(FrugalTTransportErrorType.UNKNOWN,
           'Malformed request ${ex.toString()}');
     } on wt.RequestException catch (ex) {
+      if (ex.error != null && ex.error.runtimeType == TimeoutException) {
+        throw new TTransportError(FrugalTTransportErrorType.TIMED_OUT,
+            "http request timed out after ${ctx.timeout}");
+      }
       if (ex.response == null) {
         throw new TTransportError(
             FrugalTTransportErrorType.UNKNOWN, ex.message);
@@ -126,9 +131,6 @@ class FHttpTransport extends FTransport {
         throw new TTransportError(FrugalTTransportErrorType.RESPONSE_TOO_LARGE);
       }
       throw new TTransportError(FrugalTTransportErrorType.UNKNOWN, ex.message);
-    } on TimeoutException catch (_) {
-      throw new TTransportError(FrugalTTransportErrorType.TIMED_OUT,
-          "http request timed out after ${ctx.timeout}");
     }
 
     // Attempt to decode the response payload

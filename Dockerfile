@@ -40,13 +40,6 @@ ARG BUILD_ARTIFACTS_ARTIFACTORY=/go/src/github.com/Workiva/frugal/frugal-*.jar
 ARG BUILD_ARTIFACTS_PUB=/go/src/github.com/Workiva/frugal/frugal.pub.tgz
 ARG BUILD_ARTIFACTS_TEST_RESULTS=/go/src/github.com/Workiva/frugal/test_results/*
 
-RUN mkdir /veracode && \
-	tar czf /veracode/dart.tar.gz /go/src/github.com/Workiva/frugal/lib/dart && \
-	tar czf /veracode/go.tar.gz /go/src/github.com/Workiva/frugal/lib/go && \
-	tar czf /veracode/java.tar.gz /go/src/github.com/Workiva/frugal/lib/java && \
-	tar czf /veracode/python.tar.gz /go/src/github.com/Workiva/frugal/lib/python
-ARG BUILD_ARTIFACTS_VERACODE=/veracode/*
-
 # make a simple etc/passwd file so the scratch image can run as nobody (not root)
 RUN echo "nobody:x:65534:65534:Nobody:/:" > /passwd.minimal
 

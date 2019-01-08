@@ -51,7 +51,7 @@ func StartSubscriber(host string,
 		case ActiveMqName:
 			stompConn := getStompConn()
 			pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32*1024*1024, "")
-			sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
+			sfactory = frugal.newFStompSubscriberTransportFactory(stompConn, "", false)
 		default:
 			panic(fmt.Errorf("invalid transport specified %s", transport))
 		}

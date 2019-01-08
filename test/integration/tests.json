@@ -45,7 +45,7 @@
     "client": {
       "timeout": 20,
       "command": [ "/usr/bin/java", "-Djava.security.egd=file:///dev/urandom", "-cp", "cross.jar", "com.workiva.TestClient" ],
-      "transports": [ "nats", "http", "activemq" ]
+      "transports": [ "nats", "http" ]
     },
     "server": {
       "timeout": 15,

@@ -44,6 +44,7 @@ async def main():
     subscriber = AlbumWinnersSubscriber(provider)
 
     def event_handler(ctx, req):
+        raise ValueError('BLAH')
         root.info("You won! {}".format(req.ASIN))
 
     def start_contest_handler(ctx, albums):

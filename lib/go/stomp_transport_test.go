@@ -27,7 +27,7 @@ func TestStompPublisherOpenPublish(t *testing.T) {
 	client, err := stomp.Connect(conn)
 	assert.Nil(t, err)
 
-	amazonMq := NewStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
+	amazonMq := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
 	err = amazonMq.Open()
 	assert.Nil(t, err)
 	assert.True(t, amazonMq.IsOpen())
@@ -37,8 +37,8 @@ func TestStompPublisherOpenPublish(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-// Ensures Amazon Mq transport is able to publish to the expected topic.
-func TestAmazonMqPublisherPublish(t *testing.T) {
+// Ensures stomp transport is able to publish to the expected topic.
+func TestStompPublisherPublish(t *testing.T) {
 	workC := make(chan *stomp.Message)
 
 	l, _ := net.Listen("tcp", ":0")
@@ -58,7 +58,7 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 	assert.Nil(t, err)
 	defer client.Disconnect()
 
-	stompTransport := NewStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
+	stompTransport := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
 	err = stompTransport.Open()
 	assert.Nil(t, err)
 
@@ -66,7 +66,7 @@ func TestAmazonMqPublisherPublish(t *testing.T) {
 	assert.Nil(t, err)
 
 	msg := <-workC
-	assert.Equal(t, string(msg.Body[:]), "foo")
+	assert.Equal(t, string(msg.Body), "foo")
 }
 
 func startSubscriber(t *testing.T, topic string, addr string, started chan bool, workC chan *stomp.Message) {
@@ -74,19 +74,20 @@ func startSubscriber(t *testing.T, topic string, addr string, started chan bool,
 	assert.Nil(t, err)
 
 	client, err := stomp.Connect(conn)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	sub, err := client.Subscribe(topic, stomp.AckClientIndividual)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	started <- true
 	msg := <-sub.C
-	client.Ack(msg)
+	err = client.Ack(msg)
+	assert.NoError(t, err)
 	workC <- msg
 }
 
-// Ensures Amazon Mq transport is able to subscribe to the expected topic and invoke callback on incoming messages.
-func TestAmazonMqSubscriberSubscribe(t *testing.T) {
+// Ensures stomp transport is able to subscribe to the expected topic and invoke callback on incoming messages.
+func TestStompSubscriberSubscribe(t *testing.T) {
 	started := make(chan bool, 1)
 
 	l, _ := net.Listen("tcp", ":0")
@@ -104,8 +105,9 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.", true)
-	stompTransport.Subscribe("testQueue", cb)
+	stompTransport := newStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.", true)
+	err = stompTransport.Subscribe("testQueue", cb)
+	assert.NoError(t, err)
 
 	frame := make([]byte, 50)
 	startPublisher(t, "/queue/Consumer.testConsumer.VirtualTopic.frugal.testQueue", l.Addr().String(), started, append(make([]byte, 4), frame...))
@@ -123,8 +125,8 @@ func TestAmazonMqSubscriberSubscribe(t *testing.T) {
 	assert.False(t, stompTransport.IsSubscribed())
 }
 
-// Ensures Amazon Mq transport is able to subscribe to the expected topic and discard messages with invalid frames (size<4).
-func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
+// Ensures stomp transport is able to subscribe to the expected topic and discard messages with invalid frames (size<4).
+func TestStompSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 	started := make(chan bool, 1)
 
 	l, _ := net.Listen("tcp", ":0")
@@ -142,8 +144,9 @@ func TestAmazonMqSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	stompTransport := NewStompFSubscriberTransport(client, "testConsumer.", false)
-	stompTransport.Subscribe("testTopic", cb)
+	stompTransport := newStompFSubscriberTransport(client, "testConsumer.", false)
+	err = stompTransport.Subscribe("testTopic", cb)
+	assert.NoError(t, err)
 
 	frame := make([]byte, 1)
 	startPublisher(t, "/topic/testConsumer.frugal.testTopic", l.Addr().String(), started, append(make([]byte, 1), frame...))

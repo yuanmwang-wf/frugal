@@ -18,7 +18,7 @@ public class ActiveMQSubscriber {
         Connection connection = connectionFactory.createConnection();
         connection.start();
 
-        FSubscriberTransportFactory subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "Consumer.frugal-examples.VirtualTopic.", true);
+        FSubscriberTransportFactory subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "", true);
         FScopeProvider provider = new FScopeProvider(null, subscriberFactory, protocolFactory);
 
         AlbumWinnersSubscriber.Iface subscriber = new AlbumWinnersSubscriber.Client(provider);

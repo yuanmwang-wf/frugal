@@ -1,3 +1,16 @@
+/*
+ * Copyright 2017 Workiva
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.workiva.frugal.transport;
 
 import com.workiva.frugal.exception.TTransportExceptionType;
@@ -23,17 +36,18 @@ public class FJmsPublisherTransport implements FPublisherTransport {
     private static final Logger LOGGER = LoggerFactory.getLogger(FJmsPublisherTransport.class);
 
     // TODO should we try to batch with sessions at some point?
-    // TODO sessions aren't threadsafe, do we need to do more than sync on publish?
     private final Connection connection;
     private final String topicPrefix;
     private final boolean durablePublishes;
+    private final int publisSizeLimit;
     Session session;
     MessageProducer producer;
 
-    FJmsPublisherTransport(Connection connection, String topicPrefix, boolean durablePublishes) {
+    FJmsPublisherTransport(Connection connection, String topicPrefix, boolean durablePublishes, int publishSizeLimit) {
         this.connection = connection;
         this.topicPrefix = topicPrefix;
         this.durablePublishes = durablePublishes;
+        this.publisSizeLimit = publishSizeLimit;
     }
 
     /**
@@ -45,16 +59,52 @@ public class FJmsPublisherTransport implements FPublisherTransport {
         private final Connection connection;
         private final String topicPrefix;
         private final boolean durablePublishes;
+        private final int publishSizeLimit;
 
-        // TODO should we make a builder for this?
-        public Factory(Connection connection, String topicPrefix, boolean durablePublishes) {
+        /**
+         * A builder for a FJmsPublisherTransportFactory.
+         */
+        public static class Builder {
+            private Connection connection;
+            private String topicPrefix;
+            private boolean durablePublishes;
+            private int publishSizeLimit;
+
+            public Builder(Connection connection) {
+                this.connection = connection;
+                this.durablePublishes = true;
+                this.publishSizeLimit = 0;
+            }
+
+            public Builder withTopicPrefix(String topicPrefix) {
+                this.topicPrefix = topicPrefix;
+                return this;
+            }
+
+            public Builder withDurablePublishes(boolean durablePublishes) {
+                this.durablePublishes = durablePublishes;
+                return this;
+            }
+
+            public Builder withPublishSizeLimit(int publishSizeLimit) {
+                this.publishSizeLimit = publishSizeLimit;
+                return this;
+            }
+
+            public Factory build() {
+                return new Factory(connection, topicPrefix, durablePublishes, publishSizeLimit);
+            }
+        }
+
+        Factory(Connection connection, String topicPrefix, boolean durablePublishes, int publishSizeLimit) {
             this.connection = connection;
             this.topicPrefix = topicPrefix;
             this.durablePublishes = durablePublishes;
+            this.publishSizeLimit = publishSizeLimit;
         }
 
         public FPublisherTransport getTransport() {
-            return new FJmsPublisherTransport(connection, topicPrefix, durablePublishes);
+            return new FJmsPublisherTransport(connection, topicPrefix, durablePublishes, publishSizeLimit);
         }
     }
 
@@ -65,7 +115,6 @@ public class FJmsPublisherTransport implements FPublisherTransport {
 
     @Override
     public synchronized void open() throws TTransportException {
-        // TODO test
         if (isOpen()) {
             LOGGER.info("jms transport already open, returning");
             return;
@@ -101,13 +150,11 @@ public class FJmsPublisherTransport implements FPublisherTransport {
 
     @Override
     public int getPublishSizeLimit() {
-        // TODO check this number
-        return 32 * 1024 * 1024;
+        return publisSizeLimit;
     }
 
     @Override
     public synchronized void publish(String topic, byte[] payload) throws TTransportException {
-        // TODO test
         if (!isOpen()) {
             throw new TTransportException(TTransportException.NOT_OPEN, "failed to publish, jms client not open");
         }

@@ -1,6 +1,5 @@
 package examples;
 
-import com.sun.istack.internal.logging.Logger;
 import com.workiva.frugal.FContext;
 import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.provider.FScopeProvider;
@@ -8,7 +7,6 @@ import com.workiva.frugal.transport.FJmsPublisherTransport;
 import com.workiva.frugal.transport.FPublisherTransportFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import java.util.logging.Level;
 import v1.music.Album;
 import v1.music.AlbumWinnersPublisher;
 import v1.music.PerfRightsOrg;
@@ -21,15 +19,13 @@ import java.util.UUID;
 
 public class ActiveMQPublisher {
     public static void main(String[] args) throws Exception {
-        Logger.getLogger(FJmsPublisherTransport.class).setLevel(Level.ALL);
-
         FProtocolFactory protocolFactory = new FProtocolFactory(new TBinaryProtocol.Factory());
 
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         Connection connection = connectionFactory.createConnection();
         connection.start();
 
-        FPublisherTransportFactory publisherFactory = new FJmsPublisherTransport.Factory(connection, "VirtualTopic.", true);
+        FPublisherTransportFactory publisherFactory = new FJmsPublisherTransport.Factory(connection, "", true);
 
         FScopeProvider provider = new FScopeProvider(publisherFactory, null, protocolFactory);
 

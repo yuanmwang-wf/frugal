@@ -21,7 +21,7 @@ func main() {
 	}
 	defer conn.Disconnect()
 
-	subFactory := frugal.NewFStompSubscriberTransportFactory(conn, "", false)
+	subFactory := frugal.NewFStompSubscriberTransportFactoryBuilder(conn).Build()
 	provider := frugal.NewFScopeProvider(nil, subFactory, fProtocalFactory)
 	subscriber := music.NewAlbumWinnersSubscriber(provider)
 

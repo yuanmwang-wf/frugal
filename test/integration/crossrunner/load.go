@@ -110,8 +110,6 @@ func Load(jsonFile string) ([]*Pair, []*Pair, error) {
 		test.Client.Protocols = append(test.Client.Protocols, test.Protocols...)
 		test.Server.Protocols = append(test.Server.Protocols, test.Protocols...)
 
-		//test.Publisher.Transports = append(test.Publisher.Transports, test.Transports...)
-		//test.Subscriber.Transports = append(test.Subscriber.Transports, test.Transports...)
 		test.Publisher.Protocols = append(test.Publisher.Protocols, test.Protocols...)
 		test.Subscriber.Protocols = append(test.Subscriber.Protocols, test.Protocols...)
 
@@ -135,13 +133,9 @@ func Load(jsonFile string) ([]*Pair, []*Pair, error) {
 	}
 
 	pubsubPairs := make([]*Pair, 0)
-	println("len(publishers) == ", len(publishers))
-	println("len(subscribers) == ", len(subscribers))
 	for _, publisher := range publishers {
 		for _, subscriber := range subscribers {
-			println(publisher.Transport, subscriber.Transport, publisher.Protocol, subscriber.Protocol)
 			if publisher.Transport == subscriber.Transport && publisher.Protocol == subscriber.Protocol {
-				println("found a match!")
 				pubsubPairs = append(pubsubPairs, newPair(publisher, subscriber))
 			}
 		}

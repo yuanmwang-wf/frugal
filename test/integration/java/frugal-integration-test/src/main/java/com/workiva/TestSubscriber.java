@@ -37,15 +37,14 @@ public class TestSubscriber {
 
         switch (transportType) {
             case Utils.activemqName:
-                // TODO
                 ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
                 // Create a Connection
                 javax.jms.Connection connection = connectionFactory.createConnection();
                 connection.start();
 
-                publisherFactory = new FJmsPublisherTransport.Factory(connection, "", true);
-                subscriberFactory = new FJmsSubscriberTransport.Factory(connection, "", false);
+                publisherFactory = new FJmsPublisherTransport.Factory.Builder(connection).build();
+                subscriberFactory = new FJmsSubscriberTransport.Factory.Builder(connection).build();
                 break;
             default:
                 throw new IllegalArgumentException("Unknown transport type " + transportType);

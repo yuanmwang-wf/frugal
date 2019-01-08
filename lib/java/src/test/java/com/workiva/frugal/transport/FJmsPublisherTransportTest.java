@@ -33,7 +33,7 @@ public class FJmsPublisherTransportTest {
         connection = mock(Connection.class);
         session = mock(Session.class);
         when(connection.createSession(false, Session.CLIENT_ACKNOWLEDGE)).thenReturn(session);
-        transport = new FJmsPublisherTransport(connection, "", true);
+        transport = new FJmsPublisherTransport(connection, "", true, 32 * 1024 * 1024);
     }
 
     @Test

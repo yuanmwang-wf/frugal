@@ -20,7 +20,7 @@ func main() {
 	}
 	defer conn.Disconnect()
 
-	pubFactory := frugal.NewFStompPublisherTransportFactory(conn, 32*1024*1024, "")
+	pubFactory := frugal.NewFStompPublisherTransportFactoryBuilder(conn).Build()
 	provider := frugal.NewFScopeProvider(pubFactory, nil, fProtocolFactory)
 
 	publisher := music.NewAlbumWinnersPublisher(provider)

@@ -41,7 +41,7 @@ func StartPublisher(
 	case "binary":
 		protocolFactory = thrift.NewTBinaryProtocolFactoryDefault()
 	default:
-		return fmt.Errorf("Invalid protocol specified %s", protocol)
+		return fmt.Errorf("invalid protocol specified %s", protocol)
 	}
 
 	go func() {
@@ -52,8 +52,8 @@ func StartPublisher(
 		switch transport {
 		case ActiveMqName:
 			stompConn := getStompConn()
-			pfactory = frugal.NewFStompPublisherTransportFactory(stompConn, 32*1024*1024, "")
-			sfactory = frugal.NewFStompSubscriberTransportFactory(stompConn, "", false)
+			pfactory = frugal.NewFStompPublisherTransportFactoryBuilder(stompConn).Build()
+			sfactory = frugal.NewFStompSubscriberTransportFactoryBuilder(stompConn).Build()
 		default:
 			panic(fmt.Errorf("invalid transport specified %s", transport))
 		}

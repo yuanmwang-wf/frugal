@@ -32,6 +32,7 @@ class TestFStompPublisherTransport(utils.AsyncIOTestCase):
 
     @utils.async_runner
     async def test_stomp_publisher_publish_successfully(self):
+        await self.pub_trans.open()
         data = bytearray([0, 0, 5, 2, 3, 4, 5, 6])
         self.mock_stomp_client.send.return_value = None
         await self.pub_trans.publish('foo', data)
@@ -45,6 +46,7 @@ class TestFStompPublisherTransport(utils.AsyncIOTestCase):
 
     @utils.async_runner
     async def test_stomp_publisher_fails_publishing_payload_too_large(self):
+        await self.pub_trans.open()
         mock_check_publish_size = mock.Mock(return_value=True)
         self.pub_trans._check_publish_size = mock_check_publish_size
         with self.assertRaises(TTransportException) as cm:
@@ -59,7 +61,7 @@ class TestFStompSubscriberTransport(utils.AsyncIOTestCase):
         self.mock_stomp_client = mock.Mock()
         sub_factory = FStompSubscriberTransportFactory(
             stomp_client=self.mock_stomp_client,
-            consumer_prefix='Consumer.foo.',
+            topic_prefix='Consumer.foo.',
             use_queue=True)
         self.sub_trans = sub_factory.get_transport()
 
@@ -97,6 +99,7 @@ class TestFStompSubscriberTransport(utils.AsyncIOTestCase):
         self.mock_stomp_client.unsubscribe.assert_called_once_with(mock_sub)
         self.assertFalse(self.sub_trans.is_subscribed())
 
+    @utils.async_runner
     async def test_stomp_subscriber_unsubscribe_already_unsubscribed(self):
-        self.sub_trans.unsubscribe()
+        await self.sub_trans.unsubscribe()
         self.assertFalse(self.mock_stomp_client.called)

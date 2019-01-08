@@ -1,3 +1,16 @@
+/*
+ * Copyright 2017 Workiva
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.workiva.frugal.transport;
 
 import com.workiva.frugal.protocol.FAsyncCallback;
@@ -23,7 +36,6 @@ import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 public class FJmsSubscriberTransport implements FSubscriberTransport {
     private static final Logger LOGGER = LoggerFactory.getLogger(FJmsSubscriberTransport.class);
 
-    // TODO sessions aren't threadsafe, do we need to do more than sync on sub/unsub?
     private final Connection connection;
     private final String topicPrefix;
     private final boolean useQueues;
@@ -45,8 +57,35 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
         private final String topicPrefix;
         private final boolean useQueues;
 
-        // TODO should we make a builder for this?
-        public Factory(Connection connection, String topicPrefix, boolean useQueues) {
+        /**
+         * A builder for a FJmsSubscriberTransportFactory.
+         */
+        public static class Builder {
+            private Connection connection;
+            private String topicPrefix;
+            private boolean useQueues;
+
+            public Builder(Connection connection) {
+                this.connection = connection;
+                this.useQueues = false;
+            }
+
+            public Builder withTopicPrefix(String topicPrefix) {
+                this.topicPrefix = topicPrefix;
+                return this;
+            }
+
+            public Builder withUseQueues(boolean useQueues) {
+                this.useQueues = useQueues;
+                return this;
+            }
+
+            public Factory build() {
+                return new Factory(connection, topicPrefix, useQueues);
+            }
+        }
+
+        Factory(Connection connection, String topicPrefix, boolean useQueues) {
             this.connection = connection;
             this.topicPrefix = topicPrefix;
             this.useQueues = useQueues;
@@ -75,7 +114,6 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
      */
     @Override
     public synchronized void subscribe(String topic, FAsyncCallback callback) throws TException {
-        // TODO test
         if (isSubscribed()) {
             throw new TTransportException(TTransportException.ALREADY_OPEN, "jms client already subscribed");
         }
@@ -86,7 +124,6 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
         String formattedTopic = getFormattedTopic(topic);
 
         try {
-            // TODO I think these are the defaults we want
             session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 
             Destination destination;
@@ -100,7 +137,6 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
             consumer.setMessageListener(message -> {
                 LOGGER.debug("received a message on topic '%s'", formattedTopic);
 
-                // TODO do we need to handle other message types?
                 byte[] payload;
                 if (message instanceof BytesMessage) {
                     BytesMessage bytesMessage = (BytesMessage) message;
@@ -124,7 +160,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                     callback.onMessage(
                             new TMemoryInputTransport(payload, 4, payload.length - 4)
                     );
-                } catch (TException e) {
+                } catch (Exception e) {
                     LOGGER.error("error executing user provided callback", e);
                     return;
                 }

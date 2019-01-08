@@ -80,6 +80,7 @@ type fStompPublisherTransport struct {
 	conn           *stomp.Conn
 	maxPublishSize int
 	topicPrefix    string
+	isOpen bool
 }
 
 // newStompFPublisherTransport creates a new FPublisherTransport which is used for
@@ -93,16 +94,18 @@ func (m *fStompPublisherTransport) Open() error {
 	if m.conn == nil {
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_NOT_OPEN, "frugal: stomp transport not open")
 	}
+	m.isOpen = true
 	return nil
 }
 
 // IsOpen returns true if the transport is open, false otherwise.
 func (m *fStompPublisherTransport) IsOpen() bool {
-	return m.conn != nil
+	return m.conn != nil && m.isOpen
 }
 
 // Close closes the transport.
 func (m *fStompPublisherTransport) Close() error {
+	m.isOpen = false
 	return nil
 }
 

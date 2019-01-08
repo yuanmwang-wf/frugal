@@ -118,7 +118,8 @@ class _FStompPublisherTransport(FPublisherTransport):
             headers={'persistent': 'true',
                      'content-type': 'application/octet-stream'}
         )
-        _logger.debug('published stomp message on topic {}'.format(destination))
+        _logger.debug(
+            'published stomp message on topic {}'.format(destination))
 
 
 class FStompSubscriberTransportFactory(FSubscriberTransportFactory):

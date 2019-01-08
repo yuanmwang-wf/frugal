@@ -316,6 +316,6 @@ func (m *fStompSubscriberTransport) processMessages() {
 // Acknowledges the stomp message.
 func (m *fStompSubscriberTransport) ackMessage(message *stomp.Message) {
 	if err := m.conn.Ack(message); err != nil {
-		logger().Errorf("frugal: error acking stomp message: ", err.Error())
+		logger().WithError(err).Error("frugal: error acking stomp message")
 	}
 }

@@ -34,6 +34,7 @@ import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
  */
 public class FJmsPublisherTransport implements FPublisherTransport {
     private static final Logger LOGGER = LoggerFactory.getLogger(FJmsPublisherTransport.class);
+    private static final int DEFAULT_MAX_PUBLISH_SIZE = 32 * 1024 * 1024;
 
     // TODO should we try to batch with sessions at some point?
     private final Connection connection;
@@ -73,7 +74,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
             public Builder(Connection connection) {
                 this.connection = connection;
                 this.durablePublishes = true;
-                this.publishSizeLimit = 0;
+                this.publishSizeLimit = DEFAULT_MAX_PUBLISH_SIZE;
             }
 
             public Builder withTopicPrefix(String topicPrefix) {

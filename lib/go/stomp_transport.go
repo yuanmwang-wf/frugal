@@ -22,6 +22,9 @@ import (
 	"github.com/go-stomp/stomp"
 )
 
+
+const defaultMaxPublishSize int = 32 * 1024 * 1024
+
 type FStompPublisherTransportFactoryBuilder struct {
 	conn *stomp.Conn
 	maxPublishSize int
@@ -33,7 +36,7 @@ type FStompPublisherTransportFactoryBuilder struct {
 func NewFStompPublisherTransportFactoryBuilder(conn *stomp.Conn) *FStompPublisherTransportFactoryBuilder {
 	return &FStompPublisherTransportFactoryBuilder{
 		conn: conn,
-		maxPublishSize: 0,
+		maxPublishSize: defaultMaxPublishSize,
 		topicPrefix: "",
 	}
 }

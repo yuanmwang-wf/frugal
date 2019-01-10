@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/go-stomp/stomp"
@@ -15,7 +16,9 @@ import (
 func main() {
 	fProtocalFactory := frugal.NewFProtocolFactory(thrift.NewTBinaryProtocolFactoryDefault())
 
-	conn, err := stomp.Dial("tcp", "localhost:61613")
+	// Send write heartbeats but don't expect heartbeats back due to an
+	// activemq stomp heartbeat bug
+	conn, err := stomp.Dial("tcp", "localhost:61613", stomp.ConnOpt.HeartBeat(time.Minute, 0))
 	if err != nil {
 		panic(err)
 	}

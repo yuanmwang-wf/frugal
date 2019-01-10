@@ -81,6 +81,9 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
             }
 
             public Factory build() {
+                if (topicPrefix == null) {
+                    topicPrefix = "";
+                }
                 return new Factory(connection, topicPrefix, useQueues);
             }
         }
@@ -135,7 +138,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
 
             consumer = session.createConsumer(destination);
             consumer.setMessageListener(message -> {
-                LOGGER.debug("received a message on topic '%s'", formattedTopic);
+                LOGGER.debug("received a message on topic '{}'", formattedTopic);
 
                 byte[] payload;
                 if (message instanceof BytesMessage) {
@@ -148,7 +151,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                         return;
                     }
                 } else {
-                    LOGGER.error("unhandled message type '%s'", message.getClass().getName());
+                    LOGGER.error("unhandled message type '{}'", message.getClass().getName());
                     return;
                 }
 
@@ -170,7 +173,7 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
                 } catch (JMSException e) {
                     LOGGER.error("unable to ack message", e);
                 }
-                LOGGER.debug("finished processing message from topic '%s'", formattedTopic);
+                LOGGER.debug("finished processing message from topic '{}'", formattedTopic);
             });
         } catch (JMSException e) {
             throw new TException(e);

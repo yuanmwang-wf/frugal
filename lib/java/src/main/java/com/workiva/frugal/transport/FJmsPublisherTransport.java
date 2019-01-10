@@ -93,6 +93,9 @@ public class FJmsPublisherTransport implements FPublisherTransport {
             }
 
             public Factory build() {
+                if (topicPrefix == null) {
+                    topicPrefix = "";
+                }
                 return new Factory(connection, topicPrefix, durablePublishes, publishSizeLimit);
             }
         }
@@ -171,7 +174,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
         }
 
         String formattedTopic = getFormattedTopic(topic);
-        LOGGER.debug("publishing message to '%s'", formattedTopic);
+        LOGGER.debug("publishing message to '{}'", formattedTopic);
         try {
             Topic destination = session.createTopic(formattedTopic);
             BytesMessage message = session.createBytesMessage();
@@ -182,7 +185,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
         } catch (JMSException e) {
             throw new TTransportException(e);
         }
-        LOGGER.debug("published message to '%s'", formattedTopic);
+        LOGGER.debug("published message to '{}'", formattedTopic);
     }
 
     private String getFormattedTopic(String subject) {

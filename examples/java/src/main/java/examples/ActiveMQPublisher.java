@@ -25,7 +25,7 @@ public class ActiveMQPublisher {
         Connection connection = connectionFactory.createConnection();
         connection.start();
 
-        FPublisherTransportFactory publisherFactory = new FJmsPublisherTransport.Factory(connection, "", true);
+        FPublisherTransportFactory publisherFactory = new FJmsPublisherTransport.Factory.Builder(connection).build();
 
         FScopeProvider provider = new FScopeProvider(publisherFactory, null, protocolFactory);
 

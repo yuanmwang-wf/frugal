@@ -11,5 +11,5 @@ mv test_logs.tar.gz /testing/artifacts/
 pkill gnatsd
 
 # Stop activemq broker
-cd /opt/apache-activemq-5.15.6/bin
+cd /opt/activemq/bin
 ./activemq stop

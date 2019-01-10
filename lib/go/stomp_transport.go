@@ -184,8 +184,8 @@ type fStompSubscriberTransportFactory struct {
 
 // newFStompSubscriberTransportFactory creates fStompSubscriberTransportFactory with the given stomp
 // connection and consumer name.
-func newFStompSubscriberTransportFactory(conn *stomp.Conn, consumerPrefix string, useQueue bool) *fStompSubscriberTransportFactory {
-	return &fStompSubscriberTransportFactory{conn: conn, topicPrefix: consumerPrefix, useQueue: useQueue}
+func newFStompSubscriberTransportFactory(conn *stomp.Conn, topicPrefix string, useQueue bool) *fStompSubscriberTransportFactory {
+	return &fStompSubscriberTransportFactory{conn: conn, topicPrefix: topicPrefix, useQueue: useQueue}
 }
 
 // GetTransport creates a new fStompSubscriberTransport.
@@ -300,7 +300,7 @@ func (m *fStompSubscriberTransport) processMessages() {
 			}
 
 			if len(message.Body) < 4 {
-				logger().Warnf("frugal: discarding invalid scope message frame")
+				logger().Warnf("frugal: discarding invalid scope message frame, was length '%d'", len(message.Body))
 				continue
 			}
 

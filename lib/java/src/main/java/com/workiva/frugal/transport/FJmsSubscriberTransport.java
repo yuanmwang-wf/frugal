@@ -44,6 +44,9 @@ public class FJmsSubscriberTransport implements FSubscriberTransport {
 
     FJmsSubscriberTransport(Connection connection, String topicPrefix, boolean useQueues) {
         this.connection = connection;
+        if (topicPrefix == null) {
+            topicPrefix = "";
+        }
         this.topicPrefix = topicPrefix;
         this.useQueues = useQueues;
     }

@@ -46,6 +46,9 @@ public class FJmsPublisherTransport implements FPublisherTransport {
 
     FJmsPublisherTransport(Connection connection, String topicPrefix, boolean durablePublishes, int publishSizeLimit) {
         this.connection = connection;
+        if (topicPrefix == null) {
+            topicPrefix = "";
+        }
         this.topicPrefix = topicPrefix;
         this.durablePublishes = durablePublishes;
         this.publisSizeLimit = publishSizeLimit;

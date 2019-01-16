@@ -838,7 +838,7 @@ func (g *Generator) generateRead(s *parser.Struct) string {
 				contents += tabtab + "// check for required fields of primitive type, which can't be checked in the validate method\n"
 			}
 			fName := toFieldName(field.Name)
-			contents += fmt.Sprintf(tabtab+"if (%s != null) {\n", fName)
+			contents += fmt.Sprintf(tabtab+"if (%s == null) {\n", fName)
 			contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Required field '%s' is not present in struct '%s'\");\n", fName, s.Name)
 			contents += tabtab + "}\n"
 		}

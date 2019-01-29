@@ -27,7 +27,7 @@ func TestStompPublisherOpenPublish(t *testing.T) {
 	client, err := stomp.Connect(conn)
 	assert.Nil(t, err)
 
-	publisherTransport := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
+	publisherTransport := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.", nil)
 	err = publisherTransport.Open()
 	assert.Nil(t, err)
 	assert.True(t, publisherTransport.IsOpen())
@@ -58,7 +58,7 @@ func TestStompPublisherPublish(t *testing.T) {
 	assert.Nil(t, err)
 	defer client.Disconnect()
 
-	stompTransport := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.")
+	stompTransport := newStompFPublisherTransport(client, 32*1024*1024, "VirtualTopic.", nil)
 	err = stompTransport.Open()
 	assert.Nil(t, err)
 
@@ -106,7 +106,7 @@ func TestStompSubscriberSubscribe(t *testing.T) {
 		cbCalled <- true
 		return nil
 	}
-	stompTransport := newStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.", true)
+	stompTransport := newStompFSubscriberTransport(client, "Consumer.testConsumer.VirtualTopic.", true, nil)
 	err = stompTransport.Subscribe("testQueue", cb)
 	assert.NoError(t, err)
 
@@ -145,7 +145,7 @@ func TestStompSubscriberSubscribeDiscardsInvalidFrames(t *testing.T) {
 		cbCalled = true
 		return nil
 	}
-	stompTransport := newStompFSubscriberTransport(client, "testConsumer.", false)
+	stompTransport := newStompFSubscriberTransport(client, "testConsumer.", false, nil)
 	err = stompTransport.Subscribe("testTopic", cb)
 	assert.NoError(t, err)
 

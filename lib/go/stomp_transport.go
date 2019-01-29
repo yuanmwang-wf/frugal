@@ -16,66 +16,30 @@ package frugal
 import (
 	"bytes"
 	"fmt"
-	"sync"
-
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/go-stomp/stomp"
+	"sync"
 )
 
-
-const defaultMaxPublishSize int = 32 * 1024 * 1024
-
-type FStompPublisherTransportFactoryBuilder struct {
-	conn *stomp.Conn
-	maxPublishSize int
-	topicPrefix string
-}
-
-// NewFStompPublisherTransportFactoryBuilder creates a builder for
-// FStompPublisherTransportFactories.
-func NewFStompPublisherTransportFactoryBuilder(conn *stomp.Conn) *FStompPublisherTransportFactoryBuilder {
-	return &FStompPublisherTransportFactoryBuilder{
-		conn: conn,
-		maxPublishSize: defaultMaxPublishSize,
-		topicPrefix: "",
-	}
-}
-
-// WithMaxPublishSize allows setting the maximum size of a message this transport
-// will allow to be published.
-func (f *FStompPublisherTransportFactoryBuilder) WithMaxPublishSize(maxPublishSize int) *FStompPublisherTransportFactoryBuilder {
-	f.maxPublishSize = maxPublishSize
-	return f
-}
-
-// WithTopicPrefix allows setting a string to be added to the beginning of the
-// constructed topic.
-func (f *FStompPublisherTransportFactoryBuilder) WithTopicPrefix(topicPrefix string) *FStompPublisherTransportFactoryBuilder {
-	f.topicPrefix = topicPrefix
-	return f
-}
-
-// Build creates an FStompPublisherTransportFactory with the configured settings.
-func (f *FStompPublisherTransportFactoryBuilder) Build() FPublisherTransportFactory {
-	return newFStompPublisherTransportFactory(f.conn, f.maxPublishSize, f.topicPrefix)
-}
+type ReconnectHandler func() (error, *stomp.Conn)
 
 // FStompPublisherTransportFactory creates fStompPublisherTransports.
-type fStompPublisherTransportFactory struct {
+type FStompPublisherTransportFactory struct {
 	conn           *stomp.Conn
 	maxPublishSize int
 	topicPrefix    string
+	reconHandler   ReconnectHandler
 }
 
 // NewFStompPublisherTransportFactory creates an FStompPublisherTransportFactory using the
 // provided stomp connection.
-func newFStompPublisherTransportFactory(conn *stomp.Conn, maxPublishSize int, topicPrefix string) *fStompPublisherTransportFactory {
-	return &fStompPublisherTransportFactory{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix}
+func NewFStompPublisherTransportFactory(conn *stomp.Conn, maxPublishSize int, topicPrefix string, recon ReconnectHandler) *FStompPublisherTransportFactory {
+	return &FStompPublisherTransportFactory{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix, reconHandler: recon}
 }
 
 // GetTransport creates a new stomp FPublisherTransport.
-func (m *fStompPublisherTransportFactory) GetTransport() FPublisherTransport {
-	return newStompFPublisherTransport(m.conn, m.maxPublishSize, m.topicPrefix)
+func (m *FStompPublisherTransportFactory) GetTransport() FPublisherTransport {
+	return NewStompFPublisherTransport(m.conn, m.maxPublishSize, m.topicPrefix, m.reconHandler)
 }
 
 // fStompPublisherTransport implements FPublisherTransport.
@@ -83,32 +47,30 @@ type fStompPublisherTransport struct {
 	conn           *stomp.Conn
 	maxPublishSize int
 	topicPrefix    string
-	isOpen bool
+	reconHandler   ReconnectHandler
 }
 
-// newStompFPublisherTransport creates a new FPublisherTransport which is used for
+// NewStompFPublisherTransport creates a new FPublisherTransport which is used for
 // publishing using stomp protocol with scopes.
-func newStompFPublisherTransport(conn *stomp.Conn, maxPublishSize int, topicPrefix string) FPublisherTransport {
-	return &fStompPublisherTransport{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix}
+func NewStompFPublisherTransport(conn *stomp.Conn, maxPublishSize int, topicPrefix string, recon ReconnectHandler) FPublisherTransport {
+	return &fStompPublisherTransport{conn: conn, maxPublishSize: maxPublishSize, topicPrefix: topicPrefix, reconHandler: recon}
 }
 
 // Open initializes the transport.
 func (m *fStompPublisherTransport) Open() error {
 	if m.conn == nil {
-		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_NOT_OPEN, "frugal: stomp transport not open")
+		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_NOT_OPEN, "frugal: mq transport not open")
 	}
-	m.isOpen = true
 	return nil
 }
 
 // IsOpen returns true if the transport is open, false otherwise.
 func (m *fStompPublisherTransport) IsOpen() bool {
-	return m.conn != nil && m.isOpen
+	return m.conn != nil
 }
 
 // Close closes the transport.
 func (m *fStompPublisherTransport) Close() error {
-	m.isOpen = false
 	return nil
 }
 
@@ -131,11 +93,21 @@ func (m *fStompPublisherTransport) Publish(topic string, data []byte) error {
 	}
 
 	destination := m.formatStompPublishTopic(topic)
-	logger().Debugf("frugal: publishing stomp message on topic '%s'", destination)
 	if err := m.conn.Send(destination, "application/octet-stream", data, stomp.SendOpt.Header("persistent", "true")); err != nil {
+		if err.Error() == "connection already closed" {
+			e, conn := m.reconHandler()
+			if e != nil {
+				return thrift.NewTTransportExceptionFromError(err)
+			}
+			m.conn = conn
+			e = m.Publish(topic, data)
+			if e != nil {
+				return thrift.NewTTransportExceptionFromError(err)
+			}
+			return nil
+		}
 		return thrift.NewTTransportExceptionFromError(err)
 	}
-	logger().Debugf("frugal: finished publishing stomp message to '%s'", destination)
 	return nil
 }
 
@@ -143,83 +115,46 @@ func (m *fStompPublisherTransport) formatStompPublishTopic(topic string) string 
 	return fmt.Sprintf("/topic/%s%s%s", m.topicPrefix, frugalPrefix, topic)
 }
 
-type FStompSubscriberTransportFactoryBuilder struct {
-	conn *stomp.Conn
-	topicPrefix string
-	useQueue bool
+// FStompSubscribeTransportFactory creates fStompSubscriberTransports.
+type FStompSubscribeTransportFactory struct {
+	conn           *stomp.Conn
+	consumerPrefix string
+	useQueue       bool
+	reconHandler   ReconnectHandler
 }
 
-func NewFStompSubscriberTransportFactoryBuilder(conn *stomp.Conn) *FStompSubscriberTransportFactoryBuilder {
-	return &FStompSubscriberTransportFactoryBuilder{
-		conn: conn,
-		topicPrefix: "",
-		useQueue: false,
-	}
-}
-
-func (f *FStompSubscriberTransportFactoryBuilder) WithTopicPrefix(topicPrefix string) *FStompSubscriberTransportFactoryBuilder {
-	f.topicPrefix = topicPrefix
-	return f
-}
-
-func (f *FStompSubscriberTransportFactoryBuilder) WithUseQueues(useQueue bool) *FStompSubscriberTransportFactoryBuilder {
-	f.useQueue = useQueue
-	return f
-}
-
-func (f *FStompSubscriberTransportFactoryBuilder) Build() FSubscriberTransportFactory {
-	return &fStompSubscriberTransportFactory{
-		conn: f.conn,
-		topicPrefix: f.topicPrefix,
-		useQueue: f.useQueue,
-	}
-}
-
-// fStompSubscriberTransportFactory creates fStompSubscriberTransports.
-type fStompSubscriberTransportFactory struct {
-	conn        *stomp.Conn
-	topicPrefix string
-	useQueue    bool
-}
-
-// newFStompSubscriberTransportFactory creates fStompSubscriberTransportFactory with the given stomp
+// NewFStompSubscriberTransportFactory creates FStompSubscribeTransportFactory with the given stomp
 // connection and consumer name.
-func newFStompSubscriberTransportFactory(conn *stomp.Conn, topicPrefix string, useQueue bool) *fStompSubscriberTransportFactory {
-	return &fStompSubscriberTransportFactory{conn: conn, topicPrefix: topicPrefix, useQueue: useQueue}
+func NewFStompSubscriberTransportFactory(conn *stomp.Conn, consumerPrefix string, useQueue bool, recon ReconnectHandler) *FStompSubscribeTransportFactory {
+	return &FStompSubscribeTransportFactory{conn: conn, consumerPrefix: consumerPrefix, useQueue: useQueue, reconHandler: recon}
 }
 
 // GetTransport creates a new fStompSubscriberTransport.
-func (m *fStompSubscriberTransportFactory) GetTransport() FSubscriberTransport {
-	return newStompFSubscriberTransport(m.conn, m.topicPrefix, m.useQueue)
+func (m *FStompSubscribeTransportFactory) GetTransport() FSubscriberTransport {
+	return NewStompFSubscriberTransport(m.conn, m.consumerPrefix, m.useQueue, m.reconHandler)
 }
 
 // fStompSubscriberTransport implements FSubscriberTransport.
 type fStompSubscriberTransport struct {
-	conn         *stomp.Conn
-	topicPrefix  string
-	topic        string
-	useQueue     bool
-	sub          *stomp.Subscription
-	openMu       sync.RWMutex
-	isSubscribed bool
-	callback     FAsyncCallback
-	stopC        chan bool
+	conn           *stomp.Conn
+	consumerPrefix string
+	topic          string
+	useQueue       bool
+	sub            *stomp.Subscription
+	openMu         sync.RWMutex
+	isSubscribed   bool
+	callback       FAsyncCallback
+	stopC          chan bool
+	reconHandler   ReconnectHandler
 }
 
-// newStompFSubscriberTransport creates a new FSubscriberTransport which is used for
+// NewStompFSubscriberTransport creates a new FSubscriberTransport which is used for
 // pub/sub.
-func newStompFSubscriberTransport(conn *stomp.Conn, topicPrefix string, useQueue bool) FSubscriberTransport {
-	return &fStompSubscriberTransport{conn: conn, topicPrefix: topicPrefix, useQueue: useQueue}
+func NewStompFSubscriberTransport(conn *stomp.Conn, consumerPrefix string, useQueue bool, recon ReconnectHandler) FSubscriberTransport {
+	return &fStompSubscriberTransport{conn: conn, consumerPrefix: consumerPrefix, useQueue: useQueue, reconHandler: recon}
 }
 
 // Subscribe sets the subscribe topic and opens the transport.
-//
-// If an exception is raised by the provided callback, the message will
-// not be acked with the broker. This behaviour allows the message to be
-// redelivered and processing to be attempted again. If an exception is
-// not raised by the provided callback, the message will be acked. This is
-// used if processing succeeded, or if it's apparent processing will never
-// succeed, as the message won't continue to be redelivered.
 func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallback) error {
 	m.openMu.Lock()
 	defer m.openMu.Unlock()
@@ -236,11 +171,12 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN, "frugal: stomp transport cannot subscribe to empty topic")
 	}
 
+	m.topic = topic
 	var destination string
 	if m.useQueue {
-		destination = fmt.Sprintf("/queue/%s%s%s", m.topicPrefix, frugalPrefix, topic)
+		destination = fmt.Sprintf("/queue/%s%s%s", m.consumerPrefix, frugalPrefix, topic)
 	} else {
-		destination = fmt.Sprintf("/topic/%s%s%s", m.topicPrefix, frugalPrefix, topic)
+		destination = fmt.Sprintf("/topic/%s%s%s", m.consumerPrefix, frugalPrefix, topic)
 	}
 
 	sub, err := m.conn.Subscribe(destination, stomp.AckClientIndividual)
@@ -251,7 +187,6 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 	m.sub = sub
 	m.isSubscribed = true
 	m.callback = callback
-	m.topic = destination
 	go m.processMessages()
 	return nil
 }
@@ -283,24 +218,47 @@ func (m *fStompSubscriberTransport) Unsubscribe() error {
 	return nil
 }
 
-// processMessages call the given FAsyncCallback with messages from the
-// subscription channel.
+func (m *fStompSubscriberTransport) reconnect() error {
+	m.openMu.Lock()
+	err, conn := m.reconHandler()
+
+	if err != nil {
+		return err
+	}
+	logger().Infof("reconnected to broker successfully")
+
+	m.conn = conn
+	m.isSubscribed = false
+	m.openMu.Unlock()
+
+	if err = m.Subscribe(m.topic, m.callback); err != nil {
+		logger().Errorf("failed to resubscribe")
+		return err
+	}
+	logger().Infof("resubscribed to topic successfully")
+	return nil
+}
+
+// Processes messages from subscription channel with the given FAsyncCallback.
 func (m *fStompSubscriberTransport) processMessages() {
 	stopC := m.stopC
 	for {
 		select {
 		case <-stopC:
-			logger().Errorf("frugal: error processing stomp subscription messages, message received on stop channel")
 			return
 		case message, ok := <-m.sub.C:
-			logger().Debugf("frugal: received stomp message on topic '%s'", m.topic)
 			if !ok {
-				logger().Errorf("frugal: error processing subscription messages, message channel closed")
+				logger().Warnf("frugal: message channel closed unexpectedly, will try to reconnect")
+				err := m.reconnect()
+				if err != nil {
+					logger().Errorf("frugal: reconnect to broker failed, error is %s", err)
+				}
 				return
 			}
 
 			if len(message.Body) < 4 {
-				logger().Warnf("frugal: discarding invalid scope message frame, was length '%d'", len(message.Body))
+				logger().Warnf("frugal: %s", message.Body)
+				logger().Warnf("frugal: discarding invalid scope message frame")
 				continue
 			}
 
@@ -311,7 +269,6 @@ func (m *fStompSubscriberTransport) processMessages() {
 			}
 
 			go m.ackMessage(message)
-			logger().Debugf("frugal: finished processing stomp message from topic '%s'", m.topic)
 		}
 	}
 }
@@ -319,6 +276,6 @@ func (m *fStompSubscriberTransport) processMessages() {
 // Acknowledges the stomp message.
 func (m *fStompSubscriberTransport) ackMessage(message *stomp.Message) {
 	if err := m.conn.Ack(message); err != nil {
-		logger().WithError(err).Error("frugal: error acking stomp message")
+		logger().Errorf("frugal: error acking mq message: ", err.Error())
 	}
 }

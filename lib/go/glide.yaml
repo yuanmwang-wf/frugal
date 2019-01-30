@@ -1,7 +1,7 @@
 package: github.com/Workiva/frugal/lib/go
 import:
 - package: git.apache.org/thrift.git
-  version: 0.9.3
+  version: a175437f66fa1a0b36233e7dd40b061d471276ff
   subpackages:
   - lib/go/thrift
 - package: github.com/Sirupsen/logrus

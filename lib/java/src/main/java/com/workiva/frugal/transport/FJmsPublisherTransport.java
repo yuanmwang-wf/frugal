@@ -34,7 +34,6 @@ import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
  */
 public class FJmsPublisherTransport implements FPublisherTransport {
     private static final Logger LOGGER = LoggerFactory.getLogger(FJmsPublisherTransport.class);
-    private static final int DEFAULT_MAX_PUBLISH_SIZE = 32 * 1024 * 1024;
 
     // TODO should we try to batch with sessions at some point?
     private final Connection connection;
@@ -77,7 +76,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
             public Builder(Connection connection) {
                 this.connection = connection;
                 this.durablePublishes = true;
-                this.publishSizeLimit = DEFAULT_MAX_PUBLISH_SIZE;
+                this.publishSizeLimit = 0;
             }
 
             public Builder withTopicPrefix(String topicPrefix) {
@@ -170,7 +169,7 @@ public class FJmsPublisherTransport implements FPublisherTransport {
             throw new TTransportException("publish topic cannot be empty");
         }
 
-        if (payload.length > getPublishSizeLimit()) {
+        if (getPublishSizeLimit() > 0 && payload.length > getPublishSizeLimit()) {
             throw new TTransportException(TTransportExceptionType.REQUEST_TOO_LARGE,
                     String.format("message exceeds %d bytes, was %d bytes",
                             getPublishSizeLimit(), payload.length));

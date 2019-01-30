@@ -23,8 +23,6 @@ import (
 )
 
 
-const defaultMaxPublishSize int = 32 * 1024 * 1024
-
 type FStompPublisherTransportFactoryBuilder struct {
 	conn *stomp.Conn
 	maxPublishSize int
@@ -36,8 +34,6 @@ type FStompPublisherTransportFactoryBuilder struct {
 func NewFStompPublisherTransportFactoryBuilder(conn *stomp.Conn) *FStompPublisherTransportFactoryBuilder {
 	return &FStompPublisherTransportFactoryBuilder{
 		conn: conn,
-		maxPublishSize: defaultMaxPublishSize,
-		topicPrefix: "",
 	}
 }
 
@@ -124,7 +120,7 @@ func (m *fStompPublisherTransport) Publish(topic string, data []byte) error {
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_NOT_OPEN, "frugal: stomp transport not open")
 	}
 
-	if len(data) > m.maxPublishSize {
+	if m.maxPublishSize > 0 && len(data) > m.maxPublishSize {
 		return thrift.NewTTransportException(
 			TRANSPORT_EXCEPTION_REQUEST_TOO_LARGE,
 			fmt.Sprintf("Message exceeds %d bytes, was %d bytes", m.maxPublishSize, len(data)))

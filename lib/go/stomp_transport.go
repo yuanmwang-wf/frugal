@@ -22,17 +22,13 @@ import (
 	"github.com/go-stomp/stomp"
 )
 
-const (
-	defaultMaxPublishSize int = 32 * 1024 * 1024
-)
-
 type ReconnectHandler func(maxReconnAttempt int) (error, *stomp.Conn)
 
 type FStompPublisherTransportFactoryBuilder struct {
-	conn           *stomp.Conn
-	maxPublishSize int
-	topicPrefix    string
-	reconHandler   ReconnectHandler
+	conn             *stomp.Conn
+	maxPublishSize   int
+	topicPrefix      string
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
 }
 
@@ -40,10 +36,7 @@ type FStompPublisherTransportFactoryBuilder struct {
 // FStompPublisherTransportFactories.
 func NewFStompPublisherTransportFactoryBuilder(conn *stomp.Conn) *FStompPublisherTransportFactoryBuilder {
 	return &FStompPublisherTransportFactoryBuilder{
-		conn:           conn,
-		maxPublishSize: defaultMaxPublishSize,
-		topicPrefix:    "",
-		maxReconnAttempt: 3,
+		conn: conn,
 	}
 }
 
@@ -80,10 +73,10 @@ func (f *FStompPublisherTransportFactoryBuilder) Build() FPublisherTransportFact
 
 // FStompPublisherTransportFactory creates fStompPublisherTransports.
 type fStompPublisherTransportFactory struct {
-	conn           *stomp.Conn
-	maxPublishSize int
-	topicPrefix    string
-	reconHandler   ReconnectHandler
+	conn             *stomp.Conn
+	maxPublishSize   int
+	topicPrefix      string
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
 }
 
@@ -100,13 +93,13 @@ func (m *fStompPublisherTransportFactory) GetTransport() FPublisherTransport {
 
 // fStompPublisherTransport implements FPublisherTransport.
 type fStompPublisherTransport struct {
-	conn           *stomp.Conn
-	maxPublishSize int
-	topicPrefix    string
-	isOpen         bool
-	reconHandler   ReconnectHandler
+	conn             *stomp.Conn
+	maxPublishSize   int
+	topicPrefix      string
+	isOpen           bool
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
-	reconMu        sync.RWMutex
+	reconMu          sync.RWMutex
 }
 
 // newStompFPublisherTransport creates a new FPublisherTransport which is used for
@@ -147,7 +140,7 @@ func (m *fStompPublisherTransport) Publish(topic string, data []byte) error {
 		return thrift.NewTTransportException(TRANSPORT_EXCEPTION_NOT_OPEN, "frugal: stomp transport not open")
 	}
 
-	if len(data) > m.maxPublishSize {
+	if m.maxPublishSize > 0 && len(data) > m.maxPublishSize {
 		return thrift.NewTTransportException(
 			TRANSPORT_EXCEPTION_REQUEST_TOO_LARGE,
 			fmt.Sprintf("Message exceeds %d bytes, was %d bytes", m.maxPublishSize, len(data)))
@@ -185,18 +178,18 @@ func (m *fStompPublisherTransport) formatStompPublishTopic(topic string) string 
 }
 
 type FStompSubscriberTransportFactoryBuilder struct {
-	conn        *stomp.Conn
-	topicPrefix string
-	useQueue    bool
-	reconHandler ReconnectHandler
+	conn             *stomp.Conn
+	topicPrefix      string
+	useQueue         bool
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
 }
 
 func NewFStompSubscriberTransportFactoryBuilder(conn *stomp.Conn) *FStompSubscriberTransportFactoryBuilder {
 	return &FStompSubscriberTransportFactoryBuilder{
-		conn:        conn,
-		topicPrefix: "",
-		useQueue:    false,
+		conn:             conn,
+		topicPrefix:      "",
+		useQueue:         false,
 		maxReconnAttempt: 3,
 	}
 }
@@ -229,20 +222,20 @@ func (f *FStompSubscriberTransportFactoryBuilder) WithMaxReconnAttempt(maxReconn
 
 func (f *FStompSubscriberTransportFactoryBuilder) Build() FSubscriberTransportFactory {
 	return &fStompSubscriberTransportFactory{
-		conn:        f.conn,
-		topicPrefix: f.topicPrefix,
-		useQueue:    f.useQueue,
-		reconHandler: f.reconHandler,
+		conn:             f.conn,
+		topicPrefix:      f.topicPrefix,
+		useQueue:         f.useQueue,
+		reconHandler:     f.reconHandler,
 		maxReconnAttempt: f.maxReconnAttempt,
 	}
 }
 
 // fStompSubscriberTransportFactory creates fStompSubscriberTransports.
 type fStompSubscriberTransportFactory struct {
-	conn        *stomp.Conn
-	topicPrefix string
-	useQueue    bool
-	reconHandler ReconnectHandler
+	conn             *stomp.Conn
+	topicPrefix      string
+	useQueue         bool
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
 }
 
@@ -259,18 +252,18 @@ func (m *fStompSubscriberTransportFactory) GetTransport() FSubscriberTransport {
 
 // fStompSubscriberTransport implements FSubscriberTransport.
 type fStompSubscriberTransport struct {
-	conn         *stomp.Conn
-	topicPrefix  string
-	topic        string
-	useQueue     bool
-	sub          *stomp.Subscription
-	openMu       sync.RWMutex
-	isSubscribed bool
-	callback     FAsyncCallback
-	stopC        chan bool
-	reconHandler ReconnectHandler
+	conn             *stomp.Conn
+	topicPrefix      string
+	topic            string
+	useQueue         bool
+	sub              *stomp.Subscription
+	openMu           sync.RWMutex
+	isSubscribed     bool
+	callback         FAsyncCallback
+	stopC            chan bool
+	reconHandler     ReconnectHandler
 	maxReconnAttempt int
-	reconMu      sync.RWMutex
+	reconMu          sync.RWMutex
 }
 
 // newStompFSubscriberTransport creates a new FSubscriberTransport which is used for
@@ -372,7 +365,6 @@ func (m *fStompSubscriberTransport) reconnect() error {
 	return nil
 }
 
-
 // processMessages call the given FAsyncCallback with messages from the
 // subscription channel.
 func (m *fStompSubscriberTransport) processMessages() {
@@ -396,7 +388,6 @@ func (m *fStompSubscriberTransport) processMessages() {
 				}
 				return
 			}
-
 
 			if len(message.Body) < 4 {
 				logger().Warnf("frugal: discarding invalid scope message frame, was length '%d'", len(message.Body))

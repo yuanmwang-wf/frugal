@@ -87,8 +87,6 @@ func Load(jsonFile string) ([]*Pair, []*Pair, error) {
 	var tests []languages
 
 	// Unmarshal json into defined structs
-	println(jsonFile)
-	println(string(bytes))
 	if err := json.Unmarshal(bytes, &tests); err != nil {
 		return nil, nil, err
 	}

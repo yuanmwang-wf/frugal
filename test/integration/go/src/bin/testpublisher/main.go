@@ -22,29 +22,20 @@ import (
 
 var host = flag.String("host", "localhost", "Host to connect")
 var port = flag.Int64("port", 9090, "Port number to connect")
-var transport = flag.String("transport", "nats", "Transport: nats, http")
+var transport = flag.String("transport", "activemq", "Transport: activemq")
 var protocol = flag.String("protocol", "binary", "Protocol: binary, compact, json")
 
 func main() {
 	flag.Parse()
 	pubSub := make(chan bool)
 	sent := make(chan bool)
-	clientMiddlewareCalled := make(chan bool, 1)
-	client, err := common.StartClient(*host, *port, *transport, *protocol, pubSub, sent, clientMiddlewareCalled)
+
+	err := common.StartPublisher(*host, *port, *transport, *protocol, pubSub, sent)
+
 	if err != nil {
-		log.Fatal("Unable to start client: ", err)
+		log.Fatal("Unable to start publisher: ", err)
 	}
 
-	common.CallEverything(client)
-
-	select {
-	case <-clientMiddlewareCalled:
-	default:
-		log.Fatal("Client middleware not invoked")
-	}
-
-	if *transport == common.NatsName {
-		close(pubSub)
-		<-sent
-	}
+	close(pubSub)
+	<-sent
 }

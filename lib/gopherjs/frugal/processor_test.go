@@ -19,8 +19,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/Sirupsen/logrus"
+	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

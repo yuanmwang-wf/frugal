@@ -1,11 +1,12 @@
 package main
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"sync"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 func main() {

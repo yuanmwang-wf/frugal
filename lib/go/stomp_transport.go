@@ -319,8 +319,8 @@ func (m *fStompSubscriberTransport) Subscribe(topic string, callback FAsyncCallb
 // IsSubscribed returns true if the transport is subscribed to a topic, false
 // otherwise.
 func (m *fStompSubscriberTransport) IsSubscribed() bool {
-	m.openMu.Lock()
-	defer m.openMu.Unlock()
+	m.openMu.RLock()
+	defer m.openMu.RUnlock()
 	return m.conn != nil && m.isSubscribed
 }
 

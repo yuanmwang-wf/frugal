@@ -218,9 +218,6 @@ func TestStompSubscriberReconnect_Subscribe(t *testing.T) {
 	case <-time.After(time.Second):
 		assert.True(t, false, "Reconn handler was not called")
 	}
-
-	// Checks the transport is subscribed again after reconnect
-	assert.True(t, stompTransport.IsSubscribed())
 }
 
 // Ensures stomp transport is able to subscribe to the expected topic and discard messages with invalid frames (size<4).

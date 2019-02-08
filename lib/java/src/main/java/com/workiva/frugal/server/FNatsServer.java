@@ -194,7 +194,7 @@ public class FNatsServer implements FServer {
         public FNatsServer build() {
             if (executorService == null) {
                 this.executorService = new ThreadPoolExecutor(
-                        1, workerCount, 30, TimeUnit.SECONDS,
+                        workerCount, workerCount, 30, TimeUnit.SECONDS,
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }

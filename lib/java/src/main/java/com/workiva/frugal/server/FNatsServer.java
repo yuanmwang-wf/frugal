@@ -157,14 +157,18 @@ public class FNatsServer implements FServer {
          * Defaults to:
          * <pre>
          * {@code
-         * new ThreadPoolExecutor(1,
+         * new ThreadPoolExecutor(workerCount,
          *                        workerCount,
-         *                        30,
-         *                        TimeUnit.SECONDS,
+         *                        0,
+         *                        TimeUnit.MILLISECONDS,
          *                        new ArrayBlockingQueue<>(queueLength),
          *                        new BlockingRejectedExecutionHandler());
          * }
          * </pre>
+         *
+         * This is similar to {@link java.util.concurrent.Executors#newFixedThreadPool},
+         * but with a different {@link java.util.concurrent.RejectedExecutionHandler},
+         * which will block until the task can be processed.
          *
          * @param executorService ExecutorService to run tasks
          * @return Builder
@@ -193,8 +197,9 @@ public class FNatsServer implements FServer {
          */
         public FNatsServer build() {
             if (executorService == null) {
+                //
                 this.executorService = new ThreadPoolExecutor(
-                        1, workerCount, 30, TimeUnit.SECONDS,
+                        workerCount, workerCount, 0, TimeUnit.MILLISECONDS,
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }

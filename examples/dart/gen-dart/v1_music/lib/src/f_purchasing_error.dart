@@ -12,26 +12,38 @@ class PurchasingError extends Error implements thrift.TBase {
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("message", thrift.TType.STRING, 1);
   static final thrift.TField _ERROR_CODE_FIELD_DESC = new thrift.TField("error_code", thrift.TType.I16, 2);
 
-  String message;
+  String _message;
   static const int MESSAGE = 1;
-  int error_code = 0;
+  int _error_code = 0;
   static const int ERROR_CODE = 2;
 
 
   PurchasingError() {
   }
 
-  @deprecated
-  bool isSetMessage() => message != null;
+  String get message => this._message;
+
+  set message(String message) {
+    this._message = message;
+  }
 
   @deprecated
-  unsetMessage() => message = null;
+  bool isSetMessage() => _message != null;
 
   @deprecated
-  bool isSetError_code() => error_code != null;
+  unsetMessage() => this._message = null;
+
+  int get error_code => this._error_code;
+
+  set error_code(int error_code) {
+    this._error_code = error_code;
+  }
 
   @deprecated
-  unsetError_code() => error_code = null;
+  bool isSetError_code() => _error_code != null;
+
+  @deprecated
+  unsetError_code() => this._error_code = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -49,11 +61,11 @@ class PurchasingError extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGE:
-        message = value as String; // ignore: avoid_as
+        _message = value as String; // ignore: avoid_as
         break;
 
       case ERROR_CODE:
-        error_code = value as int; // ignore: avoid_as
+        _error_code = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -66,10 +78,10 @@ class PurchasingError extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case MESSAGE:
-        return message != null;
+        return _message != null;
 
       case ERROR_CODE:
-        return error_code != null;
+        return _error_code != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

@@ -138,26 +138,38 @@ class buyAlbum_args implements thrift.TBase {
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 1);
   static final thrift.TField _ACCT_FIELD_DESC = new thrift.TField("acct", thrift.TType.STRING, 2);
 
-  String aSIN;
+  String _aSIN;
   static const int ASIN = 1;
-  String acct;
+  String _acct;
   static const int ACCT = 2;
 
 
   buyAlbum_args() {
   }
 
-  @deprecated
-  bool isSetASIN() => aSIN != null;
+  String get aSIN => this._aSIN;
+
+  set aSIN(String aSIN) {
+    this._aSIN = aSIN;
+  }
 
   @deprecated
-  unsetASIN() => aSIN = null;
+  bool isSetASIN() => _aSIN != null;
 
   @deprecated
-  bool isSetAcct() => acct != null;
+  unsetASIN() => this._aSIN = null;
+
+  String get acct => this._acct;
+
+  set acct(String acct) {
+    this._acct = acct;
+  }
 
   @deprecated
-  unsetAcct() => acct = null;
+  bool isSetAcct() => _acct != null;
+
+  @deprecated
+  unsetAcct() => this._acct = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -175,11 +187,11 @@ class buyAlbum_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ASIN:
-        aSIN = value as String; // ignore: avoid_as
+        _aSIN = value as String; // ignore: avoid_as
         break;
 
       case ACCT:
-        acct = value as String; // ignore: avoid_as
+        _acct = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -192,10 +204,10 @@ class buyAlbum_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ASIN:
-        return aSIN != null;
+        return _aSIN != null;
 
       case ACCT:
-        return acct != null;
+        return _acct != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -312,26 +324,38 @@ class buyAlbum_result implements thrift.TBase {
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _ERROR_FIELD_DESC = new thrift.TField("error", thrift.TType.STRUCT, 1);
 
-  t_v1_music.Album success;
+  t_v1_music.Album _success;
   static const int SUCCESS = 0;
-  t_v1_music.PurchasingError error;
+  t_v1_music.PurchasingError _error;
   static const int ERROR = 1;
 
 
   buyAlbum_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  t_v1_music.Album get success => this._success;
+
+  set success(t_v1_music.Album success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
 
   @deprecated
-  bool isSetError() => error != null;
+  unsetSuccess() => this._success = null;
+
+  t_v1_music.PurchasingError get error => this._error;
+
+  set error(t_v1_music.PurchasingError error) {
+    this._error = error;
+  }
 
   @deprecated
-  unsetError() => error = null;
+  bool isSetError() => _error != null;
+
+  @deprecated
+  unsetError() => this._error = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -349,11 +373,11 @@ class buyAlbum_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as t_v1_music.Album; // ignore: avoid_as
+        _success = value as t_v1_music.Album; // ignore: avoid_as
         break;
 
       case ERROR:
-        error = value as t_v1_music.PurchasingError; // ignore: avoid_as
+        _error = value as t_v1_music.PurchasingError; // ignore: avoid_as
         break;
 
       default:
@@ -366,10 +390,10 @@ class buyAlbum_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       case ERROR:
-        return error != null;
+        return _error != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -492,26 +516,38 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   static final thrift.TField _EMAIL_FIELD_DESC = new thrift.TField("email", thrift.TType.STRING, 1);
   static final thrift.TField _NAME_FIELD_DESC = new thrift.TField("name", thrift.TType.STRING, 2);
 
-  String email;
+  String _email;
   static const int EMAIL = 1;
-  String name;
+  String _name;
   static const int NAME = 2;
 
 
   enterAlbumGiveaway_args() {
   }
 
-  @deprecated
-  bool isSetEmail() => email != null;
+  String get email => this._email;
+
+  set email(String email) {
+    this._email = email;
+  }
 
   @deprecated
-  unsetEmail() => email = null;
+  bool isSetEmail() => _email != null;
 
   @deprecated
-  bool isSetName() => name != null;
+  unsetEmail() => this._email = null;
+
+  String get name => this._name;
+
+  set name(String name) {
+    this._name = name;
+  }
 
   @deprecated
-  unsetName() => name = null;
+  bool isSetName() => _name != null;
+
+  @deprecated
+  unsetName() => this._name = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -529,11 +565,11 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case EMAIL:
-        email = value as String; // ignore: avoid_as
+        _email = value as String; // ignore: avoid_as
         break;
 
       case NAME:
-        name = value as String; // ignore: avoid_as
+        _name = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -546,10 +582,10 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case EMAIL:
-        return email != null;
+        return _email != null;
 
       case NAME:
-        return name != null;
+        return _name != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -665,18 +701,24 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("enterAlbumGiveaway_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.BOOL, 0);
 
-  bool success;
+  bool _success;
   static const int SUCCESS = 0;
 
 
   enterAlbumGiveaway_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  bool get success => this._success;
+
+  set success(bool success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -692,7 +734,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as bool; // ignore: avoid_as
+        _success = value as bool; // ignore: avoid_as
         break;
 
       default:
@@ -705,7 +747,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

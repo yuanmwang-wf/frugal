@@ -13,34 +13,52 @@ class Album implements thrift.TBase {
   static final thrift.TField _DURATION_FIELD_DESC = new thrift.TField("duration", thrift.TType.DOUBLE, 2);
   static final thrift.TField _ASIN_FIELD_DESC = new thrift.TField("ASIN", thrift.TType.STRING, 3);
 
-  List<t_v1_music.Track> tracks;
+  List<t_v1_music.Track> _tracks;
   static const int TRACKS = 1;
-  double duration = 0.0;
+  double _duration = 0.0;
   static const int DURATION = 2;
-  String aSIN;
+  String _aSIN;
   static const int ASIN = 3;
 
 
   Album() {
   }
 
-  @deprecated
-  bool isSetTracks() => tracks != null;
+  List<t_v1_music.Track> get tracks => this._tracks;
+
+  set tracks(List<t_v1_music.Track> tracks) {
+    this._tracks = tracks;
+  }
 
   @deprecated
-  unsetTracks() => tracks = null;
+  bool isSetTracks() => _tracks != null;
 
   @deprecated
-  bool isSetDuration() => duration != null;
+  unsetTracks() => this._tracks = null;
+
+  double get duration => this._duration;
+
+  set duration(double duration) {
+    this._duration = duration;
+  }
 
   @deprecated
-  unsetDuration() => duration = null;
+  bool isSetDuration() => _duration != null;
 
   @deprecated
-  bool isSetASIN() => aSIN != null;
+  unsetDuration() => this._duration = null;
+
+  String get aSIN => this._aSIN;
+
+  set aSIN(String aSIN) {
+    this._aSIN = aSIN;
+  }
 
   @deprecated
-  unsetASIN() => aSIN = null;
+  bool isSetASIN() => _aSIN != null;
+
+  @deprecated
+  unsetASIN() => this._aSIN = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -60,15 +78,15 @@ class Album implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case TRACKS:
-        tracks = value as List<t_v1_music.Track>; // ignore: avoid_as
+        _tracks = value as List<t_v1_music.Track>; // ignore: avoid_as
         break;
 
       case DURATION:
-        duration = value as double; // ignore: avoid_as
+        _duration = value as double; // ignore: avoid_as
         break;
 
       case ASIN:
-        aSIN = value as String; // ignore: avoid_as
+        _aSIN = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -81,13 +99,13 @@ class Album implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case TRACKS:
-        return tracks != null;
+        return _tracks != null;
 
       case DURATION:
-        return duration != null;
+        return _duration != null;
 
       case ASIN:
-        return aSIN != null;
+        return _aSIN != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

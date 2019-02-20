@@ -15,58 +15,94 @@ class Track implements thrift.TBase {
   static final thrift.TField _DURATION_FIELD_DESC = new thrift.TField("duration", thrift.TType.DOUBLE, 5);
   static final thrift.TField _PRO_FIELD_DESC = new thrift.TField("pro", thrift.TType.I32, 6);
 
-  String title;
+  String _title;
   static const int TITLE = 1;
-  String artist;
+  String _artist;
   static const int ARTIST = 2;
-  String publisher;
+  String _publisher;
   static const int PUBLISHER = 3;
-  String composer;
+  String _composer;
   static const int COMPOSER = 4;
-  double duration = 0.0;
+  double _duration = 0.0;
   static const int DURATION = 5;
-  int pro;
+  int _pro;
   static const int PRO = 6;
 
 
   Track() {
   }
 
-  @deprecated
-  bool isSetTitle() => title != null;
+  String get title => this._title;
+
+  set title(String title) {
+    this._title = title;
+  }
 
   @deprecated
-  unsetTitle() => title = null;
+  bool isSetTitle() => _title != null;
 
   @deprecated
-  bool isSetArtist() => artist != null;
+  unsetTitle() => this._title = null;
+
+  String get artist => this._artist;
+
+  set artist(String artist) {
+    this._artist = artist;
+  }
 
   @deprecated
-  unsetArtist() => artist = null;
+  bool isSetArtist() => _artist != null;
 
   @deprecated
-  bool isSetPublisher() => publisher != null;
+  unsetArtist() => this._artist = null;
+
+  String get publisher => this._publisher;
+
+  set publisher(String publisher) {
+    this._publisher = publisher;
+  }
 
   @deprecated
-  unsetPublisher() => publisher = null;
+  bool isSetPublisher() => _publisher != null;
 
   @deprecated
-  bool isSetComposer() => composer != null;
+  unsetPublisher() => this._publisher = null;
+
+  String get composer => this._composer;
+
+  set composer(String composer) {
+    this._composer = composer;
+  }
 
   @deprecated
-  unsetComposer() => composer = null;
+  bool isSetComposer() => _composer != null;
 
   @deprecated
-  bool isSetDuration() => duration != null;
+  unsetComposer() => this._composer = null;
+
+  double get duration => this._duration;
+
+  set duration(double duration) {
+    this._duration = duration;
+  }
 
   @deprecated
-  unsetDuration() => duration = null;
+  bool isSetDuration() => _duration != null;
 
   @deprecated
-  bool isSetPro() => pro != null;
+  unsetDuration() => this._duration = null;
+
+  int get pro => this._pro;
+
+  set pro(int pro) {
+    this._pro = pro;
+  }
 
   @deprecated
-  unsetPro() => pro = null;
+  bool isSetPro() => _pro != null;
+
+  @deprecated
+  unsetPro() => this._pro = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -92,27 +128,27 @@ class Track implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case TITLE:
-        title = value as String; // ignore: avoid_as
+        _title = value as String; // ignore: avoid_as
         break;
 
       case ARTIST:
-        artist = value as String; // ignore: avoid_as
+        _artist = value as String; // ignore: avoid_as
         break;
 
       case PUBLISHER:
-        publisher = value as String; // ignore: avoid_as
+        _publisher = value as String; // ignore: avoid_as
         break;
 
       case COMPOSER:
-        composer = value as String; // ignore: avoid_as
+        _composer = value as String; // ignore: avoid_as
         break;
 
       case DURATION:
-        duration = value as double; // ignore: avoid_as
+        _duration = value as double; // ignore: avoid_as
         break;
 
       case PRO:
-        pro = value as int; // ignore: avoid_as
+        _pro = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -125,22 +161,22 @@ class Track implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case TITLE:
-        return title != null;
+        return _title != null;
 
       case ARTIST:
-        return artist != null;
+        return _artist != null;
 
       case PUBLISHER:
-        return publisher != null;
+        return _publisher != null;
 
       case COMPOSER:
-        return composer != null;
+        return _composer != null;
 
       case DURATION:
-        return duration != null;
+        return _duration != null;
 
       case PRO:
-        return pro != null;
+        return _pro != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

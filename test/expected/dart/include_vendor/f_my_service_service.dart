@@ -173,26 +173,38 @@ class getItem_result implements thrift.TBase {
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _D_FIELD_DESC = new thrift.TField("d", thrift.TType.STRUCT, 1);
 
-  t_vendor_namespace.Item success;
+  t_vendor_namespace.Item _success;
   static const int SUCCESS = 0;
-  t_excepts.InvalidData d;
+  t_excepts.InvalidData _d;
   static const int D = 1;
 
 
   getItem_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  t_vendor_namespace.Item get success => this._success;
+
+  set success(t_vendor_namespace.Item success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
 
   @deprecated
-  bool isSetD() => d != null;
+  unsetSuccess() => this._success = null;
+
+  t_excepts.InvalidData get d => this._d;
+
+  set d(t_excepts.InvalidData d) {
+    this._d = d;
+  }
 
   @deprecated
-  unsetD() => d = null;
+  bool isSetD() => _d != null;
+
+  @deprecated
+  unsetD() => this._d = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -210,11 +222,11 @@ class getItem_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as t_vendor_namespace.Item; // ignore: avoid_as
+        _success = value as t_vendor_namespace.Item; // ignore: avoid_as
         break;
 
       case D:
-        d = value as t_excepts.InvalidData; // ignore: avoid_as
+        _d = value as t_excepts.InvalidData; // ignore: avoid_as
         break;
 
       default:
@@ -227,10 +239,10 @@ class getItem_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       case D:
-        return d != null;
+        return _d != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

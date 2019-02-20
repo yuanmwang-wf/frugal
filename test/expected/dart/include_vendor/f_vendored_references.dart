@@ -12,28 +12,38 @@ class VendoredReferences implements thrift.TBase {
   static final thrift.TField _REFERENCE_VENDORED_CONST_FIELD_DESC = new thrift.TField("reference_vendored_const", thrift.TType.I32, 1);
   static final thrift.TField _REFERENCE_VENDORED_ENUM_FIELD_DESC = new thrift.TField("reference_vendored_enum", thrift.TType.I32, 2);
 
-  int reference_vendored_const;
+  int _reference_vendored_const;
   static const int REFERENCE_VENDORED_CONST = 1;
-  int reference_vendored_enum;
+  int _reference_vendored_enum;
   static const int REFERENCE_VENDORED_ENUM = 2;
 
 
   VendoredReferences() {
-    this.reference_vendored_const = t_vendor_namespace.VendorNamespaceConstants.a_const;
-    this.reference_vendored_enum = t_vendor_namespace.MyEnum.TWO;
+  }
+
+  int get reference_vendored_const => this._reference_vendored_const ?? t_vendor_namespace.VendorNamespaceConstants.a_const;
+
+  set reference_vendored_const(int reference_vendored_const) {
+    this._reference_vendored_const = reference_vendored_const;
   }
 
   @deprecated
-  bool isSetReference_vendored_const() => reference_vendored_const != null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
+  bool isSetReference_vendored_const() => _reference_vendored_const != null;
 
   @deprecated
-  unsetReference_vendored_const() => reference_vendored_const = null;
+  unsetReference_vendored_const() => this._reference_vendored_const = null;
+
+  int get reference_vendored_enum => this._reference_vendored_enum ?? t_vendor_namespace.MyEnum.TWO;
+
+  set reference_vendored_enum(int reference_vendored_enum) {
+    this._reference_vendored_enum = reference_vendored_enum;
+  }
 
   @deprecated
-  bool isSetReference_vendored_enum() => reference_vendored_enum != null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
+  bool isSetReference_vendored_enum() => _reference_vendored_enum != null;
 
   @deprecated
-  unsetReference_vendored_enum() => reference_vendored_enum = null;
+  unsetReference_vendored_enum() => this._reference_vendored_enum = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -51,11 +61,11 @@ class VendoredReferences implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case REFERENCE_VENDORED_CONST:
-        reference_vendored_const = value as int; // ignore: avoid_as
+        _reference_vendored_const = value as int; // ignore: avoid_as
         break;
 
       case REFERENCE_VENDORED_ENUM:
-        reference_vendored_enum = value as int; // ignore: avoid_as
+        _reference_vendored_enum = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -68,10 +78,10 @@ class VendoredReferences implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case REFERENCE_VENDORED_CONST:
-        return reference_vendored_const != null && reference_vendored_const != t_vendor_namespace.VendorNamespaceConstants.a_const;
+        return _reference_vendored_const != null;
 
       case REFERENCE_VENDORED_ENUM:
-        return reference_vendored_enum != null && reference_vendored_enum != t_vendor_namespace.MyEnum.TWO;
+        return _reference_vendored_enum != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

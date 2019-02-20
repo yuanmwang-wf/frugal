@@ -26,122 +26,200 @@ class EventWrapper implements thrift.TBase {
   static final thrift.TField _DEPR_BINARY_FIELD_DESC = new thrift.TField("deprBinary", thrift.TType.STRING, 12);
   static final thrift.TField _DEPR_LIST_FIELD_DESC = new thrift.TField("deprList", thrift.TType.LIST, 13);
 
-  int iD;
+  int _iD;
   static const int ID = 1;
-  t_variety.Event ev;
+  t_variety.Event _ev;
   static const int EV = 2;
-  List<t_variety.Event> events;
+  List<t_variety.Event> _events;
   static const int EVENTS = 3;
-  Set<t_variety.Event> events2;
+  Set<t_variety.Event> _events2;
   static const int EVENTS2 = 4;
-  Map<int, t_variety.Event> eventMap;
+  Map<int, t_variety.Event> _eventMap;
   static const int EVENTMAP = 5;
-  List<List<int>> nums;
+  List<List<int>> _nums;
   static const int NUMS = 6;
-  List<int> enums;
+  List<int> _enums;
   static const int ENUMS = 7;
-  bool aBoolField = false;
+  bool _aBoolField = false;
   static const int ABOOLFIELD = 8;
-  t_variety.TestingUnions a_union;
+  t_variety.TestingUnions _a_union;
   static const int A_UNION = 9;
-  String typedefOfTypedef;
+  String _typedefOfTypedef;
   static const int TYPEDEFOFTYPEDEF = 10;
   /// This is a docstring comment for a deprecated field that has been spread
   /// across two lines.
   /// Deprecated: use something else
   @deprecated
-  bool depr = false;
+  bool _depr = false;
   static const int DEPR = 11;
   /// Deprecated: use something else
   @deprecated
-  Uint8List deprBinary;
+  Uint8List _deprBinary;
   static const int DEPRBINARY = 12;
   /// Deprecated: use something else
   @deprecated
-  List<bool> deprList;
+  List<bool> _deprList;
   static const int DEPRLIST = 13;
 
 
   EventWrapper() {
   }
 
-  @deprecated
-  bool isSetID() => iD != null;
+  int get iD => this._iD;
+
+  set iD(int iD) {
+    this._iD = iD;
+  }
 
   @deprecated
-  unsetID() => iD = null;
+  bool isSetID() => _iD != null;
 
   @deprecated
-  bool isSetEv() => ev != null;
+  unsetID() => this._iD = null;
+
+  t_variety.Event get ev => this._ev;
+
+  set ev(t_variety.Event ev) {
+    this._ev = ev;
+  }
 
   @deprecated
-  unsetEv() => ev = null;
+  bool isSetEv() => _ev != null;
 
   @deprecated
-  bool isSetEvents() => events != null;
+  unsetEv() => this._ev = null;
+
+  List<t_variety.Event> get events => this._events;
+
+  set events(List<t_variety.Event> events) {
+    this._events = events;
+  }
 
   @deprecated
-  unsetEvents() => events = null;
+  bool isSetEvents() => _events != null;
 
   @deprecated
-  bool isSetEvents2() => events2 != null;
+  unsetEvents() => this._events = null;
+
+  Set<t_variety.Event> get events2 => this._events2;
+
+  set events2(Set<t_variety.Event> events2) {
+    this._events2 = events2;
+  }
 
   @deprecated
-  unsetEvents2() => events2 = null;
+  bool isSetEvents2() => _events2 != null;
 
   @deprecated
-  bool isSetEventMap() => eventMap != null;
+  unsetEvents2() => this._events2 = null;
+
+  Map<int, t_variety.Event> get eventMap => this._eventMap;
+
+  set eventMap(Map<int, t_variety.Event> eventMap) {
+    this._eventMap = eventMap;
+  }
 
   @deprecated
-  unsetEventMap() => eventMap = null;
+  bool isSetEventMap() => _eventMap != null;
 
   @deprecated
-  bool isSetNums() => nums != null;
+  unsetEventMap() => this._eventMap = null;
+
+  List<List<int>> get nums => this._nums;
+
+  set nums(List<List<int>> nums) {
+    this._nums = nums;
+  }
 
   @deprecated
-  unsetNums() => nums = null;
+  bool isSetNums() => _nums != null;
 
   @deprecated
-  bool isSetEnums() => enums != null;
+  unsetNums() => this._nums = null;
+
+  List<int> get enums => this._enums;
+
+  set enums(List<int> enums) {
+    this._enums = enums;
+  }
 
   @deprecated
-  unsetEnums() => enums = null;
+  bool isSetEnums() => _enums != null;
 
   @deprecated
-  bool isSetABoolField() => aBoolField != null;
+  unsetEnums() => this._enums = null;
+
+  bool get aBoolField => this._aBoolField;
+
+  set aBoolField(bool aBoolField) {
+    this._aBoolField = aBoolField;
+  }
 
   @deprecated
-  unsetABoolField() => aBoolField = null;
+  bool isSetABoolField() => _aBoolField != null;
 
   @deprecated
-  bool isSetA_union() => a_union != null;
+  unsetABoolField() => this._aBoolField = null;
+
+  t_variety.TestingUnions get a_union => this._a_union;
+
+  set a_union(t_variety.TestingUnions a_union) {
+    this._a_union = a_union;
+  }
 
   @deprecated
-  unsetA_union() => a_union = null;
+  bool isSetA_union() => _a_union != null;
 
   @deprecated
-  bool isSetTypedefOfTypedef() => typedefOfTypedef != null;
+  unsetA_union() => this._a_union = null;
+
+  String get typedefOfTypedef => this._typedefOfTypedef;
+
+  set typedefOfTypedef(String typedefOfTypedef) {
+    this._typedefOfTypedef = typedefOfTypedef;
+  }
 
   @deprecated
-  unsetTypedefOfTypedef() => typedefOfTypedef = null;
+  bool isSetTypedefOfTypedef() => _typedefOfTypedef != null;
 
   @deprecated
-  bool isSetDepr() => depr != null;
+  unsetTypedefOfTypedef() => this._typedefOfTypedef = null;
+
+  bool get depr => this._depr;
+
+  set depr(bool depr) {
+    this._depr = depr;
+  }
 
   @deprecated
-  unsetDepr() => depr = null;
+  bool isSetDepr() => _depr != null;
 
   @deprecated
-  bool isSetDeprBinary() => deprBinary != null;
+  unsetDepr() => this._depr = null;
+
+  Uint8List get deprBinary => this._deprBinary;
+
+  set deprBinary(Uint8List deprBinary) {
+    this._deprBinary = deprBinary;
+  }
 
   @deprecated
-  unsetDeprBinary() => deprBinary = null;
+  bool isSetDeprBinary() => _deprBinary != null;
 
   @deprecated
-  bool isSetDeprList() => deprList != null;
+  unsetDeprBinary() => this._deprBinary = null;
+
+  List<bool> get deprList => this._deprList;
+
+  set deprList(List<bool> deprList) {
+    this._deprList = deprList;
+  }
 
   @deprecated
-  unsetDeprList() => deprList = null;
+  bool isSetDeprList() => _deprList != null;
+
+  @deprecated
+  unsetDeprList() => this._deprList = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -184,55 +262,55 @@ class EventWrapper implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        iD = value as int; // ignore: avoid_as
+        _iD = value as int; // ignore: avoid_as
         break;
 
       case EV:
-        ev = value as t_variety.Event; // ignore: avoid_as
+        _ev = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case EVENTS:
-        events = value as List<t_variety.Event>; // ignore: avoid_as
+        _events = value as List<t_variety.Event>; // ignore: avoid_as
         break;
 
       case EVENTS2:
-        events2 = value as Set<t_variety.Event>; // ignore: avoid_as
+        _events2 = value as Set<t_variety.Event>; // ignore: avoid_as
         break;
 
       case EVENTMAP:
-        eventMap = value as Map<int, t_variety.Event>; // ignore: avoid_as
+        _eventMap = value as Map<int, t_variety.Event>; // ignore: avoid_as
         break;
 
       case NUMS:
-        nums = value as List<List<int>>; // ignore: avoid_as
+        _nums = value as List<List<int>>; // ignore: avoid_as
         break;
 
       case ENUMS:
-        enums = value as List<int>; // ignore: avoid_as
+        _enums = value as List<int>; // ignore: avoid_as
         break;
 
       case ABOOLFIELD:
-        aBoolField = value as bool; // ignore: avoid_as
+        _aBoolField = value as bool; // ignore: avoid_as
         break;
 
       case A_UNION:
-        a_union = value as t_variety.TestingUnions; // ignore: avoid_as
+        _a_union = value as t_variety.TestingUnions; // ignore: avoid_as
         break;
 
       case TYPEDEFOFTYPEDEF:
-        typedefOfTypedef = value as String; // ignore: avoid_as
+        _typedefOfTypedef = value as String; // ignore: avoid_as
         break;
 
       case DEPR:
-        depr = value as bool; // ignore: avoid_as
+        _depr = value as bool; // ignore: avoid_as
         break;
 
       case DEPRBINARY:
-        deprBinary = value as Uint8List; // ignore: avoid_as
+        _deprBinary = value as Uint8List; // ignore: avoid_as
         break;
 
       case DEPRLIST:
-        deprList = value as List<bool>; // ignore: avoid_as
+        _deprList = value as List<bool>; // ignore: avoid_as
         break;
 
       default:
@@ -245,46 +323,46 @@ class EventWrapper implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ID:
-        return iD != null;
+        return _iD != null;
 
       case EV:
-        return ev != null;
+        return _ev != null;
 
       case EVENTS:
-        return events != null;
+        return _events != null;
 
       case EVENTS2:
-        return events2 != null;
+        return _events2 != null;
 
       case EVENTMAP:
-        return eventMap != null;
+        return _eventMap != null;
 
       case NUMS:
-        return nums != null;
+        return _nums != null;
 
       case ENUMS:
-        return enums != null;
+        return _enums != null;
 
       case ABOOLFIELD:
-        return aBoolField != null;
+        return _aBoolField != null;
 
       case A_UNION:
-        return a_union != null;
+        return _a_union != null;
 
       case TYPEDEFOFTYPEDEF:
-        return typedefOfTypedef != null;
+        return _typedefOfTypedef != null;
 
       case DEPR:
         // ignore: deprecated_member_use
-        return depr != null;
+        return _depr != null;
 
       case DEPRBINARY:
         // ignore: deprecated_member_use
-        return deprBinary != null;
+        return _deprBinary != null;
 
       case DEPRLIST:
         // ignore: deprecated_member_use
-        return deprList != null;
+        return _deprList != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

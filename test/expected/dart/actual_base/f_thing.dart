@@ -10,26 +10,38 @@ class thing implements thrift.TBase {
   static final thrift.TField _AN_ID_FIELD_DESC = new thrift.TField("an_id", thrift.TType.I32, 1);
   static final thrift.TField _A_STRING_FIELD_DESC = new thrift.TField("a_string", thrift.TType.STRING, 2);
 
-  int an_id = 0;
+  int _an_id = 0;
   static const int AN_ID = 1;
-  String a_string;
+  String _a_string;
   static const int A_STRING = 2;
 
 
   thing() {
   }
 
-  @deprecated
-  bool isSetAn_id() => an_id != null;
+  int get an_id => this._an_id;
+
+  set an_id(int an_id) {
+    this._an_id = an_id;
+  }
 
   @deprecated
-  unsetAn_id() => an_id = null;
+  bool isSetAn_id() => _an_id != null;
 
   @deprecated
-  bool isSetA_string() => a_string != null;
+  unsetAn_id() => this._an_id = null;
+
+  String get a_string => this._a_string;
+
+  set a_string(String a_string) {
+    this._a_string = a_string;
+  }
 
   @deprecated
-  unsetA_string() => a_string = null;
+  bool isSetA_string() => _a_string != null;
+
+  @deprecated
+  unsetA_string() => this._a_string = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -47,11 +59,11 @@ class thing implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case AN_ID:
-        an_id = value as int; // ignore: avoid_as
+        _an_id = value as int; // ignore: avoid_as
         break;
 
       case A_STRING:
-        a_string = value as String; // ignore: avoid_as
+        _a_string = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -64,10 +76,10 @@ class thing implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case AN_ID:
-        return an_id != null;
+        return _an_id != null;
 
       case A_STRING:
-        return a_string != null;
+        return _a_string != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

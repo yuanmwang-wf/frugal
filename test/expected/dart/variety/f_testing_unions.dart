@@ -20,68 +20,110 @@ class TestingUnions implements thrift.TBase {
   static final thrift.TField _BIN_FIELD_IN_UNION_FIELD_DESC = new thrift.TField("bin_field_in_union", thrift.TType.STRING, 6);
   static final thrift.TField _DEPR_FIELD_DESC = new thrift.TField("depr", thrift.TType.BOOL, 7);
 
-  int anID;
+  int _anID;
   static const int ANID = 1;
-  String aString;
+  String _aString;
   static const int ASTRING = 2;
-  int someotherthing;
+  int _someotherthing;
   static const int SOMEOTHERTHING = 3;
-  int anInt16;
+  int _anInt16;
   static const int ANINT16 = 4;
-  Map<int, String> requests;
+  Map<int, String> _requests;
   static const int REQUESTS = 5;
-  Uint8List bin_field_in_union;
+  Uint8List _bin_field_in_union;
   static const int BIN_FIELD_IN_UNION = 6;
   /// Deprecated: use something else
   @deprecated
-  bool depr;
+  bool _depr;
   static const int DEPR = 7;
 
 
   TestingUnions() {
   }
 
-  @deprecated
-  bool isSetAnID() => anID != null;
+  int get anID => this._anID;
+
+  set anID(int anID) {
+    this._anID = anID;
+  }
 
   @deprecated
-  unsetAnID() => anID = null;
+  bool isSetAnID() => _anID != null;
 
   @deprecated
-  bool isSetAString() => aString != null;
+  unsetAnID() => this._anID = null;
+
+  String get aString => this._aString;
+
+  set aString(String aString) {
+    this._aString = aString;
+  }
 
   @deprecated
-  unsetAString() => aString = null;
+  bool isSetAString() => _aString != null;
 
   @deprecated
-  bool isSetSomeotherthing() => someotherthing != null;
+  unsetAString() => this._aString = null;
+
+  int get someotherthing => this._someotherthing;
+
+  set someotherthing(int someotherthing) {
+    this._someotherthing = someotherthing;
+  }
 
   @deprecated
-  unsetSomeotherthing() => someotherthing = null;
+  bool isSetSomeotherthing() => _someotherthing != null;
 
   @deprecated
-  bool isSetAnInt16() => anInt16 != null;
+  unsetSomeotherthing() => this._someotherthing = null;
+
+  int get anInt16 => this._anInt16;
+
+  set anInt16(int anInt16) {
+    this._anInt16 = anInt16;
+  }
 
   @deprecated
-  unsetAnInt16() => anInt16 = null;
+  bool isSetAnInt16() => _anInt16 != null;
 
   @deprecated
-  bool isSetRequests() => requests != null;
+  unsetAnInt16() => this._anInt16 = null;
+
+  Map<int, String> get requests => this._requests;
+
+  set requests(Map<int, String> requests) {
+    this._requests = requests;
+  }
 
   @deprecated
-  unsetRequests() => requests = null;
+  bool isSetRequests() => _requests != null;
 
   @deprecated
-  bool isSetBin_field_in_union() => bin_field_in_union != null;
+  unsetRequests() => this._requests = null;
+
+  Uint8List get bin_field_in_union => this._bin_field_in_union;
+
+  set bin_field_in_union(Uint8List bin_field_in_union) {
+    this._bin_field_in_union = bin_field_in_union;
+  }
 
   @deprecated
-  unsetBin_field_in_union() => bin_field_in_union = null;
+  bool isSetBin_field_in_union() => _bin_field_in_union != null;
 
   @deprecated
-  bool isSetDepr() => depr != null;
+  unsetBin_field_in_union() => this._bin_field_in_union = null;
+
+  bool get depr => this._depr;
+
+  set depr(bool depr) {
+    this._depr = depr;
+  }
 
   @deprecated
-  unsetDepr() => depr = null;
+  bool isSetDepr() => _depr != null;
+
+  @deprecated
+  unsetDepr() => this._depr = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -110,31 +152,31 @@ class TestingUnions implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ANID:
-        anID = value as int; // ignore: avoid_as
+        _anID = value as int; // ignore: avoid_as
         break;
 
       case ASTRING:
-        aString = value as String; // ignore: avoid_as
+        _aString = value as String; // ignore: avoid_as
         break;
 
       case SOMEOTHERTHING:
-        someotherthing = value as int; // ignore: avoid_as
+        _someotherthing = value as int; // ignore: avoid_as
         break;
 
       case ANINT16:
-        anInt16 = value as int; // ignore: avoid_as
+        _anInt16 = value as int; // ignore: avoid_as
         break;
 
       case REQUESTS:
-        requests = value as Map<int, String>; // ignore: avoid_as
+        _requests = value as Map<int, String>; // ignore: avoid_as
         break;
 
       case BIN_FIELD_IN_UNION:
-        bin_field_in_union = value as Uint8List; // ignore: avoid_as
+        _bin_field_in_union = value as Uint8List; // ignore: avoid_as
         break;
 
       case DEPR:
-        depr = value as bool; // ignore: avoid_as
+        _depr = value as bool; // ignore: avoid_as
         break;
 
       default:
@@ -147,26 +189,26 @@ class TestingUnions implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ANID:
-        return anID != null;
+        return _anID != null;
 
       case ASTRING:
-        return aString != null;
+        return _aString != null;
 
       case SOMEOTHERTHING:
-        return someotherthing != null;
+        return _someotherthing != null;
 
       case ANINT16:
-        return anInt16 != null;
+        return _anInt16 != null;
 
       case REQUESTS:
-        return requests != null;
+        return _requests != null;
 
       case BIN_FIELD_IN_UNION:
-        return bin_field_in_union != null;
+        return _bin_field_in_union != null;
 
       case DEPR:
         // ignore: deprecated_member_use
-        return depr != null;
+        return _depr != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

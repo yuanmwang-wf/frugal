@@ -732,34 +732,52 @@ class blah_args implements thrift.TBase {
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
   static final thrift.TField _EVENT_FIELD_DESC = new thrift.TField("event", thrift.TType.STRUCT, 3);
 
-  int num = 0;
+  int _num = 0;
   static const int NUM = 1;
-  String str;
+  String _str;
   static const int STR = 2;
-  t_variety.Event event;
+  t_variety.Event _event;
   static const int EVENT = 3;
 
 
   blah_args() {
   }
 
-  @deprecated
-  bool isSetNum() => num != null;
+  int get num => this._num;
+
+  set num(int num) {
+    this._num = num;
+  }
 
   @deprecated
-  unsetNum() => num = null;
+  bool isSetNum() => _num != null;
 
   @deprecated
-  bool isSetStr() => str != null;
+  unsetNum() => this._num = null;
+
+  String get str => this._str;
+
+  set str(String str) {
+    this._str = str;
+  }
 
   @deprecated
-  unsetStr() => str = null;
+  bool isSetStr() => _str != null;
 
   @deprecated
-  bool isSetEvent() => event != null;
+  unsetStr() => this._str = null;
+
+  t_variety.Event get event => this._event;
+
+  set event(t_variety.Event event) {
+    this._event = event;
+  }
 
   @deprecated
-  unsetEvent() => event = null;
+  bool isSetEvent() => _event != null;
+
+  @deprecated
+  unsetEvent() => this._event = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -779,15 +797,15 @@ class blah_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NUM:
-        num = value as int; // ignore: avoid_as
+        _num = value as int; // ignore: avoid_as
         break;
 
       case STR:
-        str = value as String; // ignore: avoid_as
+        _str = value as String; // ignore: avoid_as
         break;
 
       case EVENT:
-        event = value as t_variety.Event; // ignore: avoid_as
+        _event = value as t_variety.Event; // ignore: avoid_as
         break;
 
       default:
@@ -800,13 +818,13 @@ class blah_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case NUM:
-        return num != null;
+        return _num != null;
 
       case STR:
-        return str != null;
+        return _str != null;
 
       case EVENT:
-        return event != null;
+        return _event != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -943,34 +961,52 @@ class blah_result implements thrift.TBase {
   static final thrift.TField _AWE_FIELD_DESC = new thrift.TField("awe", thrift.TType.STRUCT, 1);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 2);
 
-  int success;
+  int _success;
   static const int SUCCESS = 0;
-  t_variety.AwesomeException awe;
+  t_variety.AwesomeException _awe;
   static const int AWE = 1;
-  t_actual_base_dart.api_exception api;
+  t_actual_base_dart.api_exception _api;
   static const int API = 2;
 
 
   blah_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  int get success => this._success;
+
+  set success(int success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
 
   @deprecated
-  bool isSetAwe() => awe != null;
+  unsetSuccess() => this._success = null;
+
+  t_variety.AwesomeException get awe => this._awe;
+
+  set awe(t_variety.AwesomeException awe) {
+    this._awe = awe;
+  }
 
   @deprecated
-  unsetAwe() => awe = null;
+  bool isSetAwe() => _awe != null;
 
   @deprecated
-  bool isSetApi() => api != null;
+  unsetAwe() => this._awe = null;
+
+  t_actual_base_dart.api_exception get api => this._api;
+
+  set api(t_actual_base_dart.api_exception api) {
+    this._api = api;
+  }
 
   @deprecated
-  unsetApi() => api = null;
+  bool isSetApi() => _api != null;
+
+  @deprecated
+  unsetApi() => this._api = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -990,15 +1026,15 @@ class blah_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as int; // ignore: avoid_as
+        _success = value as int; // ignore: avoid_as
         break;
 
       case AWE:
-        awe = value as t_variety.AwesomeException; // ignore: avoid_as
+        _awe = value as t_variety.AwesomeException; // ignore: avoid_as
         break;
 
       case API:
-        api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
+        _api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         break;
 
       default:
@@ -1011,13 +1047,13 @@ class blah_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       case AWE:
-        return awe != null;
+        return _awe != null;
 
       case API:
-        return api != null;
+        return _api != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1162,26 +1198,38 @@ class oneWay_args implements thrift.TBase {
   static final thrift.TField _ID_FIELD_DESC = new thrift.TField("id", thrift.TType.I64, 1);
   static final thrift.TField _REQ_FIELD_DESC = new thrift.TField("req", thrift.TType.MAP, 2);
 
-  int id = 0;
+  int _id = 0;
   static const int ID = 1;
-  Map<int, String> req;
+  Map<int, String> _req;
   static const int REQ = 2;
 
 
   oneWay_args() {
   }
 
-  @deprecated
-  bool isSetId() => id != null;
+  int get id => this._id;
+
+  set id(int id) {
+    this._id = id;
+  }
 
   @deprecated
-  unsetId() => id = null;
+  bool isSetId() => _id != null;
 
   @deprecated
-  bool isSetReq() => req != null;
+  unsetId() => this._id = null;
+
+  Map<int, String> get req => this._req;
+
+  set req(Map<int, String> req) {
+    this._req = req;
+  }
 
   @deprecated
-  unsetReq() => req = null;
+  bool isSetReq() => _req != null;
+
+  @deprecated
+  unsetReq() => this._req = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -1199,11 +1247,11 @@ class oneWay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        id = value as int; // ignore: avoid_as
+        _id = value as int; // ignore: avoid_as
         break;
 
       case REQ:
-        req = value as Map<int, String>; // ignore: avoid_as
+        _req = value as Map<int, String>; // ignore: avoid_as
         break;
 
       default:
@@ -1216,10 +1264,10 @@ class oneWay_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ID:
-        return id != null;
+        return _id != null;
 
       case REQ:
-        return req != null;
+        return _req != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1342,26 +1390,38 @@ class bin_method_args implements thrift.TBase {
   static final thrift.TField _BIN_FIELD_DESC = new thrift.TField("bin", thrift.TType.STRING, 1);
   static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
 
-  Uint8List bin;
+  Uint8List _bin;
   static const int BIN = 1;
-  String str;
+  String _str;
   static const int STR = 2;
 
 
   bin_method_args() {
   }
 
-  @deprecated
-  bool isSetBin() => bin != null;
+  Uint8List get bin => this._bin;
+
+  set bin(Uint8List bin) {
+    this._bin = bin;
+  }
 
   @deprecated
-  unsetBin() => bin = null;
+  bool isSetBin() => _bin != null;
 
   @deprecated
-  bool isSetStr() => str != null;
+  unsetBin() => this._bin = null;
+
+  String get str => this._str;
+
+  set str(String str) {
+    this._str = str;
+  }
 
   @deprecated
-  unsetStr() => str = null;
+  bool isSetStr() => _str != null;
+
+  @deprecated
+  unsetStr() => this._str = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -1379,11 +1439,11 @@ class bin_method_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case BIN:
-        bin = value as Uint8List; // ignore: avoid_as
+        _bin = value as Uint8List; // ignore: avoid_as
         break;
 
       case STR:
-        str = value as String; // ignore: avoid_as
+        _str = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -1396,10 +1456,10 @@ class bin_method_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case BIN:
-        return bin != null;
+        return _bin != null;
 
       case STR:
-        return str != null;
+        return _str != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1516,26 +1576,38 @@ class bin_method_result implements thrift.TBase {
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
   static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 1);
 
-  Uint8List success;
+  Uint8List _success;
   static const int SUCCESS = 0;
-  t_actual_base_dart.api_exception api;
+  t_actual_base_dart.api_exception _api;
   static const int API = 1;
 
 
   bin_method_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  Uint8List get success => this._success;
+
+  set success(Uint8List success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
 
   @deprecated
-  bool isSetApi() => api != null;
+  unsetSuccess() => this._success = null;
+
+  t_actual_base_dart.api_exception get api => this._api;
+
+  set api(t_actual_base_dart.api_exception api) {
+    this._api = api;
+  }
 
   @deprecated
-  unsetApi() => api = null;
+  bool isSetApi() => _api != null;
+
+  @deprecated
+  unsetApi() => this._api = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -1553,11 +1625,11 @@ class bin_method_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as Uint8List; // ignore: avoid_as
+        _success = value as Uint8List; // ignore: avoid_as
         break;
 
       case API:
-        api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
+        _api = value as t_actual_base_dart.api_exception; // ignore: avoid_as
         break;
 
       default:
@@ -1570,10 +1642,10 @@ class bin_method_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       case API:
-        return api != null;
+        return _api != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1696,34 +1768,52 @@ class param_modifiers_args implements thrift.TBase {
   static final thrift.TField _DEFAULT_NUM_FIELD_DESC = new thrift.TField("default_num", thrift.TType.I32, 2);
   static final thrift.TField _REQ_NUM_FIELD_DESC = new thrift.TField("req_num", thrift.TType.I32, 3);
 
-  int opt_num = 0;
+  int _opt_num = 0;
   static const int OPT_NUM = 1;
-  int default_num = 0;
+  int _default_num = 0;
   static const int DEFAULT_NUM = 2;
-  int req_num = 0;
+  int _req_num = 0;
   static const int REQ_NUM = 3;
 
 
   param_modifiers_args() {
   }
 
-  @deprecated
-  bool isSetOpt_num() => opt_num != null;
+  int get opt_num => this._opt_num;
+
+  set opt_num(int opt_num) {
+    this._opt_num = opt_num;
+  }
 
   @deprecated
-  unsetOpt_num() => opt_num = null;
+  bool isSetOpt_num() => _opt_num != null;
 
   @deprecated
-  bool isSetDefault_num() => default_num != null;
+  unsetOpt_num() => this._opt_num = null;
+
+  int get default_num => this._default_num;
+
+  set default_num(int default_num) {
+    this._default_num = default_num;
+  }
 
   @deprecated
-  unsetDefault_num() => default_num = null;
+  bool isSetDefault_num() => _default_num != null;
 
   @deprecated
-  bool isSetReq_num() => req_num != null;
+  unsetDefault_num() => this._default_num = null;
+
+  int get req_num => this._req_num;
+
+  set req_num(int req_num) {
+    this._req_num = req_num;
+  }
 
   @deprecated
-  unsetReq_num() => req_num = null;
+  bool isSetReq_num() => _req_num != null;
+
+  @deprecated
+  unsetReq_num() => this._req_num = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -1743,15 +1833,15 @@ class param_modifiers_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case OPT_NUM:
-        opt_num = value as int; // ignore: avoid_as
+        _opt_num = value as int; // ignore: avoid_as
         break;
 
       case DEFAULT_NUM:
-        default_num = value as int; // ignore: avoid_as
+        _default_num = value as int; // ignore: avoid_as
         break;
 
       case REQ_NUM:
-        req_num = value as int; // ignore: avoid_as
+        _req_num = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -1764,13 +1854,13 @@ class param_modifiers_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case OPT_NUM:
-        return opt_num != null;
+        return _opt_num != null;
 
       case DEFAULT_NUM:
-        return default_num != null;
+        return _default_num != null;
 
       case REQ_NUM:
-        return req_num != null;
+        return _req_num != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -1897,18 +1987,24 @@ class param_modifiers_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
 
-  int success;
+  int _success;
   static const int SUCCESS = 0;
 
 
   param_modifiers_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  int get success => this._success;
+
+  set success(int success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -1924,7 +2020,7 @@ class param_modifiers_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as int; // ignore: avoid_as
+        _success = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -1937,7 +2033,7 @@ class param_modifiers_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2028,26 +2124,38 @@ class underlying_types_test_args implements thrift.TBase {
   static final thrift.TField _LIST_TYPE_FIELD_DESC = new thrift.TField("list_type", thrift.TType.LIST, 1);
   static final thrift.TField _SET_TYPE_FIELD_DESC = new thrift.TField("set_type", thrift.TType.SET, 2);
 
-  List<int> list_type;
+  List<int> _list_type;
   static const int LIST_TYPE = 1;
-  Set<int> set_type;
+  Set<int> _set_type;
   static const int SET_TYPE = 2;
 
 
   underlying_types_test_args() {
   }
 
-  @deprecated
-  bool isSetList_type() => list_type != null;
+  List<int> get list_type => this._list_type;
+
+  set list_type(List<int> list_type) {
+    this._list_type = list_type;
+  }
 
   @deprecated
-  unsetList_type() => list_type = null;
+  bool isSetList_type() => _list_type != null;
 
   @deprecated
-  bool isSetSet_type() => set_type != null;
+  unsetList_type() => this._list_type = null;
+
+  Set<int> get set_type => this._set_type;
+
+  set set_type(Set<int> set_type) {
+    this._set_type = set_type;
+  }
 
   @deprecated
-  unsetSet_type() => set_type = null;
+  bool isSetSet_type() => _set_type != null;
+
+  @deprecated
+  unsetSet_type() => this._set_type = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2065,11 +2173,11 @@ class underlying_types_test_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case LIST_TYPE:
-        list_type = value as List<int>; // ignore: avoid_as
+        _list_type = value as List<int>; // ignore: avoid_as
         break;
 
       case SET_TYPE:
-        set_type = value as Set<int>; // ignore: avoid_as
+        _set_type = value as Set<int>; // ignore: avoid_as
         break;
 
       default:
@@ -2082,10 +2190,10 @@ class underlying_types_test_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case LIST_TYPE:
-        return list_type != null;
+        return _list_type != null;
 
       case SET_TYPE:
-        return set_type != null;
+        return _set_type != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2221,18 +2329,24 @@ class underlying_types_test_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.LIST, 0);
 
-  List<int> success;
+  List<int> _success;
   static const int SUCCESS = 0;
 
 
   underlying_types_test_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  List<int> get success => this._success;
+
+  set success(List<int> success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2248,7 +2362,7 @@ class underlying_types_test_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as List<int>; // ignore: avoid_as
+        _success = value as List<int>; // ignore: avoid_as
         break;
 
       default:
@@ -2261,7 +2375,7 @@ class underlying_types_test_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2452,18 +2566,24 @@ class getThing_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
-  t_validStructs.Thing success;
+  t_validStructs.Thing _success;
   static const int SUCCESS = 0;
 
 
   getThing_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  t_validStructs.Thing get success => this._success;
+
+  set success(t_validStructs.Thing success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2479,7 +2599,7 @@ class getThing_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as t_validStructs.Thing; // ignore: avoid_as
+        _success = value as t_validStructs.Thing; // ignore: avoid_as
         break;
 
       default:
@@ -2492,7 +2612,7 @@ class getThing_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2674,18 +2794,24 @@ class getMyInt_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I32, 0);
 
-  int success;
+  int _success;
   static const int SUCCESS = 0;
 
 
   getMyInt_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  int get success => this._success;
+
+  set success(int success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2701,7 +2827,7 @@ class getMyInt_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as int; // ignore: avoid_as
+        _success = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -2714,7 +2840,7 @@ class getMyInt_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2804,18 +2930,24 @@ class use_subdir_struct_args implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_args");
   static final thrift.TField _A_FIELD_DESC = new thrift.TField("a", thrift.TType.STRUCT, 1);
 
-  t_subdir_include_ns.A a;
+  t_subdir_include_ns.A _a;
   static const int A = 1;
 
 
   use_subdir_struct_args() {
   }
 
-  @deprecated
-  bool isSetA() => a != null;
+  t_subdir_include_ns.A get a => this._a;
+
+  set a(t_subdir_include_ns.A a) {
+    this._a = a;
+  }
 
   @deprecated
-  unsetA() => a = null;
+  bool isSetA() => _a != null;
+
+  @deprecated
+  unsetA() => this._a = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2831,7 +2963,7 @@ class use_subdir_struct_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case A:
-        a = value as t_subdir_include_ns.A; // ignore: avoid_as
+        _a = value as t_subdir_include_ns.A; // ignore: avoid_as
         break;
 
       default:
@@ -2844,7 +2976,7 @@ class use_subdir_struct_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case A:
-        return a != null;
+        return _a != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -2937,18 +3069,24 @@ class use_subdir_struct_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
 
-  t_subdir_include_ns.A success;
+  t_subdir_include_ns.A _success;
   static const int SUCCESS = 0;
 
 
   use_subdir_struct_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  t_subdir_include_ns.A get success => this._success;
+
+  set success(t_subdir_include_ns.A success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -2964,7 +3102,7 @@ class use_subdir_struct_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as t_subdir_include_ns.A; // ignore: avoid_as
+        _success = value as t_subdir_include_ns.A; // ignore: avoid_as
         break;
 
       default:
@@ -2977,7 +3115,7 @@ class use_subdir_struct_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3072,18 +3210,24 @@ class sayHelloWith_args implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_args");
   static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
 
-  String newMessage;
+  String _newMessage;
   static const int NEWMESSAGE = 1;
 
 
   sayHelloWith_args() {
   }
 
-  @deprecated
-  bool isSetNewMessage() => newMessage != null;
+  String get newMessage => this._newMessage;
+
+  set newMessage(String newMessage) {
+    this._newMessage = newMessage;
+  }
 
   @deprecated
-  unsetNewMessage() => newMessage = null;
+  bool isSetNewMessage() => _newMessage != null;
+
+  @deprecated
+  unsetNewMessage() => this._newMessage = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3099,7 +3243,7 @@ class sayHelloWith_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NEWMESSAGE:
-        newMessage = value as String; // ignore: avoid_as
+        _newMessage = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3112,7 +3256,7 @@ class sayHelloWith_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
-        return newMessage != null;
+        return _newMessage != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3204,18 +3348,24 @@ class sayHelloWith_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
-  String success;
+  String _success;
   static const int SUCCESS = 0;
 
 
   sayHelloWith_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  String get success => this._success;
+
+  set success(String success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3231,7 +3381,7 @@ class sayHelloWith_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as String; // ignore: avoid_as
+        _success = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3244,7 +3394,7 @@ class sayHelloWith_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3338,18 +3488,24 @@ class whatDoYouSay_args implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_args");
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 1);
 
-  String messageArgs;
+  String _messageArgs;
   static const int MESSAGEARGS = 1;
 
 
   whatDoYouSay_args() {
   }
 
-  @deprecated
-  bool isSetMessageArgs() => messageArgs != null;
+  String get messageArgs => this._messageArgs;
+
+  set messageArgs(String messageArgs) {
+    this._messageArgs = messageArgs;
+  }
 
   @deprecated
-  unsetMessageArgs() => messageArgs = null;
+  bool isSetMessageArgs() => _messageArgs != null;
+
+  @deprecated
+  unsetMessageArgs() => this._messageArgs = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3365,7 +3521,7 @@ class whatDoYouSay_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGEARGS:
-        messageArgs = value as String; // ignore: avoid_as
+        _messageArgs = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3378,7 +3534,7 @@ class whatDoYouSay_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case MESSAGEARGS:
-        return messageArgs != null;
+        return _messageArgs != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3470,18 +3626,24 @@ class whatDoYouSay_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
-  String success;
+  String _success;
   static const int SUCCESS = 0;
 
 
   whatDoYouSay_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  String get success => this._success;
+
+  set success(String success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3497,7 +3659,7 @@ class whatDoYouSay_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as String; // ignore: avoid_as
+        _success = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3510,7 +3672,7 @@ class whatDoYouSay_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3604,18 +3766,24 @@ class sayAgain_args implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_args");
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 1);
 
-  String messageResult;
+  String _messageResult;
   static const int MESSAGERESULT = 1;
 
 
   sayAgain_args() {
   }
 
-  @deprecated
-  bool isSetMessageResult() => messageResult != null;
+  String get messageResult => this._messageResult;
+
+  set messageResult(String messageResult) {
+    this._messageResult = messageResult;
+  }
 
   @deprecated
-  unsetMessageResult() => messageResult = null;
+  bool isSetMessageResult() => _messageResult != null;
+
+  @deprecated
+  unsetMessageResult() => this._messageResult = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3631,7 +3799,7 @@ class sayAgain_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case MESSAGERESULT:
-        messageResult = value as String; // ignore: avoid_as
+        _messageResult = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3644,7 +3812,7 @@ class sayAgain_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case MESSAGERESULT:
-        return messageResult != null;
+        return _messageResult != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
@@ -3736,18 +3904,24 @@ class sayAgain_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_result");
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
 
-  String success;
+  String _success;
   static const int SUCCESS = 0;
 
 
   sayAgain_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  String get success => this._success;
+
+  set success(String success) {
+    this._success = success;
+  }
 
   @deprecated
-  unsetSuccess() => success = null;
+  bool isSetSuccess() => _success != null;
+
+  @deprecated
+  unsetSuccess() => this._success = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -3763,7 +3937,7 @@ class sayAgain_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as String; // ignore: avoid_as
+        _success = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -3776,7 +3950,7 @@ class sayAgain_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
+        return _success != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

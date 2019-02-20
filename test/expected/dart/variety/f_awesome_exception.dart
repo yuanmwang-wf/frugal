@@ -17,37 +17,55 @@ class AwesomeException extends Error implements thrift.TBase {
   static final thrift.TField _DEPR_FIELD_DESC = new thrift.TField("depr", thrift.TType.BOOL, 3);
 
   /// ID is a unique identifier for an awesome exception.
-  int iD = 0;
+  int _iD = 0;
   static const int ID = 1;
   /// Reason contains the error message.
-  String reason;
+  String _reason;
   static const int REASON = 2;
   /// Deprecated: use something else
   @deprecated
-  bool depr = false;
+  bool _depr = false;
   static const int DEPR = 3;
 
 
   AwesomeException() {
   }
 
-  @deprecated
-  bool isSetID() => iD != null;
+  int get iD => this._iD;
+
+  set iD(int iD) {
+    this._iD = iD;
+  }
 
   @deprecated
-  unsetID() => iD = null;
+  bool isSetID() => _iD != null;
 
   @deprecated
-  bool isSetReason() => reason != null;
+  unsetID() => this._iD = null;
+
+  String get reason => this._reason;
+
+  set reason(String reason) {
+    this._reason = reason;
+  }
 
   @deprecated
-  unsetReason() => reason = null;
+  bool isSetReason() => _reason != null;
 
   @deprecated
-  bool isSetDepr() => depr != null;
+  unsetReason() => this._reason = null;
+
+  bool get depr => this._depr;
+
+  set depr(bool depr) {
+    this._depr = depr;
+  }
 
   @deprecated
-  unsetDepr() => depr = null;
+  bool isSetDepr() => _depr != null;
+
+  @deprecated
+  unsetDepr() => this._depr = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -68,15 +86,15 @@ class AwesomeException extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        iD = value as int; // ignore: avoid_as
+        _iD = value as int; // ignore: avoid_as
         break;
 
       case REASON:
-        reason = value as String; // ignore: avoid_as
+        _reason = value as String; // ignore: avoid_as
         break;
 
       case DEPR:
-        depr = value as bool; // ignore: avoid_as
+        _depr = value as bool; // ignore: avoid_as
         break;
 
       default:
@@ -89,14 +107,14 @@ class AwesomeException extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ID:
-        return iD != null;
+        return _iD != null;
 
       case REASON:
-        return reason != null;
+        return _reason != null;
 
       case DEPR:
         // ignore: deprecated_member_use
-        return depr != null;
+        return _depr != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

@@ -31,192 +31,262 @@ class TestingDefaults implements thrift.TBase {
   static final thrift.TField _STATUS_FIELD_DESC = new thrift.TField("status", thrift.TType.I32, 17);
   static final thrift.TField _BASE_STATUS_FIELD_DESC = new thrift.TField("base_status", thrift.TType.I32, 18);
 
-  int iD2;
+  int _iD2;
   static const int ID2 = 1;
-  t_variety.Event ev1;
+  t_variety.Event _ev1;
   static const int EV1 = 2;
-  t_variety.Event ev2;
+  t_variety.Event _ev2;
   static const int EV2 = 3;
-  int iD = 0;
+  int _iD = 0;
   static const int ID = 4;
-  String thing;
+  String _thing;
   static const int THING = 5;
-  String thing2;
+  String _thing2;
   static const int THING2 = 6;
-  List<int> listfield;
+  List<int> _listfield;
   static const int LISTFIELD = 7;
-  int iD3 = 0;
+  int _iD3 = 0;
   static const int ID3 = 8;
-  Uint8List bin_field;
+  Uint8List _bin_field;
   static const int BIN_FIELD = 9;
-  Uint8List bin_field2;
+  Uint8List _bin_field2;
   static const int BIN_FIELD2 = 10;
-  Uint8List bin_field3;
+  Uint8List _bin_field3;
   static const int BIN_FIELD3 = 11;
-  Uint8List bin_field4;
+  Uint8List _bin_field4;
   static const int BIN_FIELD4 = 12;
-  List<int> list2;
+  List<int> _list2;
   static const int LIST2 = 13;
-  List<int> list3;
+  List<int> _list3;
   static const int LIST3 = 14;
-  List<int> list4;
+  List<int> _list4;
   static const int LIST4 = 15;
-  Map<String, String> a_map;
+  Map<String, String> _a_map;
   static const int A_MAP = 16;
-  int status;
+  int _status;
   static const int STATUS = 17;
-  int base_status;
+  int _base_status;
   static const int BASE_STATUS = 18;
 
 
   TestingDefaults() {
-    this.iD2 = t_variety.VarietyConstants.DEFAULT_ID;
-    this.ev1 = new t_variety.Event()
-      ..iD = t_variety.VarietyConstants.DEFAULT_ID
-      ..message = "a message";
-    this.ev2 = new t_variety.Event()
-      ..iD = 5
-      ..message = "a message2";
-    this.iD = -2;
-    this.thing = "a constant";
-    this.thing2 = "another constant";
-    this.listfield = [
-      1,
-      2,
-      3,
-      4,
-      5,
-    ];
-    this.iD3 = t_variety.VarietyConstants.other_default;
-    this.bin_field4 = t_variety.VarietyConstants.bin_const;
-    this.list2 = [
-      1,
-      3,
-      4,
-      5,
-      8,
-    ];
-    this.list4 = [
-      1,
-      2,
-      3,
-      6,
-    ];
-    this.a_map = {
-      "k1": "v1",
-      "k2": "v2",
-    };
-    this.status = t_variety.HealthCondition.PASS;
-    this.base_status = t_actual_base_dart.base_health_condition.FAIL;
+  }
+
+  int get iD2 => this._iD2 ?? t_variety.VarietyConstants.DEFAULT_ID;
+
+  set iD2(int iD2) {
+    this._iD2 = iD2;
   }
 
   @deprecated
-  bool isSetID2() => iD2 != null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
+  bool isSetID2() => _iD2 != null;
 
   @deprecated
-  unsetID2() => iD2 = null;
+  unsetID2() => this._iD2 = null;
+
+  t_variety.Event get ev1 => this._ev1;
+
+  set ev1(t_variety.Event ev1) {
+    this._ev1 = ev1;
+  }
 
   @deprecated
-  bool isSetEv1() => ev1 != null;
+  bool isSetEv1() => _ev1 != null;
 
   @deprecated
-  unsetEv1() => ev1 = null;
+  unsetEv1() => this._ev1 = null;
+
+  t_variety.Event get ev2 => this._ev2;
+
+  set ev2(t_variety.Event ev2) {
+    this._ev2 = ev2;
+  }
 
   @deprecated
-  bool isSetEv2() => ev2 != null;
+  bool isSetEv2() => _ev2 != null;
 
   @deprecated
-  unsetEv2() => ev2 = null;
+  unsetEv2() => this._ev2 = null;
+
+  int get iD => this._iD ?? -2;
+
+  set iD(int iD) {
+    this._iD = iD;
+  }
 
   @deprecated
-  bool isSetID() => iD != null && iD != -2;
+  bool isSetID() => _iD != null;
 
   @deprecated
-  unsetID() => iD = null;
+  unsetID() => this._iD = null;
+
+  String get thing => this._thing;
+
+  set thing(String thing) {
+    this._thing = thing;
+  }
 
   @deprecated
-  bool isSetThing() => thing != null;
+  bool isSetThing() => _thing != null;
 
   @deprecated
-  unsetThing() => thing = null;
+  unsetThing() => this._thing = null;
+
+  String get thing2 => this._thing2;
+
+  set thing2(String thing2) {
+    this._thing2 = thing2;
+  }
 
   @deprecated
-  bool isSetThing2() => thing2 != null;
+  bool isSetThing2() => _thing2 != null;
 
   @deprecated
-  unsetThing2() => thing2 = null;
+  unsetThing2() => this._thing2 = null;
+
+  List<int> get listfield => this._listfield;
+
+  set listfield(List<int> listfield) {
+    this._listfield = listfield;
+  }
 
   @deprecated
-  bool isSetListfield() => listfield != null;
+  bool isSetListfield() => _listfield != null;
 
   @deprecated
-  unsetListfield() => listfield = null;
+  unsetListfield() => this._listfield = null;
+
+  int get iD3 => this._iD3 ?? t_variety.VarietyConstants.other_default;
+
+  set iD3(int iD3) {
+    this._iD3 = iD3;
+  }
 
   @deprecated
-  bool isSetID3() => iD3 != null && iD3 != t_variety.VarietyConstants.other_default;
+  bool isSetID3() => _iD3 != null;
 
   @deprecated
-  unsetID3() => iD3 = null;
+  unsetID3() => this._iD3 = null;
+
+  Uint8List get bin_field => this._bin_field;
+
+  set bin_field(Uint8List bin_field) {
+    this._bin_field = bin_field;
+  }
 
   @deprecated
-  bool isSetBin_field() => bin_field != null;
+  bool isSetBin_field() => _bin_field != null;
 
   @deprecated
-  unsetBin_field() => bin_field = null;
+  unsetBin_field() => this._bin_field = null;
+
+  Uint8List get bin_field2 => this._bin_field2;
+
+  set bin_field2(Uint8List bin_field2) {
+    this._bin_field2 = bin_field2;
+  }
 
   @deprecated
-  bool isSetBin_field2() => bin_field2 != null;
+  bool isSetBin_field2() => _bin_field2 != null;
 
   @deprecated
-  unsetBin_field2() => bin_field2 = null;
+  unsetBin_field2() => this._bin_field2 = null;
+
+  Uint8List get bin_field3 => this._bin_field3;
+
+  set bin_field3(Uint8List bin_field3) {
+    this._bin_field3 = bin_field3;
+  }
 
   @deprecated
-  bool isSetBin_field3() => bin_field3 != null;
+  bool isSetBin_field3() => _bin_field3 != null;
 
   @deprecated
-  unsetBin_field3() => bin_field3 = null;
+  unsetBin_field3() => this._bin_field3 = null;
+
+  Uint8List get bin_field4 => this._bin_field4;
+
+  set bin_field4(Uint8List bin_field4) {
+    this._bin_field4 = bin_field4;
+  }
 
   @deprecated
-  bool isSetBin_field4() => bin_field4 != null;
+  bool isSetBin_field4() => _bin_field4 != null;
 
   @deprecated
-  unsetBin_field4() => bin_field4 = null;
+  unsetBin_field4() => this._bin_field4 = null;
+
+  List<int> get list2 => this._list2;
+
+  set list2(List<int> list2) {
+    this._list2 = list2;
+  }
 
   @deprecated
-  bool isSetList2() => list2 != null;
+  bool isSetList2() => _list2 != null;
 
   @deprecated
-  unsetList2() => list2 = null;
+  unsetList2() => this._list2 = null;
+
+  List<int> get list3 => this._list3;
+
+  set list3(List<int> list3) {
+    this._list3 = list3;
+  }
 
   @deprecated
-  bool isSetList3() => list3 != null;
+  bool isSetList3() => _list3 != null;
 
   @deprecated
-  unsetList3() => list3 = null;
+  unsetList3() => this._list3 = null;
+
+  List<int> get list4 => this._list4;
+
+  set list4(List<int> list4) {
+    this._list4 = list4;
+  }
 
   @deprecated
-  bool isSetList4() => list4 != null;
+  bool isSetList4() => _list4 != null;
 
   @deprecated
-  unsetList4() => list4 = null;
+  unsetList4() => this._list4 = null;
+
+  Map<String, String> get a_map => this._a_map;
+
+  set a_map(Map<String, String> a_map) {
+    this._a_map = a_map;
+  }
 
   @deprecated
-  bool isSetA_map() => a_map != null;
+  bool isSetA_map() => _a_map != null;
 
   @deprecated
-  unsetA_map() => a_map = null;
+  unsetA_map() => this._a_map = null;
+
+  int get status => this._status ?? t_variety.HealthCondition.PASS;
+
+  set status(int status) {
+    this._status = status;
+  }
 
   @deprecated
-  bool isSetStatus() => status != null && status != t_variety.HealthCondition.PASS;
+  bool isSetStatus() => _status != null;
 
   @deprecated
-  unsetStatus() => status = null;
+  unsetStatus() => this._status = null;
+
+  int get base_status => this._base_status ?? t_actual_base_dart.base_health_condition.FAIL;
+
+  set base_status(int base_status) {
+    this._base_status = base_status;
+  }
 
   @deprecated
-  bool isSetBase_status() => base_status != null && base_status != t_actual_base_dart.base_health_condition.FAIL;
+  bool isSetBase_status() => _base_status != null;
 
   @deprecated
-  unsetBase_status() => base_status = null;
+  unsetBase_status() => this._base_status = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -266,75 +336,75 @@ class TestingDefaults implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID2:
-        iD2 = value as int; // ignore: avoid_as
+        _iD2 = value as int; // ignore: avoid_as
         break;
 
       case EV1:
-        ev1 = value as t_variety.Event; // ignore: avoid_as
+        _ev1 = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case EV2:
-        ev2 = value as t_variety.Event; // ignore: avoid_as
+        _ev2 = value as t_variety.Event; // ignore: avoid_as
         break;
 
       case ID:
-        iD = value as int; // ignore: avoid_as
+        _iD = value as int; // ignore: avoid_as
         break;
 
       case THING:
-        thing = value as String; // ignore: avoid_as
+        _thing = value as String; // ignore: avoid_as
         break;
 
       case THING2:
-        thing2 = value as String; // ignore: avoid_as
+        _thing2 = value as String; // ignore: avoid_as
         break;
 
       case LISTFIELD:
-        listfield = value as List<int>; // ignore: avoid_as
+        _listfield = value as List<int>; // ignore: avoid_as
         break;
 
       case ID3:
-        iD3 = value as int; // ignore: avoid_as
+        _iD3 = value as int; // ignore: avoid_as
         break;
 
       case BIN_FIELD:
-        bin_field = value as Uint8List; // ignore: avoid_as
+        _bin_field = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD2:
-        bin_field2 = value as Uint8List; // ignore: avoid_as
+        _bin_field2 = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD3:
-        bin_field3 = value as Uint8List; // ignore: avoid_as
+        _bin_field3 = value as Uint8List; // ignore: avoid_as
         break;
 
       case BIN_FIELD4:
-        bin_field4 = value as Uint8List; // ignore: avoid_as
+        _bin_field4 = value as Uint8List; // ignore: avoid_as
         break;
 
       case LIST2:
-        list2 = value as List<int>; // ignore: avoid_as
+        _list2 = value as List<int>; // ignore: avoid_as
         break;
 
       case LIST3:
-        list3 = value as List<int>; // ignore: avoid_as
+        _list3 = value as List<int>; // ignore: avoid_as
         break;
 
       case LIST4:
-        list4 = value as List<int>; // ignore: avoid_as
+        _list4 = value as List<int>; // ignore: avoid_as
         break;
 
       case A_MAP:
-        a_map = value as Map<String, String>; // ignore: avoid_as
+        _a_map = value as Map<String, String>; // ignore: avoid_as
         break;
 
       case STATUS:
-        status = value as int; // ignore: avoid_as
+        _status = value as int; // ignore: avoid_as
         break;
 
       case BASE_STATUS:
-        base_status = value as int; // ignore: avoid_as
+        _base_status = value as int; // ignore: avoid_as
         break;
 
       default:
@@ -347,58 +417,58 @@ class TestingDefaults implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ID2:
-        return iD2 != null && iD2 != t_variety.VarietyConstants.DEFAULT_ID;
+        return _iD2 != null;
 
       case EV1:
-        return ev1 != null;
+        return _ev1 != null;
 
       case EV2:
-        return ev2 != null;
+        return _ev2 != null;
 
       case ID:
-        return iD != null && iD != -2;
+        return _iD != null;
 
       case THING:
-        return thing != null;
+        return _thing != null;
 
       case THING2:
-        return thing2 != null;
+        return _thing2 != null;
 
       case LISTFIELD:
-        return listfield != null;
+        return _listfield != null;
 
       case ID3:
-        return iD3 != null && iD3 != t_variety.VarietyConstants.other_default;
+        return _iD3 != null;
 
       case BIN_FIELD:
-        return bin_field != null;
+        return _bin_field != null;
 
       case BIN_FIELD2:
-        return bin_field2 != null;
+        return _bin_field2 != null;
 
       case BIN_FIELD3:
-        return bin_field3 != null;
+        return _bin_field3 != null;
 
       case BIN_FIELD4:
-        return bin_field4 != null;
+        return _bin_field4 != null;
 
       case LIST2:
-        return list2 != null;
+        return _list2 != null;
 
       case LIST3:
-        return list3 != null;
+        return _list3 != null;
 
       case LIST4:
-        return list4 != null;
+        return _list4 != null;
 
       case A_MAP:
-        return a_map != null;
+        return _a_map != null;
 
       case STATUS:
-        return status != null && status != t_variety.HealthCondition.PASS;
+        return _status != null;
 
       case BASE_STATUS:
-        return base_status != null && base_status != t_actual_base_dart.base_health_condition.FAIL;
+        return _base_status != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

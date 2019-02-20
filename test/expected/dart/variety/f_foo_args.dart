@@ -16,34 +16,52 @@ class FooArgs implements thrift.TBase {
   static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 2);
   static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 3);
 
-  String newMessage;
+  String _newMessage;
   static const int NEWMESSAGE = 1;
-  String messageArgs;
+  String _messageArgs;
   static const int MESSAGEARGS = 2;
-  String messageResult;
+  String _messageResult;
   static const int MESSAGERESULT = 3;
 
 
   FooArgs() {
   }
 
-  @deprecated
-  bool isSetNewMessage() => newMessage != null;
+  String get newMessage => this._newMessage;
+
+  set newMessage(String newMessage) {
+    this._newMessage = newMessage;
+  }
 
   @deprecated
-  unsetNewMessage() => newMessage = null;
+  bool isSetNewMessage() => _newMessage != null;
 
   @deprecated
-  bool isSetMessageArgs() => messageArgs != null;
+  unsetNewMessage() => this._newMessage = null;
+
+  String get messageArgs => this._messageArgs;
+
+  set messageArgs(String messageArgs) {
+    this._messageArgs = messageArgs;
+  }
 
   @deprecated
-  unsetMessageArgs() => messageArgs = null;
+  bool isSetMessageArgs() => _messageArgs != null;
 
   @deprecated
-  bool isSetMessageResult() => messageResult != null;
+  unsetMessageArgs() => this._messageArgs = null;
+
+  String get messageResult => this._messageResult;
+
+  set messageResult(String messageResult) {
+    this._messageResult = messageResult;
+  }
 
   @deprecated
-  unsetMessageResult() => messageResult = null;
+  bool isSetMessageResult() => _messageResult != null;
+
+  @deprecated
+  unsetMessageResult() => this._messageResult = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -63,15 +81,15 @@ class FooArgs implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case NEWMESSAGE:
-        newMessage = value as String; // ignore: avoid_as
+        _newMessage = value as String; // ignore: avoid_as
         break;
 
       case MESSAGEARGS:
-        messageArgs = value as String; // ignore: avoid_as
+        _messageArgs = value as String; // ignore: avoid_as
         break;
 
       case MESSAGERESULT:
-        messageResult = value as String; // ignore: avoid_as
+        _messageResult = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -84,13 +102,13 @@ class FooArgs implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case NEWMESSAGE:
-        return newMessage != null;
+        return _newMessage != null;
 
       case MESSAGEARGS:
-        return messageArgs != null;
+        return _messageArgs != null;
 
       case MESSAGERESULT:
-        return messageResult != null;
+        return _messageResult != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

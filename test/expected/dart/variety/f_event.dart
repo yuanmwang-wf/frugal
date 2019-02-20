@@ -18,28 +18,39 @@ class Event implements thrift.TBase {
   static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("Message", thrift.TType.STRING, 2);
 
   /// ID is a unique identifier for an event.
-  int iD = 0;
+  int _iD = 0;
   static const int ID = 1;
   /// Message contains the event payload.
-  String message;
+  String _message;
   static const int MESSAGE = 2;
 
 
   Event() {
-    this.iD = t_variety.VarietyConstants.DEFAULT_ID;
+  }
+
+  int get iD => this._iD ?? t_variety.VarietyConstants.DEFAULT_ID;
+
+  set iD(int iD) {
+    this._iD = iD;
   }
 
   @deprecated
-  bool isSetID() => iD != null && iD != t_variety.VarietyConstants.DEFAULT_ID;
+  bool isSetID() => _iD != null;
 
   @deprecated
-  unsetID() => iD = null;
+  unsetID() => this._iD = null;
+
+  String get message => this._message;
+
+  set message(String message) {
+    this._message = message;
+  }
 
   @deprecated
-  bool isSetMessage() => message != null;
+  bool isSetMessage() => _message != null;
 
   @deprecated
-  unsetMessage() => message = null;
+  unsetMessage() => this._message = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -57,11 +68,11 @@ class Event implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case ID:
-        iD = value as int; // ignore: avoid_as
+        _iD = value as int; // ignore: avoid_as
         break;
 
       case MESSAGE:
-        message = value as String; // ignore: avoid_as
+        _message = value as String; // ignore: avoid_as
         break;
 
       default:
@@ -74,10 +85,10 @@ class Event implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case ID:
-        return iD != null && iD != t_variety.VarietyConstants.DEFAULT_ID;
+        return _iD != null;
 
       case MESSAGE:
-        return message != null;
+        return _message != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

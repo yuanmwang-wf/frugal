@@ -10,18 +10,24 @@ class nested_thing implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("nested_thing");
   static final thrift.TField _THINGS_FIELD_DESC = new thrift.TField("things", thrift.TType.LIST, 1);
 
-  List<t_actual_base_dart.thing> things;
+  List<t_actual_base_dart.thing> _things;
   static const int THINGS = 1;
 
 
   nested_thing() {
   }
 
-  @deprecated
-  bool isSetThings() => things != null;
+  List<t_actual_base_dart.thing> get things => this._things;
+
+  set things(List<t_actual_base_dart.thing> things) {
+    this._things = things;
+  }
 
   @deprecated
-  unsetThings() => things = null;
+  bool isSetThings() => _things != null;
+
+  @deprecated
+  unsetThings() => this._things = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -37,7 +43,7 @@ class nested_thing implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case THINGS:
-        things = value as List<t_actual_base_dart.thing>; // ignore: avoid_as
+        _things = value as List<t_actual_base_dart.thing>; // ignore: avoid_as
         break;
 
       default:
@@ -50,7 +56,7 @@ class nested_thing implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case THINGS:
-        return things != null;
+        return _things != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

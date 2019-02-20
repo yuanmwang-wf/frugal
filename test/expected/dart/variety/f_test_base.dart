@@ -14,18 +14,24 @@ class TestBase implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestBase");
   static final thrift.TField _BASE_STRUCT_FIELD_DESC = new thrift.TField("base_struct", thrift.TType.STRUCT, 1);
 
-  t_actual_base_dart.thing base_struct;
+  t_actual_base_dart.thing _base_struct;
   static const int BASE_STRUCT = 1;
 
 
   TestBase() {
   }
 
-  @deprecated
-  bool isSetBase_struct() => base_struct != null;
+  t_actual_base_dart.thing get base_struct => this._base_struct;
+
+  set base_struct(t_actual_base_dart.thing base_struct) {
+    this._base_struct = base_struct;
+  }
 
   @deprecated
-  unsetBase_struct() => base_struct = null;
+  bool isSetBase_struct() => _base_struct != null;
+
+  @deprecated
+  unsetBase_struct() => this._base_struct = null;
 
   @override
   getFieldValue(int fieldID) {
@@ -41,7 +47,7 @@ class TestBase implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case BASE_STRUCT:
-        base_struct = value as t_actual_base_dart.thing; // ignore: avoid_as
+        _base_struct = value as t_actual_base_dart.thing; // ignore: avoid_as
         break;
 
       default:
@@ -54,7 +60,7 @@ class TestBase implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case BASE_STRUCT:
-        return base_struct != null;
+        return _base_struct != null;
 
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");

@@ -30,9 +30,10 @@ import (
 const (
 	lang                        = "java"
 	defaultOutputDir            = "gen-java"
-	tab                         = "\t"
 	generatedAnnotations        = "generated_annotations"
 	useVendorOption             = "use_vendor"
+	suppressDeprecatedLogging   = "suppress_deprecated_logging"
+	tab                         = "\t"
 	tabtab                      = tab + tab
 	tabtabtab                   = tab + tab + tab
 	tabtabtabtab                = tab + tab + tab + tab
@@ -89,6 +90,12 @@ func (g *Generator) getIsSetType(s *parser.Struct) (IsSetType, string) {
 	default:
 		return IsSetBitSet, ""
 	}
+}
+
+// Suppress deprecated API usage warning logging
+func (g *Generator) suppressDeprecatedLogging() bool {
+	_, ok := g.Options[suppressDeprecatedLogging]
+	return ok
 }
 
 func (g *Generator) SetupGenerator(outputDir string) error {
@@ -2829,7 +2836,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 		contents += indent + tab + fmt.Sprintf("public %s %s(FContext ctx%s) %s {\n",
 			g.generateReturnValue(method), method.Name, g.generateArgs(method.Arguments, false), g.generateExceptions(method.Exceptions))
 
-		if deprecated {
+		if deprecated && !g.suppressDeprecatedLogging() {
 			contents += indent + tabtab + fmt.Sprintf("logger.warn(\"Call to deprecated function '%s.%s'\");\n", service.Name, method.Name)
 		}
 
@@ -3046,7 +3053,7 @@ func (g *Generator) generateServer(service *parser.Service, indent string) strin
 
 		contents += indent + tabtab + "public void process(FContext ctx, FProtocol iprot, FProtocol oprot) throws TException {\n"
 
-		if _, ok := method.Annotations.Deprecated(); ok {
+		if _, ok := method.Annotations.Deprecated(); ok && !g.suppressDeprecatedLogging() {
 			contents += indent + tabtabtab + fmt.Sprintf("logger.warn(\"Deprecated function '%s.%s' was called by a client\");\n", service.Name, method.Name)
 		}
 

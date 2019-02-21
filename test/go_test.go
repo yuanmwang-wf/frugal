@@ -166,3 +166,24 @@ func TestSlim(t *testing.T) {
 	copyAllFiles(t, files)
 	compareAllFiles(t, files)
 }
+
+// Ensures deprecated logging can be suppressed
+func TestSuppressedDeprecatedLogging(t *testing.T) {
+	options := compiler.Options{
+		File:    frugalGenFile,
+		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/,suppress_deprecated_logging",
+		Out:     outputDir,
+		Delim:   delim,
+		Recurse: true,
+	}
+	if err := compiler.Compile(options); err != nil {
+		t.Fatal("Unexpected error", err)
+	}
+
+	files := []FileComparisonPair{
+		{"expected/go/deprecated_logging/f_foo_service.go", filepath.Join(outputDir, "variety", "f_foo_service.go")},
+	}
+
+	copyAllFiles(t, files)
+	compareAllFiles(t, files)
+}

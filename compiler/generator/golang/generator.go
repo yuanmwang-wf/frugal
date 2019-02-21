@@ -30,16 +30,17 @@ import (
 )
 
 const (
-	lang                = "go"
-	defaultOutputDir    = "gen-go"
-	serviceSuffix       = "_service"
-	scopeSuffix         = "_scope"
-	packagePrefixOption = "package_prefix"
-	thriftImportOption  = "thrift_import"
-	frugalImportOption  = "frugal_import"
-	asyncOption         = "async"
-	useVendorOption     = "use_vendor"
-	slimOption          = "slim"
+	lang                      = "go"
+	defaultOutputDir          = "gen-go"
+	serviceSuffix             = "_service"
+	scopeSuffix               = "_scope"
+	packagePrefixOption       = "package_prefix"
+	thriftImportOption        = "thrift_import"
+	frugalImportOption        = "frugal_import"
+	asyncOption               = "async"
+	useVendorOption           = "use_vendor"
+	slimOption                = "slim"
+	suppressDeprecatedLogging = "suppress_deprecated_logging"
 )
 
 // Generator implements the LanguageGenerator interface for Go.
@@ -52,6 +53,12 @@ type Generator struct {
 // NewGenerator creates a new Go LanguageGenerator.
 func NewGenerator(options map[string]string) generator.LanguageGenerator {
 	return &Generator{&generator.BaseGenerator{Options: options}, true, nil}
+}
+
+// Suppress deprecated API usage warning logging
+func (g *Generator) suppressDeprecatedLogging() bool {
+	_, ok := g.Options[suppressDeprecatedLogging]
+	return ok
 }
 
 // SetupGenerator initializes globals the generator needs, like the types file.
@@ -1773,7 +1780,7 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 	contents += fmt.Sprintf("func (f *F%sClient) %s(ctx frugal.FContext%s) %s {\n",
 		servTitle, nameTitle, g.generateInputArgs(method.Arguments), g.generateReturnArgs(method))
 
-	if deprecated && !g.generateSlim() {
+	if deprecated && !g.generateSlim() && !g.suppressDeprecatedLogging() {
 		contents += fmt.Sprintf("\tlogrus.Warn(\"Call to deprecated function '%s.%s'\")\n", service.Name, nameTitle)
 	}
 
@@ -1979,7 +1986,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 
 	contents += fmt.Sprintf("func (p *%sF%s) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) error {\n", servLower, nameTitle)
 
-	if _, ok := method.Annotations.Deprecated(); ok && !g.generateSlim() {
+	if _, ok := method.Annotations.Deprecated(); ok && !g.generateSlim() && !g.suppressDeprecatedLogging() {
 		contents += fmt.Sprintf("\tlogrus.Warn(\"Deprecated function '%s.%s' was called by a client\")\n", service.Name, nameTitle)
 	}
 

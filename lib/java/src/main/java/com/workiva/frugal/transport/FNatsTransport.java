@@ -19,14 +19,11 @@ import io.nats.client.Connection.Status;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
-import io.nats.client.Nats;
-import io.nats.client.Subscription;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
 

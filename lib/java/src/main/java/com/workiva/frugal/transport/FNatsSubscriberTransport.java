@@ -25,8 +25,6 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 
 /**

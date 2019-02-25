@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;

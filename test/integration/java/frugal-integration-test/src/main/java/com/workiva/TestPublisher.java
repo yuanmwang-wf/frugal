@@ -11,15 +11,12 @@ import com.workiva.frugal.transport.FSubscriberTransportFactory;
 import frugal.test.Event;
 import frugal.test.EventsPublisher;
 import frugal.test.EventsSubscriber;
-import io.nats.client.Connection;
-import io.nats.client.Nats;
-import io.nats.client.Options;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.thrift.protocol.TProtocolFactory;
 
+import javax.jms.Connection;
 import javax.jms.Session;
 
-import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -43,10 +40,8 @@ public class TestPublisher {
                 ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 
                 // Create a Connection
-                Properties properties = new Properties();
-                properties.put(Options.PROP_URL, Options.DEFAULT_URL);
-                Options.Builder optionsBuilder = new Options.Builder(properties);
-                Connection conn = Nats.connect(optionsBuilder.build());
+                Connection connection = connectionFactory.createConnection();
+                connection.start();
 
                 publisherFactory = new FJmsPublisherTransport.Factory.Builder(connection).build();
                 subscriberFactory = new FJmsSubscriberTransport.Factory.Builder(connection).build();

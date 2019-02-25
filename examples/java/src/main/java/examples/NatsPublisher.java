@@ -8,8 +8,8 @@ import com.workiva.frugal.transport.FNatsSubscriberTransport;
 import com.workiva.frugal.transport.FPublisherTransportFactory;
 import com.workiva.frugal.transport.FSubscriberTransportFactory;
 import io.nats.client.Connection;
-import io.nats.client.ConnectionFactory;
 import io.nats.client.Nats;
+import io.nats.client.Options;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import v1.music.Album;
@@ -20,6 +20,7 @@ import v1.music.Track;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
@@ -34,8 +35,10 @@ public class NatsPublisher {
         FProtocolFactory protocolFactory = new FProtocolFactory(new TBinaryProtocol.Factory());
 
         // Create a NATS client (using default options for local dev)
-        ConnectionFactory cf = new ConnectionFactory(Nats.DEFAULT_URL);
-        Connection conn = cf.createConnection();
+        Properties properties = new Properties();
+        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+        Options.Builder optionsBuilder = new Options.Builder(properties);
+        Connection conn = Nats.connect(optionsBuilder.build());
 
         // Create the pubsub scope provider, given the NATs connection and protocol
         FPublisherTransportFactory publisherFactory = new FNatsPublisherTransport.Factory(conn);

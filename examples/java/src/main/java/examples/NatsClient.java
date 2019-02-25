@@ -6,7 +6,7 @@ import com.workiva.frugal.provider.FServiceProvider;
 import com.workiva.frugal.transport.FNatsTransport;
 import com.workiva.frugal.transport.FTransport;
 import io.nats.client.Connection;
-import io.nats.client.ConnectionFactory;
+import io.nats.client.Options;
 import io.nats.client.Nats;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -15,20 +15,23 @@ import v1.music.FStore;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
+import java.util.Properties;
 
 /**
  * Creates a NATS client.
  */
 public class NatsClient {
 
-    public static void main(String[] args) throws IOException, TimeoutException, TException {
+    public static void main(String[] args) throws IOException, TimeoutException, TException, InterruptedException {
         // Specify the protocol used for serializing requests.
         // The protocol stack must match the protocol stack of the server.
         FProtocolFactory protocolFactory = new FProtocolFactory(new TBinaryProtocol.Factory());
 
         // Create a NATS client (using default options for local dev)
-        ConnectionFactory cf = new ConnectionFactory(Nats.DEFAULT_URL);
-        Connection conn = cf.createConnection();
+        Properties properties = new Properties();
+        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+        Options.Builder optionsBuilder = new Options.Builder(properties);
+        Connection conn = Nats.connect(optionsBuilder.build());
 
         // Create and open a new transport that uses NATS for sending data.
         // The NATS transport will communicate using the music-service topic.

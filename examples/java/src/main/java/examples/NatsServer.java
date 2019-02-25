@@ -4,13 +4,14 @@ import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.server.FNatsServer;
 import com.workiva.frugal.server.FServer;
 import io.nats.client.Connection;
-import io.nats.client.ConnectionFactory;
 import io.nats.client.Nats;
+import io.nats.client.Options;
 import v1.music.FStore;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 
 import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -25,8 +26,10 @@ public class NatsServer {
         FProtocolFactory protocolFactory = new FProtocolFactory(new TBinaryProtocol.Factory());
 
         // Create a NATS client (using default options for local dev)
-        ConnectionFactory cf = new ConnectionFactory(Nats.DEFAULT_URL);
-        Connection conn = cf.createConnection();
+        Properties properties = new Properties();
+        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+        Options.Builder optionsBuilder = new Options.Builder(properties);
+        Connection conn = Nats.connect(optionsBuilder.build());
 
         // Create a new server processor.
         // Incoming requests to the server are passed to the processor.

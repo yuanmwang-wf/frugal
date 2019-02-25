@@ -1,8 +1,8 @@
 package com.workiva.frugal.benchmarks;
 
 import io.nats.client.Connection;
-import io.nats.client.ConnectionFactory;
 import io.nats.client.Nats;
+import io.nats.client.Options;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
@@ -10,10 +10,10 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Benchmarks for JNATS.
@@ -25,30 +25,28 @@ public class NatsBenchmark {
 
     @Setup
     public void setup() throws IOException {
-        ConnectionFactory cf = new ConnectionFactory(Nats.DEFAULT_URL);
+        Properties properties = new Properties();
+        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
+        Options.Builder options = new Options.Builder(properties);
         try {
-            nc = cf.createConnection();
-        } catch (IOException e) {
+            nc = Nats.connect(options.build());
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     @TearDown
-    public void teardown() {
+    public void teardown() throws InterruptedException {
         nc.close();
     }
 
     @Benchmark
     public void testPublisher() {
-        try {
-            nc.publish("topic", "Hello World".getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        nc.publish("topic", "Hello World".getBytes());
     }
 
     public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
+        org.openjdk.jmh.runner.options.Options opt = new OptionsBuilder()
                 .include(NatsBenchmark.class.getSimpleName())
                 .warmupIterations(5)
                 .measurementIterations(5)

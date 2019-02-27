@@ -205,7 +205,7 @@ func (t *TornadoGenerator) generateProcessorFunction(method *parser.Method) stri
 		contents += tabtabtab + "# We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info\n"
 		contents += tabtabtab + "exc_info = sys.exc_info()\n"
 		contents += tabtabtab + "with (yield self._lock.acquire()):\n"
-		contents += tabtabtabtab + fmt.Sprintf("_write_application_exception(ctx, oprot, \"%s\", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)\n", methodLower)
+		contents += tabtabtabtab + fmt.Sprintf("_write_application_exception(ctx, oprot, \"%s\", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=\"Internal error processing {}: {}\".format(\"%s\", e.message))\n", methodLower, methodLower)
 	}
 	contents += tabtabtab + "raise exc_info[0], exc_info[1], exc_info[2]\n"
 	if !method.Oneway {

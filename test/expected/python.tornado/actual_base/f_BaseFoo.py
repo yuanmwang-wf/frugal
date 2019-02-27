@@ -128,7 +128,7 @@ class _basePing(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "basePing", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "basePing", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("basePing", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:

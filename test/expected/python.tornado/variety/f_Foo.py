@@ -669,7 +669,7 @@ class _Ping(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "ping", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "ping", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("ping", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -711,7 +711,7 @@ class _blah(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "blah", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "blah", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("blah", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -771,7 +771,7 @@ class _bin_method(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "bin_method", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "bin_method", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("bin_method", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -809,7 +809,7 @@ class _param_modifiers(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "param_modifiers", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "param_modifiers", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("param_modifiers", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -847,7 +847,7 @@ class _underlying_types_test(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "underlying_types_test", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "underlying_types_test", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("underlying_types_test", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -885,7 +885,7 @@ class _getThing(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "getThing", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "getThing", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("getThing", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -923,7 +923,7 @@ class _getMyInt(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "getMyInt", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "getMyInt", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("getMyInt", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -961,7 +961,7 @@ class _use_subdir_struct(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "use_subdir_struct", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "use_subdir_struct", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("use_subdir_struct", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -999,7 +999,7 @@ class _sayHelloWith(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "sayHelloWith", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "sayHelloWith", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("sayHelloWith", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -1037,7 +1037,7 @@ class _whatDoYouSay(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "whatDoYouSay", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "whatDoYouSay", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("whatDoYouSay", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:
@@ -1075,7 +1075,7 @@ class _sayAgain(FProcessorFunction):
             # We need to store off the current exception information as `self._lock.acquire()` appears to clear the current exc_info
             exc_info = sys.exc_info()
             with (yield self._lock.acquire()):
-                _write_application_exception(ctx, oprot, "sayAgain", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message=e.message)
+                _write_application_exception(ctx, oprot, "sayAgain", ex_code=TApplicationExceptionType.INTERNAL_ERROR, message="Internal error processing {}: {}".format("sayAgain", e.message))
             raise exc_info[0], exc_info[1], exc_info[2]
         with (yield self._lock.acquire()):
             try:

@@ -67,7 +67,7 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
     getItem_result result = new getItem_result();
     result.read(iprot);
     iprot.readMessageEnd();
-    if (result.success != null) {
+    if (result.isSetSuccess()) {
       return result.success;
     }
 
@@ -128,6 +128,7 @@ class getItem_args implements thrift.TBase {
     }
     iprot.readStructEnd();
 
+    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -165,6 +166,8 @@ class getItem_args implements thrift.TBase {
   }
 
   validate() {
+    // check for required fields
+    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -173,26 +176,38 @@ class getItem_result implements thrift.TBase {
   static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
   static final thrift.TField _D_FIELD_DESC = new thrift.TField("d", thrift.TType.STRUCT, 1);
 
-  t_vendor_namespace.Item success;
+  t_vendor_namespace.Item _success;
   static const int SUCCESS = 0;
-  t_excepts.InvalidData d;
+  t_excepts.InvalidData _d;
   static const int D = 1;
 
 
   getItem_result() {
   }
 
-  @deprecated
-  bool isSetSuccess() => success != null;
+  t_vendor_namespace.Item get success => this._success;
 
-  @deprecated
-  unsetSuccess() => success = null;
+  set success(t_vendor_namespace.Item success) {
+    this._success = success;
+  }
 
-  @deprecated
-  bool isSetD() => d != null;
+  bool isSetSuccess() => this.success != null;
 
-  @deprecated
-  unsetD() => d = null;
+  unsetSuccess() {
+    this.success = null;
+  }
+
+  t_excepts.InvalidData get d => this._d;
+
+  set d(t_excepts.InvalidData d) {
+    this._d = d;
+  }
+
+  bool isSetD() => this.d != null;
+
+  unsetD() {
+    this.d = null;
+  }
 
   @override
   getFieldValue(int fieldID) {
@@ -210,11 +225,19 @@ class getItem_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case SUCCESS:
-        success = value as t_vendor_namespace.Item; // ignore: avoid_as
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          this.success = value as t_vendor_namespace.Item;
+        }
         break;
 
       case D:
-        d = value as t_excepts.InvalidData; // ignore: avoid_as
+        if (value == null) {
+          unsetD();
+        } else {
+          this.d = value as t_excepts.InvalidData;
+        }
         break;
 
       default:
@@ -227,11 +250,9 @@ class getItem_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case SUCCESS:
-        return success != null;
-
+        return isSetSuccess();
       case D:
-        return d != null;
-
+        return isSetD();
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -268,6 +289,7 @@ class getItem_result implements thrift.TBase {
     }
     iprot.readStructEnd();
 
+    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -276,12 +298,12 @@ class getItem_result implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (success != null) {
+    if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       success.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (d != null) {
+    if (isSetD() && this.d != null) {
       oprot.writeFieldBegin(_D_FIELD_DESC);
       d.write(oprot);
       oprot.writeFieldEnd();
@@ -294,7 +316,7 @@ class getItem_result implements thrift.TBase {
   String toString() {
     StringBuffer ret = new StringBuffer("getItem_result(");
 
-    if (success != null) {
+    if (isSetSuccess()) {
       ret.write("success:");
       if (this.success == null) {
         ret.write("null");
@@ -303,7 +325,7 @@ class getItem_result implements thrift.TBase {
       }
     }
 
-    if (d != null) {
+    if (isSetD()) {
       ret.write(", ");
       ret.write("d:");
       if (this.d == null) {
@@ -345,5 +367,7 @@ class getItem_result implements thrift.TBase {
   }
 
   validate() {
+    // check for required fields
+    // check that fields of type enum have valid values
   }
 }

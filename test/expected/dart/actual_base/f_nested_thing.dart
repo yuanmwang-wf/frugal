@@ -10,18 +10,24 @@ class nested_thing implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("nested_thing");
   static final thrift.TField _THINGS_FIELD_DESC = new thrift.TField("things", thrift.TType.LIST, 1);
 
-  List<t_actual_base_dart.thing> things;
+  List<t_actual_base_dart.thing> _things;
   static const int THINGS = 1;
 
 
   nested_thing() {
   }
 
-  @deprecated
-  bool isSetThings() => things != null;
+  List<t_actual_base_dart.thing> get things => this._things;
 
-  @deprecated
-  unsetThings() => things = null;
+  set things(List<t_actual_base_dart.thing> things) {
+    this._things = things;
+  }
+
+  bool isSetThings() => this.things != null;
+
+  unsetThings() {
+    this.things = null;
+  }
 
   @override
   getFieldValue(int fieldID) {
@@ -37,7 +43,11 @@ class nested_thing implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       case THINGS:
-        things = value as List<t_actual_base_dart.thing>; // ignore: avoid_as
+        if (value == null) {
+          unsetThings();
+        } else {
+          this.things = value as List<t_actual_base_dart.thing>;
+        }
         break;
 
       default:
@@ -50,8 +60,7 @@ class nested_thing implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       case THINGS:
-        return things != null;
-
+        return isSetThings();
       default:
         throw new ArgumentError("Field $fieldID doesn't exist!");
     }
@@ -86,6 +95,7 @@ class nested_thing implements thrift.TBase {
     }
     iprot.readStructEnd();
 
+    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -94,7 +104,7 @@ class nested_thing implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (things != null) {
+    if (this.things != null) {
       oprot.writeFieldBegin(_THINGS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, things.length));
       for(var elem84 in things) {
@@ -146,5 +156,7 @@ class nested_thing implements thrift.TBase {
   }
 
   validate() {
+    // check for required fields
+    // check that fields of type enum have valid values
   }
 }

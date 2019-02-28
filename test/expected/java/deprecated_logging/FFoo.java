@@ -78,22 +78,22 @@ public class FFoo {
 		/**
 		 * Blah the server.
 		 */
-		public Long blah(FContext ctx, Integer num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception;
+		public long blah(FContext ctx, int num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception;
 
 		/**
 		 * oneway methods don't receive a response from the server.
 		 */
-		public void oneWay(FContext ctx, Long id, java.util.Map<Integer, String> req) throws TException;
+		public void oneWay(FContext ctx, long id, java.util.Map<Integer, String> req) throws TException;
 
 		public java.nio.ByteBuffer bin_method(FContext ctx, java.nio.ByteBuffer bin, String Str) throws TException, actual_base.java.api_exception;
 
-		public Long param_modifiers(FContext ctx, Integer opt_num, Integer default_num, Integer req_num) throws TException;
+		public long param_modifiers(FContext ctx, int opt_num, int default_num, int req_num) throws TException;
 
 		public java.util.List<Long> underlying_types_test(FContext ctx, java.util.List<Long> list_type, java.util.Set<Long> set_type) throws TException;
 
 		public Thing getThing(FContext ctx) throws TException;
 
-		public Integer getMyInt(FContext ctx) throws TException;
+		public int getMyInt(FContext ctx) throws TException;
 
 		public A use_subdir_struct(FContext ctx, A a) throws TException;
 
@@ -123,21 +123,20 @@ public class FFoo {
 		 */
 		@Deprecated
 		public void Ping(FContext ctx) throws TException {
-			logger.warn("Call to deprecated function 'Foo.Ping'");
 			proxy.Ping(ctx);
 		}
 
 		/**
 		 * Blah the server.
 		 */
-		public Long blah(FContext ctx, Integer num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception {
+		public long blah(FContext ctx, int num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception {
 			return proxy.blah(ctx, num, Str, event);
 		}
 
 		/**
 		 * oneway methods don't receive a response from the server.
 		 */
-		public void oneWay(FContext ctx, Long id, java.util.Map<Integer, String> req) throws TException {
+		public void oneWay(FContext ctx, long id, java.util.Map<Integer, String> req) throws TException {
 			proxy.oneWay(ctx, id, req);
 		}
 
@@ -145,7 +144,7 @@ public class FFoo {
 			return proxy.bin_method(ctx, bin, Str);
 		}
 
-		public Long param_modifiers(FContext ctx, Integer opt_num, Integer default_num, Integer req_num) throws TException {
+		public long param_modifiers(FContext ctx, int opt_num, int default_num, int req_num) throws TException {
 			return proxy.param_modifiers(ctx, opt_num, default_num, req_num);
 		}
 
@@ -157,7 +156,7 @@ public class FFoo {
 			return proxy.getThing(ctx);
 		}
 
-		public Integer getMyInt(FContext ctx) throws TException {
+		public int getMyInt(FContext ctx) throws TException {
 			return proxy.getMyInt(ctx);
 		}
 
@@ -227,7 +226,7 @@ public class FFoo {
 		/**
 		 * Blah the server.
 		 */
-		public Long blah(FContext ctx, Integer num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception {
+		public long blah(FContext ctx, int num, String Str, Event event) throws TException, AwesomeException, actual_base.java.api_exception {
 			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
 			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
 			oprot.writeRequestHeader(ctx);
@@ -275,7 +274,7 @@ public class FFoo {
 		/**
 		 * oneway methods don't receive a response from the server.
 		 */
-		public void oneWay(FContext ctx, Long id, java.util.Map<Integer, String> req) throws TException {
+		public void oneWay(FContext ctx, long id, java.util.Map<Integer, String> req) throws TException {
 			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
 			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
 			oprot.writeRequestHeader(ctx);
@@ -328,7 +327,7 @@ public class FFoo {
 			}
 			throw new TApplicationException(TApplicationExceptionType.MISSING_RESULT, "bin_method failed: unknown result");
 		}
-		public Long param_modifiers(FContext ctx, Integer opt_num, Integer default_num, Integer req_num) throws TException {
+		public long param_modifiers(FContext ctx, int opt_num, int default_num, int req_num) throws TException {
 			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
 			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
 			oprot.writeRequestHeader(ctx);
@@ -441,7 +440,7 @@ public class FFoo {
 			}
 			throw new TApplicationException(TApplicationExceptionType.MISSING_RESULT, "getThing failed: unknown result");
 		}
-		public Integer getMyInt(FContext ctx) throws TException {
+		public int getMyInt(FContext ctx) throws TException {
 			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
 			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
 			oprot.writeRequestHeader(ctx);
@@ -670,7 +669,6 @@ public class FFoo {
 		private class Ping implements FProcessorFunction {
 
 			public void process(FContext ctx, FProtocol iprot, FProtocol oprot) throws TException {
-				logger.warn("Deprecated function 'Foo.Ping' was called by a client");
 				Ping_args args = new Ping_args();
 				try {
 					args.read(iprot);
@@ -1740,7 +1738,7 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new blah_argsTupleSchemeFactory());
 		}
 
-		public Integer num;
+		public int num;
 		public String Str;
 		public Event event;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -1809,15 +1807,18 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __NUM_ISSET_ID = 0;
+		private byte __isset_bitfield = 0;
 		public blah_args() {
 		}
 
 		public blah_args(
-			Integer num,
+			int num,
 			String Str,
 			Event event) {
 			this();
 			this.num = num;
+			setNumIsSet(true);
 			this.Str = Str;
 			this.event = event;
 		}
@@ -1826,9 +1827,8 @@ public class FFoo {
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public blah_args(blah_args other) {
-			if (other.isSetNum()) {
-				this.num = other.num;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.num = other.num;
 			if (other.isSetStr()) {
 				this.Str = other.Str;
 			}
@@ -1843,7 +1843,8 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.num = null;
+			setNumIsSet(false);
+			this.num = 0;
 
 			this.Str = null;
 
@@ -1851,28 +1852,27 @@ public class FFoo {
 
 		}
 
-		public Integer getNum() {
+		public int getNum() {
 			return this.num;
 		}
 
-		public blah_args setNum(Integer num) {
+		public blah_args setNum(int num) {
 			this.num = num;
+			setNumIsSet(true);
 			return this;
 		}
 
 		public void unsetNum() {
-			this.num = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __NUM_ISSET_ID);
 		}
 
 		/** Returns true if field num is set (has been assigned a value) and false otherwise */
 		public boolean isSetNum() {
-			return this.num != null;
+			return EncodingUtils.testBit(__isset_bitfield, __NUM_ISSET_ID);
 		}
 
 		public void setNumIsSet(boolean value) {
-			if (!value) {
-				this.num = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NUM_ISSET_ID, value);
 		}
 
 		public String getStr() {
@@ -1997,12 +1997,12 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_num = true && this.isSetNum();
-			boolean that_present_num = true && that.isSetNum();
+			boolean this_present_num = true;
+			boolean that_present_num = true;
 			if (this_present_num || that_present_num) {
 				if (!(this_present_num && that_present_num))
 					return false;
-				if (!this.num.equals(that.num))
+				if (this.num != that.num)
 					return false;
 			}
 
@@ -2031,7 +2031,7 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_num = true && (isSetNum());
+			boolean present_num = true;
 			list.add(present_num);
 			if (present_num)
 				list.add(num);
@@ -2108,11 +2108,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("num:");
-			if (this.num == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.num);
-			}
+			sb.append(this.num);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("Str:");
@@ -2153,6 +2149,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -2217,10 +2214,7 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(NUM_FIELD_DESC);
-				Integer elem222 = struct.num;
-				if (elem222 == null) {
-					elem222 = 0;
-				}
+				int elem222 = struct.num;
 				oprot.writeI32(elem222);
 				oprot.writeFieldEnd();
 				if (struct.Str != null) {
@@ -2263,10 +2257,7 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 3);
 				if (struct.isSetNum()) {
-					Integer elem224 = struct.num;
-					if (elem224 == null) {
-						elem224 = 0;
-					}
+					int elem224 = struct.num;
 					oprot.writeI32(elem224);
 				}
 				if (struct.isSetStr()) {
@@ -2314,7 +2305,7 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new blah_resultTupleSchemeFactory());
 		}
 
-		public Long success;
+		public long success;
 		public AwesomeException awe;
 		public actual_base.java.api_exception api;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -2383,15 +2374,18 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __SUCCESS_ISSET_ID = 0;
+		private byte __isset_bitfield = 0;
 		public blah_result() {
 		}
 
 		public blah_result(
-			Long success,
+			long success,
 			AwesomeException awe,
 			actual_base.java.api_exception api) {
 			this();
 			this.success = success;
+			setSuccessIsSet(true);
 			this.awe = awe;
 			this.api = api;
 		}
@@ -2400,9 +2394,8 @@ public class FFoo {
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public blah_result(blah_result other) {
-			if (other.isSetSuccess()) {
-				this.success = other.success;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.success = other.success;
 			if (other.isSetAwe()) {
 				this.awe = new AwesomeException(other.awe);
 			}
@@ -2417,7 +2410,8 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.success = null;
+			setSuccessIsSet(false);
+			this.success = 0L;
 
 			this.awe = null;
 
@@ -2425,28 +2419,27 @@ public class FFoo {
 
 		}
 
-		public Long getSuccess() {
+		public long getSuccess() {
 			return this.success;
 		}
 
-		public blah_result setSuccess(Long success) {
+		public blah_result setSuccess(long success) {
 			this.success = success;
+			setSuccessIsSet(true);
 			return this;
 		}
 
 		public void unsetSuccess() {
-			this.success = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		/** Returns true if field success is set (has been assigned a value) and false otherwise */
 		public boolean isSetSuccess() {
-			return this.success != null;
+			return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		public void setSuccessIsSet(boolean value) {
-			if (!value) {
-				this.success = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
 		}
 
 		public AwesomeException getAwe() {
@@ -2571,12 +2564,12 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
+			boolean this_present_success = true;
+			boolean that_present_success = true;
 			if (this_present_success || that_present_success) {
 				if (!(this_present_success && that_present_success))
 					return false;
-				if (!this.success.equals(that.success))
+				if (this.success != that.success)
 					return false;
 			}
 
@@ -2605,7 +2598,7 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_success = true && (isSetSuccess());
+			boolean present_success = true;
 			list.add(present_success);
 			if (present_success)
 				list.add(success);
@@ -2682,11 +2675,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("awe:");
@@ -2730,6 +2719,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -2796,10 +2786,7 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Long elem226 = struct.success;
-					if (elem226 == null) {
-						elem226 = 0L;
-					}
+					long elem226 = struct.success;
 					oprot.writeI64(elem226);
 					oprot.writeFieldEnd();
 				}
@@ -2842,10 +2829,7 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 3);
 				if (struct.isSetSuccess()) {
-					Long elem227 = struct.success;
-					if (elem227 == null) {
-						elem227 = 0L;
-					}
+					long elem227 = struct.success;
 					oprot.writeI64(elem227);
 				}
 				if (struct.isSetAwe()) {
@@ -2892,7 +2876,7 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new oneWay_argsTupleSchemeFactory());
 		}
 
-		public Long id;
+		public long id;
 		public java.util.Map<Integer, String> req;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -2957,14 +2941,17 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __ID_ISSET_ID = 0;
+		private byte __isset_bitfield = 0;
 		public oneWay_args() {
 		}
 
 		public oneWay_args(
-			Long id,
+			long id,
 			java.util.Map<Integer, String> req) {
 			this();
 			this.id = id;
+			setIdIsSet(true);
 			this.req = req;
 		}
 
@@ -2972,16 +2959,10 @@ public class FFoo {
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public oneWay_args(oneWay_args other) {
-			if (other.isSetId()) {
-				this.id = other.id;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.id = other.id;
 			if (other.isSetReq()) {
-				this.req = new HashMap<Integer,String>(other.req.size());
-				for (Map.Entry<Integer, String> elem228 : other.req.entrySet()) {
-					Integer elem230 = elem228.getKey();
-					String elem229 = elem228.getValue();
-					this.req.put(elem230, elem229);
-				}
+				this.req = new HashMap<Integer,String>(other.req);
 			}
 		}
 
@@ -2991,41 +2972,41 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.id = null;
+			setIdIsSet(false);
+			this.id = 0L;
 
 			this.req = null;
 
 		}
 
-		public Long getId() {
+		public long getId() {
 			return this.id;
 		}
 
-		public oneWay_args setId(Long id) {
+		public oneWay_args setId(long id) {
 			this.id = id;
+			setIdIsSet(true);
 			return this;
 		}
 
 		public void unsetId() {
-			this.id = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __ID_ISSET_ID);
 		}
 
 		/** Returns true if field id is set (has been assigned a value) and false otherwise */
 		public boolean isSetId() {
-			return this.id != null;
+			return EncodingUtils.testBit(__isset_bitfield, __ID_ISSET_ID);
 		}
 
 		public void setIdIsSet(boolean value) {
-			if (!value) {
-				this.id = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __ID_ISSET_ID, value);
 		}
 
 		public int getReqSize() {
 			return (this.req == null) ? 0 : this.req.size();
 		}
 
-		public void putToReq(Integer key, String val) {
+		public void putToReq(int key, String val) {
 			if (this.req == null) {
 				this.req = new HashMap<Integer,String>();
 			}
@@ -3117,12 +3098,12 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_id = true && this.isSetId();
-			boolean that_present_id = true && that.isSetId();
+			boolean this_present_id = true;
+			boolean that_present_id = true;
 			if (this_present_id || that_present_id) {
 				if (!(this_present_id && that_present_id))
 					return false;
-				if (!this.id.equals(that.id))
+				if (this.id != that.id)
 					return false;
 			}
 
@@ -3142,7 +3123,7 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_id = true && (isSetId());
+			boolean present_id = true;
 			list.add(present_id);
 			if (present_id)
 				list.add(id);
@@ -3204,11 +3185,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("id:");
-			if (this.id == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.id);
-			}
+			sb.append(this.id);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("req:");
@@ -3238,6 +3215,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -3271,12 +3249,12 @@ public class FFoo {
 							break;
 						case 2: // REQ
 							if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-								org.apache.thrift.protocol.TMap elem231 = iprot.readMapBegin();
-								struct.req = new HashMap<Integer,String>(2*elem231.size);
-								for (int elem232 = 0; elem232 < elem231.size; ++elem232) {
-									Integer elem234 = iprot.readI32();
-									String elem233 = iprot.readString();
-									struct.req.put(elem234, elem233);
+								org.apache.thrift.protocol.TMap elem230 = iprot.readMapBegin();
+								struct.req = new HashMap<Integer,String>(2*elem230.size);
+								for (int elem231 = 0; elem231 < elem230.size; ++elem231) {
+									int elem233 = iprot.readI32();
+									String elem232 = iprot.readString();
+									struct.req.put(elem233, elem232);
 								}
 								iprot.readMapEnd();
 								struct.setReqIsSet(true);
@@ -3300,23 +3278,17 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(ID_FIELD_DESC);
-				Long elem235 = struct.id;
-				if (elem235 == null) {
-					elem235 = 0L;
-				}
-				oprot.writeI64(elem235);
+				long elem234 = struct.id;
+				oprot.writeI64(elem234);
 				oprot.writeFieldEnd();
 				if (struct.req != null) {
 					oprot.writeFieldBegin(REQ_FIELD_DESC);
 					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, struct.req.size()));
-					for (Map.Entry<Integer, String> elem236 : struct.req.entrySet()) {
-						Integer elem237 = elem236.getKey();
-						if (elem237 == null) {
-							elem237 = 0;
-						}
-						oprot.writeI32(elem237);
-						String elem238 = elem236.getValue();
-						oprot.writeString(elem238);
+					for (Map.Entry<Integer, String> elem235 : struct.req.entrySet()) {
+						int elem236 = elem235.getKey();
+						oprot.writeI32(elem236);
+						String elem237 = elem235.getValue();
+						oprot.writeString(elem237);
 					}
 					oprot.writeMapEnd();
 					oprot.writeFieldEnd();
@@ -3347,22 +3319,16 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetId()) {
-					Long elem239 = struct.id;
-					if (elem239 == null) {
-						elem239 = 0L;
-					}
-					oprot.writeI64(elem239);
+					long elem238 = struct.id;
+					oprot.writeI64(elem238);
 				}
 				if (struct.isSetReq()) {
 					oprot.writeI32(struct.req.size());
-					for (Map.Entry<Integer, String> elem240 : struct.req.entrySet()) {
-						Integer elem241 = elem240.getKey();
-						if (elem241 == null) {
-							elem241 = 0;
-						}
-						oprot.writeI32(elem241);
-						String elem242 = elem240.getValue();
-						oprot.writeString(elem242);
+					for (Map.Entry<Integer, String> elem239 : struct.req.entrySet()) {
+						int elem240 = elem239.getKey();
+						oprot.writeI32(elem240);
+						String elem241 = elem239.getValue();
+						oprot.writeString(elem241);
 					}
 				}
 			}
@@ -3376,12 +3342,12 @@ public class FFoo {
 					struct.setIdIsSet(true);
 				}
 				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TMap elem243 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-					struct.req = new HashMap<Integer,String>(2*elem243.size);
-					for (int elem244 = 0; elem244 < elem243.size; ++elem244) {
-						Integer elem246 = iprot.readI32();
-						String elem245 = iprot.readString();
-						struct.req.put(elem246, elem245);
+					org.apache.thrift.protocol.TMap elem242 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+					struct.req = new HashMap<Integer,String>(2*elem242.size);
+					for (int elem243 = 0; elem243 < elem242.size; ++elem243) {
+						int elem245 = iprot.readI32();
+						String elem244 = iprot.readString();
+						struct.req.put(elem245, elem244);
 					}
 					struct.setReqIsSet(true);
 				}
@@ -3799,14 +3765,14 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.bin != null) {
 					oprot.writeFieldBegin(BIN_FIELD_DESC);
-					java.nio.ByteBuffer elem247 = struct.bin;
-					oprot.writeBinary(elem247);
+					java.nio.ByteBuffer elem246 = struct.bin;
+					oprot.writeBinary(elem246);
 					oprot.writeFieldEnd();
 				}
 				if (struct.Str != null) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
-					String elem248 = struct.Str;
-					oprot.writeString(elem248);
+					String elem247 = struct.Str;
+					oprot.writeString(elem247);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -3835,12 +3801,12 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetBin()) {
-					java.nio.ByteBuffer elem249 = struct.bin;
-					oprot.writeBinary(elem249);
+					java.nio.ByteBuffer elem248 = struct.bin;
+					oprot.writeBinary(elem248);
 				}
 				if (struct.isSetStr()) {
-					String elem250 = struct.Str;
-					oprot.writeString(elem250);
+					String elem249 = struct.Str;
+					oprot.writeString(elem249);
 				}
 			}
 
@@ -4274,8 +4240,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					java.nio.ByteBuffer elem251 = struct.success;
-					oprot.writeBinary(elem251);
+					java.nio.ByteBuffer elem250 = struct.success;
+					oprot.writeBinary(elem250);
 					oprot.writeFieldEnd();
 				}
 				if (struct.api != null) {
@@ -4309,8 +4275,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetSuccess()) {
-					java.nio.ByteBuffer elem252 = struct.success;
-					oprot.writeBinary(elem252);
+					java.nio.ByteBuffer elem251 = struct.success;
+					oprot.writeBinary(elem251);
 				}
 				if (struct.isSetApi()) {
 					struct.api.write(oprot);
@@ -4349,9 +4315,9 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new param_modifiers_argsTupleSchemeFactory());
 		}
 
-		public Integer opt_num;
-		public Integer default_num;
-		public Integer req_num; // required
+		public int opt_num;
+		public int default_num;
+		public int req_num; // required
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 			OPT_NUM((short)1, "opt_num"),
@@ -4418,32 +4384,34 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __OPT_NUM_ISSET_ID = 0;
+		private static final int __DEFAULT_NUM_ISSET_ID = 1;
+		private static final int __REQ_NUM_ISSET_ID = 2;
+		private byte __isset_bitfield = 0;
 		public param_modifiers_args() {
 		}
 
 		public param_modifiers_args(
-			Integer opt_num,
-			Integer default_num,
-			Integer req_num) {
+			int opt_num,
+			int default_num,
+			int req_num) {
 			this();
 			this.opt_num = opt_num;
+			setOpt_numIsSet(true);
 			this.default_num = default_num;
+			setDefault_numIsSet(true);
 			this.req_num = req_num;
+			setReq_numIsSet(true);
 		}
 
 		/**
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public param_modifiers_args(param_modifiers_args other) {
-			if (other.isSetOpt_num()) {
-				this.opt_num = other.opt_num;
-			}
-			if (other.isSetDefault_num()) {
-				this.default_num = other.default_num;
-			}
-			if (other.isSetReq_num()) {
-				this.req_num = other.req_num;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.opt_num = other.opt_num;
+			this.default_num = other.default_num;
+			this.req_num = other.req_num;
 		}
 
 		public param_modifiers_args deepCopy() {
@@ -4452,84 +4420,84 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.opt_num = null;
+			setOpt_numIsSet(false);
+			this.opt_num = 0;
 
-			this.default_num = null;
+			setDefault_numIsSet(false);
+			this.default_num = 0;
 
-			this.req_num = null;
+			setReq_numIsSet(false);
+			this.req_num = 0;
 
 		}
 
-		public Integer getOpt_num() {
+		public int getOpt_num() {
 			return this.opt_num;
 		}
 
-		public param_modifiers_args setOpt_num(Integer opt_num) {
+		public param_modifiers_args setOpt_num(int opt_num) {
 			this.opt_num = opt_num;
+			setOpt_numIsSet(true);
 			return this;
 		}
 
 		public void unsetOpt_num() {
-			this.opt_num = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __OPT_NUM_ISSET_ID);
 		}
 
 		/** Returns true if field opt_num is set (has been assigned a value) and false otherwise */
 		public boolean isSetOpt_num() {
-			return this.opt_num != null;
+			return EncodingUtils.testBit(__isset_bitfield, __OPT_NUM_ISSET_ID);
 		}
 
 		public void setOpt_numIsSet(boolean value) {
-			if (!value) {
-				this.opt_num = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __OPT_NUM_ISSET_ID, value);
 		}
 
-		public Integer getDefault_num() {
+		public int getDefault_num() {
 			return this.default_num;
 		}
 
-		public param_modifiers_args setDefault_num(Integer default_num) {
+		public param_modifiers_args setDefault_num(int default_num) {
 			this.default_num = default_num;
+			setDefault_numIsSet(true);
 			return this;
 		}
 
 		public void unsetDefault_num() {
-			this.default_num = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __DEFAULT_NUM_ISSET_ID);
 		}
 
 		/** Returns true if field default_num is set (has been assigned a value) and false otherwise */
 		public boolean isSetDefault_num() {
-			return this.default_num != null;
+			return EncodingUtils.testBit(__isset_bitfield, __DEFAULT_NUM_ISSET_ID);
 		}
 
 		public void setDefault_numIsSet(boolean value) {
-			if (!value) {
-				this.default_num = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __DEFAULT_NUM_ISSET_ID, value);
 		}
 
-		public Integer getReq_num() {
+		public int getReq_num() {
 			return this.req_num;
 		}
 
-		public param_modifiers_args setReq_num(Integer req_num) {
+		public param_modifiers_args setReq_num(int req_num) {
 			this.req_num = req_num;
+			setReq_numIsSet(true);
 			return this;
 		}
 
 		public void unsetReq_num() {
-			this.req_num = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __REQ_NUM_ISSET_ID);
 		}
 
 		/** Returns true if field req_num is set (has been assigned a value) and false otherwise */
 		public boolean isSetReq_num() {
-			return this.req_num != null;
+			return EncodingUtils.testBit(__isset_bitfield, __REQ_NUM_ISSET_ID);
 		}
 
 		public void setReq_numIsSet(boolean value) {
-			if (!value) {
-				this.req_num = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __REQ_NUM_ISSET_ID, value);
 		}
 
 		public void setFieldValue(_Fields field, Object value) {
@@ -4606,30 +4574,30 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_opt_num = true && this.isSetOpt_num();
-			boolean that_present_opt_num = true && that.isSetOpt_num();
+			boolean this_present_opt_num = true;
+			boolean that_present_opt_num = true;
 			if (this_present_opt_num || that_present_opt_num) {
 				if (!(this_present_opt_num && that_present_opt_num))
 					return false;
-				if (!this.opt_num.equals(that.opt_num))
+				if (this.opt_num != that.opt_num)
 					return false;
 			}
 
-			boolean this_present_default_num = true && this.isSetDefault_num();
-			boolean that_present_default_num = true && that.isSetDefault_num();
+			boolean this_present_default_num = true;
+			boolean that_present_default_num = true;
 			if (this_present_default_num || that_present_default_num) {
 				if (!(this_present_default_num && that_present_default_num))
 					return false;
-				if (!this.default_num.equals(that.default_num))
+				if (this.default_num != that.default_num)
 					return false;
 			}
 
-			boolean this_present_req_num = true && this.isSetReq_num();
-			boolean that_present_req_num = true && that.isSetReq_num();
+			boolean this_present_req_num = true;
+			boolean that_present_req_num = true;
 			if (this_present_req_num || that_present_req_num) {
 				if (!(this_present_req_num && that_present_req_num))
 					return false;
-				if (!this.req_num.equals(that.req_num))
+				if (this.req_num != that.req_num)
 					return false;
 			}
 
@@ -4640,17 +4608,17 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_opt_num = true && (isSetOpt_num());
+			boolean present_opt_num = true;
 			list.add(present_opt_num);
 			if (present_opt_num)
 				list.add(opt_num);
 
-			boolean present_default_num = true && (isSetDefault_num());
+			boolean present_default_num = true;
 			list.add(present_default_num);
 			if (present_default_num)
 				list.add(default_num);
 
-			boolean present_req_num = true && (isSetReq_num());
+			boolean present_req_num = true;
 			list.add(present_req_num);
 			if (present_req_num)
 				list.add(req_num);
@@ -4717,27 +4685,15 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("opt_num:");
-			if (this.opt_num == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.opt_num);
-			}
+			sb.append(this.opt_num);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("default_num:");
-			if (this.default_num == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.default_num);
-			}
+			sb.append(this.default_num);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("req_num:");
-			if (this.req_num == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.req_num);
-			}
+			sb.append(this.req_num);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -4745,9 +4701,6 @@ public class FFoo {
 
 		public void validate() throws org.apache.thrift.TException {
 			// check for required fields
-			if (req_num == null) {
-				throw new org.apache.thrift.protocol.TProtocolException("Required field 'req_num' is not present in struct 'param_modifiers_args'");
-			}
 			// check for sub-struct validity
 		}
 
@@ -4762,6 +4715,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -4817,6 +4771,9 @@ public class FFoo {
 				iprot.readStructEnd();
 
 				// check for required fields of primitive type, which can't be checked in the validate method
+				if (!struct.isSetReq_num()) {
+					throw new org.apache.thrift.protocol.TProtocolException("Required field 'req_num' was not found in serialized data for struct type 'param_modifiers_args'");
+				}
 				struct.validate();
 			}
 
@@ -4825,25 +4782,16 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(OPT_NUM_FIELD_DESC);
-				Integer elem253 = struct.opt_num;
-				if (elem253 == null) {
-					elem253 = 0;
-				}
-				oprot.writeI32(elem253);
+				int elem252 = struct.opt_num;
+				oprot.writeI32(elem252);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(DEFAULT_NUM_FIELD_DESC);
-				Integer elem254 = struct.default_num;
-				if (elem254 == null) {
-					elem254 = 0;
-				}
-				oprot.writeI32(elem254);
+				int elem253 = struct.default_num;
+				oprot.writeI32(elem253);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(REQ_NUM_FIELD_DESC);
-				Integer elem255 = struct.req_num;
-				if (elem255 == null) {
-					elem255 = 0;
-				}
-				oprot.writeI32(elem255);
+				int elem254 = struct.req_num;
+				oprot.writeI32(elem254);
 				oprot.writeFieldEnd();
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
@@ -4862,11 +4810,8 @@ public class FFoo {
 			@Override
 			public void write(org.apache.thrift.protocol.TProtocol prot, param_modifiers_args struct) throws org.apache.thrift.TException {
 				TTupleProtocol oprot = (TTupleProtocol) prot;
-				Integer elem256 = struct.req_num;
-				if (elem256 == null) {
-					elem256 = 0;
-				}
-				oprot.writeI32(elem256);
+				int elem255 = struct.req_num;
+				oprot.writeI32(elem255);
 				BitSet optionals = new BitSet();
 				if (struct.isSetOpt_num()) {
 					optionals.set(0);
@@ -4876,18 +4821,12 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetOpt_num()) {
-					Integer elem257 = struct.opt_num;
-					if (elem257 == null) {
-						elem257 = 0;
-					}
-					oprot.writeI32(elem257);
+					int elem256 = struct.opt_num;
+					oprot.writeI32(elem256);
 				}
 				if (struct.isSetDefault_num()) {
-					Integer elem258 = struct.default_num;
-					if (elem258 == null) {
-						elem258 = 0;
-					}
-					oprot.writeI32(elem258);
+					int elem257 = struct.default_num;
+					oprot.writeI32(elem257);
 				}
 			}
 
@@ -4922,7 +4861,7 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new param_modifiers_resultTupleSchemeFactory());
 		}
 
-		public Long success;
+		public long success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 			SUCCESS((short)0, "success")
@@ -4983,22 +4922,24 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __SUCCESS_ISSET_ID = 0;
+		private byte __isset_bitfield = 0;
 		public param_modifiers_result() {
 		}
 
 		public param_modifiers_result(
-			Long success) {
+			long success) {
 			this();
 			this.success = success;
+			setSuccessIsSet(true);
 		}
 
 		/**
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public param_modifiers_result(param_modifiers_result other) {
-			if (other.isSetSuccess()) {
-				this.success = other.success;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.success = other.success;
 		}
 
 		public param_modifiers_result deepCopy() {
@@ -5007,32 +4948,32 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.success = null;
+			setSuccessIsSet(false);
+			this.success = 0L;
 
 		}
 
-		public Long getSuccess() {
+		public long getSuccess() {
 			return this.success;
 		}
 
-		public param_modifiers_result setSuccess(Long success) {
+		public param_modifiers_result setSuccess(long success) {
 			this.success = success;
+			setSuccessIsSet(true);
 			return this;
 		}
 
 		public void unsetSuccess() {
-			this.success = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		/** Returns true if field success is set (has been assigned a value) and false otherwise */
 		public boolean isSetSuccess() {
-			return this.success != null;
+			return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		public void setSuccessIsSet(boolean value) {
-			if (!value) {
-				this.success = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
 		}
 
 		public void setFieldValue(_Fields field, Object value) {
@@ -5083,12 +5024,12 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
+			boolean this_present_success = true;
+			boolean that_present_success = true;
 			if (this_present_success || that_present_success) {
 				if (!(this_present_success && that_present_success))
 					return false;
-				if (!this.success.equals(that.success))
+				if (this.success != that.success)
 					return false;
 			}
 
@@ -5099,7 +5040,7 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_success = true && (isSetSuccess());
+			boolean present_success = true;
 			list.add(present_success);
 			if (present_success)
 				list.add(success);
@@ -5146,11 +5087,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -5172,6 +5109,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -5220,11 +5158,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Long elem259 = struct.success;
-					if (elem259 == null) {
-						elem259 = 0L;
-					}
-					oprot.writeI64(elem259);
+					long elem258 = struct.success;
+					oprot.writeI64(elem258);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -5250,11 +5185,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					Long elem260 = struct.success;
-					if (elem260 == null) {
-						elem260 = 0L;
-					}
-					oprot.writeI64(elem260);
+					long elem259 = struct.success;
+					oprot.writeI64(elem259);
 				}
 			}
 
@@ -5366,16 +5298,16 @@ public class FFoo {
 		public underlying_types_test_args(underlying_types_test_args other) {
 			if (other.isSetList_type()) {
 				this.list_type = new ArrayList<Long>(other.list_type.size());
-				for (Long elem261 : other.list_type) {
-					Long elem262 = elem261;
-					this.list_type.add(elem262);
+				for (long elem260 : other.list_type) {
+					long elem261 = elem260;
+					this.list_type.add(elem261);
 				}
 			}
 			if (other.isSetSet_type()) {
 				this.set_type = new HashSet<Long>(other.set_type.size());
-				for (Long elem263 : other.set_type) {
-					Long elem264 = elem263;
-					this.set_type.add(elem264);
+				for (long elem262 : other.set_type) {
+					long elem263 = elem262;
+					this.set_type.add(elem263);
 				}
 			}
 		}
@@ -5400,7 +5332,7 @@ public class FFoo {
 			return (this.list_type == null) ? null : this.list_type.iterator();
 		}
 
-		public void addToList_type(Long elem) {
+		public void addToList_type(long elem) {
 			if (this.list_type == null) {
 				this.list_type = new ArrayList<Long>();
 			}
@@ -5439,7 +5371,7 @@ public class FFoo {
 			return (this.set_type == null) ? null : this.set_type.iterator();
 		}
 
-		public void addToSet_type(Long elem) {
+		public void addToSet_type(long elem) {
 			if (this.set_type == null) {
 				this.set_type = new HashSet<Long>();
 			}
@@ -5677,11 +5609,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 1: // LIST_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem265 = iprot.readListBegin();
-								struct.list_type = new ArrayList<Long>(elem265.size);
-								for (int elem266 = 0; elem266 < elem265.size; ++elem266) {
-									Long elem267 = iprot.readI64();
-									struct.list_type.add(elem267);
+								org.apache.thrift.protocol.TList elem264 = iprot.readListBegin();
+								struct.list_type = new ArrayList<Long>(elem264.size);
+								for (int elem265 = 0; elem265 < elem264.size; ++elem265) {
+									long elem266 = iprot.readI64();
+									struct.list_type.add(elem266);
 								}
 								iprot.readListEnd();
 								struct.setList_typeIsSet(true);
@@ -5691,11 +5623,11 @@ public class FFoo {
 							break;
 						case 2: // SET_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.SET) {
-								org.apache.thrift.protocol.TSet elem268 = iprot.readSetBegin();
-								struct.set_type = new HashSet<Long>(2*elem268.size);
-								for (int elem269 = 0; elem269 < elem268.size; ++elem269) {
-									Long elem270 = iprot.readI64();
-									struct.set_type.add(elem270);
+								org.apache.thrift.protocol.TSet elem267 = iprot.readSetBegin();
+								struct.set_type = new HashSet<Long>(2*elem267.size);
+								for (int elem268 = 0; elem268 < elem267.size; ++elem268) {
+									long elem269 = iprot.readI64();
+									struct.set_type.add(elem269);
 								}
 								iprot.readSetEnd();
 								struct.setSet_typeIsSet(true);
@@ -5721,12 +5653,9 @@ public class FFoo {
 				if (struct.list_type != null) {
 					oprot.writeFieldBegin(LIST_TYPE_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.list_type.size()));
-					for (Long elem271 : struct.list_type) {
-						Long elem272 = elem271;
-						if (elem272 == null) {
-							elem272 = 0L;
-						}
-						oprot.writeI64(elem272);
+					for (long elem270 : struct.list_type) {
+						long elem271 = elem270;
+						oprot.writeI64(elem271);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -5734,12 +5663,9 @@ public class FFoo {
 				if (struct.set_type != null) {
 					oprot.writeFieldBegin(SET_TYPE_FIELD_DESC);
 					oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, struct.set_type.size()));
-					for (Long elem273 : struct.set_type) {
-						Long elem274 = elem273;
-						if (elem274 == null) {
-							elem274 = 0L;
-						}
-						oprot.writeI64(elem274);
+					for (long elem272 : struct.set_type) {
+						long elem273 = elem272;
+						oprot.writeI64(elem273);
 					}
 					oprot.writeSetEnd();
 					oprot.writeFieldEnd();
@@ -5771,22 +5697,16 @@ public class FFoo {
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetList_type()) {
 					oprot.writeI32(struct.list_type.size());
-					for (Long elem275 : struct.list_type) {
-						Long elem276 = elem275;
-						if (elem276 == null) {
-							elem276 = 0L;
-						}
-						oprot.writeI64(elem276);
+					for (long elem274 : struct.list_type) {
+						long elem275 = elem274;
+						oprot.writeI64(elem275);
 					}
 				}
 				if (struct.isSetSet_type()) {
 					oprot.writeI32(struct.set_type.size());
-					for (Long elem277 : struct.set_type) {
-						Long elem278 = elem277;
-						if (elem278 == null) {
-							elem278 = 0L;
-						}
-						oprot.writeI64(elem278);
+					for (long elem276 : struct.set_type) {
+						long elem277 = elem276;
+						oprot.writeI64(elem277);
 					}
 				}
 			}
@@ -5796,20 +5716,20 @@ public class FFoo {
 				TTupleProtocol iprot = (TTupleProtocol) prot;
 				BitSet incoming = iprot.readBitSet(2);
 				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem279 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.list_type = new ArrayList<Long>(elem279.size);
-					for (int elem280 = 0; elem280 < elem279.size; ++elem280) {
-						Long elem281 = iprot.readI64();
-						struct.list_type.add(elem281);
+					org.apache.thrift.protocol.TList elem278 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.list_type = new ArrayList<Long>(elem278.size);
+					for (int elem279 = 0; elem279 < elem278.size; ++elem279) {
+						long elem280 = iprot.readI64();
+						struct.list_type.add(elem280);
 					}
 					struct.setList_typeIsSet(true);
 				}
 				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TSet elem282 = new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.set_type = new HashSet<Long>(2*elem282.size);
-					for (int elem283 = 0; elem283 < elem282.size; ++elem283) {
-						Long elem284 = iprot.readI64();
-						struct.set_type.add(elem284);
+					org.apache.thrift.protocol.TSet elem281 = new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.set_type = new HashSet<Long>(2*elem281.size);
+					for (int elem282 = 0; elem282 < elem281.size; ++elem282) {
+						long elem283 = iprot.readI64();
+						struct.set_type.add(elem283);
 					}
 					struct.setSet_typeIsSet(true);
 				}
@@ -5906,9 +5826,9 @@ public class FFoo {
 		public underlying_types_test_result(underlying_types_test_result other) {
 			if (other.isSetSuccess()) {
 				this.success = new ArrayList<Long>(other.success.size());
-				for (Long elem285 : other.success) {
-					Long elem286 = elem285;
-					this.success.add(elem286);
+				for (long elem284 : other.success) {
+					long elem285 = elem284;
+					this.success.add(elem285);
 				}
 			}
 		}
@@ -5931,7 +5851,7 @@ public class FFoo {
 			return (this.success == null) ? null : this.success.iterator();
 		}
 
-		public void addToSuccess(Long elem) {
+		public void addToSuccess(long elem) {
 			if (this.success == null) {
 				this.success = new ArrayList<Long>();
 			}
@@ -6124,11 +6044,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 0: // SUCCESS
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem287 = iprot.readListBegin();
-								struct.success = new ArrayList<Long>(elem287.size);
-								for (int elem288 = 0; elem288 < elem287.size; ++elem288) {
-									Long elem289 = iprot.readI64();
-									struct.success.add(elem289);
+								org.apache.thrift.protocol.TList elem286 = iprot.readListBegin();
+								struct.success = new ArrayList<Long>(elem286.size);
+								for (int elem287 = 0; elem287 < elem286.size; ++elem287) {
+									long elem288 = iprot.readI64();
+									struct.success.add(elem288);
 								}
 								iprot.readListEnd();
 								struct.setSuccessIsSet(true);
@@ -6154,12 +6074,9 @@ public class FFoo {
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.success.size()));
-					for (Long elem290 : struct.success) {
-						Long elem291 = elem290;
-						if (elem291 == null) {
-							elem291 = 0L;
-						}
-						oprot.writeI64(elem291);
+					for (long elem289 : struct.success) {
+						long elem290 = elem289;
+						oprot.writeI64(elem290);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -6188,12 +6105,9 @@ public class FFoo {
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
 					oprot.writeI32(struct.success.size());
-					for (Long elem292 : struct.success) {
-						Long elem293 = elem292;
-						if (elem293 == null) {
-							elem293 = 0L;
-						}
-						oprot.writeI64(elem293);
+					for (long elem291 : struct.success) {
+						long elem292 = elem291;
+						oprot.writeI64(elem292);
 					}
 				}
 			}
@@ -6203,11 +6117,11 @@ public class FFoo {
 				TTupleProtocol iprot = (TTupleProtocol) prot;
 				BitSet incoming = iprot.readBitSet(1);
 				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem294 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.success = new ArrayList<Long>(elem294.size);
-					for (int elem295 = 0; elem295 < elem294.size; ++elem295) {
-						Long elem296 = iprot.readI64();
-						struct.success.add(elem296);
+					org.apache.thrift.protocol.TList elem293 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.success = new ArrayList<Long>(elem293.size);
+					for (int elem294 = 0; elem294 < elem293.size; ++elem294) {
+						long elem295 = iprot.readI64();
+						struct.success.add(elem295);
 					}
 					struct.setSuccessIsSet(true);
 				}
@@ -7072,7 +6986,7 @@ public class FFoo {
 			schemes.put(TupleScheme.class, new getMyInt_resultTupleSchemeFactory());
 		}
 
-		public Integer success;
+		public int success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 			SUCCESS((short)0, "success")
@@ -7133,22 +7047,24 @@ public class FFoo {
 		}
 
 		// isset id assignments
+		private static final int __SUCCESS_ISSET_ID = 0;
+		private byte __isset_bitfield = 0;
 		public getMyInt_result() {
 		}
 
 		public getMyInt_result(
-			Integer success) {
+			int success) {
 			this();
 			this.success = success;
+			setSuccessIsSet(true);
 		}
 
 		/**
 		 * Performs a deep copy on <i>other</i>.
 		 */
 		public getMyInt_result(getMyInt_result other) {
-			if (other.isSetSuccess()) {
-				this.success = other.success;
-			}
+			__isset_bitfield = other.__isset_bitfield;
+			this.success = other.success;
 		}
 
 		public getMyInt_result deepCopy() {
@@ -7157,32 +7073,32 @@ public class FFoo {
 
 		@Override
 		public void clear() {
-			this.success = null;
+			setSuccessIsSet(false);
+			this.success = 0;
 
 		}
 
-		public Integer getSuccess() {
+		public int getSuccess() {
 			return this.success;
 		}
 
-		public getMyInt_result setSuccess(Integer success) {
+		public getMyInt_result setSuccess(int success) {
 			this.success = success;
+			setSuccessIsSet(true);
 			return this;
 		}
 
 		public void unsetSuccess() {
-			this.success = null;
+			__isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		/** Returns true if field success is set (has been assigned a value) and false otherwise */
 		public boolean isSetSuccess() {
-			return this.success != null;
+			return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
 		}
 
 		public void setSuccessIsSet(boolean value) {
-			if (!value) {
-				this.success = null;
-			}
+			__isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
 		}
 
 		public void setFieldValue(_Fields field, Object value) {
@@ -7233,12 +7149,12 @@ public class FFoo {
 			if (that == null)
 				return false;
 
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
+			boolean this_present_success = true;
+			boolean that_present_success = true;
 			if (this_present_success || that_present_success) {
 				if (!(this_present_success && that_present_success))
 					return false;
-				if (!this.success.equals(that.success))
+				if (this.success != that.success)
 					return false;
 			}
 
@@ -7249,7 +7165,7 @@ public class FFoo {
 		public int hashCode() {
 			List<Object> list = new ArrayList<Object>();
 
-			boolean present_success = true && (isSetSuccess());
+			boolean present_success = true;
 			list.add(present_success);
 			if (present_success)
 				list.add(success);
@@ -7296,11 +7212,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -7322,6 +7234,7 @@ public class FFoo {
 		private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
 			try {
 				// it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+				__isset_bitfield = 0;
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
@@ -7370,11 +7283,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Integer elem297 = struct.success;
-					if (elem297 == null) {
-						elem297 = 0;
-					}
-					oprot.writeI32(elem297);
+					int elem296 = struct.success;
+					oprot.writeI32(elem296);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -7400,11 +7310,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					Integer elem298 = struct.success;
-					if (elem298 == null) {
-						elem298 = 0;
-					}
-					oprot.writeI32(elem298);
+					int elem297 = struct.success;
+					oprot.writeI32(elem297);
 				}
 			}
 
@@ -8447,8 +8354,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.newMessage != null) {
 					oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
-					String elem299 = struct.newMessage;
-					oprot.writeString(elem299);
+					String elem298 = struct.newMessage;
+					oprot.writeString(elem298);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -8474,8 +8381,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetNewMessage()) {
-					String elem300 = struct.newMessage;
-					oprot.writeString(elem300);
+					String elem299 = struct.newMessage;
+					oprot.writeString(elem299);
 				}
 			}
 
@@ -8802,8 +8709,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem301 = struct.success;
-					oprot.writeString(elem301);
+					String elem300 = struct.success;
+					oprot.writeString(elem300);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -8829,8 +8736,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem302 = struct.success;
-					oprot.writeString(elem302);
+					String elem301 = struct.success;
+					oprot.writeString(elem301);
 				}
 			}
 
@@ -9157,8 +9064,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.messageArgs != null) {
 					oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
-					String elem303 = struct.messageArgs;
-					oprot.writeString(elem303);
+					String elem302 = struct.messageArgs;
+					oprot.writeString(elem302);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9184,8 +9091,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetMessageArgs()) {
-					String elem304 = struct.messageArgs;
-					oprot.writeString(elem304);
+					String elem303 = struct.messageArgs;
+					oprot.writeString(elem303);
 				}
 			}
 
@@ -9512,8 +9419,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem305 = struct.success;
-					oprot.writeString(elem305);
+					String elem304 = struct.success;
+					oprot.writeString(elem304);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9539,8 +9446,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem306 = struct.success;
-					oprot.writeString(elem306);
+					String elem305 = struct.success;
+					oprot.writeString(elem305);
 				}
 			}
 
@@ -9867,8 +9774,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.messageResult != null) {
 					oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
-					String elem307 = struct.messageResult;
-					oprot.writeString(elem307);
+					String elem306 = struct.messageResult;
+					oprot.writeString(elem306);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9894,8 +9801,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetMessageResult()) {
-					String elem308 = struct.messageResult;
-					oprot.writeString(elem308);
+					String elem307 = struct.messageResult;
+					oprot.writeString(elem307);
 				}
 			}
 
@@ -10222,8 +10129,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem309 = struct.success;
-					oprot.writeString(elem309);
+					String elem308 = struct.success;
+					oprot.writeString(elem308);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -10249,8 +10156,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem310 = struct.success;
-					oprot.writeString(elem310);
+					String elem309 = struct.success;
+					oprot.writeString(elem309);
 				}
 			}
 

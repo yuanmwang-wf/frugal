@@ -111,15 +111,14 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void close() {
-        if (dispatcher == null) {
-            return;
+        if (dispatcher != null) {
+            try {
+                dispatcher.unsubscribe(subject);
+            } catch (IllegalStateException e) {
+                LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
+            }
+            dispatcher = null;
         }
-        try {
-            dispatcher.unsubscribe(subject);
-        } catch (IllegalStateException e) {
-            LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
-        }
-        dispatcher = null;
         super.close();
     }
 

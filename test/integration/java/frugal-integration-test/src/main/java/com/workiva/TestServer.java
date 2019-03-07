@@ -80,9 +80,7 @@ public class TestServer {
             TProtocolFactory protocolFactory = whichProtocolFactory(protocolType);
             FProtocolFactory fProtocolFactory = new FProtocolFactory(protocolFactory);
 
-            Properties properties = new Properties();
-            properties.put(Options.PROP_URL, Options.DEFAULT_URL);
-            Options.Builder optionsBuilder = new Options.Builder(properties);
+            Options.Builder optionsBuilder = new Options.Builder().server(Options.DEFAULT_URL);
             Connection conn = Nats.connect(optionsBuilder.build());
 
             List<String> validTransports = Arrays.asList(Utils.natsName, Utils.httpName);

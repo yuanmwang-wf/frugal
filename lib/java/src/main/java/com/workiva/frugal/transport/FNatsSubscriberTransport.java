@@ -67,7 +67,7 @@ public class FNatsSubscriberTransport implements FSubscriberTransport {
          * @param conn NATS connection
          */
         public Factory(Connection conn) {
-            this(conn, "");
+            this(conn, null);
         }
 
         /**

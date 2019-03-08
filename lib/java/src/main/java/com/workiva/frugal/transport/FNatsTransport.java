@@ -39,7 +39,6 @@ public class FNatsTransport extends FAsyncTransport {
 
     public static final int NATS_MAX_MESSAGE_SIZE = 1024 * 1024;
     public static final String FRUGAL_PREFIX = "frugal.";
-    private static final String INBOX_PREFIX = "_INBOX.";
 
     private final Connection conn;
     private final String subject;

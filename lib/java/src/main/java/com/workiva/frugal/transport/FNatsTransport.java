@@ -65,7 +65,7 @@ public class FNatsTransport extends FAsyncTransport {
      * @return FNatsTransport for communicating via NATS.
      */
     public static FNatsTransport of(Connection conn, String subject) {
-        return new FNatsTransport(conn, subject, createInbox());
+        return new FNatsTransport(conn, subject, createInbox(conn));
     }
 
     /**
@@ -160,7 +160,7 @@ public class FNatsTransport extends FAsyncTransport {
     /**
      * Helper to generate a random id for inbox.
      */
-    private static String createInbox() {
-        return INBOX_PREFIX + UUID.randomUUID().toString().replace("-", "");
+    private static String createInbox(Connection conn) {
+        return conn.getOptions().getInboxPrefix() + UUID.randomUUID().toString().replace("-", "");
     }
 }

@@ -7,6 +7,7 @@ import io.nats.client.Connection.Status;
 import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
+import io.nats.client.Options;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.Before;
@@ -38,6 +39,7 @@ public class FNatsTransportTest {
     @Before
     public void setUp() {
         conn = mock(Connection.class);
+        when(conn.getOptions()).thenReturn(new Options.Builder().build());
         transport = FNatsTransport.of(conn, subject).withInbox(inbox);
     }
 

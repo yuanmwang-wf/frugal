@@ -68,9 +68,7 @@ public class TestClient {
         String protocolType = parser.getProtocolType();
         String transportType = parser.getTransportType();
 
-        Properties properties = new Properties();
-        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
-        Options.Builder optionsBuilder = new Options.Builder(properties);
+        Options.Builder optionsBuilder = new Options.Builder().server(Options.DEFAULT_URL);
         Connection conn = Nats.connect(optionsBuilder.build());
 
         TProtocolFactory protocolFactory = whichProtocolFactory(protocolType);

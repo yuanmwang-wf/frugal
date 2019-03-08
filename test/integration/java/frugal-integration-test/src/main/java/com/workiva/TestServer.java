@@ -250,9 +250,7 @@ public class TestServer {
         }
 
         public void run() {
-            Properties properties = new Properties();
-            properties.put(Options.PROP_URL, Options.DEFAULT_URL);
-            Options.Builder optionsBuilder = new Options.Builder(properties);
+            Options.Builder optionsBuilder = new Options.Builder().server(Options.DEFAULT_URL);
             try {
                 Connection conn = Nats.connect(optionsBuilder.build());
                 FPublisherTransportFactory publisherFactory = new FNatsPublisherTransport.Factory(conn);

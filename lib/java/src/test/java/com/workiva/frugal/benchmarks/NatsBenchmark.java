@@ -25,11 +25,9 @@ public class NatsBenchmark {
 
     @Setup
     public void setup() throws IOException {
-        Properties properties = new Properties();
-        properties.put(Options.PROP_URL, Options.DEFAULT_URL);
-        Options.Builder options = new Options.Builder(properties);
+        Options.Builder optionsBuilder = new Options.Builder().server(Options.DEFAULT_URL);
         try {
-            nc = Nats.connect(options.build());
+            nc = Nats.connect(optionsBuilder.build());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

@@ -15,7 +15,6 @@ import v1.music.FStore;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-import java.util.Properties;
 
 /**
  * Creates a NATS client.

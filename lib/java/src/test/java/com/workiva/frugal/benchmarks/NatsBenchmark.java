@@ -13,7 +13,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Benchmarks for JNATS.

@@ -14,14 +14,13 @@ import v1.music.Album;
 import v1.music.FStore;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Creates a NATS client.
  */
 public class NatsClient {
 
-    public static void main(String[] args) throws IOException, TimeoutException, TException, InterruptedException {
+    public static void main(String[] args) throws IOException, TException, InterruptedException {
         // Specify the protocol used for serializing requests.
         // The protocol stack must match the protocol stack of the server.
         FProtocolFactory protocolFactory = new FProtocolFactory(new TBinaryProtocol.Factory());

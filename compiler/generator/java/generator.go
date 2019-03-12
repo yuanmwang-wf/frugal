@@ -3116,11 +3116,10 @@ func (g *Generator) generateServer(service *parser.Service, indent string) strin
 		contents += indent + tabtabtabtab + "} catch (TTransportException e) {\n"
 		contents += indent + tabtabtabtabtab + "if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {\n"
 		contents += indent + tabtabtabtabtabtab + fmt.Sprintf(
-			"writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, \"%s\", \"response too large: \" + e.getMessage());\n",
+			"throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, \"%s\", \"response too large: \" + e.getMessage()).initCause(e);\n",
 			methodLower)
-		contents += indent + tabtabtabtabtab + "} else {\n"
-		contents += indent + tabtabtabtabtabtab + "throw e;\n"
 		contents += indent + tabtabtabtabtab + "}\n"
+		contents += indent + tabtabtabtabtab + "throw e;\n"
 		contents += indent + tabtabtabtab + "}\n"
 		contents += indent + tabtabtab + "}\n"
 		contents += indent + tabtab + "}\n"

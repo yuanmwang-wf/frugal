@@ -263,10 +263,9 @@ public class FStore {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "buyAlbum", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "buyAlbum", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -314,10 +313,9 @@ public class FStore {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "enterAlbumGiveaway", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "enterAlbumGiveaway", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}

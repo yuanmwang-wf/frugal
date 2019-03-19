@@ -708,10 +708,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "ping", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "ping", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -762,10 +761,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "blah", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "blah", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -830,10 +828,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "bin_method", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "bin_method", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -880,10 +877,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "param_modifiers", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "param_modifiers", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -930,10 +926,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "underlying_types_test", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "underlying_types_test", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -980,10 +975,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "getThing", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "getThing", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -1030,10 +1024,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "getMyInt", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "getMyInt", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -1080,10 +1073,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "use_subdir_struct", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "use_subdir_struct", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -1130,10 +1122,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "sayHelloWith", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "sayHelloWith", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -1180,10 +1171,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "whatDoYouSay", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "whatDoYouSay", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}
@@ -1230,10 +1220,9 @@ public class FFoo {
 						oprot.getTransport().flush();
 					} catch (TTransportException e) {
 						if (e.getType() == TTransportExceptionType.REQUEST_TOO_LARGE) {
-							writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "sayAgain", "response too large: " + e.getMessage());
-						} else {
-							throw e;
+							throw (TApplicationException) writeApplicationException(ctx, oprot, TApplicationExceptionType.RESPONSE_TOO_LARGE, "sayAgain", "response too large: " + e.getMessage()).initCause(e);
 						}
+						throw e;
 					}
 				}
 			}

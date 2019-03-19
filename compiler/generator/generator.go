@@ -62,9 +62,10 @@ var Languages = LanguageOptions{
 		"use_vendor":     "Use specified import references for vendored includes and do not generate code for them",
 	},
 	"java": Options{
-		"generated_annotations": "[undated|suppress] " +
-			"undated: suppress the date at @Generated annotations, " +
-			"suppress: suppress @Generated annotations entirely",
+		"generated_annotations": "[use|undated|suppress] " +
+			"use: add @Generated annotations, " +
+			"undated: suppress the date, " +
+			"suppress (default): suppress the annotations",
 		"async":                       "Generate async client code using futures",
 		"boxed_primitives":            "Generate primitives as the boxed equivalents",
 		"use_vendor":                  "Use specified import references for vendored includes and do not generate code for them",

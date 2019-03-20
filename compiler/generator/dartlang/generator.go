@@ -682,7 +682,7 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 		for _, field := range s.Fields {
 			if field.Default != nil {
 				value := g.generateConstantValue(field.Type, field.Default, tab)
-				contents += fmt.Sprintf(tabtab+"this.%s = %s;\n", toFieldName(field.Name), value)
+				contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
 			}
 		}
 		contents += tab + "}\n\n"

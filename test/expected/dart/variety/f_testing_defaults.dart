@@ -75,44 +75,44 @@ class TestingDefaults implements thrift.TBase {
   bool __isset_base_status = false;
 
   TestingDefaults() {
-    this.iD2 = t_variety.VarietyConstants.DEFAULT_ID;
-    this.ev1 = new t_variety.Event()
+    this._iD2 = t_variety.VarietyConstants.DEFAULT_ID;
+    this._ev1 = new t_variety.Event()
       ..iD = t_variety.VarietyConstants.DEFAULT_ID
       ..message = "a message";
-    this.ev2 = new t_variety.Event()
+    this._ev2 = new t_variety.Event()
       ..iD = 5
       ..message = "a message2";
-    this.iD = -2;
-    this.thing = "a constant";
-    this.thing2 = "another constant";
-    this.listfield = [
+    this._iD = -2;
+    this._thing = "a constant";
+    this._thing2 = "another constant";
+    this._listfield = [
       1,
       2,
       3,
       4,
       5,
     ];
-    this.iD3 = t_variety.VarietyConstants.other_default;
-    this.bin_field4 = t_variety.VarietyConstants.bin_const;
-    this.list2 = [
+    this._iD3 = t_variety.VarietyConstants.other_default;
+    this._bin_field4 = t_variety.VarietyConstants.bin_const;
+    this._list2 = [
       1,
       3,
       4,
       5,
       8,
     ];
-    this.list4 = [
+    this._list4 = [
       1,
       2,
       3,
       6,
     ];
-    this.a_map = {
+    this._a_map = {
       "k1": "v1",
       "k2": "v2",
     };
-    this.status = t_variety.HealthCondition.PASS;
-    this.base_status = t_actual_base_dart.base_health_condition.FAIL;
+    this._status = t_variety.HealthCondition.PASS;
+    this._base_status = t_actual_base_dart.base_health_condition.FAIL;
   }
 
   int get iD2 => this._iD2;

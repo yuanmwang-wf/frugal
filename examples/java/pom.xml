@@ -7,9 +7,9 @@
 
     <repositories>
         <repository>
-            <id>workiva-release</id>
-            <name>workiva-release</name>
-            <url>https://artifactory.workiva.org/artifactory/workiva-release/</url>
+            <id>central</id>
+            <name>workivaeast-releases</name>
+            <url>https://workivaeast.jfrog.io/workivaeast/maven-prod</url>
         </repository>
     </repositories>
 

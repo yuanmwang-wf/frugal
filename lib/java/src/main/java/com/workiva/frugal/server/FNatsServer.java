@@ -45,6 +45,7 @@ public class FNatsServer implements FServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(FNatsServer.class);
     public static final int DEFAULT_WORK_QUEUE_LEN = 64;
     public static final int DEFAULT_WATERMARK = 5000;
+    public static final int DEFAULT_STOP_TIMEOUT = 30;
 
     private final Connection conn;
     private final FProcessor processor;
@@ -53,6 +54,7 @@ public class FNatsServer implements FServer {
     private final String[] subjects;
     private final String queue;
     private final long highWatermark;
+    private final long stopTimeout;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
     private final ExecutorService executorService;
@@ -64,17 +66,18 @@ public class FNatsServer implements FServer {
      * length. If the queue fills up, newly received requests will block to be placed on the queue. If requests wait for
      * too long based on the high watermark, the server will log that it is backed up. Clients must connect with the
      * FNatsTransport.
-     *
-     * @param conn            NATS connection
+     *  @param conn            NATS connection
      * @param processor       FProcessor used to process requests
      * @param protoFactory    FProtocolFactory used for input and output protocols
      * @param subjects        NATS subjects to receive requests on
      * @param queue           NATS queue group to receive requests on
      * @param highWatermark   Milliseconds when high watermark logic is triggered
+     * @param stopTimeout Seconds to await current requests to finish when stopping server
      * @param executorService Custom executor service for processing messages
      */
     private FNatsServer(Connection conn, FProcessor processor, FProtocolFactory protoFactory,
-                        String[] subjects, String queue, long highWatermark, ExecutorService executorService) {
+          String[] subjects, String queue, long highWatermark, long stopTimeout,
+          ExecutorService executorService) {
         this.conn = conn;
         this.processor = processor;
         this.inputProtoFactory = protoFactory;
@@ -83,6 +86,7 @@ public class FNatsServer implements FServer {
         this.queue = queue;
         this.highWatermark = highWatermark;
         this.executorService = executorService;
+        this.stopTimeout = stopTimeout;
     }
 
     /**
@@ -100,6 +104,7 @@ public class FNatsServer implements FServer {
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;
         private ExecutorService executorService;
+        private long stopTimeout = DEFAULT_STOP_TIMEOUT;
 
         /**
          * Creates a new Builder which creates FStatelessNatsServers that subscribe to the given NATS subjects.
@@ -190,6 +195,18 @@ public class FNatsServer implements FServer {
         }
 
         /**
+         * Controls how many seconds to attempt wait for existing tasks to complete when stopping
+         * the server via {@link FNatsServer#stop()}.
+         *
+         * @param stopTimeout duration in seconds
+         * @return Builder
+         */
+        public Builder withStopTimeout(long stopTimeout) {
+            this.stopTimeout = stopTimeout;
+            return this;
+        }
+
+        /**
          * Creates a new configured FNatsServer.
          *
          * @return FNatsServer
@@ -202,7 +219,8 @@ public class FNatsServer implements FServer {
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }
-            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark, executorService);
+            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark,
+                stopTimeout, executorService);
         }
 
     }
@@ -247,10 +265,22 @@ public class FNatsServer implements FServer {
      */
     @Override
     public void stop() throws TException {
+        stop(this.stopTimeout, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Stops the server by shutting down the executor service processing tasks. Attempts to await
+     * existing tasks completing by up to the given timeout.
+     *
+     * @param timeout the maximum time to wait
+     * @param unit the time unit of the timeout argument
+     * @throws TException if the server fails to stop
+     */
+    public void stop(long timeout, TimeUnit unit) throws TException {
         // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.
         executorService.shutdown();
         try {
-            if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
+            if (!executorService.awaitTermination(timeout, unit)) {
                 executorService.shutdownNow();
             }
         } catch (InterruptedException e) {

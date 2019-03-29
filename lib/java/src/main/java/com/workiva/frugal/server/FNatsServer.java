@@ -265,22 +265,10 @@ public class FNatsServer implements FServer {
      */
     @Override
     public void stop() throws TException {
-        stop(this.stopTimeout, TimeUnit.SECONDS);
-    }
-
-    /**
-     * Stops the server by shutting down the executor service processing tasks. Attempts to await
-     * existing tasks completing by up to the given timeout.
-     *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @throws TException if the server fails to stop
-     */
-    public void stop(long timeout, TimeUnit unit) throws TException {
         // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.
         executorService.shutdown();
         try {
-            if (!executorService.awaitTermination(timeout, unit)) {
+            if (!executorService.awaitTermination(this.stopTimeout, TimeUnit.SECONDS)) {
                 executorService.shutdownNow();
             }
         } catch (InterruptedException e) {

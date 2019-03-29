@@ -132,18 +132,6 @@ public class FNatsServerTest {
     }
 
     @Test
-    public void testStopWithTimeout() throws Exception {
-        ExecutorService mockExecutorService = mock(ExecutorService.class);
-        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
-            .withQueueGroup(queue)
-            .withExecutorService(mockExecutorService)
-            .build();
-        server.stop(1, TimeUnit.SECONDS);
-        verify(mockExecutorService, times(1)).shutdown();
-        verify(mockExecutorService, times(1)).awaitTermination(1, TimeUnit.SECONDS);
-    }
-
-    @Test
     public void testRequestHandler() throws InterruptedException  {
         ExecutorService executor = mock(ExecutorService.class);
         FNatsServer server =

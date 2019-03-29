@@ -115,7 +115,8 @@ public class FNatsServerTest {
             .build();
         server.stop();
         verify(mockExecutorService, times(1)).shutdown();
-        verify(mockExecutorService, times(1)).awaitTermination(30, TimeUnit.SECONDS);
+        verify(mockExecutorService, times(1))
+            .awaitTermination(FNatsServer.DEFAULT_STOP_TIMEOUT_NS, TimeUnit.NANOSECONDS);
     }
 
     @Test
@@ -124,11 +125,11 @@ public class FNatsServerTest {
         server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
             .withQueueGroup(queue)
             .withExecutorService(mockExecutorService)
-            .withStopTimeout(1)
+            .withStopTimeout(1, TimeUnit.SECONDS)
             .build();
         server.stop();
         verify(mockExecutorService, times(1)).shutdown();
-        verify(mockExecutorService, times(1)).awaitTermination(1, TimeUnit.SECONDS);
+        verify(mockExecutorService, times(1)).awaitTermination(TimeUnit.SECONDS.toNanos(1), TimeUnit.NANOSECONDS);
     }
 
     @Test

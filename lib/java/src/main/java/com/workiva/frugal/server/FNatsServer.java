@@ -66,7 +66,8 @@ public class FNatsServer implements FServer {
      * length. If the queue fills up, newly received requests will block to be placed on the queue. If requests wait for
      * too long based on the high watermark, the server will log that it is backed up. Clients must connect with the
      * FNatsTransport.
-     *  @param conn            NATS connection
+     *
+     * @param conn            NATS connection
      * @param processor       FProcessor used to process requests
      * @param protoFactory    FProtocolFactory used for input and output protocols
      * @param subjects        NATS subjects to receive requests on

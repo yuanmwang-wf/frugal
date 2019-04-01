@@ -105,6 +105,69 @@ public class FNatsServerTest {
         assertEquals(subject, subjectCaptor.getValue());
     }
 
+    @Test(timeout = 5000)
+    public void testCallingServeAfterStopDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+        server.serve();
+    }
+
+    @Test(timeout = 5000)
+    public void testCallingStopTwiceDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+        server.stop();
+    }
+
+    @Test(timeout = 5000)
+    public void testCallingStopWithoutServerDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+    }
+
+    @Test(timeout = 5000)
+    public void testInterruptingServerExitsWithoutStopping() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+                .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+
+        CountDownLatch stopSignal = new CountDownLatch(1);
+
+        // start/stop the server
+        Thread firstServeThread = new Thread(() -> {
+            try {
+                server.serve();
+                stopSignal.countDown(); // signal server stop
+            } catch (TException e) {
+                fail(e.getMessage());
+            }
+        });
+
+        Thread secondServeThread = new Thread(() -> {
+            try {
+                server.serve();
+                fail("second serve should not exit");
+            } catch (TException e) {
+                fail(e.getMessage());
+            }
+        });
+        firstServeThread.start();
+        secondServeThread.start();
+        firstServeThread.interrupt();
+        stopSignal.await(); // wait for orderly shutdown
+    }
+
+
     @Test
     public void testRequestHandler() throws InterruptedException  {
         ExecutorService executor = mock(ExecutorService.class);

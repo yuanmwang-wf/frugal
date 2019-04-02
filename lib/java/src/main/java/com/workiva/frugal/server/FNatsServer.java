@@ -56,6 +56,20 @@ public class FNatsServer implements FServer {
     private final long highWatermark;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
+    /**
+     * Synchronizes shutdown between {@link #serve} and {@link #stop} threads.
+     * The implied states are:
+     * <ol>
+     * <li>Serve - initial state; serve thread waits, and stop thread calls
+     * {@link CountDownLatch#countDown()} on {@link FNatsServer#shutdownSignal} before
+     * advancing to the next state
+     * <li>Unsubscribe - stop thread waits, and serve thread unsubscribes before
+     * advancing to the next state
+     * <li>Shutdown executor service - serve thread waits, and stop thread awaits
+     * executor service shutdown before advancing to the next state
+     * <li>Shutdown - serve and stop threads both complete
+     * </ol>
+     */
     private final Phaser partiesAwaitingFullShutdown = new Phaser();
     private final ExecutorService executorService;
 
@@ -228,11 +242,12 @@ public class FNatsServer implements FServer {
         LOGGER.info("Frugal server running...");
         partiesAwaitingFullShutdown.register();
         try {
-            boolean shutdownSignalReceived = false;
+            boolean shutdownSignalReceived;
             try {
                 shutdownSignal.await();
                 shutdownSignalReceived = true;
             } catch (InterruptedException ignored) {
+                shutdownSignalReceived = false;
             }
             LOGGER.info("Frugal server stopping...");
 
@@ -251,7 +266,7 @@ public class FNatsServer implements FServer {
             // because the thread was interrupted, then we do not want to wait as other calls to serve
             // may not have been interrupted and we don't want to be blocked by them.
             if (shutdownSignalReceived) {
-                // Wait for all unsubscribes to finish
+                // Advance to next state now that all unsubscribes are finished
                 partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
                 // Wait for full shutdown to finish
                 partiesAwaitingFullShutdown.arriveAndAwaitAdvance();

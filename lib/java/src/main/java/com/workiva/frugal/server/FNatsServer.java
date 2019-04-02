@@ -245,6 +245,8 @@ public class FNatsServer implements FServer {
             boolean shutdownSignalReceived;
             try {
                 shutdownSignal.await();
+                // This shutdown signal may have been received from a prior call to stop if
+                // serve was inadvertantly called on an already stopped server.
                 shutdownSignalReceived = true;
             } catch (InterruptedException ignored) {
                 shutdownSignalReceived = false;
@@ -267,8 +269,19 @@ public class FNatsServer implements FServer {
             // may not have been interrupted and we don't want to be blocked by them.
             if (shutdownSignalReceived) {
                 // Advance to next state now that all unsubscribes are finished
+                // A phaser is used here because while we expect callers to have only issued a
+                // single call to serve we do not currently enforce that. If someone is running
+                // serve on the same instance in different threads, then we want to ensure all
+                // unsubscribes are finished before moving on to shutting down. The phaser allows
+                // us to notify when each call to serve is ready to move on to the next phase.
+                // While we could add in some type of enforcement for not allowing more than one
+                // call to serve or a call to serve after stop, that would likely be a breaking
+                // change to callers doing this now.
                 partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
-                // Wait for full shutdown to finish
+                // Wait for full shutdown to finish (if this was a call to serve after stop was
+                // already called, then the shutdown would already be finished. But since stop
+                // never registered with the phaser, then this below method should immediately
+                // return as no other parties would be waiting.)
                 partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
             }
         } finally {
@@ -288,7 +301,9 @@ public class FNatsServer implements FServer {
             // Unblock serving threads to allow them to unsubscribe
             shutdownSignal.countDown();
 
-            // Wait for all unsubscriptions to finish
+            // Wait for all unsubscriptions to finish if serve has been called and is currently
+            // serving. If serve has not been called or all calls to serve have already exited,
+            // then this call should be non-blocking.
             partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
 
             // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.

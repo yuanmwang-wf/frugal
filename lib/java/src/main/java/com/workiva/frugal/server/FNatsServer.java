@@ -46,6 +46,7 @@ public class FNatsServer implements FServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(FNatsServer.class);
     public static final int DEFAULT_WORK_QUEUE_LEN = 64;
     public static final int DEFAULT_WATERMARK = 5000;
+    public static final long DEFAULT_STOP_TIMEOUT_NS = TimeUnit.SECONDS.toNanos(30);
 
     private final Connection conn;
     private final FProcessor processor;
@@ -54,6 +55,7 @@ public class FNatsServer implements FServer {
     private final String[] subjects;
     private final String queue;
     private final long highWatermark;
+    private final long stopTimeoutNS;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
     /**
@@ -87,10 +89,12 @@ public class FNatsServer implements FServer {
      * @param subjects        NATS subjects to receive requests on
      * @param queue           NATS queue group to receive requests on
      * @param highWatermark   Milliseconds when high watermark logic is triggered
+     * @param stopTimeoutNS Nanoseconds to await current requests to finish when stopping server
      * @param executorService Custom executor service for processing messages
      */
     private FNatsServer(Connection conn, FProcessor processor, FProtocolFactory protoFactory,
-                        String[] subjects, String queue, long highWatermark, ExecutorService executorService) {
+          String[] subjects, String queue, long highWatermark, long stopTimeoutNS,
+          ExecutorService executorService) {
         this.conn = conn;
         this.processor = processor;
         this.inputProtoFactory = protoFactory;
@@ -99,6 +103,7 @@ public class FNatsServer implements FServer {
         this.queue = queue;
         this.highWatermark = highWatermark;
         this.executorService = executorService;
+        this.stopTimeoutNS = stopTimeoutNS;
     }
 
     /**
@@ -116,6 +121,7 @@ public class FNatsServer implements FServer {
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;
         private ExecutorService executorService;
+        private long stopTimeoutNS = DEFAULT_STOP_TIMEOUT_NS;
 
         /**
          * Creates a new Builder which creates FStatelessNatsServers that subscribe to the given NATS subjects.
@@ -206,6 +212,19 @@ public class FNatsServer implements FServer {
         }
 
         /**
+         * Controls how long to attempt wait for existing tasks to complete when stopping
+         * the server via {@link FNatsServer#stop()}.
+         *
+         * @param timeout max duration to wait when stopping
+         * @param unit unit of time for timeout
+         * @return Builder
+         */
+        public Builder withStopTimeout(long timeout, TimeUnit unit) {
+            this.stopTimeoutNS = unit.toNanos(timeout);
+            return this;
+        }
+
+        /**
          * Creates a new configured FNatsServer.
          *
          * @return FNatsServer
@@ -218,7 +237,8 @@ public class FNatsServer implements FServer {
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }
-            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark, executorService);
+            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark,
+                stopTimeoutNS, executorService);
         }
 
     }
@@ -309,7 +329,7 @@ public class FNatsServer implements FServer {
             // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.
             executorService.shutdown();
             try {
-                if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
+                if (!executorService.awaitTermination(this.stopTimeoutNS, TimeUnit.NANOSECONDS)) {
                     executorService.shutdownNow();
                 }
             } catch (InterruptedException e) {

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -167,6 +168,32 @@ public class FNatsServerTest {
         stopSignal.await(); // wait for orderly shutdown
     }
 
+
+    @Test
+    public void testStopWithDefaultTimeout() throws Exception {
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue)
+            .withExecutorService(mockExecutorService)
+            .build();
+        server.stop();
+        verify(mockExecutorService, times(1)).shutdown();
+        verify(mockExecutorService, times(1))
+            .awaitTermination(FNatsServer.DEFAULT_STOP_TIMEOUT_NS, TimeUnit.NANOSECONDS);
+    }
+
+    @Test
+    public void testStopWithBuilderTimeout() throws Exception {
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue)
+            .withExecutorService(mockExecutorService)
+            .withStopTimeout(1, TimeUnit.SECONDS)
+            .build();
+        server.stop();
+        verify(mockExecutorService, times(1)).shutdown();
+        verify(mockExecutorService, times(1)).awaitTermination(TimeUnit.SECONDS.toNanos(1), TimeUnit.NANOSECONDS);
+    }
 
     @Test
     public void testRequestHandler() throws InterruptedException  {

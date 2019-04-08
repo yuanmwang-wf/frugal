@@ -273,14 +273,8 @@ public class FNatsServer implements FServer {
             }
             LOGGER.info("Frugal server stopping...");
 
-            for (String subject : subjects) {
-                try {
-                    dispatcher.unsubscribe(subject);
-                } catch (IllegalStateException e) {
-                    LOGGER.warn("Frugal server failed to unsubscribe from " + subject + ": " + e
-                          .getMessage());
-                }
-            }
+            // Closing the dispatcher will unsubscribe from all current subscriptions for that
+            // dispatcher
             conn.closeDispatcher(dispatcher);
             // If serving stopped due to stop being called, we want to give the signal the stop method
             // that this serve has completed its actions and the stop method can move on to the next

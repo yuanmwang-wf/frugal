@@ -102,7 +102,7 @@ public class FNatsServerTest {
         assertEquals(subject, subjectCaptor.getValue());
         assertEquals(queue, queueCaptor.getValue());
         assertNotNull(handlerCaptor.getValue());
-        verify(mockDispatcher).unsubscribe(subjectCaptor.capture());
+        verify(mockConn).closeDispatcher(mockDispatcher);
         assertEquals(subject, subjectCaptor.getValue());
     }
 

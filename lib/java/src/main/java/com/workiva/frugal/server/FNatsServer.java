@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Phaser;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +46,7 @@ public class FNatsServer implements FServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(FNatsServer.class);
     public static final int DEFAULT_WORK_QUEUE_LEN = 64;
     public static final int DEFAULT_WATERMARK = 5000;
+    public static final long DEFAULT_STOP_TIMEOUT_NS = TimeUnit.SECONDS.toNanos(30);
 
     private final Connection conn;
     private final FProcessor processor;
@@ -53,8 +55,24 @@ public class FNatsServer implements FServer {
     private final String[] subjects;
     private final String queue;
     private final long highWatermark;
+    private final long stopTimeoutNS;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
+    /**
+     * Synchronizes shutdown between {@link #serve} and {@link #stop} threads.
+     * The implied states are:
+     * <ol>
+     * <li>Serve - initial state; serve thread waits, and stop thread calls
+     * {@link CountDownLatch#countDown()} on {@link FNatsServer#shutdownSignal} before
+     * advancing to the next state
+     * <li>Unsubscribe - stop thread waits, and serve thread unsubscribes before
+     * advancing to the next state
+     * <li>Shutdown executor service - serve thread waits, and stop thread awaits
+     * executor service shutdown before advancing to the next state
+     * <li>Shutdown - serve and stop threads both complete
+     * </ol>
+     */
+    private final Phaser partiesAwaitingFullShutdown = new Phaser();
     private final ExecutorService executorService;
 
     /**
@@ -71,10 +89,12 @@ public class FNatsServer implements FServer {
      * @param subjects        NATS subjects to receive requests on
      * @param queue           NATS queue group to receive requests on
      * @param highWatermark   Milliseconds when high watermark logic is triggered
+     * @param stopTimeoutNS Nanoseconds to await current requests to finish when stopping server
      * @param executorService Custom executor service for processing messages
      */
     private FNatsServer(Connection conn, FProcessor processor, FProtocolFactory protoFactory,
-                        String[] subjects, String queue, long highWatermark, ExecutorService executorService) {
+          String[] subjects, String queue, long highWatermark, long stopTimeoutNS,
+          ExecutorService executorService) {
         this.conn = conn;
         this.processor = processor;
         this.inputProtoFactory = protoFactory;
@@ -83,6 +103,7 @@ public class FNatsServer implements FServer {
         this.queue = queue;
         this.highWatermark = highWatermark;
         this.executorService = executorService;
+        this.stopTimeoutNS = stopTimeoutNS;
     }
 
     /**
@@ -100,6 +121,7 @@ public class FNatsServer implements FServer {
         private int queueLength = DEFAULT_WORK_QUEUE_LEN;
         private long highWatermark = DEFAULT_WATERMARK;
         private ExecutorService executorService;
+        private long stopTimeoutNS = DEFAULT_STOP_TIMEOUT_NS;
 
         /**
          * Creates a new Builder which creates FStatelessNatsServers that subscribe to the given NATS subjects.
@@ -190,6 +212,19 @@ public class FNatsServer implements FServer {
         }
 
         /**
+         * Controls how long to attempt wait for existing tasks to complete when stopping
+         * the server via {@link FNatsServer#stop()}.
+         *
+         * @param timeout max duration to wait when stopping
+         * @param unit unit of time for timeout
+         * @return Builder
+         */
+        public Builder withStopTimeout(long timeout, TimeUnit unit) {
+            this.stopTimeoutNS = unit.toNanos(timeout);
+            return this;
+        }
+
+        /**
          * Creates a new configured FNatsServer.
          *
          * @return FNatsServer
@@ -202,7 +237,8 @@ public class FNatsServer implements FServer {
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }
-            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark, executorService);
+            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark,
+                stopTimeoutNS, executorService);
         }
 
     }
@@ -224,20 +260,47 @@ public class FNatsServer implements FServer {
         }
 
         LOGGER.info("Frugal server running...");
+        partiesAwaitingFullShutdown.register();
         try {
-            shutdownSignal.await();
-        } catch (InterruptedException ignored) {
-        }
-        LOGGER.info("Frugal server stopping...");
-
-        for (String subject : subjects) {
+            boolean shutdownSignalReceived;
             try {
-                dispatcher.unsubscribe(subject);
-            } catch (IllegalStateException e) {
-                LOGGER.warn("Frugal server failed to unsubscribe from " + subject + ": " + e.getMessage());
+                shutdownSignal.await();
+                // This shutdown signal may have been received from a prior call to stop if
+                // serve was inadvertantly called on an already stopped server.
+                shutdownSignalReceived = true;
+            } catch (InterruptedException ignored) {
+                shutdownSignalReceived = false;
             }
+            LOGGER.info("Frugal server stopping...");
+
+            // Closing the dispatcher will unsubscribe from all current subscriptions for that
+            // dispatcher
+            conn.closeDispatcher(dispatcher);
+            // If serving stopped due to stop being called, we want to give the signal the stop method
+            // that this serve has completed its actions and the stop method can move on to the next
+            // phase of the shutdown. If shutdown signal was not received (i.e., serve is exiting
+            // because the thread was interrupted, then we do not want to wait as other calls to serve
+            // may not have been interrupted and we don't want to be blocked by them.
+            if (shutdownSignalReceived) {
+                // Advance to next state now that all unsubscribes are finished
+                // A phaser is used here because while we expect callers to have only issued a
+                // single call to serve we do not currently enforce that. If someone is running
+                // serve on the same instance in different threads, then we want to ensure all
+                // unsubscribes are finished before moving on to shutting down. The phaser allows
+                // us to notify when each call to serve is ready to move on to the next phase.
+                // While we could add in some type of enforcement for not allowing more than one
+                // call to serve or a call to serve after stop, that would likely be a breaking
+                // change to callers doing this now.
+                partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
+                // Wait for full shutdown to finish (if this was a call to serve after stop was
+                // already called, then the shutdown would already be finished. But since stop
+                // never registered with the phaser, then this below method should immediately
+                // return as no other parties would be waiting.)
+                partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
+            }
+        } finally {
+            partiesAwaitingFullShutdown.arriveAndDeregister();
         }
-        conn.closeDispatcher(dispatcher);
     }
 
     /**
@@ -247,19 +310,30 @@ public class FNatsServer implements FServer {
      */
     @Override
     public void stop() throws TException {
-        // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.
-        executorService.shutdown();
+        partiesAwaitingFullShutdown.register();
         try {
-            if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
-                executorService.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            executorService.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
+            // Unblock serving threads to allow them to unsubscribe
+            shutdownSignal.countDown();
 
-        // Unblock serving thread.
-        shutdownSignal.countDown();
+            // Wait for all unsubscriptions to finish if serve has been called and is currently
+            // serving. If serve has not been called or all calls to serve have already exited,
+            // then this call should be non-blocking.
+            partiesAwaitingFullShutdown.arriveAndAwaitAdvance();
+
+            // Attempt to perform an orderly shutdown of the worker pool by trying to complete any in-flight requests.
+            executorService.shutdown();
+            try {
+                if (!executorService.awaitTermination(this.stopTimeoutNS, TimeUnit.NANOSECONDS)) {
+                    executorService.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executorService.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        } finally {
+            // Signal serving threads that shutdown is complete
+            partiesAwaitingFullShutdown.arriveAndDeregister();
+        }
     }
 
     /**

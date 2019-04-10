@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -101,8 +102,97 @@ public class FNatsServerTest {
         assertEquals(subject, subjectCaptor.getValue());
         assertEquals(queue, queueCaptor.getValue());
         assertNotNull(handlerCaptor.getValue());
-        verify(mockDispatcher).unsubscribe(subjectCaptor.capture());
+        verify(mockConn).closeDispatcher(mockDispatcher);
         assertEquals(subject, subjectCaptor.getValue());
+    }
+
+    @Test(timeout = 5000)
+    public void testCallingServeAfterStopDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+        server.serve();
+    }
+
+    @Test(timeout = 5000)
+    public void testCallingStopTwiceDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+        server.stop();
+    }
+
+    @Test(timeout = 5000)
+    public void testCallingStopWithoutServerDoesNotBlock() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+        server.stop();
+    }
+
+    @Test(timeout = 5000)
+    public void testInterruptingServerExitsWithoutStopping() throws Exception {
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+                .withQueueGroup(queue).build();
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(mockConn.createDispatcher(any())).thenReturn(mockDispatcher);
+
+        CountDownLatch stopSignal = new CountDownLatch(1);
+
+        // start/stop the server
+        Thread firstServeThread = new Thread(() -> {
+            try {
+                server.serve();
+                stopSignal.countDown(); // signal server stop
+            } catch (TException e) {
+                fail(e.getMessage());
+            }
+        });
+
+        Thread secondServeThread = new Thread(() -> {
+            try {
+                server.serve();
+                fail("second serve should not exit");
+            } catch (TException e) {
+                fail(e.getMessage());
+            }
+        });
+        firstServeThread.start();
+        secondServeThread.start();
+        firstServeThread.interrupt();
+        stopSignal.await(); // wait for orderly shutdown
+    }
+
+
+    @Test
+    public void testStopWithDefaultTimeout() throws Exception {
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue)
+            .withExecutorService(mockExecutorService)
+            .build();
+        server.stop();
+        verify(mockExecutorService, times(1)).shutdown();
+        verify(mockExecutorService, times(1))
+            .awaitTermination(FNatsServer.DEFAULT_STOP_TIMEOUT_NS, TimeUnit.NANOSECONDS);
+    }
+
+    @Test
+    public void testStopWithBuilderTimeout() throws Exception {
+        ExecutorService mockExecutorService = mock(ExecutorService.class);
+        server = new FNatsServer.Builder(mockConn, mockProcessor, mockProtocolFactory, new String[]{subject})
+            .withQueueGroup(queue)
+            .withExecutorService(mockExecutorService)
+            .withStopTimeout(1, TimeUnit.SECONDS)
+            .build();
+        server.stop();
+        verify(mockExecutorService, times(1)).shutdown();
+        verify(mockExecutorService, times(1)).awaitTermination(TimeUnit.SECONDS.toNanos(1), TimeUnit.NANOSECONDS);
     }
 
     @Test

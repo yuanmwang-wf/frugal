@@ -8,5 +8,5 @@ import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 import 'package:dart2_constant/convert.dart' show utf8;
 
 class ActualBaseDartConstants {
-  static final int const_i32_from_base = 582;
+  static const int const_i32_from_base = 582;
 }

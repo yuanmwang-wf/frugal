@@ -8,5 +8,5 @@ import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 import 'package:dart2_constant/convert.dart' show utf8;
 
 class VendorNamespaceConstants {
-  static final int a_const = 1;
+  static const int a_const = 1;
 }

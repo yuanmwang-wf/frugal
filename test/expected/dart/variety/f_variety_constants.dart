@@ -17,10 +17,10 @@ class VarietyConstants {
   static final t_actual_base_dart.thing const_thing = new t_variety.thing()
     ..an_id = 1
     ..a_string = "some string";
-  static final int DEFAULT_ID = -1;
+  static const int DEFAULT_ID = -1;
   static final int other_default = t_variety.VarietyConstants.DEFAULT_ID;
-  static final int thirtyfour = 34;
-  static final Map<String, String> MAPCONSTANT = {
+  static const int thirtyfour = 34;
+  static const Map<String, String> MAPCONSTANT = const {
     "hello": "world",
     "goodnight": "moon",
   };
@@ -30,7 +30,7 @@ class VarietyConstants {
   static final t_variety.Event ConstEvent2 = new t_variety.Event()
     ..iD = -7
     ..message = "second one";
-  static final List<int> NumsList = [
+  static const List<int> NumsList = const [
     2,
     4,
     7,
@@ -48,11 +48,11 @@ class VarietyConstants {
       ..message = "first here",
   };
   static final Uint8List bin_const = new Uint8List.fromList(utf8.encode('hello'));
-  static final bool true_constant = true;
-  static final bool false_constant = false;
-  static final int const_hc = 2;
-  static final String evil_string = "thin'g\" \"";
-  static final String evil_string2 = "th'ing\"ad\"f";
+  static const bool true_constant = true;
+  static const bool false_constant = false;
+  static const int const_hc = 2;
+  static const String evil_string = "thin'g\" \"";
+  static const String evil_string2 = "th'ing\"ad\"f";
   static final t_variety.TestLowercase const_lower = new t_variety.TestLowercase()
     ..lowercaseInt = 2;
 }

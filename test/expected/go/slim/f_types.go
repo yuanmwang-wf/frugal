@@ -24,6 +24,8 @@ const Thirtyfour = 34
 
 var MAPCONSTANT map[string]string
 
+var SETCONSTANT map[string]bool
+
 var ConstEvent1 *Event
 
 var ConstEvent2 *Event
@@ -58,6 +60,10 @@ func init() {
 	MAPCONSTANT = map[string]string{
 		"hello":     "world",
 		"goodnight": "moon",
+	}
+	SETCONSTANT = map[string]bool{
+		"hello": true,
+		"world": true,
 	}
 	ConstEvent1 = &Event{
 		ID:      -2,

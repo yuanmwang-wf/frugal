@@ -13,7 +13,7 @@ RUN mkdir /root/.ssh && \
     umask 0077 && echo "$GIT_SSH_KEY" >/root/.ssh/id_rsa && \
     eval "$(ssh-agent -s)" && ssh-add /root/.ssh/id_rsa
 
-RUN apt update && \
+RUN apt update -y && \
     apt full-upgrade -y && \
     apt autoremove -y && \
     apt clean all

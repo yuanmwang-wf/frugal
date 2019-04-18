@@ -24,6 +24,10 @@ class VarietyConstants {
     "hello": "world",
     "goodnight": "moon",
   };
+  static final Set<String> SETCONSTANT = new Set<String>.from([
+    "hello",
+    "world",
+  ]);
   static final t_variety.Event ConstEvent1 = new t_variety.Event()
     ..iD = -2
     ..message = "first one";

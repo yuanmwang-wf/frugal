@@ -34,6 +34,10 @@ MAPCONSTANT = {
     "hello": "world",
     "goodnight": "moon",
 }
+SETCONSTANT = set([
+    "hello",
+    "world",
+])
 ConstEvent1 = Event(**{
     "ID": -2,
     "Message": "first one",

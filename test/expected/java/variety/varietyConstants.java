@@ -53,6 +53,12 @@ public class varietyConstants {
 		MAPCONSTANT.put("goodnight", "moon");
 	}
 
+	public static final java.util.Set<String> SETCONSTANT = new HashSet<String>();
+	static {
+		SETCONSTANT.add("hello");
+		SETCONSTANT.add("world");
+	}
+
 	public static final Event ConstEvent1 = new Event();
 	static {
 		ConstEvent1.setID(-2L);

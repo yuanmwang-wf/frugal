@@ -463,7 +463,8 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 			contents := ""
 			var valuesConst bool
 			if underlyingType.Name == "set" {
-				contents += fmt.Sprintf("new Set<%s>.from(", underlyingType.ValueType)
+				contents += fmt.Sprintf("new Set<%s>.from(",
+					g.getDartTypeFromThriftType(underlyingType.ValueType))
 				valuesConst = false
 			} else {
 				valuesConst = true

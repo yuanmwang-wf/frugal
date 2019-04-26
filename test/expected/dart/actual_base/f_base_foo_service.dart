@@ -34,8 +34,8 @@ class FBaseFooClient implements FBaseFoo {
   frugal.FProtocolFactory _protocolFactory;
 
   @override
-  Future basePing(frugal.FContext ctx) {
-    return this._methods['basePing']([ctx]);
+  Future basePing(frugal.FContext ctx) async {
+    return new Future.value(await this._methods['basePing']([ctx]));
   }
 
   Future _basePing(frugal.FContext ctx) async {

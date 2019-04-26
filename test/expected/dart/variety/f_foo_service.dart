@@ -84,9 +84,9 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   /// Deprecated: don't use this; use "something else"
   @deprecated
   @override
-  Future ping(frugal.FContext ctx) {
+  Future ping(frugal.FContext ctx) async {
     _frugalLog.warning("Call to deprecated function 'Foo.ping'");
-    return this._methods['ping']([ctx]);
+    return new Future.value(await this._methods['ping']([ctx]));
   }
 
   Future _ping(frugal.FContext ctx) async {
@@ -118,8 +118,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
   /// Blah the server.
   @override
-  Future<int> blah(frugal.FContext ctx, int num, String str, t_variety.Event event) {
-    return this._methods['blah']([ctx, num, str, event]) as Future<int>;
+  Future<int> blah(frugal.FContext ctx, int num, String str, t_variety.Event event) async {
+    return new Future<int>.value(await this._methods['blah']([ctx, num, str, event]));
   }
 
   Future<int> _blah(frugal.FContext ctx, int num, String str, t_variety.Event event) async {
@@ -167,8 +167,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
   /// oneway methods don't receive a response from the server.
   @override
-  Future oneWay(frugal.FContext ctx, int id, Map<int, String> req) {
-    return this._methods['oneWay']([ctx, id, req]);
+  Future oneWay(frugal.FContext ctx, int id, Map<int, String> req) async {
+    return new Future.value(await this._methods['oneWay']([ctx, id, req]));
   }
 
   Future _oneWay(frugal.FContext ctx, int id, Map<int, String> req) async {
@@ -185,8 +185,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   @override
-  Future<Uint8List> bin_method(frugal.FContext ctx, Uint8List bin, String str) {
-    return this._methods['bin_method']([ctx, bin, str]) as Future<Uint8List>;
+  Future<Uint8List> bin_method(frugal.FContext ctx, Uint8List bin, String str) async {
+    return new Future<Uint8List>.value(await this._methods['bin_method']([ctx, bin, str]));
   }
 
   Future<Uint8List> _bin_method(frugal.FContext ctx, Uint8List bin, String str) async {
@@ -229,8 +229,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<int> param_modifiers(frugal.FContext ctx, int opt_num, int default_num, int req_num) {
-    return this._methods['param_modifiers']([ctx, opt_num, default_num, req_num]) as Future<int>;
+  Future<int> param_modifiers(frugal.FContext ctx, int opt_num, int default_num, int req_num) async {
+    return new Future<int>.value(await this._methods['param_modifiers']([ctx, opt_num, default_num, req_num]));
   }
 
   Future<int> _param_modifiers(frugal.FContext ctx, int opt_num, int default_num, int req_num) async {
@@ -271,8 +271,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<List<int>> underlying_types_test(frugal.FContext ctx, List<int> list_type, Set<int> set_type) {
-    return this._methods['underlying_types_test']([ctx, list_type, set_type]) as Future<List<int>>;
+  Future<List<int>> underlying_types_test(frugal.FContext ctx, List<int> list_type, Set<int> set_type) async {
+    return new Future<List<int>>.value(await this._methods['underlying_types_test']([ctx, list_type, set_type]));
   }
 
   Future<List<int>> _underlying_types_test(frugal.FContext ctx, List<int> list_type, Set<int> set_type) async {
@@ -312,8 +312,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<t_validStructs.Thing> getThing(frugal.FContext ctx) {
-    return this._methods['getThing']([ctx]) as Future<t_validStructs.Thing>;
+  Future<t_validStructs.Thing> getThing(frugal.FContext ctx) async {
+    return new Future<t_validStructs.Thing>.value(await this._methods['getThing']([ctx]));
   }
 
   Future<t_validStructs.Thing> _getThing(frugal.FContext ctx) async {
@@ -351,8 +351,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<int> getMyInt(frugal.FContext ctx) {
-    return this._methods['getMyInt']([ctx]) as Future<int>;
+  Future<int> getMyInt(frugal.FContext ctx) async {
+    return new Future<int>.value(await this._methods['getMyInt']([ctx]));
   }
 
   Future<int> _getMyInt(frugal.FContext ctx) async {
@@ -390,8 +390,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<t_subdir_include_ns.A> use_subdir_struct(frugal.FContext ctx, t_subdir_include_ns.A a) {
-    return this._methods['use_subdir_struct']([ctx, a]) as Future<t_subdir_include_ns.A>;
+  Future<t_subdir_include_ns.A> use_subdir_struct(frugal.FContext ctx, t_subdir_include_ns.A a) async {
+    return new Future<t_subdir_include_ns.A>.value(await this._methods['use_subdir_struct']([ctx, a]));
   }
 
   Future<t_subdir_include_ns.A> _use_subdir_struct(frugal.FContext ctx, t_subdir_include_ns.A a) async {
@@ -430,8 +430,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<String> sayHelloWith(frugal.FContext ctx, String newMessage) {
-    return this._methods['sayHelloWith']([ctx, newMessage]) as Future<String>;
+  Future<String> sayHelloWith(frugal.FContext ctx, String newMessage) async {
+    return new Future<String>.value(await this._methods['sayHelloWith']([ctx, newMessage]));
   }
 
   Future<String> _sayHelloWith(frugal.FContext ctx, String newMessage) async {
@@ -470,8 +470,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<String> whatDoYouSay(frugal.FContext ctx, String messageArgs) {
-    return this._methods['whatDoYouSay']([ctx, messageArgs]) as Future<String>;
+  Future<String> whatDoYouSay(frugal.FContext ctx, String messageArgs) async {
+    return new Future<String>.value(await this._methods['whatDoYouSay']([ctx, messageArgs]));
   }
 
   Future<String> _whatDoYouSay(frugal.FContext ctx, String messageArgs) async {
@@ -510,8 +510,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     );
   }
   @override
-  Future<String> sayAgain(frugal.FContext ctx, String messageResult) {
-    return this._methods['sayAgain']([ctx, messageResult]) as Future<String>;
+  Future<String> sayAgain(frugal.FContext ctx, String messageResult) async {
+    return new Future<String>.value(await this._methods['sayAgain']([ctx, messageResult]));
   }
 
   Future<String> _sayAgain(frugal.FContext ctx, String messageResult) async {

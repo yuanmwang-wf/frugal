@@ -1707,17 +1707,20 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 
 	// Generate wrapper method
 	contents += tab + "@override\n"
-	contents += fmt.Sprintf(tab+"Future%s %s(frugal.FContext ctx%s) async {\n",
+	contents += fmt.Sprintf(tab+"Future%s %s(frugal.FContext ctx%s) {\n",
 		g.generateReturnArg(method), nameLower, g.generateInputArgs(method.Arguments))
 
 	if method.Annotations.IsDeprecated() {
 		contents += fmt.Sprintf(tabtab+"_frugalLog.warning(\"Call to deprecated function '%s.%s'\");\n", service.Name, nameLower)
 	}
 
-	returnType := g.generateReturnArg(method)
+	innerTypeCast := ""
+	if method.ReturnType != nil {
+	    innerTypeCast = fmt.Sprintf(".then((value) => value as %s)", g.getDartTypeFromThriftType(method.ReturnType))
+	}
 
-	contents += fmt.Sprintf(tabtab+"return new Future%s.value(await this._methods['%s']([ctx%s]));\n",
-		returnType, nameLower, g.generateInputArgsWithoutTypes(method.Arguments))
+	contents += fmt.Sprintf(tabtab+"return this._methods['%s']([ctx%s])%s;\n",
+		nameLower, g.generateInputArgsWithoutTypes(method.Arguments), innerTypeCast)
 
 	contents += fmt.Sprintf(tab + "}\n\n")
 

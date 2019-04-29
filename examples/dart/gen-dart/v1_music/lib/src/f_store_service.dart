@@ -44,7 +44,7 @@ class FStoreClient implements FStore {
 
   @override
   Future<t_v1_music.Album> buyAlbum(frugal.FContext ctx, String aSIN, String acct) {
-    return new Future<t_v1_music.Album>.value(await this._methods['buyAlbum']([ctx, aSIN, acct]));
+    return this._methods['buyAlbum']([ctx, aSIN, acct]).then((value) => value as t_v1_music.Album);
   }
 
   Future<t_v1_music.Album> _buyAlbum(frugal.FContext ctx, String aSIN, String acct) async {
@@ -91,7 +91,7 @@ class FStoreClient implements FStore {
   @override
   Future<bool> enterAlbumGiveaway(frugal.FContext ctx, String email, String name) {
     _frugalLog.warning("Call to deprecated function 'Store.enterAlbumGiveaway'");
-    return new Future<bool>.value(await this._methods['enterAlbumGiveaway']([ctx, email, name]));
+    return this._methods['enterAlbumGiveaway']([ctx, email, name]).then((value) => value as bool);
   }
 
   Future<bool> _enterAlbumGiveaway(frugal.FContext ctx, String email, String name) async {

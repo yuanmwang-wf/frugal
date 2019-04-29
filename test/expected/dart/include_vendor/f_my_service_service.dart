@@ -37,8 +37,8 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
   frugal.FProtocolFactory _protocolFactory;
 
   @override
-  Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx) async {
-    return new Future<t_vendor_namespace.Item>.value(await this._methods['getItem']([ctx]));
+  Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx) {
+    return this._methods['getItem']([ctx]).then((value) => value as t_vendor_namespace.Item);
   }
 
   Future<t_vendor_namespace.Item> _getItem(frugal.FContext ctx) async {

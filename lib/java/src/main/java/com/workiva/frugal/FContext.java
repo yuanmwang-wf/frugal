@@ -24,6 +24,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * can be used to set request headers, response headers, and the request timeout.
  * The default timeout is five seconds. An FContext is also sent with every publish
  * message which is then received by subscribers.
+ * An FContext can also contain a map of properties that won't be serialized,
+ * called ephemeralProperties.
  * <p>
  * In addition to headers, the FContext also contains a correlation ID which can
  * be used for distributed tracing purposes. A random correlation ID is generated
@@ -66,6 +68,7 @@ public class FContext implements Cloneable {
 
     private Map<String, String> requestHeaders = new ConcurrentHashMap<>();
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
+    private Map<Object, Object> ephemeralProperties = new HashMap<>();
 
     private FContext(Map<String, String> requestHeaders, Map<String, String> responseHeaders) {
         this.requestHeaders = requestHeaders;
@@ -253,6 +256,70 @@ public class FContext implements Cloneable {
     }
 
     /**
+     * Sets the given map as the ephemeral properties for the FContext.
+     *
+     * @param ephemeralProperties map to set as ephemeral properties
+     * @return FContext
+     */
+    public FContext setEphemeralProperties(Map<Object, Object> ephemeralProperties) {
+        this.ephemeralProperties = ephemeralProperties;
+        return this;
+    }
+
+    /**
+     * Adds an ephemeral property to the FContext. An ephemeral property is a key-value
+     * pair that will not be serialized with the FContext. If an ephemeral property
+     * with the same name is already present, it will be replaced. The same FContext
+     * is returned to allow for call chaining.
+     *
+     * @param key ephemeral property name
+     * @param value ephemeral property value
+     * @return FContext
+     */
+    public FContext addEphemeralProperty(Object key, Object value) {
+        ephemeralProperties.put(key, value);
+        return this;
+    }
+
+    /**
+     * Adds the given ephemeral properties to the FContext. An ephemeral property is
+     * a key-value pair that will not be serialized with the FContext. If an ephemeral
+     * property with the same name is already present, it will be replaced. The same
+     * FContext is returned to allow for call chaining.
+     *
+     * @param ephemeralProperties ephemeral properties to add
+     * @return FContext
+     */
+    public FContext addEphemeralProperties(Map<Object, Object> ephemeralProperties) {
+        for (Map.Entry<Object, Object> pair : ephemeralProperties.entrySet()) {
+            addEphemeralProperty(pair.getKey(), pair.getValue());
+        }
+        return this;
+    }
+
+    /**
+     * Returns the ephemeral properties on the FContext. Ephemeral properties are
+     * key-value pairs that will not be serialized with the FContext.
+     *
+     * @return ephemeral properties
+     */
+    public Map<Object, Object> getEphemeralProperties() {
+        return new HashMap<>(ephemeralProperties);
+    }
+
+    /**
+     * Returns the ephemeral property from the FContext for the corresponding key,
+     * Or null if it doesn't exist. An ephemeral property is a key-value pair that
+     * will not be serialized with the FContext.
+     *
+     * @param key ephemeral property name
+     * @return ephemeral property value
+     */
+    public Object getEphemeralProperty(Object key) {
+        return ephemeralProperties.get(key);
+    }
+
+    /**
      * Get the request timeout.
      *
      * @return the request timeout in milliseconds.
@@ -275,6 +342,7 @@ public class FContext implements Cloneable {
         FContext cloned = (FContext) super.clone();
         cloned.requestHeaders = this.getRequestHeaders();
         cloned.responseHeaders = this.getResponseHeaders();
+        cloned.ephemeralProperties = this.getEphemeralProperties();
         cloned.addRequestHeader(OPID_HEADER, getNextOpId());
         return cloned;
     }

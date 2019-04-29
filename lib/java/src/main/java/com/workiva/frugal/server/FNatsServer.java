@@ -14,6 +14,7 @@
 package com.workiva.frugal.server;
 
 import com.workiva.frugal.processor.FProcessor;
+import com.workiva.frugal.protocol.FProtocol;
 import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
 import com.workiva.frugal.util.BlockingRejectedExecutionHandler;
@@ -27,7 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -54,8 +56,8 @@ public class FNatsServer implements FServer {
     private final FProtocolFactory outputProtoFactory;
     private final String[] subjects;
     private final String queue;
-    private final long highWatermark;
     private final long stopTimeoutNS;
+    private final FNatsServerEventHandler eventHandler;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
     /**
@@ -88,22 +90,21 @@ public class FNatsServer implements FServer {
      * @param protoFactory    FProtocolFactory used for input and output protocols
      * @param subjects        NATS subjects to receive requests on
      * @param queue           NATS queue group to receive requests on
-     * @param highWatermark   Milliseconds when high watermark logic is triggered
      * @param stopTimeoutNS Nanoseconds to await current requests to finish when stopping server
      * @param executorService Custom executor service for processing messages
      */
     private FNatsServer(Connection conn, FProcessor processor, FProtocolFactory protoFactory,
-          String[] subjects, String queue, long highWatermark, long stopTimeoutNS,
-          ExecutorService executorService) {
+                        String[] subjects, String queue, ExecutorService executorService,
+                        long stopTimeoutNS, FNatsServerEventHandler eventHandler) {
         this.conn = conn;
         this.processor = processor;
         this.inputProtoFactory = protoFactory;
         this.outputProtoFactory = protoFactory;
         this.subjects = subjects;
         this.queue = queue;
-        this.highWatermark = highWatermark;
         this.executorService = executorService;
         this.stopTimeoutNS = stopTimeoutNS;
+        this.eventHandler = eventHandler;
     }
 
     /**
@@ -122,6 +123,7 @@ public class FNatsServer implements FServer {
         private long highWatermark = DEFAULT_WATERMARK;
         private ExecutorService executorService;
         private long stopTimeoutNS = DEFAULT_STOP_TIMEOUT_NS;
+        private FNatsServerEventHandler eventHandler;
 
         /**
          * Creates a new Builder which creates FStatelessNatsServers that subscribe to the given NATS subjects.
@@ -202,12 +204,18 @@ public class FNatsServer implements FServer {
         /**
          * Controls the high watermark which determines the time spent waiting in the queue before triggering slow
          * consumer logic.
+         * If a server event handler is passed in, this value will not be used.
          *
          * @param highWatermark duration in milliseconds
          * @return Builder
          */
         public Builder withHighWatermark(long highWatermark) {
             this.highWatermark = highWatermark;
+            return this;
+        }
+
+        public Builder withServerEventHandler(FNatsServerEventHandler eventHandler) {
+            this.eventHandler = eventHandler;
             return this;
         }
 
@@ -231,14 +239,18 @@ public class FNatsServer implements FServer {
          */
         public FNatsServer build() {
             if (executorService == null) {
-                //
                 this.executorService = new ThreadPoolExecutor(
                         workerCount, workerCount, 0, TimeUnit.MILLISECONDS,
                         new ArrayBlockingQueue<>(queueLength),
                         new BlockingRejectedExecutionHandler());
             }
-            return new FNatsServer(conn, processor, protoFactory, subjects, queue, highWatermark,
-                stopTimeoutNS, executorService);
+
+            if (eventHandler == null) {
+                eventHandler = new FDefaultNatsServerEventHandler(highWatermark);
+            }
+
+            return new FNatsServer(conn, processor, protoFactory, subjects, queue,
+                executorService, stopTimeoutNS, eventHandler);
         }
 
     }
@@ -349,9 +361,11 @@ public class FNatsServer implements FServer {
                 return;
             }
 
+            Map<Object, Object> ephemeralProperties = new HashMap<>();
+            this.eventHandler.onRequestReceived(ephemeralProperties);
             executorService.execute(
-                    new Request(message.getData(), System.currentTimeMillis(), message.getReplyTo(),
-                            highWatermark, inputProtoFactory, outputProtoFactory, processor, conn));
+                    new Request(message.getData(), message.getReplyTo(), inputProtoFactory,
+                            outputProtoFactory, processor, conn, eventHandler, ephemeralProperties));
         };
     }
 
@@ -361,63 +375,63 @@ public class FNatsServer implements FServer {
     static class Request implements Runnable {
 
         final byte[] frameBytes;
-        final long timestamp;
         final String reply;
-        final long highWatermark;
         final FProtocolFactory inputProtoFactory;
         final FProtocolFactory outputProtoFactory;
         final FProcessor processor;
         final Connection conn;
+        final FNatsServerEventHandler eventHandler;
+        final Map<Object, Object> ephemeralProperties;
 
-        Request(byte[] frameBytes, long timestamp, String reply, long highWatermark,
+        Request(byte[] frameBytes, String reply,
                 FProtocolFactory inputProtoFactory, FProtocolFactory outputProtoFactory,
-                FProcessor processor, Connection conn) {
+                FProcessor processor, Connection conn, FNatsServerEventHandler eventHandler,
+                Map<Object, Object> ephemeralProperties) {
             this.frameBytes = frameBytes;
-            this.timestamp = timestamp;
             this.reply = reply;
-            this.highWatermark = highWatermark;
             this.inputProtoFactory = inputProtoFactory;
             this.outputProtoFactory = outputProtoFactory;
             this.processor = processor;
             this.conn = conn;
+            this.eventHandler = eventHandler;
+            this.ephemeralProperties = ephemeralProperties;
         }
 
         @Override
         public void run() {
-            long duration = System.currentTimeMillis() - timestamp;
-            if (duration > highWatermark) {
-                LOGGER.warn(String.format(
-                        "request spent %d ms in the transport buffer, your consumer might be backed up", duration));
-            }
-            process();
-        }
+            eventHandler.onRequestStarted(ephemeralProperties);
 
-        private void process() {
-            // Read and process frame (exclude first 4 bytes which represent frame size).
-            byte[] frame = Arrays.copyOfRange(frameBytes, 4, frameBytes.length);
-            TTransport input = new TMemoryInputTransport(frame);
-
-            TMemoryOutputBuffer output = new TMemoryOutputBuffer(NATS_MAX_MESSAGE_SIZE);
             try {
-                processor.process(inputProtoFactory.getProtocol(input), outputProtoFactory.getProtocol(output));
-            } catch (TException e) {
-                LOGGER.error("error processing request", e);
-                return;
-            } catch (RuntimeException e) {
+                // Read and process frame (exclude first 4 bytes which represent frame size).
+                TTransport input = new TMemoryInputTransport(frameBytes, 4, frameBytes.length);
+                TMemoryOutputBuffer output = new TMemoryOutputBuffer(NATS_MAX_MESSAGE_SIZE);
+
                 try {
-                    conn.publish(reply, output.getWriteBytes());
-                    conn.flush(Duration.ofSeconds(60));
-                } catch (Exception ignored) {
+                    FProtocol inputProto = inputProtoFactory.getProtocol(input);
+                    inputProto.setEphemeralProperties(ephemeralProperties);
+                    FProtocol outputProto = outputProtoFactory.getProtocol(output);
+                    processor.process(inputProto, outputProto);
+                } catch (TException e) {
+                    LOGGER.error("error processing request", e);
+                    return;
+                } catch (RuntimeException e) {
+                    try {
+                        conn.publish(reply, output.getWriteBytes());
+                        conn.flush(Duration.ofSeconds(60));
+                    } catch (Exception ignored) {
+                    }
+                    return;
                 }
-                return;
-            }
 
-            if (!output.hasWriteData()) {
-                return;
-            }
+                if (!output.hasWriteData()) {
+                    return;
+                }
 
-            // Send response.
-            conn.publish(reply, output.getWriteBytes());
+                // Send response.
+                conn.publish(reply, output.getWriteBytes());
+            } finally {
+                eventHandler.onRequestEnded(ephemeralProperties);
+            }
         }
 
     }

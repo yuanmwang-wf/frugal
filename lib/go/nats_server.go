@@ -28,8 +28,8 @@ const (
 
 type frameWrapper struct {
 	frameBytes []byte
-	timestamp  time.Time
 	reply      string
+	ephemeralProperties map[interface{}]interface{}
 }
 
 // FNatsServerBuilder configures and builds NATS server instances.
@@ -42,7 +42,37 @@ type FNatsServerBuilder struct {
 	workerCount   uint
 	queueLen      uint
 	highWatermark time.Duration
+	onRequestReceived func(map[interface{}]interface{})
+	onRequestStarted func(map[interface{}]interface{})
+	onRequestFinished func(map[interface{}]interface{})
 }
+
+// DefaultFNatsServerOnRequestReceived is the default handler called when an
+// FNatsServer receives a message. It adds the time the request was received
+// to the passed in properties.
+func DefaultFNatsServerOnRequestReceived(properties map[interface{}]interface{}) {
+	now := time.Now()
+	properties["_request_received_time"] = now
+}
+
+// NewDefaultFNatsServerOnRequestStarted constructs a default handler for when
+// an FNatsServer starts processing a message. It checks the current time
+// against a start time in the passed in properties, and logs a warning if the
+// difference is over a threshold.
+func NewDefaultFNatsServerOnRequestStarted(highWatermark time.Duration) func(map[interface{}]interface{}) {
+	return func(properties map[interface{}]interface{}) {
+		if start, ok := properties["_request_received_time"]; ok {
+			dur := time.Since(start.(time.Time))
+			if dur > highWatermark {
+				logger().Warnf("frugal: request spent %+v in the transport buffer, your consumer might be backed up", dur)
+			}
+		}
+	}
+}
+
+// DefaultFNatsServerOnRequestFinished is the default handler called when an
+// FNatsServer finishes processing a message. If does nothing
+func DefaultFNatsServerOnRequestFinished(properties map[interface{}]interface{}) {}
 
 // NewFNatsServerBuilder creates a builder which configures and builds NATS
 // server instances.
@@ -57,6 +87,29 @@ func NewFNatsServerBuilder(conn *nats.Conn, processor FProcessor,
 		queueLen:      defaultWorkQueueLen,
 		highWatermark: defaultWatermark,
 	}
+}
+
+// WithRequestReceivedEventHandler sets a function to be called when the
+// FNatsServer receives a message, but before it is put onto a work queue. The
+// properties map will be set on the FContext before processing is started.
+func (f *FNatsServerBuilder) WithRequestReceivedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
+	f.onRequestReceived = handler
+	return f
+}
+
+// WithRequestStartedEventHandler sets a function to be called before the
+// FNatsServer processes a message. The properties map will be set on the
+// FContext before processing begins.
+func (f *FNatsServerBuilder) WithRequestStartedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
+	f.onRequestStarted = handler
+	return f
+}
+
+// WithRequestFinishedEventHandler sets a function to be called after the
+// FNatsServer processes a message.
+func (f *FNatsServerBuilder) WithRequestFinishedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
+	f.onRequestFinished = handler
+	return f
 }
 
 // WithQueueGroup adds a NATS queue group to receive requests on.
@@ -87,6 +140,16 @@ func (f *FNatsServerBuilder) WithHighWatermark(highWatermark time.Duration) *FNa
 
 // Build a new configured NATS FServer.
 func (f *FNatsServerBuilder) Build() FServer {
+	if f.onRequestReceived == nil {
+		f.onRequestReceived = DefaultFNatsServerOnRequestReceived
+	}
+	if f.onRequestStarted == nil {
+		f.onRequestStarted = NewDefaultFNatsServerOnRequestStarted(f.highWatermark)
+	}
+	if f.onRequestFinished == nil {
+		f.onRequestFinished = DefaultFNatsServerOnRequestFinished
+	}
+
 	return &fNatsServer{
 		conn:          f.conn,
 		processor:     f.processor,
@@ -96,7 +159,9 @@ func (f *FNatsServerBuilder) Build() FServer {
 		workerCount:   f.workerCount,
 		workC:         make(chan *frameWrapper, f.queueLen),
 		quit:          make(chan struct{}),
-		highWatermark: f.highWatermark,
+		onRequestReceived: f.onRequestReceived,
+		onRequestStarted: f.onRequestStarted,
+		onRequestFinished: f.onRequestFinished,
 	}
 }
 
@@ -111,7 +176,10 @@ type fNatsServer struct {
 	workerCount   uint
 	workC         chan *frameWrapper
 	quit          chan struct{}
-	highWatermark time.Duration
+
+	onRequestReceived func(map[interface{}]interface{})
+	onRequestStarted func(map[interface{}]interface{})
+	onRequestFinished func(map[interface{}]interface{})
 }
 
 // Serve starts the server.
@@ -149,12 +217,15 @@ func (f *fNatsServer) Stop() error {
 // handler is invoked when a request is received. The request is placed on the
 // work channel which is processed by a worker goroutine.
 func (f *fNatsServer) handler(msg *nats.Msg) {
+	ephemeralProperties := make(map[interface{}]interface{})
+	f.onRequestReceived(ephemeralProperties)
+
 	if msg.Reply == "" {
 		logger().Warn("frugal: discarding invalid NATS request (no reply)")
 		return
 	}
 	select {
-	case f.workC <- &frameWrapper{frameBytes: msg.Data, timestamp: time.Now(), reply: msg.Reply}:
+	case f.workC <- &frameWrapper{frameBytes: msg.Data, reply: msg.Reply, ephemeralProperties: ephemeralProperties}:
 	case <-f.quit:
 		return
 	}
@@ -168,25 +239,24 @@ func (f *fNatsServer) worker() {
 		case <-f.quit:
 			return
 		case frame := <-f.workC:
-			dur := time.Since(frame.timestamp)
-			if dur > f.highWatermark {
-				logger().Warnf("frugal: request spent %+v in the transport buffer, your consumer might be backed up", dur)
-			}
-			if err := f.processFrame(frame.frameBytes, frame.reply); err != nil {
+			f.onRequestStarted(frame.ephemeralProperties)
+			if err := f.processFrame(frame); err != nil {
 				logger().Errorf("frugal: error processing request: %s", err.Error())
 			}
+			f.onRequestFinished(frame.ephemeralProperties)
 		}
 	}
 }
 
 // processFrame invokes the FProcessor and sends the response on the given
 // subject.
-func (f *fNatsServer) processFrame(frame []byte, reply string) error {
+func (f *fNatsServer) processFrame(frame *frameWrapper) error {
 	// Read and process frame.
-	input := &thrift.TMemoryBuffer{Buffer: bytes.NewBuffer(frame[4:])} // Discard frame size
+	input := &thrift.TMemoryBuffer{Buffer: bytes.NewBuffer(frame.frameBytes[4:])} // Discard frame size
 	// Only allow 1MB to be buffered.
 	output := NewTMemoryOutputBuffer(natsMaxMessageSize)
 	iprot := f.protoFactory.GetProtocol(input)
+	iprot.ephemeralProperties = frame.ephemeralProperties
 	oprot := f.protoFactory.GetProtocol(output)
 	if err := f.processor.Process(iprot, oprot); err != nil {
 		return err
@@ -197,5 +267,5 @@ func (f *fNatsServer) processFrame(frame []byte, reply string) error {
 	}
 
 	// Send response.
-	return f.conn.Publish(reply, output.Bytes())
+	return f.conn.Publish(frame.reply, output.Bytes())
 }

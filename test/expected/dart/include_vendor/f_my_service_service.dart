@@ -38,7 +38,7 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
 
   @override
   Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx) {
-    return this._methods['getItem']([ctx]) as Future<t_vendor_namespace.Item>;
+    return this._methods['getItem']([ctx]).then((value) => value as t_vendor_namespace.Item);
   }
 
   Future<t_vendor_namespace.Item> _getItem(frugal.FContext ctx) async {

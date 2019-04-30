@@ -3,6 +3,7 @@ package com.workiva.frugal.server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Clock;
 import java.util.Map;
 
 /**
@@ -10,8 +11,11 @@ import java.util.Map;
  */
 public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(FDefaultNatsServerEventHandler.class);
+    public static final String REQUEST_RECEIVED_MILLIS_KEY = "request_received_millis";
 
     private long highWatermark;
+    // protected for testing
+    protected Clock clock;
 
     public FDefaultNatsServerEventHandler(long highWatermark) {
         this.highWatermark = highWatermark;
@@ -19,14 +23,14 @@ public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
 
     @Override
     public void onRequestReceived(Map<Object, Object> ephemeralProperties) {
-        long now = System.currentTimeMillis();
-        ephemeralProperties.put("_request_received_millis", now);
+        long now = clock.millis();
+        ephemeralProperties.put(REQUEST_RECEIVED_MILLIS_KEY, now);
     }
 
     @Override
     public void onRequestStarted(Map<Object, Object> ephemeralProperties) {
-        if (ephemeralProperties.get("_request_received_millis") != null) {
-            long started = (long) ephemeralProperties.get("_request_received_millis");
+        if (ephemeralProperties.get(REQUEST_RECEIVED_MILLIS_KEY) != null) {
+            long started = (long) ephemeralProperties.get(REQUEST_RECEIVED_MILLIS_KEY);
             long duration = System.currentTimeMillis() - started;
             if (duration > highWatermark) {
                 LOGGER.warn(String.format(

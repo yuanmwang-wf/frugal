@@ -24,6 +24,8 @@ import (
 const (
 	defaultWorkQueueLen = 64
 	defaultWatermark    = 5 * time.Second
+
+	RequestReceivedTimeKey = "request_received_time"
 )
 
 type frameWrapper struct {
@@ -47,12 +49,14 @@ type FNatsServerBuilder struct {
 	onRequestFinished func(map[interface{}]interface{})
 }
 
+// var for testing purposes
+var timeNow = time.Now
+
 // DefaultFNatsServerOnRequestReceived is the default handler called when an
 // FNatsServer receives a message. It adds the time the request was received
 // to the passed in properties.
 func DefaultFNatsServerOnRequestReceived(properties map[interface{}]interface{}) {
-	now := time.Now()
-	properties["_request_received_time"] = now
+	properties[RequestReceivedTimeKey] = timeNow()
 }
 
 // NewDefaultFNatsServerOnRequestStarted constructs a default handler for when
@@ -61,7 +65,7 @@ func DefaultFNatsServerOnRequestReceived(properties map[interface{}]interface{})
 // difference is over a threshold.
 func NewDefaultFNatsServerOnRequestStarted(highWatermark time.Duration) func(map[interface{}]interface{}) {
 	return func(properties map[interface{}]interface{}) {
-		if start, ok := properties["_request_received_time"]; ok {
+		if start, ok := properties[RequestReceivedTimeKey]; ok {
 			dur := time.Since(start.(time.Time))
 			if dur > highWatermark {
 				logger().Warnf("frugal: request spent %+v in the transport buffer, your consumer might be backed up", dur)

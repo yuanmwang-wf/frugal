@@ -36,7 +36,5 @@ public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
     }
 
     @Override
-    public void onRequestEnded(Map<Object, Object> ephemeralProperties) {
-
-    }
+    public void onRequestEnded(Map<Object, Object> ephemeralProperties) {}
 }

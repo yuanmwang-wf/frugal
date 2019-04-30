@@ -103,10 +103,6 @@ type FProtocol struct {
 	ephemeralProperties map[interface{}]interface{}
 }
 
-func (f *FProtocol) SetEphemeralProperties(properties map[interface{}]interface{}) {
-	f.ephemeralProperties = properties
-}
-
 // WriteRequestHeader writes the request headers set on the given Context
 // into the protocol
 func (f *FProtocol) WriteRequestHeader(ctx FContext) error {

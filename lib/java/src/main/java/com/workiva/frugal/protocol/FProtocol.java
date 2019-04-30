@@ -50,6 +50,12 @@ public class FProtocol extends TProtocol {
         ephemeralProperties = new HashMap<>();
     }
 
+    /**
+     * Sets a map of properties that should be set on an FContext read from
+     * {@link FProtocol#readRequestHeader()} as ephemeral properties.
+     *
+     * @param ephemeralProperties The properties to set on a FContext
+     */
     public void setEphemeralProperties(Map<Object, Object> ephemeralProperties) {
         this.ephemeralProperties = ephemeralProperties;
     }

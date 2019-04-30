@@ -10,6 +10,9 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for {@link FDefaultNatsServerEventHandler}.
+ */
 public class FDefaultNatsServerEventHandlerTest {
 
     @Test

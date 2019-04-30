@@ -96,6 +96,11 @@ func NewFNatsServerBuilder(conn *nats.Conn, processor FProcessor,
 // WithRequestReceivedEventHandler sets a function to be called when the
 // FNatsServer receives a message, but before it is put onto a work queue. The
 // properties map will be set on the FContext before processing is started.
+//
+// If the same functionality can be accomplished through middleware, middleware
+// is preferred as it is more flexible and more portable between different
+// servers. This function should only handle events and behaviour specific to
+// an FNatsServer that aren't applicable to other frugal servers.
 func (f *FNatsServerBuilder) WithRequestReceivedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
 	f.onRequestReceived = handler
 	return f
@@ -104,6 +109,11 @@ func (f *FNatsServerBuilder) WithRequestReceivedEventHandler(handler func(map[in
 // WithRequestStartedEventHandler sets a function to be called before the
 // FNatsServer processes a message. The properties map will be set on the
 // FContext before processing begins.
+//
+// If the same functionality can be accomplished through middleware, middleware
+// is preferred as it is more flexible and more portable between different
+// servers. This function should only handle events and behaviour specific to
+// an FNatsServer that aren't applicable to other frugal servers.
 func (f *FNatsServerBuilder) WithRequestStartedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
 	f.onRequestStarted = handler
 	return f
@@ -111,6 +121,11 @@ func (f *FNatsServerBuilder) WithRequestStartedEventHandler(handler func(map[int
 
 // WithRequestFinishedEventHandler sets a function to be called after the
 // FNatsServer processes a message.
+//
+// If the same functionality can be accomplished through middleware, middleware
+// is preferred as it is more flexible and more portable between different
+// servers. This function should only handle events and behaviour specific to
+// an FNatsServer that aren't applicable to other frugal servers.
 func (f *FNatsServerBuilder) WithRequestFinishedEventHandler(handler func(map[interface{}]interface{})) *FNatsServerBuilder {
 	f.onRequestFinished = handler
 	return f

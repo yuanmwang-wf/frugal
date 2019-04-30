@@ -31,7 +31,7 @@ public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
     public void onRequestStarted(Map<Object, Object> ephemeralProperties) {
         if (ephemeralProperties.get(REQUEST_RECEIVED_MILLIS_KEY) != null) {
             long started = (long) ephemeralProperties.get(REQUEST_RECEIVED_MILLIS_KEY);
-            long duration = System.currentTimeMillis() - started;
+            long duration = clock.millis() - started;
             if (duration > highWatermark) {
                 LOGGER.warn(String.format(
                         "request spent %d ms in the transport buffer, your consumer might be backed up", duration));

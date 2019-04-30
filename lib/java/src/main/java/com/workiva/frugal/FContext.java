@@ -257,6 +257,8 @@ public class FContext implements Cloneable {
 
     /**
      * Sets the given map as the ephemeral properties for the FContext.
+     * A reference to the map will be kept, so modifications made to the map
+     * outside this object will affect the ephemeral properties in this object.
      *
      * @param ephemeralProperties map to set as ephemeral properties
      * @return FContext
@@ -287,12 +289,12 @@ public class FContext implements Cloneable {
      * property with the same name is already present, it will be replaced. The same
      * FContext is returned to allow for call chaining.
      *
-     * @param ephemeralProperties ephemeral properties to add
+     * @param properties ephemeral properties to add
      * @return FContext
      */
-    public FContext addEphemeralProperties(Map<Object, Object> ephemeralProperties) {
-        for (Map.Entry<Object, Object> pair : ephemeralProperties.entrySet()) {
-            addEphemeralProperty(pair.getKey(), pair.getValue());
+    public FContext addEphemeralProperties(Map<Object, Object> properties) {
+        for (Map.Entry<Object, Object> pair : properties.entrySet()) {
+            ephemeralProperties.putAll(properties);
         }
         return this;
     }

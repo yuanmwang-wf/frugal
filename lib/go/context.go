@@ -104,7 +104,7 @@ type FContextWithEphemeralProperties interface {
 
 	// Clone performs a deep copy of an FContextWithEphemeralProperties while
 	// handling opids correctly.
-	Clone() FContext
+	Clone() FContextWithEphemeralProperties
 
 	// EphemeralProperty gets the property associated with the given key.
 	EphemeralProperty(key interface{}) (interface{}, bool)
@@ -253,7 +253,9 @@ func (c *FContextImpl) Timeout() time.Duration {
 	return time.Millisecond * time.Duration(timeoutMillis)
 }
 
-func (c *FContextImpl) Clone() FContext {
+// Clone performs a deep copy of an FContextWithEphemeralProperties while
+// handling opids correctly.
+func (c *FContextImpl) Clone() FContextWithEphemeralProperties {
 	cloned := &FContextImpl{
 		requestHeaders: c.RequestHeaders(),
 		responseHeaders: c.ResponseHeaders(),
@@ -263,6 +265,7 @@ func (c *FContextImpl) Clone() FContext {
 	return cloned
 }
 
+// EphemeralProperty gets the property associated with the given key.
 func (c *FContextImpl) EphemeralProperty(key interface{}) (interface{}, bool) {
 	c.mu.Lock()
 	value, ok := c.ephemeralProperties[key]
@@ -270,6 +273,7 @@ func (c *FContextImpl) EphemeralProperty(key interface{}) (interface{}, bool) {
 	return value, ok
 }
 
+// EphemeralProperties returns a copy of the ephemeral properties map.
 func (c *FContextImpl) EphemeralProperties() map[interface{}]interface{} {
 	c.mu.RLock()
 	properties := make(map[interface{}]interface{}, len(c.ephemeralProperties))
@@ -280,6 +284,7 @@ func (c *FContextImpl) EphemeralProperties() map[interface{}]interface{} {
 	return properties
 }
 
+// AddEphemeralProperty adds a keyp-value pair to the ephemeral properties.
 func (c *FContextImpl) AddEphemeralProperty(key, value interface{}) FContext {
 	c.mu.Lock()
 	c.ephemeralProperties[key] = value

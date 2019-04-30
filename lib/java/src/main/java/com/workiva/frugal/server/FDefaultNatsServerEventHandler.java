@@ -19,6 +19,7 @@ public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
 
     public FDefaultNatsServerEventHandler(long highWatermark) {
         this.highWatermark = highWatermark;
+        this.clock = Clock.systemUTC();
     }
 
     @Override

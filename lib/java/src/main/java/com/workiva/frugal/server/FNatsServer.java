@@ -57,7 +57,7 @@ public class FNatsServer implements FServer {
     private final String[] subjects;
     private final String queue;
     private final long stopTimeoutNS;
-    private final FNatsServerEventHandler eventHandler;
+    private final FServerEventHandler eventHandler;
 
     private final CountDownLatch shutdownSignal = new CountDownLatch(1);
     /**
@@ -95,7 +95,7 @@ public class FNatsServer implements FServer {
      */
     private FNatsServer(Connection conn, FProcessor processor, FProtocolFactory protoFactory,
                         String[] subjects, String queue, ExecutorService executorService,
-                        long stopTimeoutNS, FNatsServerEventHandler eventHandler) {
+                        long stopTimeoutNS, FServerEventHandler eventHandler) {
         this.conn = conn;
         this.processor = processor;
         this.inputProtoFactory = protoFactory;
@@ -123,7 +123,7 @@ public class FNatsServer implements FServer {
         private long highWatermark = DEFAULT_WATERMARK;
         private ExecutorService executorService;
         private long stopTimeoutNS = DEFAULT_STOP_TIMEOUT_NS;
-        private FNatsServerEventHandler eventHandler;
+        private FServerEventHandler eventHandler;
 
         /**
          * Creates a new Builder which creates FStatelessNatsServers that subscribe to the given NATS subjects.
@@ -214,7 +214,7 @@ public class FNatsServer implements FServer {
             return this;
         }
 
-        public Builder withServerEventHandler(FNatsServerEventHandler eventHandler) {
+        public Builder withServerEventHandler(FServerEventHandler eventHandler) {
             this.eventHandler = eventHandler;
             return this;
         }
@@ -380,12 +380,12 @@ public class FNatsServer implements FServer {
         final FProtocolFactory outputProtoFactory;
         final FProcessor processor;
         final Connection conn;
-        final FNatsServerEventHandler eventHandler;
+        final FServerEventHandler eventHandler;
         final Map<Object, Object> ephemeralProperties;
 
         Request(byte[] frameBytes, String reply,
                 FProtocolFactory inputProtoFactory, FProtocolFactory outputProtoFactory,
-                FProcessor processor, Connection conn, FNatsServerEventHandler eventHandler,
+                FProcessor processor, Connection conn, FServerEventHandler eventHandler,
                 Map<Object, Object> ephemeralProperties) {
             this.frameBytes = frameBytes;
             this.reply = reply;

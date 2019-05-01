@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * A default event handler for an FNatsServer.
  */
-public class FDefaultNatsServerEventHandler implements FNatsServerEventHandler {
+public class FDefaultNatsServerEventHandler implements FServerEventHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(FDefaultNatsServerEventHandler.class);
     public static final String REQUEST_RECEIVED_MILLIS_KEY = "request_received_millis";
 

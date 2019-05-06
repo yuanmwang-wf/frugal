@@ -7,8 +7,9 @@ import java.util.Map;
  *
  * An FServerEventHandler should serve a distinct purpose from middleware.
  * A set of middleware, with a processor, should be able to be used on any kind
- * of frugal server. Conversely, this should only be used for behaviour and
- * events for an FNatsServer not applicable to other frugal servers.
+ * of frugal server. Some use cases for this could be monitoring how long a
+ * request sits before being processed, or adding keys to MDC before processing
+ * a message.
  *
  * It is preferred to use middleware if either solution works, as middleware is
  * more portable between different servers.

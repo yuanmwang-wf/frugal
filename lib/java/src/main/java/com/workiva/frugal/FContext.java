@@ -293,9 +293,7 @@ public class FContext implements Cloneable {
      * @return FContext
      */
     public FContext addEphemeralProperties(Map<Object, Object> properties) {
-        for (Map.Entry<Object, Object> pair : properties.entrySet()) {
-            ephemeralProperties.putAll(properties);
-        }
+        ephemeralProperties.putAll(properties);
         return this;
     }
 

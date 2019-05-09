@@ -59,7 +59,7 @@ func TestFBaseProcessorHappyPath(t *testing.T) {
 	reads <- pingFrame[5:34] // FContext headers
 	reads <- pingFrame[34:]  // request body
 	mockTransport.reads = reads
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 	processorFunction := &pingProcessor{t: t, expectedProto: proto}
 	processor.AddToProcessorMap("ping", processorFunction)
@@ -87,7 +87,7 @@ func TestFBaseProcessorError(t *testing.T) {
 	reads <- pingFrame[5:34] // FContext headers
 	reads <- pingFrame[34:]  // request body
 	mockTransport.reads = reads
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 	err := errors.New("error")
 	processorFunction := &pingProcessor{t: t, expectedProto: proto, err: err}
@@ -107,7 +107,7 @@ func TestFBaseProcessorReadError(t *testing.T) {
 	mockTransport := new(mockTTransport)
 	err := errors.New("error")
 	mockTransport.readError = err
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	err = processor.Process(proto, proto)
@@ -150,7 +150,7 @@ func TestFBaseProcessorNoProcessorFunction(t *testing.T) {
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
 	mockTransport.On("Flush").Return(nil)
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.NoError(t, processor.Process(proto, proto))
@@ -186,7 +186,7 @@ func TestFBaseProcessorNoProcessorFunctionWriteError(t *testing.T) {
 	// so cant check for equality.
 	//responseCtx := []byte{0, 0, 0, 0, 29, 0, 0, 0, 5, 95, 111, 112, 105, 100, 0, 0, 0, 1, 48, 0, 0, 0, 4, 95, 99, 105, 100, 0, 0, 0, 3, 49, 50, 51}
 	mockTransport.On("Write", mock.Anything).Return(0, errors.New("error")).Once()
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.Error(t, processor.Process(proto, proto))
@@ -232,7 +232,7 @@ func TestFBaseProcessorNoProcessorFunctionFlushError(t *testing.T) {
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
 	mockTransport.On("Flush").Return(errors.New("error"))
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.Error(t, processor.Process(proto, proto))

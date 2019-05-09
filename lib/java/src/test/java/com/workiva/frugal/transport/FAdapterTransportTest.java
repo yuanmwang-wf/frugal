@@ -138,7 +138,7 @@ public class FAdapterTransportTest {
                 }) // Read frame 2 size
                 .then(invocationOnMock -> {
                     byte[] buff = (byte[]) invocationOnMock.getArguments()[0];
-                    System.arraycopy(mockFrame2, 0, buff, 0, mockFrame1.length);
+                    System.arraycopy(mockFrame2, 0, buff, 0, mockFrame2.length);
                     return 5;
                 }) // Read frame 2
                 .thenThrow(new TTransportException(TTransportExceptionType.END_OF_FILE));

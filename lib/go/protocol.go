@@ -86,7 +86,9 @@ func NewFProtocolFactory(protoFactory thrift.TProtocolFactory) *FProtocolFactory
 
 // GetProtocol returns a new FProtocol instance using the given TTransport.
 func (f *FProtocolFactory) GetProtocol(tr thrift.TTransport) *FProtocol {
-	return &FProtocol{f.protoFactory.GetProtocol(tr)}
+	return &FProtocol{
+		TProtocol: f.protoFactory.GetProtocol(tr),
+	}
 }
 
 // FProtocol is Frugal's equivalent of Thrift's TProtocol. It defines the
@@ -98,6 +100,7 @@ func (f *FProtocolFactory) GetProtocol(tr thrift.TTransport) *FProtocol {
 // protocol documentation for more details.
 type FProtocol struct {
 	thrift.TProtocol
+	ephemeralProperties map[interface{}]interface{}
 }
 
 // WriteRequestHeader writes the request headers set on the given Context
@@ -142,6 +145,7 @@ func (f *FProtocol) ReadRequestHeader() (FContext, error) {
 		ctx.AddResponseHeader(cidHeader, cid)
 	}
 
+	ctx.ephemeralProperties = f.ephemeralProperties
 	return ctx, nil
 }
 

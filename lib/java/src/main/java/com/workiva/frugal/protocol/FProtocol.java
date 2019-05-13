@@ -24,6 +24,7 @@ import org.apache.thrift.protocol.TSet;
 import org.apache.thrift.protocol.TStruct;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.workiva.frugal.FContext.CID_HEADER;
@@ -41,10 +42,22 @@ import static com.workiva.frugal.FContext.OPID_HEADER;
 public class FProtocol extends TProtocol {
 
     private TProtocol wrapped;
+    private Map<Object, Object> ephemeralProperties;
 
     protected FProtocol(TProtocol proto) {
         super(proto.getTransport());
         wrapped = proto;
+        ephemeralProperties = new HashMap<>();
+    }
+
+    /**
+     * Sets a map of properties that should be set on an FContext read from
+     * {@link FProtocol#readRequestHeader()} as ephemeral properties.
+     *
+     * @param ephemeralProperties The properties to set on a FContext
+     */
+    public void setEphemeralProperties(Map<Object, Object> ephemeralProperties) {
+        this.ephemeralProperties = ephemeralProperties;
     }
 
     /**
@@ -77,6 +90,10 @@ public class FProtocol extends TProtocol {
         if (cid != null && !cid.isEmpty()) {
             ctx.addResponseHeader(CID_HEADER, cid);
         }
+
+        // setting the ephemeral properties allows this map in FContext and the
+        // map in the server to be the same.
+        ctx.setEphemeralProperties(ephemeralProperties);
         return ctx;
     }
 

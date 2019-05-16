@@ -162,6 +162,7 @@ func NewFContext(correlationID string) FContext {
 			timeoutHeader: strconv.FormatInt(int64(defaultTimeout/time.Millisecond), 10),
 		},
 		responseHeaders: make(map[string]string),
+		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
 	return ctx

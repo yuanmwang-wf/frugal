@@ -1,4 +1,4 @@
-FROM drydock-prod.workiva.net/workiva/messaging-docker-images:0.0.34 as build
+FROM drydock.workiva.net/yuanmwang-wf/messaging-docker-images:1770983 as build
 
 ARG GIT_BRANCH
 ARG GIT_MERGE_BRANCH

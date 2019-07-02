@@ -85,7 +85,7 @@ class TestingDefaults implements thrift.TBase {
     this._iD = -2;
     this._thing = "a constant";
     this._thing2 = "another constant";
-    this._listfield = const [
+    this._listfield = [
       1,
       2,
       3,
@@ -94,20 +94,20 @@ class TestingDefaults implements thrift.TBase {
     ];
     this._iD3 = t_variety.VarietyConstants.other_default;
     this._bin_field4 = t_variety.VarietyConstants.bin_const;
-    this._list2 = const [
+    this._list2 = [
       1,
       3,
       4,
       5,
       8,
     ];
-    this._list4 = const [
+    this._list4 = [
       1,
       2,
       3,
       6,
     ];
-    this._a_map = const {
+    this._a_map = {
       "k1": "v1",
       "k2": "v2",
     };

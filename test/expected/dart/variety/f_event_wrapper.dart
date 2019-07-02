@@ -75,9 +75,9 @@ class EventWrapper implements thrift.TBase {
   bool __isset_depr = false;
 
   EventWrapper() {
-    this._eventsDefault = const [
+    this._eventsDefault = [
     ];
-    this._eventMapDefault = const {
+    this._eventMapDefault = {
     };
     this._eventSetDefault = new Set<t_variety.Event>.from([
     ]);

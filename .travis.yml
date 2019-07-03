@@ -8,7 +8,6 @@ git:
 env:
   - TWINE_USERNAME=messaging
   - TWINE_REPOSITORY=pypi
-  - TWINE_REPOSITORY_URL=https://upload.pypi.org/latest/
 
 before_install:
   - mkdir -p $GOPATH/src/github.com/Workiva/frugal

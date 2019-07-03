@@ -404,7 +404,7 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 		if constant.Comment != nil {
 			contents += g.generateDocComment(constant.Comment, tab)
 		}
-		value, valueConst := g.generateConstantValue(constant.Type, constant.Value, "")
+		value, valueConst := g.generateConstantValue(constant.Type, constant.Value, "", true)
 		immutableKeyword := "final"
 		if valueConst {
 			immutableKeyword = "const"
@@ -417,7 +417,7 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 	return err
 }
 
-func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind string) (result string, isConst bool) {
+func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind string, asConst bool) (result string, isConst bool) {
 	underlyingType := g.Frugal.UnderlyingType(t)
 
 	// If the value being referenced is of type Identifier, it's referencing
@@ -467,11 +467,11 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 					g.getDartTypeFromThriftType(underlyingType.ValueType))
 				valuesConst = false
 			} else {
-				valuesConst = true
+				valuesConst = asConst
 			}
 			contents += "[\n"
 			for _, v := range value.([]interface{}) {
-				val, valConst := g.generateConstantValue(underlyingType.ValueType, v, ind+tab)
+				val, valConst := g.generateConstantValue(underlyingType.ValueType, v, ind+tab, asConst)
 				contents += fmt.Sprintf(tabtab+ind+"%s,\n", val)
 				valuesConst = valuesConst && valConst
 			}
@@ -485,10 +485,10 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 			return contents, valuesConst
 		case "map":
 			contents := "{\n"
-			kvsConst := true
+			kvsConst := asConst
 			for _, pair := range value.([]parser.KeyValue) {
-				key, keyConst := g.generateConstantValue(underlyingType.KeyType, pair.Key, ind+tab)
-				val, valConst := g.generateConstantValue(underlyingType.ValueType, pair.Value, ind+tab)
+				key, keyConst := g.generateConstantValue(underlyingType.KeyType, pair.Key, ind+tab, asConst)
+				val, valConst := g.generateConstantValue(underlyingType.ValueType, pair.Value, ind+tab, asConst)
 				contents += fmt.Sprintf(tabtab+ind+"%s: %s,\n", key, val)
 				kvsConst = kvsConst && keyConst && valConst
 			}
@@ -514,7 +514,7 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 			name := pair.KeyToString()
 			for _, field := range s.Fields {
 				if name == field.Name {
-					val, _ := g.generateConstantValue(field.Type, pair.Value, ind+tab)
+					val, _ := g.generateConstantValue(field.Type, pair.Value, ind+tab, asConst)
 					contents += fmt.Sprintf("\n%s..%s = %s", tabtab+ind, toFieldName(name), val)
 				}
 			}
@@ -700,7 +700,7 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 		contents += "\n"
 		for _, field := range s.Fields {
 			if field.Default != nil {
-				value, _ := g.generateConstantValue(field.Type, field.Default, tab)
+				value, _ := g.generateConstantValue(field.Type, field.Default, tab, false)
 				contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
 			}
 		}

@@ -1335,12 +1335,12 @@ class oneWay_args implements thrift.TBase {
           break;
         case REQ:
           if (field.type == thrift.TType.MAP) {
-            thrift.TMap elem55 = iprot.readMapBegin();
+            thrift.TMap elem68 = iprot.readMapBegin();
             req = new Map<int, String>();
-            for(int elem57 = 0; elem57 < elem55.length; ++elem57) {
-              int elem58 = iprot.readI32();
-              String elem56 = iprot.readString();
-              req[elem58] = elem56;
+            for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
+              int elem71 = iprot.readI32();
+              String elem69 = iprot.readString();
+              req[elem71] = elem69;
             }
             iprot.readMapEnd();
           } else {
@@ -1370,9 +1370,9 @@ class oneWay_args implements thrift.TBase {
     if (this.req != null) {
       oprot.writeFieldBegin(_REQ_FIELD_DESC);
       oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, req.length));
-      for(var elem59 in req.keys) {
-        oprot.writeI32(elem59);
-        oprot.writeString(req[elem59]);
+      for(var elem72 in req.keys) {
+        oprot.writeI32(elem72);
+        oprot.writeString(req[elem72]);
       }
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
@@ -2309,11 +2309,11 @@ class underlying_types_test_args implements thrift.TBase {
       switch (field.id) {
         case LIST_TYPE:
           if (field.type == thrift.TType.LIST) {
-            thrift.TList elem60 = iprot.readListBegin();
+            thrift.TList elem73 = iprot.readListBegin();
             list_type = new List<int>();
-            for(int elem62 = 0; elem62 < elem60.length; ++elem62) {
-              int elem61 = iprot.readI64();
-              list_type.add(elem61);
+            for(int elem75 = 0; elem75 < elem73.length; ++elem75) {
+              int elem74 = iprot.readI64();
+              list_type.add(elem74);
             }
             iprot.readListEnd();
           } else {
@@ -2322,11 +2322,11 @@ class underlying_types_test_args implements thrift.TBase {
           break;
         case SET_TYPE:
           if (field.type == thrift.TType.SET) {
-            thrift.TSet elem63 = iprot.readSetBegin();
+            thrift.TSet elem76 = iprot.readSetBegin();
             set_type = new Set<int>();
-            for(int elem65 = 0; elem65 < elem63.length; ++elem65) {
-              int elem64 = iprot.readI64();
-              set_type.add(elem64);
+            for(int elem78 = 0; elem78 < elem76.length; ++elem78) {
+              int elem77 = iprot.readI64();
+              set_type.add(elem77);
             }
             iprot.readSetEnd();
           } else {
@@ -2353,8 +2353,8 @@ class underlying_types_test_args implements thrift.TBase {
     if (this.list_type != null) {
       oprot.writeFieldBegin(_LIST_TYPE_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, list_type.length));
-      for(var elem66 in list_type) {
-        oprot.writeI64(elem66);
+      for(var elem79 in list_type) {
+        oprot.writeI64(elem79);
       }
       oprot.writeListEnd();
       oprot.writeFieldEnd();
@@ -2362,8 +2362,8 @@ class underlying_types_test_args implements thrift.TBase {
     if (this.set_type != null) {
       oprot.writeFieldBegin(_SET_TYPE_FIELD_DESC);
       oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, set_type.length));
-      for(var elem67 in set_type) {
-        oprot.writeI64(elem67);
+      for(var elem80 in set_type) {
+        oprot.writeI64(elem80);
       }
       oprot.writeSetEnd();
       oprot.writeFieldEnd();
@@ -2497,11 +2497,11 @@ class underlying_types_test_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.LIST) {
-            thrift.TList elem68 = iprot.readListBegin();
+            thrift.TList elem81 = iprot.readListBegin();
             success = new List<int>();
-            for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
-              int elem69 = iprot.readI64();
-              success.add(elem69);
+            for(int elem83 = 0; elem83 < elem81.length; ++elem83) {
+              int elem82 = iprot.readI64();
+              success.add(elem82);
             }
             iprot.readListEnd();
           } else {
@@ -2528,8 +2528,8 @@ class underlying_types_test_result implements thrift.TBase {
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
       oprot.writeListBegin(new thrift.TList(thrift.TType.I64, success.length));
-      for(var elem71 in success) {
-        oprot.writeI64(elem71);
+      for(var elem84 in success) {
+        oprot.writeI64(elem84);
       }
       oprot.writeListEnd();
       oprot.writeFieldEnd();

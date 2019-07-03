@@ -149,6 +149,9 @@ struct EventWrapper {
     11: bool depr (deprecated="use something else"),
     12: binary deprBinary (deprecated="use something else"),
     13: list<bool> deprList (deprecated="use something else"),
+    14: optional list<Event> EventsDefault = []
+    15: optional map<id, Event> EventMapDefault = {}
+    16: optional set<Event> EventSetDefault = []
 }
 
 struct FooArgs {

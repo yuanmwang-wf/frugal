@@ -2203,16 +2203,16 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(NUM_FIELD_DESC);
-				Integer elem222 = struct.num;
-				if (elem222 == null) {
-					elem222 = 0;
+				Integer elem257 = struct.num;
+				if (elem257 == null) {
+					elem257 = 0;
 				}
-				oprot.writeI32(elem222);
+				oprot.writeI32(elem257);
 				oprot.writeFieldEnd();
 				if (struct.Str != null) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
-					String elem223 = struct.Str;
-					oprot.writeString(elem223);
+					String elem258 = struct.Str;
+					oprot.writeString(elem258);
 					oprot.writeFieldEnd();
 				}
 				if (struct.event != null) {
@@ -2249,15 +2249,15 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 3);
 				if (struct.isSetNum()) {
-					Integer elem224 = struct.num;
-					if (elem224 == null) {
-						elem224 = 0;
+					Integer elem259 = struct.num;
+					if (elem259 == null) {
+						elem259 = 0;
 					}
-					oprot.writeI32(elem224);
+					oprot.writeI32(elem259);
 				}
 				if (struct.isSetStr()) {
-					String elem225 = struct.Str;
-					oprot.writeString(elem225);
+					String elem260 = struct.Str;
+					oprot.writeString(elem260);
 				}
 				if (struct.isSetEvent()) {
 					struct.event.write(oprot);
@@ -2782,11 +2782,11 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Long elem226 = struct.success;
-					if (elem226 == null) {
-						elem226 = 0L;
+					Long elem261 = struct.success;
+					if (elem261 == null) {
+						elem261 = 0L;
 					}
-					oprot.writeI64(elem226);
+					oprot.writeI64(elem261);
 					oprot.writeFieldEnd();
 				}
 				if (struct.awe != null) {
@@ -2828,11 +2828,11 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 3);
 				if (struct.isSetSuccess()) {
-					Long elem227 = struct.success;
-					if (elem227 == null) {
-						elem227 = 0L;
+					Long elem262 = struct.success;
+					if (elem262 == null) {
+						elem262 = 0L;
 					}
-					oprot.writeI64(elem227);
+					oprot.writeI64(elem262);
 				}
 				if (struct.isSetAwe()) {
 					struct.awe.write(oprot);
@@ -2963,10 +2963,10 @@ public class FFoo {
 			}
 			if (other.isSetReq()) {
 				this.req = new HashMap<Integer,String>(other.req.size());
-				for (Map.Entry<Integer, String> elem228 : other.req.entrySet()) {
-					Integer elem230 = elem228.getKey();
-					String elem229 = elem228.getValue();
-					this.req.put(elem230, elem229);
+				for (Map.Entry<Integer, String> elem263 : other.req.entrySet()) {
+					Integer elem265 = elem263.getKey();
+					String elem264 = elem263.getValue();
+					this.req.put(elem265, elem264);
 				}
 			}
 		}
@@ -3257,12 +3257,12 @@ public class FFoo {
 							break;
 						case 2: // REQ
 							if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-								org.apache.thrift.protocol.TMap elem231 = iprot.readMapBegin();
-								struct.req = new HashMap<Integer,String>(2*elem231.size);
-								for (int elem232 = 0; elem232 < elem231.size; ++elem232) {
-									Integer elem234 = iprot.readI32();
-									String elem233 = iprot.readString();
-									struct.req.put(elem234, elem233);
+								org.apache.thrift.protocol.TMap elem266 = iprot.readMapBegin();
+								struct.req = new HashMap<Integer,String>(2*elem266.size);
+								for (int elem267 = 0; elem267 < elem266.size; ++elem267) {
+									Integer elem269 = iprot.readI32();
+									String elem268 = iprot.readString();
+									struct.req.put(elem269, elem268);
 								}
 								iprot.readMapEnd();
 								struct.setReqIsSet(true);
@@ -3286,23 +3286,23 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(ID_FIELD_DESC);
-				Long elem235 = struct.id;
-				if (elem235 == null) {
-					elem235 = 0L;
+				Long elem270 = struct.id;
+				if (elem270 == null) {
+					elem270 = 0L;
 				}
-				oprot.writeI64(elem235);
+				oprot.writeI64(elem270);
 				oprot.writeFieldEnd();
 				if (struct.req != null) {
 					oprot.writeFieldBegin(REQ_FIELD_DESC);
 					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, struct.req.size()));
-					for (Map.Entry<Integer, String> elem236 : struct.req.entrySet()) {
-						Integer elem237 = elem236.getKey();
-						if (elem237 == null) {
-							elem237 = 0;
+					for (Map.Entry<Integer, String> elem271 : struct.req.entrySet()) {
+						Integer elem272 = elem271.getKey();
+						if (elem272 == null) {
+							elem272 = 0;
 						}
-						oprot.writeI32(elem237);
-						String elem238 = elem236.getValue();
-						oprot.writeString(elem238);
+						oprot.writeI32(elem272);
+						String elem273 = elem271.getValue();
+						oprot.writeString(elem273);
 					}
 					oprot.writeMapEnd();
 					oprot.writeFieldEnd();
@@ -3333,22 +3333,22 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetId()) {
-					Long elem239 = struct.id;
-					if (elem239 == null) {
-						elem239 = 0L;
+					Long elem274 = struct.id;
+					if (elem274 == null) {
+						elem274 = 0L;
 					}
-					oprot.writeI64(elem239);
+					oprot.writeI64(elem274);
 				}
 				if (struct.isSetReq()) {
 					oprot.writeI32(struct.req.size());
-					for (Map.Entry<Integer, String> elem240 : struct.req.entrySet()) {
-						Integer elem241 = elem240.getKey();
-						if (elem241 == null) {
-							elem241 = 0;
+					for (Map.Entry<Integer, String> elem275 : struct.req.entrySet()) {
+						Integer elem276 = elem275.getKey();
+						if (elem276 == null) {
+							elem276 = 0;
 						}
-						oprot.writeI32(elem241);
-						String elem242 = elem240.getValue();
-						oprot.writeString(elem242);
+						oprot.writeI32(elem276);
+						String elem277 = elem275.getValue();
+						oprot.writeString(elem277);
 					}
 				}
 			}
@@ -3362,12 +3362,12 @@ public class FFoo {
 					struct.setIdIsSet(true);
 				}
 				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TMap elem243 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-					struct.req = new HashMap<Integer,String>(2*elem243.size);
-					for (int elem244 = 0; elem244 < elem243.size; ++elem244) {
-						Integer elem246 = iprot.readI32();
-						String elem245 = iprot.readString();
-						struct.req.put(elem246, elem245);
+					org.apache.thrift.protocol.TMap elem278 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
+					struct.req = new HashMap<Integer,String>(2*elem278.size);
+					for (int elem279 = 0; elem279 < elem278.size; ++elem279) {
+						Integer elem281 = iprot.readI32();
+						String elem280 = iprot.readString();
+						struct.req.put(elem281, elem280);
 					}
 					struct.setReqIsSet(true);
 				}
@@ -3785,14 +3785,14 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.bin != null) {
 					oprot.writeFieldBegin(BIN_FIELD_DESC);
-					java.nio.ByteBuffer elem247 = struct.bin;
-					oprot.writeBinary(elem247);
+					java.nio.ByteBuffer elem282 = struct.bin;
+					oprot.writeBinary(elem282);
 					oprot.writeFieldEnd();
 				}
 				if (struct.Str != null) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
-					String elem248 = struct.Str;
-					oprot.writeString(elem248);
+					String elem283 = struct.Str;
+					oprot.writeString(elem283);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -3821,12 +3821,12 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetBin()) {
-					java.nio.ByteBuffer elem249 = struct.bin;
-					oprot.writeBinary(elem249);
+					java.nio.ByteBuffer elem284 = struct.bin;
+					oprot.writeBinary(elem284);
 				}
 				if (struct.isSetStr()) {
-					String elem250 = struct.Str;
-					oprot.writeString(elem250);
+					String elem285 = struct.Str;
+					oprot.writeString(elem285);
 				}
 			}
 
@@ -4260,8 +4260,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					java.nio.ByteBuffer elem251 = struct.success;
-					oprot.writeBinary(elem251);
+					java.nio.ByteBuffer elem286 = struct.success;
+					oprot.writeBinary(elem286);
 					oprot.writeFieldEnd();
 				}
 				if (struct.api != null) {
@@ -4295,8 +4295,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetSuccess()) {
-					java.nio.ByteBuffer elem252 = struct.success;
-					oprot.writeBinary(elem252);
+					java.nio.ByteBuffer elem287 = struct.success;
+					oprot.writeBinary(elem287);
 				}
 				if (struct.isSetApi()) {
 					struct.api.write(oprot);
@@ -4811,25 +4811,25 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(OPT_NUM_FIELD_DESC);
-				Integer elem253 = struct.opt_num;
-				if (elem253 == null) {
-					elem253 = 0;
+				Integer elem288 = struct.opt_num;
+				if (elem288 == null) {
+					elem288 = 0;
 				}
-				oprot.writeI32(elem253);
+				oprot.writeI32(elem288);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(DEFAULT_NUM_FIELD_DESC);
-				Integer elem254 = struct.default_num;
-				if (elem254 == null) {
-					elem254 = 0;
+				Integer elem289 = struct.default_num;
+				if (elem289 == null) {
+					elem289 = 0;
 				}
-				oprot.writeI32(elem254);
+				oprot.writeI32(elem289);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(REQ_NUM_FIELD_DESC);
-				Integer elem255 = struct.req_num;
-				if (elem255 == null) {
-					elem255 = 0;
+				Integer elem290 = struct.req_num;
+				if (elem290 == null) {
+					elem290 = 0;
 				}
-				oprot.writeI32(elem255);
+				oprot.writeI32(elem290);
 				oprot.writeFieldEnd();
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
@@ -4848,11 +4848,11 @@ public class FFoo {
 			@Override
 			public void write(org.apache.thrift.protocol.TProtocol prot, param_modifiers_args struct) throws org.apache.thrift.TException {
 				TTupleProtocol oprot = (TTupleProtocol) prot;
-				Integer elem256 = struct.req_num;
-				if (elem256 == null) {
-					elem256 = 0;
+				Integer elem291 = struct.req_num;
+				if (elem291 == null) {
+					elem291 = 0;
 				}
-				oprot.writeI32(elem256);
+				oprot.writeI32(elem291);
 				BitSet optionals = new BitSet();
 				if (struct.isSetOpt_num()) {
 					optionals.set(0);
@@ -4862,18 +4862,18 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetOpt_num()) {
-					Integer elem257 = struct.opt_num;
-					if (elem257 == null) {
-						elem257 = 0;
+					Integer elem292 = struct.opt_num;
+					if (elem292 == null) {
+						elem292 = 0;
 					}
-					oprot.writeI32(elem257);
+					oprot.writeI32(elem292);
 				}
 				if (struct.isSetDefault_num()) {
-					Integer elem258 = struct.default_num;
-					if (elem258 == null) {
-						elem258 = 0;
+					Integer elem293 = struct.default_num;
+					if (elem293 == null) {
+						elem293 = 0;
 					}
-					oprot.writeI32(elem258);
+					oprot.writeI32(elem293);
 				}
 			}
 
@@ -5206,11 +5206,11 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Long elem259 = struct.success;
-					if (elem259 == null) {
-						elem259 = 0L;
+					Long elem294 = struct.success;
+					if (elem294 == null) {
+						elem294 = 0L;
 					}
-					oprot.writeI64(elem259);
+					oprot.writeI64(elem294);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -5236,11 +5236,11 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					Long elem260 = struct.success;
-					if (elem260 == null) {
-						elem260 = 0L;
+					Long elem295 = struct.success;
+					if (elem295 == null) {
+						elem295 = 0L;
 					}
-					oprot.writeI64(elem260);
+					oprot.writeI64(elem295);
 				}
 			}
 
@@ -5352,16 +5352,16 @@ public class FFoo {
 		public underlying_types_test_args(underlying_types_test_args other) {
 			if (other.isSetList_type()) {
 				this.list_type = new ArrayList<Long>(other.list_type.size());
-				for (Long elem261 : other.list_type) {
-					Long elem262 = elem261;
-					this.list_type.add(elem262);
+				for (Long elem296 : other.list_type) {
+					Long elem297 = elem296;
+					this.list_type.add(elem297);
 				}
 			}
 			if (other.isSetSet_type()) {
 				this.set_type = new HashSet<Long>(other.set_type.size());
-				for (Long elem263 : other.set_type) {
-					Long elem264 = elem263;
-					this.set_type.add(elem264);
+				for (Long elem298 : other.set_type) {
+					Long elem299 = elem298;
+					this.set_type.add(elem299);
 				}
 			}
 		}
@@ -5663,11 +5663,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 1: // LIST_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem265 = iprot.readListBegin();
-								struct.list_type = new ArrayList<Long>(elem265.size);
-								for (int elem266 = 0; elem266 < elem265.size; ++elem266) {
-									Long elem267 = iprot.readI64();
-									struct.list_type.add(elem267);
+								org.apache.thrift.protocol.TList elem300 = iprot.readListBegin();
+								struct.list_type = new ArrayList<Long>(elem300.size);
+								for (int elem301 = 0; elem301 < elem300.size; ++elem301) {
+									Long elem302 = iprot.readI64();
+									struct.list_type.add(elem302);
 								}
 								iprot.readListEnd();
 								struct.setList_typeIsSet(true);
@@ -5677,11 +5677,11 @@ public class FFoo {
 							break;
 						case 2: // SET_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.SET) {
-								org.apache.thrift.protocol.TSet elem268 = iprot.readSetBegin();
-								struct.set_type = new HashSet<Long>(2*elem268.size);
-								for (int elem269 = 0; elem269 < elem268.size; ++elem269) {
-									Long elem270 = iprot.readI64();
-									struct.set_type.add(elem270);
+								org.apache.thrift.protocol.TSet elem303 = iprot.readSetBegin();
+								struct.set_type = new HashSet<Long>(2*elem303.size);
+								for (int elem304 = 0; elem304 < elem303.size; ++elem304) {
+									Long elem305 = iprot.readI64();
+									struct.set_type.add(elem305);
 								}
 								iprot.readSetEnd();
 								struct.setSet_typeIsSet(true);
@@ -5707,12 +5707,12 @@ public class FFoo {
 				if (struct.list_type != null) {
 					oprot.writeFieldBegin(LIST_TYPE_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.list_type.size()));
-					for (Long elem271 : struct.list_type) {
-						Long elem272 = elem271;
-						if (elem272 == null) {
-							elem272 = 0L;
+					for (Long elem306 : struct.list_type) {
+						Long elem307 = elem306;
+						if (elem307 == null) {
+							elem307 = 0L;
 						}
-						oprot.writeI64(elem272);
+						oprot.writeI64(elem307);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -5720,12 +5720,12 @@ public class FFoo {
 				if (struct.set_type != null) {
 					oprot.writeFieldBegin(SET_TYPE_FIELD_DESC);
 					oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, struct.set_type.size()));
-					for (Long elem273 : struct.set_type) {
-						Long elem274 = elem273;
-						if (elem274 == null) {
-							elem274 = 0L;
+					for (Long elem308 : struct.set_type) {
+						Long elem309 = elem308;
+						if (elem309 == null) {
+							elem309 = 0L;
 						}
-						oprot.writeI64(elem274);
+						oprot.writeI64(elem309);
 					}
 					oprot.writeSetEnd();
 					oprot.writeFieldEnd();
@@ -5757,22 +5757,22 @@ public class FFoo {
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetList_type()) {
 					oprot.writeI32(struct.list_type.size());
-					for (Long elem275 : struct.list_type) {
-						Long elem276 = elem275;
-						if (elem276 == null) {
-							elem276 = 0L;
+					for (Long elem310 : struct.list_type) {
+						Long elem311 = elem310;
+						if (elem311 == null) {
+							elem311 = 0L;
 						}
-						oprot.writeI64(elem276);
+						oprot.writeI64(elem311);
 					}
 				}
 				if (struct.isSetSet_type()) {
 					oprot.writeI32(struct.set_type.size());
-					for (Long elem277 : struct.set_type) {
-						Long elem278 = elem277;
-						if (elem278 == null) {
-							elem278 = 0L;
+					for (Long elem312 : struct.set_type) {
+						Long elem313 = elem312;
+						if (elem313 == null) {
+							elem313 = 0L;
 						}
-						oprot.writeI64(elem278);
+						oprot.writeI64(elem313);
 					}
 				}
 			}
@@ -5782,20 +5782,20 @@ public class FFoo {
 				TTupleProtocol iprot = (TTupleProtocol) prot;
 				BitSet incoming = iprot.readBitSet(2);
 				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem279 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.list_type = new ArrayList<Long>(elem279.size);
-					for (int elem280 = 0; elem280 < elem279.size; ++elem280) {
-						Long elem281 = iprot.readI64();
-						struct.list_type.add(elem281);
+					org.apache.thrift.protocol.TList elem314 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.list_type = new ArrayList<Long>(elem314.size);
+					for (int elem315 = 0; elem315 < elem314.size; ++elem315) {
+						Long elem316 = iprot.readI64();
+						struct.list_type.add(elem316);
 					}
 					struct.setList_typeIsSet(true);
 				}
 				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TSet elem282 = new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.set_type = new HashSet<Long>(2*elem282.size);
-					for (int elem283 = 0; elem283 < elem282.size; ++elem283) {
-						Long elem284 = iprot.readI64();
-						struct.set_type.add(elem284);
+					org.apache.thrift.protocol.TSet elem317 = new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.set_type = new HashSet<Long>(2*elem317.size);
+					for (int elem318 = 0; elem318 < elem317.size; ++elem318) {
+						Long elem319 = iprot.readI64();
+						struct.set_type.add(elem319);
 					}
 					struct.setSet_typeIsSet(true);
 				}
@@ -5892,9 +5892,9 @@ public class FFoo {
 		public underlying_types_test_result(underlying_types_test_result other) {
 			if (other.isSetSuccess()) {
 				this.success = new ArrayList<Long>(other.success.size());
-				for (Long elem285 : other.success) {
-					Long elem286 = elem285;
-					this.success.add(elem286);
+				for (Long elem320 : other.success) {
+					Long elem321 = elem320;
+					this.success.add(elem321);
 				}
 			}
 		}
@@ -6110,11 +6110,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 0: // SUCCESS
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem287 = iprot.readListBegin();
-								struct.success = new ArrayList<Long>(elem287.size);
-								for (int elem288 = 0; elem288 < elem287.size; ++elem288) {
-									Long elem289 = iprot.readI64();
-									struct.success.add(elem289);
+								org.apache.thrift.protocol.TList elem322 = iprot.readListBegin();
+								struct.success = new ArrayList<Long>(elem322.size);
+								for (int elem323 = 0; elem323 < elem322.size; ++elem323) {
+									Long elem324 = iprot.readI64();
+									struct.success.add(elem324);
 								}
 								iprot.readListEnd();
 								struct.setSuccessIsSet(true);
@@ -6140,12 +6140,12 @@ public class FFoo {
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.success.size()));
-					for (Long elem290 : struct.success) {
-						Long elem291 = elem290;
-						if (elem291 == null) {
-							elem291 = 0L;
+					for (Long elem325 : struct.success) {
+						Long elem326 = elem325;
+						if (elem326 == null) {
+							elem326 = 0L;
 						}
-						oprot.writeI64(elem291);
+						oprot.writeI64(elem326);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -6174,12 +6174,12 @@ public class FFoo {
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
 					oprot.writeI32(struct.success.size());
-					for (Long elem292 : struct.success) {
-						Long elem293 = elem292;
-						if (elem293 == null) {
-							elem293 = 0L;
+					for (Long elem327 : struct.success) {
+						Long elem328 = elem327;
+						if (elem328 == null) {
+							elem328 = 0L;
 						}
-						oprot.writeI64(elem293);
+						oprot.writeI64(elem328);
 					}
 				}
 			}
@@ -6189,11 +6189,11 @@ public class FFoo {
 				TTupleProtocol iprot = (TTupleProtocol) prot;
 				BitSet incoming = iprot.readBitSet(1);
 				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem294 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.success = new ArrayList<Long>(elem294.size);
-					for (int elem295 = 0; elem295 < elem294.size; ++elem295) {
-						Long elem296 = iprot.readI64();
-						struct.success.add(elem296);
+					org.apache.thrift.protocol.TList elem329 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
+					struct.success = new ArrayList<Long>(elem329.size);
+					for (int elem330 = 0; elem330 < elem329.size; ++elem330) {
+						Long elem331 = iprot.readI64();
+						struct.success.add(elem331);
 					}
 					struct.setSuccessIsSet(true);
 				}
@@ -7356,11 +7356,11 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					Integer elem297 = struct.success;
-					if (elem297 == null) {
-						elem297 = 0;
+					Integer elem332 = struct.success;
+					if (elem332 == null) {
+						elem332 = 0;
 					}
-					oprot.writeI32(elem297);
+					oprot.writeI32(elem332);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -7386,11 +7386,11 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					Integer elem298 = struct.success;
-					if (elem298 == null) {
-						elem298 = 0;
+					Integer elem333 = struct.success;
+					if (elem333 == null) {
+						elem333 = 0;
 					}
-					oprot.writeI32(elem298);
+					oprot.writeI32(elem333);
 				}
 			}
 
@@ -8433,8 +8433,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.newMessage != null) {
 					oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
-					String elem299 = struct.newMessage;
-					oprot.writeString(elem299);
+					String elem334 = struct.newMessage;
+					oprot.writeString(elem334);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -8460,8 +8460,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetNewMessage()) {
-					String elem300 = struct.newMessage;
-					oprot.writeString(elem300);
+					String elem335 = struct.newMessage;
+					oprot.writeString(elem335);
 				}
 			}
 
@@ -8788,8 +8788,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem301 = struct.success;
-					oprot.writeString(elem301);
+					String elem336 = struct.success;
+					oprot.writeString(elem336);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -8815,8 +8815,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem302 = struct.success;
-					oprot.writeString(elem302);
+					String elem337 = struct.success;
+					oprot.writeString(elem337);
 				}
 			}
 
@@ -9143,8 +9143,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.messageArgs != null) {
 					oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
-					String elem303 = struct.messageArgs;
-					oprot.writeString(elem303);
+					String elem338 = struct.messageArgs;
+					oprot.writeString(elem338);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9170,8 +9170,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetMessageArgs()) {
-					String elem304 = struct.messageArgs;
-					oprot.writeString(elem304);
+					String elem339 = struct.messageArgs;
+					oprot.writeString(elem339);
 				}
 			}
 
@@ -9498,8 +9498,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem305 = struct.success;
-					oprot.writeString(elem305);
+					String elem340 = struct.success;
+					oprot.writeString(elem340);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9525,8 +9525,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem306 = struct.success;
-					oprot.writeString(elem306);
+					String elem341 = struct.success;
+					oprot.writeString(elem341);
 				}
 			}
 
@@ -9853,8 +9853,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.messageResult != null) {
 					oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
-					String elem307 = struct.messageResult;
-					oprot.writeString(elem307);
+					String elem342 = struct.messageResult;
+					oprot.writeString(elem342);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -9880,8 +9880,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetMessageResult()) {
-					String elem308 = struct.messageResult;
-					oprot.writeString(elem308);
+					String elem343 = struct.messageResult;
+					oprot.writeString(elem343);
 				}
 			}
 
@@ -10208,8 +10208,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.success != null) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem309 = struct.success;
-					oprot.writeString(elem309);
+					String elem344 = struct.success;
+					oprot.writeString(elem344);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -10235,8 +10235,8 @@ public class FFoo {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					String elem310 = struct.success;
-					oprot.writeString(elem310);
+					String elem345 = struct.success;
+					oprot.writeString(elem345);
 				}
 			}
 

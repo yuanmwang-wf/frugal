@@ -16,23 +16,6 @@ part of frugal.src.frugal;
 /// A framed implementation of [TTransport]. Has stream for consuming
 /// entire frames. Disallows direct reads.
 class _TFramedTransport extends TTransport with Disposable {
-  @override
-  String get disposableTypeName => '_TFramedTransport';
-
-  final Logger log = new Logger('frugal.transport._TFramedTransport');
-  static const int _headerByteCount = 4;
-
-  final TSocket socket;
-  final List<int> _writeBuffer = [];
-  final List<int> _readBuffer = [];
-  final List<int> _readHeaderBytes = [];
-  int _frameSize;
-  bool _isOpen = false;
-
-  StreamController<_FrameWrapper> _frameStream = new StreamController();
-  final Uint8List _headerBytes = new Uint8List(_headerByteCount);
-  StreamSubscription _messageSub;
-
   /// Instantiate new [TFramedTransport] for the given [TSocket].
   /// Add a listener to the socket state that opens/closes the
   /// transport in response to socket state changes.
@@ -57,6 +40,23 @@ class _TFramedTransport extends TTransport with Disposable {
 
     manageStreamController(_frameStream);
   }
+
+  @override
+  String get disposableTypeName => '_TFramedTransport';
+
+  final Logger log = new Logger('frugal.transport._TFramedTransport');
+  static const int _headerByteCount = 4;
+
+  final TSocket socket;
+  final List<int> _writeBuffer = [];
+  final List<int> _readBuffer = [];
+  final List<int> _readHeaderBytes = [];
+  int _frameSize;
+  bool _isOpen = false;
+
+  StreamController<_FrameWrapper> _frameStream = new StreamController();
+  final Uint8List _headerBytes = new Uint8List(_headerByteCount);
+  StreamSubscription _messageSub;
 
   void _reset({bool isOpen: false}) {
     _isOpen = isOpen;

@@ -87,7 +87,8 @@ func NewFProtocolFactory(protoFactory thrift.TProtocolFactory) *FProtocolFactory
 // GetProtocol returns a new FProtocol instance using the given TTransport.
 func (f *FProtocolFactory) GetProtocol(tr thrift.TTransport) *FProtocol {
 	return &FProtocol{
-		TProtocol: f.protoFactory.GetProtocol(tr),
+		TProtocol:           f.protoFactory.GetProtocol(tr),
+		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 }
 

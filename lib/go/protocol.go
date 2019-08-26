@@ -87,7 +87,8 @@ func NewFProtocolFactory(protoFactory thrift.TProtocolFactory) *FProtocolFactory
 // GetProtocol returns a new FProtocol instance using the given TTransport.
 func (f *FProtocolFactory) GetProtocol(tr thrift.TTransport) *FProtocol {
 	return &FProtocol{
-		TProtocol: f.protoFactory.GetProtocol(tr),
+		TProtocol:           f.protoFactory.GetProtocol(tr),
+		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 }
 
@@ -118,8 +119,9 @@ func (f *FProtocol) ReadRequestHeader() (FContext, error) {
 	}
 
 	ctx := &FContextImpl{
-		requestHeaders:  make(map[string]string),
-		responseHeaders: make(map[string]string),
+		requestHeaders:      make(map[string]string),
+		responseHeaders:     make(map[string]string),
+		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
 	for name, value := range headers {

@@ -254,7 +254,7 @@ func newClientAndServer(t *testing.T, isTTransport bool) (*fNatsTransport, *fNat
 	mockTProtocolFactory.On("GetProtocol", mock.AnythingOfType("*thrift.TMemoryBuffer")).Return(proto).Once()
 	mockTProtocolFactory.On("GetProtocol", mock.AnythingOfType("*frugal.TMemoryOutputBuffer")).Return(proto).Once()
 	inputFproto := &FProtocol{TProtocol: proto, ephemeralProperties: make(map[interface{}]interface{})}
-	outputPproto := &FProtocol{TProtocol: proto}
+	outputPproto := &FProtocol{TProtocol: proto, ephemeralProperties: make(map[interface{}]interface{})}
 	mockProcessor.On("Process", inputFproto, outputPproto).Return(nil)
 
 	go func() {

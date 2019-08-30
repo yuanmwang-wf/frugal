@@ -109,7 +109,7 @@ public class FFoo {
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
 			super(provider, middleware);
 			Iface client = new InternalClient(provider);
-			List<ServiceMiddleware> combined = Arrays.asList(middleware);
+			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
 			proxy = InvocationHandler.composeMiddleware(client, Iface.class, middleware);

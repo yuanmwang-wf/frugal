@@ -79,7 +79,7 @@ public class EventsPublisher {
 
 		public Client(FScopeProvider provider, ServiceMiddleware... middleware) {
 			target = new InternalEventsPublisher(provider);
-			List<ServiceMiddleware> combined = Arrays.asList(middleware);
+			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
 			proxy = InvocationHandler.composeMiddleware(target, Iface.class, middleware);

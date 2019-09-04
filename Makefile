@@ -12,7 +12,7 @@ unit-cli:
 	go test ./test -race
 
 unit-go:
-	cd lib/go && glide install && go test -v -race 
+	cd lib/go && GO111MODULE=on go mod vendor && go test -v -race 
 
 unit-java:
 	mvn -f lib/java/pom.xml checkstyle:check clean verify

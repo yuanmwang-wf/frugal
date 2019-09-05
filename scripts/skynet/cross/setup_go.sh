@@ -4,10 +4,7 @@ set -ex
 
 export FRUGAL_HOME=$GOPATH/src/github.com/Workiva/frugal
 
-if [ ! -e "$FRUGAL_HOME/lib/go/glide.lock" ]; then
-    cd $FRUGAL_HOME/lib/go && glide install
-fi
-
+cd $FRUGAL_HOME/lib/go && GO111MODULE=on go mod vendor
 cd $FRUGAL_HOME
 
 # setup a vendor folder with frugals dependencies and frugal

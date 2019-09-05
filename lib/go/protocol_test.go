@@ -52,7 +52,7 @@ var (
 func TestReadRequestHeaderMissingOpID(t *testing.T) {
 	assert := assert.New(t)
 	transport := &thrift.TMemoryBuffer{Buffer: bytes.NewBuffer(basicFrame)}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 
 	expectedErr := thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, errors.New("frugal: request missing op id"))
 	_, err := proto.ReadRequestHeader()
@@ -64,7 +64,7 @@ func TestReadRequestHeaderMissingOpID(t *testing.T) {
 func TestReadRequestHeader(t *testing.T) {
 	assert := assert.New(t)
 	transport := &thrift.TMemoryBuffer{Buffer: bytes.NewBuffer(frugalFrame)}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 
 	ctx, err := proto.ReadRequestHeader()
 	assert.Nil(err)
@@ -85,7 +85,7 @@ func TestReadRequestHeader(t *testing.T) {
 func TestReadResponseHeader(t *testing.T) {
 	assert := assert.New(t)
 	transport := &thrift.TMemoryBuffer{Buffer: bytes.NewBuffer(basicFrame)}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 
 	ctx := NewFContext("")
 	proto.ReadResponseHeader(ctx)
@@ -100,7 +100,7 @@ func TestWriteHeaderErroredWrite(t *testing.T) {
 	mft := &mockFTransport{}
 	writeErr := errors.New("write failed")
 	mft.On("Write", basicFrame).Return(0, writeErr)
-	proto := &FProtocol{tProtocolFactory.GetProtocol(mft)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(mft)}
 	expectedErr := thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN,
 		fmt.Sprintf("frugal: error writing protocol headers in writeHeader: %s", writeErr))
 	assert.Equal(expectedErr, proto.writeHeader(basicHeaders))
@@ -113,7 +113,7 @@ func TestWriteHeaderBadWrite(t *testing.T) {
 	assert := assert.New(t)
 	mft := &mockFTransport{}
 	mft.On("Write", basicFrame).Return(0, nil)
-	proto := &FProtocol{tProtocolFactory.GetProtocol(mft)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(mft)}
 	expectedErr := thrift.NewTTransportException(thrift.UNKNOWN_PROTOCOL_EXCEPTION, "frugal: failed to write complete protocol headers")
 	assert.Equal(expectedErr, proto.writeHeader(basicHeaders))
 	mft.AssertExpectations(t)
@@ -124,7 +124,7 @@ func TestWriteHeader(t *testing.T) {
 	assert := assert.New(t)
 	mft := &mockFTransport{}
 	mft.On("Write", basicFrame).Return(len(basicFrame), nil)
-	proto := &FProtocol{tProtocolFactory.GetProtocol(mft)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(mft)}
 	assert.Nil(proto.writeHeader(basicHeaders))
 	mft.AssertExpectations(t)
 }
@@ -134,7 +134,7 @@ func TestWriteHeader(t *testing.T) {
 func TestWriteReadRequestHeader(t *testing.T) {
 	assert := assert.New(t)
 	transport := &thrift.TMemoryBuffer{Buffer: &bytes.Buffer{}}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 	ctx := NewFContext("123")
 	origOpID, err := getOpID(ctx)
 	assert.Nil(err)
@@ -170,7 +170,7 @@ func TestWriteReadRequestHeader(t *testing.T) {
 func TestWriteReadResponseHeader(t *testing.T) {
 	assert := assert.New(t)
 	transport := &thrift.TMemoryBuffer{Buffer: &bytes.Buffer{}}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 	ctx := NewFContext("123")
 	origOpID, err := getOpID(ctx)
 	assert.Nil(err)

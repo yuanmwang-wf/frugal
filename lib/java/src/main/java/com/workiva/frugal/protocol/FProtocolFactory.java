@@ -34,5 +34,4 @@ public class FProtocolFactory {
     public FProtocol getProtocol(TTransport transport) {
         return new FProtocol(tProtocolFactory.getProtocol(transport));
     }
-
 }

@@ -88,7 +88,7 @@ public class FNatsTransportTest {
         transport.setClosedCallback(mockCallback);
         transport.close();
 
-        verify(mockDispatcher).unsubscribe(subject);
+        verify(conn).closeDispatcher(mockDispatcher);
         verify(mockCallback).onClose(null);
         verify(mockQueue).put(mockFrame);
     }

@@ -193,8 +193,8 @@ func (g *Generator) addToPubspec(dir string) error {
 	pubFilePath := filepath.Join(dir, "pubspec.yaml")
 
 	deps := map[interface{}]interface{}{
-		"dart2_constant":"^1.0.0",
-		"logging": "^0.11.2",
+		"dart2_constant": "^1.0.0",
+		"logging":        "^0.11.2",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.7",
@@ -404,43 +404,48 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 		if constant.Comment != nil {
 			contents += g.generateDocComment(constant.Comment, tab)
 		}
-		value := g.generateConstantValue(constant.Type, constant.Value, "")
-		contents += fmt.Sprintf(tab+"static final %s %s = %s;\n",
-			g.getDartTypeFromThriftType(constant.Type), constant.Name, value)
+		value, valueConst := g.generateConstantValue(constant.Type, constant.Value, "", true)
+		immutableKeyword := "final"
+		if valueConst {
+			immutableKeyword = "const"
+		}
+		contents += fmt.Sprintf(tab+"static %s %s %s = %s;\n",
+			immutableKeyword, g.getDartTypeFromThriftType(constant.Type), constant.Name, value)
 	}
 	contents += "}\n"
 	_, err = file.WriteString(contents)
 	return err
 }
 
-func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind string) string {
+func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind string, asConst bool) (result string, isConst bool) {
 	underlyingType := g.Frugal.UnderlyingType(t)
 
 	// If the value being referenced is of type Identifier, it's referencing
 	// another constant.
+	// Pessimistically assume the value is incompatible with the const keyword.
 	identifier, ok := value.(parser.Identifier)
 	if ok {
 		idCtx := g.Frugal.ContextFromIdentifier(identifier)
 		switch idCtx.Type {
 		case parser.LocalConstant:
 			return fmt.Sprintf("t_%s.%sConstants.%s", toLibraryName(g.getNamespaceOrName()),
-				snakeToCamel(g.getLibraryName()), idCtx.Constant.Name)
+				snakeToCamel(g.getLibraryName()), idCtx.Constant.Name), false
 		case parser.LocalEnum:
 			return fmt.Sprintf("t_%s.%s.%s", toLibraryName(g.getNamespaceOrName()),
-				idCtx.Enum.Name, idCtx.EnumValue.Name)
+				idCtx.Enum.Name, idCtx.EnumValue.Name), false
 		case parser.IncludeConstant:
 			include := idCtx.Include.Name
 			if namespace := g.Frugal.NamespaceForInclude(include, lang); namespace != nil {
 				include = namespace.Value
 			}
 			nsLibName := toLibraryName(include)
-			return fmt.Sprintf("t_%s.%sConstants.%s", nsLibName, snakeToCamel(nsLibName), idCtx.Constant.Name)
+			return fmt.Sprintf("t_%s.%sConstants.%s", nsLibName, snakeToCamel(nsLibName), idCtx.Constant.Name), false
 		case parser.IncludeEnum:
 			include := idCtx.Include.Name
 			if namespace := g.Frugal.NamespaceForInclude(include, lang); namespace != nil {
 				include = namespace.Value
 			}
-			return fmt.Sprintf("t_%s.%s.%s", toLibraryName(include), idCtx.Enum.Name, idCtx.EnumValue.Name)
+			return fmt.Sprintf("t_%s.%s.%s", toLibraryName(include), idCtx.Enum.Name, idCtx.EnumValue.Name), false
 		default:
 			panic(fmt.Sprintf("The Identifier %s has unexpected type %d", identifier, idCtx.Type))
 		}
@@ -449,38 +454,52 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 	if underlyingType.IsPrimitive() || underlyingType.IsContainer() {
 		switch underlyingType.Name {
 		case "bool", "i8", "byte", "i16", "i32", "i64", "double":
-			return fmt.Sprintf("%v", value)
+			return fmt.Sprintf("%v", value), true
 		case "string":
-			return fmt.Sprintf("%s", strconv.Quote(value.(string)))
+			return fmt.Sprintf("%s", strconv.Quote(value.(string))), true
 		case "binary":
-			return fmt.Sprintf("new Uint8List.fromList(utf8.encode('%s'))", value)
+			return fmt.Sprintf("new Uint8List.fromList(utf8.encode('%s'))", value), false
 		case "list", "set":
 			contents := ""
+			var valuesConst bool
 			if underlyingType.Name == "set" {
-				contents += fmt.Sprintf("new Set<%s>.from(", underlyingType.ValueType)
+				contents += fmt.Sprintf("new Set<%s>.from(",
+					g.getDartTypeFromThriftType(underlyingType.ValueType))
+				valuesConst = false
+			} else {
+				valuesConst = asConst
 			}
 			contents += "[\n"
 			for _, v := range value.([]interface{}) {
-				val := g.generateConstantValue(underlyingType.ValueType, v, ind+tab)
+				val, valConst := g.generateConstantValue(underlyingType.ValueType, v, ind+tab, asConst)
 				contents += fmt.Sprintf(tabtab+ind+"%s,\n", val)
+				valuesConst = valuesConst && valConst
 			}
 			contents += tab + ind + "]"
 			if underlyingType.Name == "set" {
 				contents += ")"
 			}
-			return contents
+			if valuesConst {
+				contents = "const " + contents
+			}
+			return contents, valuesConst
 		case "map":
 			contents := "{\n"
+			kvsConst := asConst
 			for _, pair := range value.([]parser.KeyValue) {
-				key := g.generateConstantValue(underlyingType.KeyType, pair.Key, ind+tab)
-				val := g.generateConstantValue(underlyingType.ValueType, pair.Value, ind+tab)
+				key, keyConst := g.generateConstantValue(underlyingType.KeyType, pair.Key, ind+tab, asConst)
+				val, valConst := g.generateConstantValue(underlyingType.ValueType, pair.Value, ind+tab, asConst)
 				contents += fmt.Sprintf(tabtab+ind+"%s: %s,\n", key, val)
+				kvsConst = kvsConst && keyConst && valConst
 			}
 			contents += tab + ind + "}"
-			return contents
+			if kvsConst {
+				contents = "const " + contents
+			}
+			return contents, kvsConst
 		}
 	} else if g.Frugal.IsEnum(underlyingType) {
-		return fmt.Sprintf("%d", value)
+		return fmt.Sprintf("%d", value), true
 	} else if g.Frugal.IsStruct(underlyingType) {
 		s := g.Frugal.FindStruct(underlyingType)
 		if s == nil {
@@ -495,13 +514,13 @@ func (g *Generator) generateConstantValue(t *parser.Type, value interface{}, ind
 			name := pair.KeyToString()
 			for _, field := range s.Fields {
 				if name == field.Name {
-					val := g.generateConstantValue(field.Type, pair.Value, ind+tab)
+					val, _ := g.generateConstantValue(field.Type, pair.Value, ind+tab, asConst)
 					contents += fmt.Sprintf("\n%s..%s = %s", tabtab+ind, toFieldName(name), val)
 				}
 			}
 		}
 
-		return contents
+		return contents, false
 	}
 
 	panic("no entry for type " + underlyingType.Name)
@@ -681,7 +700,7 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 		contents += "\n"
 		for _, field := range s.Fields {
 			if field.Default != nil {
-				value := g.generateConstantValue(field.Type, field.Default, tab)
+				value, _ := g.generateConstantValue(field.Type, field.Default, tab, false)
 				contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
 			}
 		}
@@ -1695,13 +1714,14 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 		contents += fmt.Sprintf(tabtab+"_frugalLog.warning(\"Call to deprecated function '%s.%s'\");\n", service.Name, nameLower)
 	}
 
-	typeCast := ""
-	if returnType := g.generateReturnArg(method); returnType != "" {
-		typeCast = fmt.Sprintf(" as Future%s", returnType)
+	innerTypeCast := ""
+	if method.ReturnType != nil {
+	    innerTypeCast = fmt.Sprintf(".then((value) => value as %s)", g.getDartTypeFromThriftType(method.ReturnType))
 	}
 
 	contents += fmt.Sprintf(tabtab+"return this._methods['%s']([ctx%s])%s;\n",
-		nameLower, g.generateInputArgsWithoutTypes(method.Arguments), typeCast)
+		nameLower, g.generateInputArgsWithoutTypes(method.Arguments), innerTypeCast)
+
 	contents += fmt.Sprintf(tab + "}\n\n")
 
 	// Generate the calling method

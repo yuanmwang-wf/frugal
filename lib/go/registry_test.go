@@ -51,7 +51,7 @@ func TestClientRegistry(t *testing.T) {
 	assert.Nil(registry.Register(ctx, resultC))
 	// Encode a frame with this context
 	transport := &thrift.TMemoryBuffer{Buffer: new(bytes.Buffer)}
-	proto := &FProtocol{tProtocolFactory.GetProtocol(transport)}
+	proto := &FProtocol{TProtocol: tProtocolFactory.GetProtocol(transport)}
 	assert.Nil(proto.writeHeader(ctx.RequestHeaders()))
 	// Pass the frame to execute
 	frame := transport.Bytes()

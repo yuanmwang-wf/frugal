@@ -11,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
@@ -50,10 +53,14 @@ public class FProtocolTest {
     public void testReadRequestHeaders() throws Exception {
         TMemoryBuffer memoryBuffer = new TMemoryBuffer(1024);
         FProtocol binaryProtocol = new FProtocol(new TBinaryProtocol(memoryBuffer));
+        Map<Object, Object> ephemeralProperties = new HashMap<>();
+        ephemeralProperties.put("some-key", "some-value");
+        binaryProtocol.setEphemeralProperties(ephemeralProperties);
         memoryBuffer.write(HeaderUtils.encode(context.getRequestHeaders()));
 
         FContext ctx = binaryProtocol.readRequestHeader();
         assertEquals(context.getCorrelationId(), ctx.getResponseHeader(FContext.CID_HEADER));
+        assertEquals(ephemeralProperties, ctx.getEphemeralProperties());
     }
 
     @Test

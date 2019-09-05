@@ -16,6 +16,15 @@ part of frugal.src.frugal;
 /// Runs an [FTransportMonitor] when a transport is closed.
 @Deprecated('3.0.0')
 class MonitorRunner extends Disposable {
+  /// Create a new [MonitorRunner] with the given [FTransportMonitor] and
+  /// [FTransport].
+  MonitorRunner(this._monitor, this._transport) {
+    manageDisposable(_monitor);
+  }
+
+  @override
+  String get disposableTypeName => 'MonitorRunner';
+
   final Logger _log = new Logger('FTransportMonitor');
   FTransportMonitor _monitor;
   FTransport _transport;
@@ -24,12 +33,6 @@ class MonitorRunner extends Disposable {
   bool _failed = false;
   Completer _reopenCompleter;
   Timer _reopenTimer;
-
-  /// Create a new [MonitorRunner] with the given [FTransportMonitor] and
-  /// [FTransport].
-  MonitorRunner(this._monitor, this._transport) {
-    manageDisposable(_monitor);
-  }
 
   /// Indicates if the monitor is waiting to run or gave up.
   bool get _sleeping => (_reopenTimer != null || _failed);

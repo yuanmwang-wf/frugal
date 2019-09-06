@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-which glide > /dev/null || {
-    curl https://glide.sh/get | sh
-}
-
 # Compile library code
-cd $FRUGAL_HOME/lib/go && glide install
+cd $FRUGAL_HOME/lib/go && GO111MODULE=on go mod vendor
 
 # Run the tests
 go test -race -coverprofile=$FRUGAL_HOME/gocoverage.txt

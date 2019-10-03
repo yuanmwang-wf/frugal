@@ -1340,7 +1340,7 @@ class oneWay_args implements thrift.TBase {
             for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
               int elem71 = iprot.readI32();
               String elem69 = iprot.readString();
-              req[elem71] = elem69;
+              this.req[elem71] = elem69;
             }
             iprot.readMapEnd();
           } else {
@@ -2313,7 +2313,7 @@ class underlying_types_test_args implements thrift.TBase {
             this.list_type = new List<int>();
             for(int elem75 = 0; elem75 < elem73.length; ++elem75) {
               int elem74 = iprot.readI64();
-              list_type.add(elem74);
+              this.list_type.add(elem74);
             }
             iprot.readListEnd();
           } else {
@@ -2326,7 +2326,7 @@ class underlying_types_test_args implements thrift.TBase {
             this.set_type = new Set<int>();
             for(int elem78 = 0; elem78 < elem76.length; ++elem78) {
               int elem77 = iprot.readI64();
-              set_type.add(elem77);
+              this.set_type.add(elem77);
             }
             iprot.readSetEnd();
           } else {
@@ -2501,7 +2501,7 @@ class underlying_types_test_result implements thrift.TBase {
             this.success = new List<int>();
             for(int elem83 = 0; elem83 < elem81.length; ++elem83) {
               int elem82 = iprot.readI64();
-              success.add(elem82);
+              this.success.add(elem82);
             }
             iprot.readListEnd();
           } else {

@@ -552,7 +552,7 @@ class EventWrapper implements thrift.TBase {
             for(int elem23 = 0; elem23 < elem21.length; ++elem23) {
               t_variety.Event elem22 = new t_variety.Event();
               elem22.read(iprot);
-              events.add(elem22);
+              this.events.add(elem22);
             }
             iprot.readListEnd();
           } else {
@@ -566,7 +566,7 @@ class EventWrapper implements thrift.TBase {
             for(int elem26 = 0; elem26 < elem24.length; ++elem26) {
               t_variety.Event elem25 = new t_variety.Event();
               elem25.read(iprot);
-              events2.add(elem25);
+              this.events2.add(elem25);
             }
             iprot.readSetEnd();
           } else {
@@ -581,7 +581,7 @@ class EventWrapper implements thrift.TBase {
               int elem30 = iprot.readI64();
               t_variety.Event elem28 = new t_variety.Event();
               elem28.read(iprot);
-              eventMap[elem30] = elem28;
+              this.eventMap[elem30] = elem28;
             }
             iprot.readMapEnd();
           } else {
@@ -600,7 +600,7 @@ class EventWrapper implements thrift.TBase {
                 elem32.add(elem34);
               }
               iprot.readListEnd();
-              nums.add(elem32);
+              this.nums.add(elem32);
             }
             iprot.readListEnd();
           } else {
@@ -613,7 +613,7 @@ class EventWrapper implements thrift.TBase {
             this.enums = new List<int>();
             for(int elem39 = 0; elem39 < elem37.length; ++elem39) {
               int elem38 = iprot.readI32();
-              enums.add(elem38);
+              this.enums.add(elem38);
             }
             iprot.readListEnd();
           } else {
@@ -668,7 +668,7 @@ class EventWrapper implements thrift.TBase {
             for(int elem42 = 0; elem42 < elem40.length; ++elem42) {
               bool elem41 = iprot.readBool();
               // ignore: deprecated_member_use
-              deprList.add(elem41);
+              this.deprList.add(elem41);
             }
             iprot.readListEnd();
           } else {
@@ -682,7 +682,7 @@ class EventWrapper implements thrift.TBase {
             for(int elem45 = 0; elem45 < elem43.length; ++elem45) {
               t_variety.Event elem44 = new t_variety.Event();
               elem44.read(iprot);
-              eventsDefault.add(elem44);
+              this.eventsDefault.add(elem44);
             }
             iprot.readListEnd();
           } else {
@@ -697,7 +697,7 @@ class EventWrapper implements thrift.TBase {
               int elem49 = iprot.readI64();
               t_variety.Event elem47 = new t_variety.Event();
               elem47.read(iprot);
-              eventMapDefault[elem49] = elem47;
+              this.eventMapDefault[elem49] = elem47;
             }
             iprot.readMapEnd();
           } else {
@@ -711,7 +711,7 @@ class EventWrapper implements thrift.TBase {
             for(int elem52 = 0; elem52 < elem50.length; ++elem52) {
               t_variety.Event elem51 = new t_variety.Event();
               elem51.read(iprot);
-              eventSetDefault.add(elem51);
+              this.eventSetDefault.add(elem51);
             }
             iprot.readSetEnd();
           } else {

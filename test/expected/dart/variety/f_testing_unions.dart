@@ -294,7 +294,7 @@ class TestingUnions implements thrift.TBase {
             for(int elem65 = 0; elem65 < elem63.length; ++elem65) {
               int elem66 = iprot.readI32();
               String elem64 = iprot.readString();
-              requests[elem66] = elem64;
+              this.requests[elem66] = elem64;
             }
             iprot.readMapEnd();
           } else {

@@ -636,7 +636,7 @@ class TestingDefaults implements thrift.TBase {
             this.listfield = new List<int>();
             for(int elem2 = 0; elem2 < elem0.length; ++elem2) {
               int elem1 = iprot.readI32();
-              listfield.add(elem1);
+              this.listfield.add(elem1);
             }
             iprot.readListEnd();
           } else {
@@ -685,7 +685,7 @@ class TestingDefaults implements thrift.TBase {
             this.list2 = new List<int>();
             for(int elem5 = 0; elem5 < elem3.length; ++elem5) {
               int elem4 = iprot.readI32();
-              list2.add(elem4);
+              this.list2.add(elem4);
             }
             iprot.readListEnd();
           } else {
@@ -698,7 +698,7 @@ class TestingDefaults implements thrift.TBase {
             this.list3 = new List<int>();
             for(int elem8 = 0; elem8 < elem6.length; ++elem8) {
               int elem7 = iprot.readI32();
-              list3.add(elem7);
+              this.list3.add(elem7);
             }
             iprot.readListEnd();
           } else {
@@ -711,7 +711,7 @@ class TestingDefaults implements thrift.TBase {
             this.list4 = new List<int>();
             for(int elem11 = 0; elem11 < elem9.length; ++elem11) {
               int elem10 = iprot.readI32();
-              list4.add(elem10);
+              this.list4.add(elem10);
             }
             iprot.readListEnd();
           } else {
@@ -725,7 +725,7 @@ class TestingDefaults implements thrift.TBase {
             for(int elem14 = 0; elem14 < elem12.length; ++elem14) {
               String elem15 = iprot.readString();
               String elem13 = iprot.readString();
-              a_map[elem15] = elem13;
+              this.a_map[elem15] = elem13;
             }
             iprot.readMapEnd();
           } else {

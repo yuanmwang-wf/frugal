@@ -80,7 +80,7 @@ class nested_thing implements thrift.TBase {
             for(int elem96 = 0; elem96 < elem94.length; ++elem96) {
               t_actual_base_dart.thing elem95 = new t_actual_base_dart.thing();
               elem95.read(iprot);
-              things.add(elem95);
+              this.things.add(elem95);
             }
             iprot.readListEnd();
           } else {

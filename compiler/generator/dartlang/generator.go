@@ -888,9 +888,11 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 	contents := ""
 
 	prefix := ""
+	thisPrefix := ""
 	dartType := g.getDartTypeFromThriftType(field.Type)
 	if first {
 		prefix = "this."
+		thisPrefix = "this."
 	} else {
 		prefix = dartType + " "
 	}
@@ -960,7 +962,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 			contents += fmt.Sprintf(ind+"for(int %s = 0; %s < %s.length; ++%s) {\n", counterElem, counterElem, containerElem, counterElem)
 			contents += valContents
 			contents += ignoreDeprecationWarningIfNeeded(tab+ind, field.Annotations)
-			contents += fmt.Sprintf(tab+ind+"%s.add(%s);\n", fName, valElem)
+			contents += fmt.Sprintf(tab+ind+"%s%s.add(%s);\n", thisPrefix, fName, valElem)
 			contents += ind + "}\n"
 			contents += ind + "iprot.readListEnd();\n"
 		case "set":
@@ -970,7 +972,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 			contents += fmt.Sprintf(ind+"for(int %s = 0; %s < %s.length; ++%s) {\n",
 				counterElem, counterElem, containerElem, counterElem)
 			contents += valContents
-			contents += fmt.Sprintf(tab+ind+"%s.add(%s);\n", fName, valElem)
+			contents += fmt.Sprintf(tab+ind+"%s%s.add(%s);\n", thisPrefix, fName, valElem)
 			contents += ind + "}\n"
 			contents += ind + "iprot.readSetEnd();\n"
 		case "map":
@@ -984,7 +986,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 			contents += g.generateReadFieldRec(keyField, false, ind+tab)
 			contents += valContents
 			contents += ignoreDeprecationWarningIfNeeded(tab+ind, field.Annotations)
-			contents += fmt.Sprintf(tab+ind+"%s[%s] = %s;\n", fName, keyElem, valElem)
+			contents += fmt.Sprintf(tab+ind+"%s%s[%s] = %s;\n", thisPrefix, fName, keyElem, valElem)
 			contents += ind + "}\n"
 			contents += ind + "iprot.readMapEnd();\n"
 		default:

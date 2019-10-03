@@ -76,7 +76,7 @@ class nested_thing implements thrift.TBase {
         case THINGS:
           if (field.type == thrift.TType.LIST) {
             thrift.TList elem94 = iprot.readListBegin();
-            things = new List<t_actual_base_dart.thing>();
+            this.things = new List<t_actual_base_dart.thing>();
             for(int elem96 = 0; elem96 < elem94.length; ++elem96) {
               t_actual_base_dart.thing elem95 = new t_actual_base_dart.thing();
               elem95.read(iprot);
@@ -106,8 +106,8 @@ class nested_thing implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.things != null) {
       oprot.writeFieldBegin(_THINGS_FIELD_DESC);
-      oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, things.length));
-      for(var elem97 in things) {
+      oprot.writeListBegin(new thrift.TList(thrift.TType.STRUCT, this.things.length));
+      for(var elem97 in this.things) {
         elem97.write(oprot);
       }
       oprot.writeListEnd();
@@ -144,7 +144,7 @@ class nested_thing implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ things.hashCode;
+    value = (value * 31) ^ this.things.hashCode;
     return value;
   }
 

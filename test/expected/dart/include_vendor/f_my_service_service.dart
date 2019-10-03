@@ -267,7 +267,7 @@ class getItem_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRUCT) {
-            success = new t_vendor_namespace.Item();
+            this.success = new t_vendor_namespace.Item();
             success.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -275,7 +275,7 @@ class getItem_result implements thrift.TBase {
           break;
         case D:
           if (field.type == thrift.TType.STRUCT) {
-            d = new t_excepts.InvalidData();
+            this.d = new t_excepts.InvalidData();
             d.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -300,12 +300,12 @@ class getItem_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      success.write(oprot);
+      this.success.write(oprot);
       oprot.writeFieldEnd();
     }
     if (isSetD() && this.d != null) {
       oprot.writeFieldBegin(_D_FIELD_DESC);
-      d.write(oprot);
+      this.d.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -352,8 +352,8 @@ class getItem_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
-    value = (value * 31) ^ d.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
+    value = (value * 31) ^ this.d.hashCode;
     return value;
   }
 

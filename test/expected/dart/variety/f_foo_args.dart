@@ -133,21 +133,21 @@ class FooArgs implements thrift.TBase {
       switch (field.id) {
         case NEWMESSAGE:
           if (field.type == thrift.TType.STRING) {
-            newMessage = iprot.readString();
+            this.newMessage = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case MESSAGEARGS:
           if (field.type == thrift.TType.STRING) {
-            messageArgs = iprot.readString();
+            this.messageArgs = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case MESSAGERESULT:
           if (field.type == thrift.TType.STRING) {
-            messageResult = iprot.readString();
+            this.messageResult = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -171,17 +171,17 @@ class FooArgs implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.newMessage != null) {
       oprot.writeFieldBegin(_NEW_MESSAGE_FIELD_DESC);
-      oprot.writeString(newMessage);
+      oprot.writeString(this.newMessage);
       oprot.writeFieldEnd();
     }
     if (this.messageArgs != null) {
       oprot.writeFieldBegin(_MESSAGE_ARGS_FIELD_DESC);
-      oprot.writeString(messageArgs);
+      oprot.writeString(this.messageArgs);
       oprot.writeFieldEnd();
     }
     if (this.messageResult != null) {
       oprot.writeFieldBegin(_MESSAGE_RESULT_FIELD_DESC);
-      oprot.writeString(messageResult);
+      oprot.writeString(this.messageResult);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -233,9 +233,9 @@ class FooArgs implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ newMessage.hashCode;
-    value = (value * 31) ^ messageArgs.hashCode;
-    value = (value * 31) ^ messageResult.hashCode;
+    value = (value * 31) ^ this.newMessage.hashCode;
+    value = (value * 31) ^ this.messageArgs.hashCode;
+    value = (value * 31) ^ this.messageResult.hashCode;
     return value;
   }
 

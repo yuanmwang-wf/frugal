@@ -81,7 +81,7 @@ class TestLowercase implements thrift.TBase {
       switch (field.id) {
         case LOWERCASEINT:
           if (field.type == thrift.TType.I32) {
-            lowercaseInt = iprot.readI32();
+            this.lowercaseInt = iprot.readI32();
             this.__isset_lowercaseInt = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -105,7 +105,7 @@ class TestLowercase implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_LOWERCASE_INT_FIELD_DESC);
-    oprot.writeI32(lowercaseInt);
+    oprot.writeI32(this.lowercaseInt);
     oprot.writeFieldEnd();
     oprot.writeFieldStop();
     oprot.writeStructEnd();
@@ -134,7 +134,7 @@ class TestLowercase implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ lowercaseInt.hashCode;
+    value = (value * 31) ^ this.lowercaseInt.hashCode;
     return value;
   }
 

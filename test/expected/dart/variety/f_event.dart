@@ -117,7 +117,7 @@ class Event implements thrift.TBase {
       switch (field.id) {
         case ID:
           if (field.type == thrift.TType.I64) {
-            iD = iprot.readI64();
+            this.iD = iprot.readI64();
             this.__isset_iD = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -125,7 +125,7 @@ class Event implements thrift.TBase {
           break;
         case MESSAGE:
           if (field.type == thrift.TType.STRING) {
-            message = iprot.readString();
+            this.message = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -148,11 +148,11 @@ class Event implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_ID_FIELD_DESC);
-    oprot.writeI64(iD);
+    oprot.writeI64(this.iD);
     oprot.writeFieldEnd();
     if (this.message != null) {
       oprot.writeFieldBegin(_MESSAGE_FIELD_DESC);
-      oprot.writeString(message);
+      oprot.writeString(this.message);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -191,8 +191,8 @@ class Event implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ iD.hashCode;
-    value = (value * 31) ^ message.hashCode;
+    value = (value * 31) ^ this.iD.hashCode;
+    value = (value * 31) ^ this.message.hashCode;
     return value;
   }
 

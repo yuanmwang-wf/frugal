@@ -889,7 +889,9 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 
 	prefix := ""
 	dartType := g.getDartTypeFromThriftType(field.Type)
-	if !first {
+	if first {
+		prefix = "this."
+	} else {
 		prefix = dartType + " "
 	}
 
@@ -1039,40 +1041,45 @@ func (g *Generator) generateWriteFieldRec(field *parser.Field, first bool, ind s
 	contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
 
 	fName := toFieldName(field.Name)
+	thisPrefix := ""
+	if first {
+		thisPrefix = "this."
+	}
+
 	underlyingType := g.Frugal.UnderlyingType(field.Type)
 	if underlyingType.IsPrimitive() {
 		write := tabtab + ind + "oprot.write"
 		switch underlyingType.Name {
 		case "bool":
-			write += "Bool(%s);\n"
+			write += "Bool(%s%s);\n"
 		case "byte", "i8":
-			write += "Byte(%s);\n"
+			write += "Byte(%s%s);\n"
 		case "i16":
-			write += "I16(%s);\n"
+			write += "I16(%s%s);\n"
 		case "i32":
-			write += "I32(%s);\n"
+			write += "I32(%s%s);\n"
 		case "i64":
-			write += "I64(%s);\n"
+			write += "I64(%s%s);\n"
 		case "double":
-			write += "Double(%s);\n"
+			write += "Double(%s%s);\n"
 		case "string":
-			write += "String(%s);\n"
+			write += "String(%s%s);\n"
 		case "binary":
-			write += "Binary(%s);\n"
+			write += "Binary(%s%s);\n"
 		default:
 			panic("unknown thrift type: " + underlyingType.Name)
 		}
 
-		contents += fmt.Sprintf(write, fName)
+		contents += fmt.Sprintf(write, thisPrefix, fName)
 	} else if g.Frugal.IsEnum(underlyingType) {
 		if g.useEnums() {
-			contents += fmt.Sprintf(tabtab+"oprot.writeI32(%s.serialize%s(%s));\n",
-				g.includeQualifier(underlyingType), underlyingType.Name, fName)
+			contents += fmt.Sprintf(tabtab+"oprot.writeI32(%s.serialize%s(%s%s));\n",
+				g.includeQualifier(underlyingType), underlyingType.Name, thisPrefix, fName)
 		} else {
-			contents += fmt.Sprintf(tabtab+ind+"oprot.writeI32(%s);\n", fName)
+			contents += fmt.Sprintf(tabtab+ind+"oprot.writeI32(%s%s);\n", thisPrefix, fName)
 		}
 	} else if g.Frugal.IsStruct(underlyingType) {
-		contents += fmt.Sprintf(tabtab+ind+"%s.write(oprot);\n", fName)
+		contents += fmt.Sprintf(tabtab+ind+"%s%s.write(oprot);\n", thisPrefix, fName)
 	} else if underlyingType.IsContainer() {
 		valEnumType := g.getEnumFromThriftType(underlyingType.ValueType)
 
@@ -1080,18 +1087,18 @@ func (g *Generator) generateWriteFieldRec(field *parser.Field, first bool, ind s
 		case "list":
 			valElem := g.GetElem()
 			valField := parser.FieldFromType(underlyingType.ValueType, valElem)
-			contents += fmt.Sprintf(tabtab+ind+"oprot.writeListBegin(new thrift.TList(%s, %s.length));\n", valEnumType, fName)
+			contents += fmt.Sprintf(tabtab+ind+"oprot.writeListBegin(new thrift.TList(%s, %s%s.length));\n", valEnumType, thisPrefix, fName)
 			contents += ignoreDeprecationWarningIfNeeded(tabtab+ind, field.Annotations)
-			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s) {\n", valElem, fName)
+			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s%s) {\n", valElem, thisPrefix, fName)
 			contents += g.generateWriteFieldRec(valField, false, ind+tab)
 			contents += tabtab + ind + "}\n"
 			contents += tabtab + ind + "oprot.writeListEnd();\n"
 		case "set":
 			valElem := g.GetElem()
 			valField := parser.FieldFromType(underlyingType.ValueType, valElem)
-			contents += fmt.Sprintf(tabtab+ind+"oprot.writeSetBegin(new thrift.TSet(%s, %s.length));\n", valEnumType, fName)
+			contents += fmt.Sprintf(tabtab+ind+"oprot.writeSetBegin(new thrift.TSet(%s, %s%s.length));\n", valEnumType, thisPrefix, fName)
 			contents += ignoreDeprecationWarningIfNeeded(tabtab+ind, field.Annotations)
-			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s) {\n", valElem, fName)
+			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s%s) {\n", valElem, thisPrefix, fName)
 			contents += g.generateWriteFieldRec(valField, false, ind+tab)
 			contents += tabtab + ind + "}\n"
 			contents += tabtab + ind + "oprot.writeSetEnd();\n"
@@ -1100,9 +1107,9 @@ func (g *Generator) generateWriteFieldRec(field *parser.Field, first bool, ind s
 			keyElem := g.GetElem()
 			keyField := parser.FieldFromType(underlyingType.KeyType, keyElem)
 			valField := parser.FieldFromType(underlyingType.ValueType, fmt.Sprintf("%s[%s]", fName, keyElem))
-			contents += fmt.Sprintf(tabtab+ind+"oprot.writeMapBegin(new thrift.TMap(%s, %s, %s.length));\n", keyEnumType, valEnumType, fName)
+			contents += fmt.Sprintf(tabtab+ind+"oprot.writeMapBegin(new thrift.TMap(%s, %s, %s%s.length));\n", keyEnumType, valEnumType, thisPrefix, fName)
 			contents += ignoreDeprecationWarningIfNeeded(tabtab+ind, field.Annotations)
-			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s.keys) {\n", keyElem, fName)
+			contents += fmt.Sprintf(tabtab+ind+"for(var %s in %s%s.keys) {\n", keyElem, thisPrefix, fName)
 			contents += g.generateWriteFieldRec(keyField, false, ind+tab)
 			contents += g.generateWriteFieldRec(valField, false, ind+tab)
 			contents += tabtab + ind + "}\n"
@@ -1226,7 +1233,7 @@ func (g *Generator) generateHashCode(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		fieldName := toFieldName(field.Name)
 		contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
-		contents += fmt.Sprintf(tabtab+"value = (value * 31) ^ %s.hashCode;\n", fieldName)
+		contents += fmt.Sprintf(tabtab+"value = (value * 31) ^ this.%s.hashCode;\n", fieldName)
 	}
 	contents += tabtab + "return value;\n"
 	contents += tab + "}\n\n"
@@ -1272,7 +1279,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 			if field.Modifier == parser.Required {
 				fName := toFieldName(field.Name)
 				if !g.isDartPrimitive(field.Type) {
-					contents += fmt.Sprintf(tabtab+"if (%s == null) {\n", fName)
+					contents += fmt.Sprintf(tabtab+"if (this.%s == null) {\n", fName)
 					contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"Required field '%s' was not present in struct %s\");\n", fName, s.Name)
 					contents += tabtab + "}\n"
 				}
@@ -1297,9 +1304,9 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 			if g.Frugal.IsEnum(field.Type) {
 				fName := toFieldName(field.Name)
 				isSetCheck := fmt.Sprintf("isSet%s()", strings.Title(field.Name))
-				contents += fmt.Sprintf(tabtab+"if (%s && !%s.VALID_VALUES.contains(%s)) {\n",
+				contents += fmt.Sprintf(tabtab+"if (%s && !%s.VALID_VALUES.contains(this.%s)) {\n",
 					isSetCheck, g.qualifiedTypeName(field.Type), fName)
-				contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"The field '%s' has been assigned the invalid value $%s\");\n", fName, fName)
+				contents += fmt.Sprintf(tabtabtab+"throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"The field '%s' has been assigned the invalid value ${this.%s}\");\n", fName, fName)
 				contents += tabtab + "}\n"
 			}
 		}

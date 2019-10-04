@@ -258,7 +258,7 @@ class TestingUnions implements thrift.TBase {
       switch (field.id) {
         case ANID:
           if (field.type == thrift.TType.I64) {
-            anID = iprot.readI64();
+            this.anID = iprot.readI64();
             this.__isset_anID = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -266,14 +266,14 @@ class TestingUnions implements thrift.TBase {
           break;
         case ASTRING:
           if (field.type == thrift.TType.STRING) {
-            aString = iprot.readString();
+            this.aString = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case SOMEOTHERTHING:
           if (field.type == thrift.TType.I32) {
-            someotherthing = iprot.readI32();
+            this.someotherthing = iprot.readI32();
             this.__isset_someotherthing = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -281,7 +281,7 @@ class TestingUnions implements thrift.TBase {
           break;
         case ANINT16:
           if (field.type == thrift.TType.I16) {
-            anInt16 = iprot.readI16();
+            this.anInt16 = iprot.readI16();
             this.__isset_anInt16 = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -290,11 +290,11 @@ class TestingUnions implements thrift.TBase {
         case REQUESTS:
           if (field.type == thrift.TType.MAP) {
             thrift.TMap elem63 = iprot.readMapBegin();
-            requests = new Map<int, String>();
+            this.requests = new Map<int, String>();
             for(int elem65 = 0; elem65 < elem63.length; ++elem65) {
               int elem66 = iprot.readI32();
               String elem64 = iprot.readString();
-              requests[elem66] = elem64;
+              this.requests[elem66] = elem64;
             }
             iprot.readMapEnd();
           } else {
@@ -303,7 +303,7 @@ class TestingUnions implements thrift.TBase {
           break;
         case BIN_FIELD_IN_UNION:
           if (field.type == thrift.TType.STRING) {
-            bin_field_in_union = iprot.readBinary();
+            this.bin_field_in_union = iprot.readBinary();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -311,7 +311,7 @@ class TestingUnions implements thrift.TBase {
         case DEPR:
           if (field.type == thrift.TType.BOOL) {
             // ignore: deprecated_member_use
-            depr = iprot.readBool();
+            this.depr = iprot.readBool();
             this.__isset_depr = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -336,28 +336,28 @@ class TestingUnions implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetAnID()) {
       oprot.writeFieldBegin(_AN_ID_FIELD_DESC);
-      oprot.writeI64(anID);
+      oprot.writeI64(this.anID);
       oprot.writeFieldEnd();
     }
     if (isSetAString() && this.aString != null) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
-      oprot.writeString(aString);
+      oprot.writeString(this.aString);
       oprot.writeFieldEnd();
     }
     if (isSetSomeotherthing()) {
       oprot.writeFieldBegin(_SOMEOTHERTHING_FIELD_DESC);
-      oprot.writeI32(someotherthing);
+      oprot.writeI32(this.someotherthing);
       oprot.writeFieldEnd();
     }
     if (isSetAnInt16()) {
       oprot.writeFieldBegin(_AN_INT16_FIELD_DESC);
-      oprot.writeI16(anInt16);
+      oprot.writeI16(this.anInt16);
       oprot.writeFieldEnd();
     }
     if (isSetRequests() && this.requests != null) {
       oprot.writeFieldBegin(_REQUESTS_FIELD_DESC);
-      oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, requests.length));
-      for(var elem67 in requests.keys) {
+      oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, this.requests.length));
+      for(var elem67 in this.requests.keys) {
         oprot.writeI32(elem67);
         oprot.writeString(requests[elem67]);
       }
@@ -366,14 +366,14 @@ class TestingUnions implements thrift.TBase {
     }
     if (isSetBin_field_in_union() && this.bin_field_in_union != null) {
       oprot.writeFieldBegin(_BIN_FIELD_IN_UNION_FIELD_DESC);
-      oprot.writeBinary(bin_field_in_union);
+      oprot.writeBinary(this.bin_field_in_union);
       oprot.writeFieldEnd();
     }
     // ignore: deprecated_member_use
     if (isSetDepr()) {
       oprot.writeFieldBegin(_DEPR_FIELD_DESC);
     // ignore: deprecated_member_use
-      oprot.writeBool(depr);
+      oprot.writeBool(this.depr);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -461,14 +461,14 @@ class TestingUnions implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ anID.hashCode;
-    value = (value * 31) ^ aString.hashCode;
-    value = (value * 31) ^ someotherthing.hashCode;
-    value = (value * 31) ^ anInt16.hashCode;
-    value = (value * 31) ^ requests.hashCode;
-    value = (value * 31) ^ bin_field_in_union.hashCode;
+    value = (value * 31) ^ this.anID.hashCode;
+    value = (value * 31) ^ this.aString.hashCode;
+    value = (value * 31) ^ this.someotherthing.hashCode;
+    value = (value * 31) ^ this.anInt16.hashCode;
+    value = (value * 31) ^ this.requests.hashCode;
+    value = (value * 31) ^ this.bin_field_in_union.hashCode;
     // ignore: deprecated_member_use
-    value = (value * 31) ^ depr.hashCode;
+    value = (value * 31) ^ this.depr.hashCode;
     return value;
   }
 

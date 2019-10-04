@@ -857,7 +857,7 @@ class blah_args implements thrift.TBase {
       switch (field.id) {
         case NUM:
           if (field.type == thrift.TType.I32) {
-            num = iprot.readI32();
+            this.num = iprot.readI32();
             this.__isset_num = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -865,14 +865,14 @@ class blah_args implements thrift.TBase {
           break;
         case STR:
           if (field.type == thrift.TType.STRING) {
-            str = iprot.readString();
+            this.str = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case EVENT:
           if (field.type == thrift.TType.STRUCT) {
-            event = new t_variety.Event();
+            this.event = new t_variety.Event();
             event.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -896,16 +896,16 @@ class blah_args implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_NUM_FIELD_DESC);
-    oprot.writeI32(num);
+    oprot.writeI32(this.num);
     oprot.writeFieldEnd();
     if (this.str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
-      oprot.writeString(str);
+      oprot.writeString(this.str);
       oprot.writeFieldEnd();
     }
     if (this.event != null) {
       oprot.writeFieldBegin(_EVENT_FIELD_DESC);
-      event.write(oprot);
+      this.event.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -953,9 +953,9 @@ class blah_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ num.hashCode;
-    value = (value * 31) ^ str.hashCode;
-    value = (value * 31) ^ event.hashCode;
+    value = (value * 31) ^ this.num.hashCode;
+    value = (value * 31) ^ this.str.hashCode;
+    value = (value * 31) ^ this.event.hashCode;
     return value;
   }
 
@@ -1101,7 +1101,7 @@ class blah_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.I64) {
-            success = iprot.readI64();
+            this.success = iprot.readI64();
             this.__isset_success = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1109,7 +1109,7 @@ class blah_result implements thrift.TBase {
           break;
         case AWE:
           if (field.type == thrift.TType.STRUCT) {
-            awe = new t_variety.AwesomeException();
+            this.awe = new t_variety.AwesomeException();
             awe.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1117,7 +1117,7 @@ class blah_result implements thrift.TBase {
           break;
         case API:
           if (field.type == thrift.TType.STRUCT) {
-            api = new t_actual_base_dart.api_exception();
+            this.api = new t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1142,17 +1142,17 @@ class blah_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeI64(success);
+      oprot.writeI64(this.success);
       oprot.writeFieldEnd();
     }
     if (isSetAwe() && this.awe != null) {
       oprot.writeFieldBegin(_AWE_FIELD_DESC);
-      awe.write(oprot);
+      this.awe.write(oprot);
       oprot.writeFieldEnd();
     }
     if (isSetApi() && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
-      api.write(oprot);
+      this.api.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -1206,9 +1206,9 @@ class blah_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
-    value = (value * 31) ^ awe.hashCode;
-    value = (value * 31) ^ api.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
+    value = (value * 31) ^ this.awe.hashCode;
+    value = (value * 31) ^ this.api.hashCode;
     return value;
   }
 
@@ -1327,7 +1327,7 @@ class oneWay_args implements thrift.TBase {
       switch (field.id) {
         case ID:
           if (field.type == thrift.TType.I64) {
-            id = iprot.readI64();
+            this.id = iprot.readI64();
             this.__isset_id = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1336,11 +1336,11 @@ class oneWay_args implements thrift.TBase {
         case REQ:
           if (field.type == thrift.TType.MAP) {
             thrift.TMap elem68 = iprot.readMapBegin();
-            req = new Map<int, String>();
+            this.req = new Map<int, String>();
             for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
               int elem71 = iprot.readI32();
               String elem69 = iprot.readString();
-              req[elem71] = elem69;
+              this.req[elem71] = elem69;
             }
             iprot.readMapEnd();
           } else {
@@ -1365,12 +1365,12 @@ class oneWay_args implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_ID_FIELD_DESC);
-    oprot.writeI64(id);
+    oprot.writeI64(this.id);
     oprot.writeFieldEnd();
     if (this.req != null) {
       oprot.writeFieldBegin(_REQ_FIELD_DESC);
-      oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, req.length));
-      for(var elem72 in req.keys) {
+      oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, this.req.length));
+      for(var elem72 in this.req.keys) {
         oprot.writeI32(elem72);
         oprot.writeString(req[elem72]);
       }
@@ -1413,8 +1413,8 @@ class oneWay_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ id.hashCode;
-    value = (value * 31) ^ req.hashCode;
+    value = (value * 31) ^ this.id.hashCode;
+    value = (value * 31) ^ this.req.hashCode;
     return value;
   }
 
@@ -1529,14 +1529,14 @@ class bin_method_args implements thrift.TBase {
       switch (field.id) {
         case BIN:
           if (field.type == thrift.TType.STRING) {
-            bin = iprot.readBinary();
+            this.bin = iprot.readBinary();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case STR:
           if (field.type == thrift.TType.STRING) {
-            str = iprot.readString();
+            this.str = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -1560,12 +1560,12 @@ class bin_method_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.bin != null) {
       oprot.writeFieldBegin(_BIN_FIELD_DESC);
-      oprot.writeBinary(bin);
+      oprot.writeBinary(this.bin);
       oprot.writeFieldEnd();
     }
     if (this.str != null) {
       oprot.writeFieldBegin(_STR_FIELD_DESC);
-      oprot.writeString(str);
+      oprot.writeString(this.str);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -1608,8 +1608,8 @@ class bin_method_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ bin.hashCode;
-    value = (value * 31) ^ str.hashCode;
+    value = (value * 31) ^ this.bin.hashCode;
+    value = (value * 31) ^ this.str.hashCode;
     return value;
   }
 
@@ -1724,14 +1724,14 @@ class bin_method_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRING) {
-            success = iprot.readBinary();
+            this.success = iprot.readBinary();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case API:
           if (field.type == thrift.TType.STRUCT) {
-            api = new t_actual_base_dart.api_exception();
+            this.api = new t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1756,12 +1756,12 @@ class bin_method_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeBinary(success);
+      oprot.writeBinary(this.success);
       oprot.writeFieldEnd();
     }
     if (isSetApi() && this.api != null) {
       oprot.writeFieldBegin(_API_FIELD_DESC);
-      api.write(oprot);
+      this.api.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -1808,8 +1808,8 @@ class bin_method_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
-    value = (value * 31) ^ api.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
+    value = (value * 31) ^ this.api.hashCode;
     return value;
   }
 
@@ -1957,7 +1957,7 @@ class param_modifiers_args implements thrift.TBase {
       switch (field.id) {
         case OPT_NUM:
           if (field.type == thrift.TType.I32) {
-            opt_num = iprot.readI32();
+            this.opt_num = iprot.readI32();
             this.__isset_opt_num = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1965,7 +1965,7 @@ class param_modifiers_args implements thrift.TBase {
           break;
         case DEFAULT_NUM:
           if (field.type == thrift.TType.I32) {
-            default_num = iprot.readI32();
+            this.default_num = iprot.readI32();
             this.__isset_default_num = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1973,7 +1973,7 @@ class param_modifiers_args implements thrift.TBase {
           break;
         case REQ_NUM:
           if (field.type == thrift.TType.I32) {
-            req_num = iprot.readI32();
+            this.req_num = iprot.readI32();
             this.__isset_req_num = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -2000,13 +2000,13 @@ class param_modifiers_args implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_OPT_NUM_FIELD_DESC);
-    oprot.writeI32(opt_num);
+    oprot.writeI32(this.opt_num);
     oprot.writeFieldEnd();
     oprot.writeFieldBegin(_DEFAULT_NUM_FIELD_DESC);
-    oprot.writeI32(default_num);
+    oprot.writeI32(this.default_num);
     oprot.writeFieldEnd();
     oprot.writeFieldBegin(_REQ_NUM_FIELD_DESC);
-    oprot.writeI32(req_num);
+    oprot.writeI32(this.req_num);
     oprot.writeFieldEnd();
     oprot.writeFieldStop();
     oprot.writeStructEnd();
@@ -2045,9 +2045,9 @@ class param_modifiers_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ opt_num.hashCode;
-    value = (value * 31) ^ default_num.hashCode;
-    value = (value * 31) ^ req_num.hashCode;
+    value = (value * 31) ^ this.opt_num.hashCode;
+    value = (value * 31) ^ this.default_num.hashCode;
+    value = (value * 31) ^ this.req_num.hashCode;
     return value;
   }
 
@@ -2139,7 +2139,7 @@ class param_modifiers_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.I64) {
-            success = iprot.readI64();
+            this.success = iprot.readI64();
             this.__isset_success = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -2164,7 +2164,7 @@ class param_modifiers_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeI64(success);
+      oprot.writeI64(this.success);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -2196,7 +2196,7 @@ class param_modifiers_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -2310,10 +2310,10 @@ class underlying_types_test_args implements thrift.TBase {
         case LIST_TYPE:
           if (field.type == thrift.TType.LIST) {
             thrift.TList elem73 = iprot.readListBegin();
-            list_type = new List<int>();
+            this.list_type = new List<int>();
             for(int elem75 = 0; elem75 < elem73.length; ++elem75) {
               int elem74 = iprot.readI64();
-              list_type.add(elem74);
+              this.list_type.add(elem74);
             }
             iprot.readListEnd();
           } else {
@@ -2323,10 +2323,10 @@ class underlying_types_test_args implements thrift.TBase {
         case SET_TYPE:
           if (field.type == thrift.TType.SET) {
             thrift.TSet elem76 = iprot.readSetBegin();
-            set_type = new Set<int>();
+            this.set_type = new Set<int>();
             for(int elem78 = 0; elem78 < elem76.length; ++elem78) {
               int elem77 = iprot.readI64();
-              set_type.add(elem77);
+              this.set_type.add(elem77);
             }
             iprot.readSetEnd();
           } else {
@@ -2352,8 +2352,8 @@ class underlying_types_test_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.list_type != null) {
       oprot.writeFieldBegin(_LIST_TYPE_FIELD_DESC);
-      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, list_type.length));
-      for(var elem79 in list_type) {
+      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, this.list_type.length));
+      for(var elem79 in this.list_type) {
         oprot.writeI64(elem79);
       }
       oprot.writeListEnd();
@@ -2361,8 +2361,8 @@ class underlying_types_test_args implements thrift.TBase {
     }
     if (this.set_type != null) {
       oprot.writeFieldBegin(_SET_TYPE_FIELD_DESC);
-      oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, set_type.length));
-      for(var elem80 in set_type) {
+      oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, this.set_type.length));
+      for(var elem80 in this.set_type) {
         oprot.writeI64(elem80);
       }
       oprot.writeSetEnd();
@@ -2408,8 +2408,8 @@ class underlying_types_test_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ list_type.hashCode;
-    value = (value * 31) ^ set_type.hashCode;
+    value = (value * 31) ^ this.list_type.hashCode;
+    value = (value * 31) ^ this.set_type.hashCode;
     return value;
   }
 
@@ -2498,10 +2498,10 @@ class underlying_types_test_result implements thrift.TBase {
         case SUCCESS:
           if (field.type == thrift.TType.LIST) {
             thrift.TList elem81 = iprot.readListBegin();
-            success = new List<int>();
+            this.success = new List<int>();
             for(int elem83 = 0; elem83 < elem81.length; ++elem83) {
               int elem82 = iprot.readI64();
-              success.add(elem82);
+              this.success.add(elem82);
             }
             iprot.readListEnd();
           } else {
@@ -2527,8 +2527,8 @@ class underlying_types_test_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, success.length));
-      for(var elem84 in success) {
+      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, this.success.length));
+      for(var elem84 in this.success) {
         oprot.writeI64(elem84);
       }
       oprot.writeListEnd();
@@ -2567,7 +2567,7 @@ class underlying_types_test_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -2743,7 +2743,7 @@ class getThing_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRUCT) {
-            success = new t_validStructs.Thing();
+            this.success = new t_validStructs.Thing();
             success.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -2768,7 +2768,7 @@ class getThing_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      success.write(oprot);
+      this.success.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -2804,7 +2804,7 @@ class getThing_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -2982,7 +2982,7 @@ class getMyInt_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.I32) {
-            success = iprot.readI32();
+            this.success = iprot.readI32();
             this.__isset_success = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3007,7 +3007,7 @@ class getMyInt_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess()) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeI32(success);
+      oprot.writeI32(this.success);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3039,7 +3039,7 @@ class getMyInt_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -3125,7 +3125,7 @@ class use_subdir_struct_args implements thrift.TBase {
       switch (field.id) {
         case A:
           if (field.type == thrift.TType.STRUCT) {
-            a = new t_subdir_include_ns.A();
+            this.a = new t_subdir_include_ns.A();
             a.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3150,7 +3150,7 @@ class use_subdir_struct_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.a != null) {
       oprot.writeFieldBegin(_A_FIELD_DESC);
-      a.write(oprot);
+      this.a.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3184,7 +3184,7 @@ class use_subdir_struct_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ a.hashCode;
+    value = (value * 31) ^ this.a.hashCode;
     return value;
   }
 
@@ -3270,7 +3270,7 @@ class use_subdir_struct_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRUCT) {
-            success = new t_subdir_include_ns.A();
+            this.success = new t_subdir_include_ns.A();
             success.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3295,7 +3295,7 @@ class use_subdir_struct_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      success.write(oprot);
+      this.success.write(oprot);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3331,7 +3331,7 @@ class use_subdir_struct_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -3417,7 +3417,7 @@ class sayHelloWith_args implements thrift.TBase {
       switch (field.id) {
         case NEWMESSAGE:
           if (field.type == thrift.TType.STRING) {
-            newMessage = iprot.readString();
+            this.newMessage = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -3441,7 +3441,7 @@ class sayHelloWith_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.newMessage != null) {
       oprot.writeFieldBegin(_NEW_MESSAGE_FIELD_DESC);
-      oprot.writeString(newMessage);
+      oprot.writeString(this.newMessage);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3475,7 +3475,7 @@ class sayHelloWith_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ newMessage.hashCode;
+    value = (value * 31) ^ this.newMessage.hashCode;
     return value;
   }
 
@@ -3561,7 +3561,7 @@ class sayHelloWith_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRING) {
-            success = iprot.readString();
+            this.success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -3585,7 +3585,7 @@ class sayHelloWith_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeString(success);
+      oprot.writeString(this.success);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3621,7 +3621,7 @@ class sayHelloWith_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -3707,7 +3707,7 @@ class whatDoYouSay_args implements thrift.TBase {
       switch (field.id) {
         case MESSAGEARGS:
           if (field.type == thrift.TType.STRING) {
-            messageArgs = iprot.readString();
+            this.messageArgs = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -3731,7 +3731,7 @@ class whatDoYouSay_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.messageArgs != null) {
       oprot.writeFieldBegin(_MESSAGE_ARGS_FIELD_DESC);
-      oprot.writeString(messageArgs);
+      oprot.writeString(this.messageArgs);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3765,7 +3765,7 @@ class whatDoYouSay_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ messageArgs.hashCode;
+    value = (value * 31) ^ this.messageArgs.hashCode;
     return value;
   }
 
@@ -3851,7 +3851,7 @@ class whatDoYouSay_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRING) {
-            success = iprot.readString();
+            this.success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -3875,7 +3875,7 @@ class whatDoYouSay_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeString(success);
+      oprot.writeString(this.success);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -3911,7 +3911,7 @@ class whatDoYouSay_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 
@@ -3997,7 +3997,7 @@ class sayAgain_args implements thrift.TBase {
       switch (field.id) {
         case MESSAGERESULT:
           if (field.type == thrift.TType.STRING) {
-            messageResult = iprot.readString();
+            this.messageResult = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -4021,7 +4021,7 @@ class sayAgain_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.messageResult != null) {
       oprot.writeFieldBegin(_MESSAGE_RESULT_FIELD_DESC);
-      oprot.writeString(messageResult);
+      oprot.writeString(this.messageResult);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -4055,7 +4055,7 @@ class sayAgain_args implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ messageResult.hashCode;
+    value = (value * 31) ^ this.messageResult.hashCode;
     return value;
   }
 
@@ -4141,7 +4141,7 @@ class sayAgain_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRING) {
-            success = iprot.readString();
+            this.success = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -4165,7 +4165,7 @@ class sayAgain_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeString(success);
+      oprot.writeString(this.success);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -4201,7 +4201,7 @@ class sayAgain_result implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ success.hashCode;
+    value = (value * 31) ^ this.success.hashCode;
     return value;
   }
 

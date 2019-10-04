@@ -103,7 +103,7 @@ class thing implements thrift.TBase {
       switch (field.id) {
         case AN_ID:
           if (field.type == thrift.TType.I32) {
-            an_id = iprot.readI32();
+            this.an_id = iprot.readI32();
             this.__isset_an_id = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -111,7 +111,7 @@ class thing implements thrift.TBase {
           break;
         case A_STRING:
           if (field.type == thrift.TType.STRING) {
-            a_string = iprot.readString();
+            this.a_string = iprot.readString();
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -134,11 +134,11 @@ class thing implements thrift.TBase {
 
     oprot.writeStructBegin(_STRUCT_DESC);
     oprot.writeFieldBegin(_AN_ID_FIELD_DESC);
-    oprot.writeI32(an_id);
+    oprot.writeI32(this.an_id);
     oprot.writeFieldEnd();
     if (this.a_string != null) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
-      oprot.writeString(a_string);
+      oprot.writeString(this.a_string);
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -177,8 +177,8 @@ class thing implements thrift.TBase {
   @override
   int get hashCode {
     var value = 17;
-    value = (value * 31) ^ an_id.hashCode;
-    value = (value * 31) ^ a_string.hashCode;
+    value = (value * 31) ^ this.an_id.hashCode;
+    value = (value * 31) ^ this.a_string.hashCode;
     return value;
   }
 

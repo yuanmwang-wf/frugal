@@ -19,7 +19,7 @@ _VERSION_MATCH = '.*?\..*?\..*?'
 def main(args):
     root = os.getcwd().rstrip('/')
     if args.version:
-        update_frugal_version(args.version, root)
+        update_frugal_version(args.version.strip('v'), root)
         update_expected_tests(root)
 
 

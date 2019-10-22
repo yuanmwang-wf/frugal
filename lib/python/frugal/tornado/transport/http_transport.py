@@ -35,9 +35,13 @@ class FHttpTransport(FTransportBase):
         Args:
             url: The url to send requests to.
             request_capacity: The maximum size allowed to be written in a
-                              request. Set to 0 for no size restrictions.
+                              request. Set to 0 for no size restrictions in
+                               the frugal client, default size restrictions
+                               in the underlying transport will be used.
             response_capacity: The maximum size allowed to be read in a
-                               response. Set to 0 for no size restrictions.
+                               response. Set to 0 for no size restrictions in
+                               the frugal client, default size restrictions
+                               in the underlying transport will be used.
             get_request_headers: An optional function that accepts an FContext.
                                  Should return a dictionary of additional
                                  request headers to be appended to the request
@@ -45,6 +49,13 @@ class FHttpTransport(FTransportBase):
         super(FHttpTransport, self).__init__(
             request_size_limit=request_capacity)
         self._url = url
+        tornado_max_buffer_size = request_capacity or 100 * 1024 * 1024
+        tornado_max_body_size = response_capacity or 100 * 1024 * 1024
+        self._http = AsyncHTTPClient.configure(
+            'tornado.simple_httpclient.SimpleAsyncHTTPClient',
+            max_buffer_size=tornado_max_buffer_size,
+            max_body_size=tornado_max_body_size
+        )
         self._http = AsyncHTTPClient()
         self._get_request_headers = get_request_headers
 

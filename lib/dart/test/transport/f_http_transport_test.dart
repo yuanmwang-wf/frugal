@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:convert' show base64;
 import 'dart:convert' show Utf8Codec;
 import 'dart:typed_data' show Uint8List;
 
+import 'package:dart2_constant/convert.dart' as convert;
 import 'package:frugal/frugal.dart';
 import 'package:test/test.dart';
 import 'package:thrift/thrift.dart';
@@ -32,11 +32,12 @@ void main() {
     };
     Uint8List transportRequest =
         new Uint8List.fromList([0, 0, 0, 5, 1, 2, 3, 4, 5]);
-    String transportRequestB64 = base64.encode(transportRequest);
+    String transportRequestB64 = convert.base64.encode(transportRequest);
     Uint8List transportResponse = new Uint8List.fromList([6, 7, 8, 9]);
     Uint8List transportResponseFramed =
         new Uint8List.fromList([0, 0, 0, 4, 6, 7, 8, 9]);
-    String transportResponseB64 = base64.encode(transportResponseFramed);
+    String transportResponseB64 =
+        convert.base64.encode(transportResponseFramed);
 
     setUp(() {
       client = new Client();
@@ -151,7 +152,7 @@ void main() {
     test('Test transport does not execute frame on oneway requests', () async {
       Uint8List responseBytes = new Uint8List.fromList([0, 0, 0, 0]);
       Response response =
-          new MockResponse.ok(body: base64.encode(responseBytes));
+          new MockResponse.ok(body: convert.base64.encode(responseBytes));
       MockTransports.http.expect('POST', transport.uri, respondWith: response);
       var result = await transport.request(new FContext(), transportRequest);
       expect(result, null);
@@ -161,7 +162,7 @@ void main() {
         () async {
       Uint8List responseBytes = new Uint8List.fromList([0, 0, 0, 1]);
       Response response =
-          new MockResponse.ok(body: base64.encode(responseBytes));
+          new MockResponse.ok(body: convert.base64.encode(responseBytes));
       MockTransports.http.expect('POST', transport.uri, respondWith: response);
       expect(transport.request(new FContext(), transportRequest),
           throwsA(new isInstanceOf<TTransportError>()));

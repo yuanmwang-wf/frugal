@@ -35,7 +35,7 @@ const (
 	defaultOutputDir      = "gen-dart"
 	serviceSuffix         = "_service"
 	scopeSuffix           = "_scope"
-	allowedDartSdkRange   = ">=1.24.0 <3.0.0"
+	allowedDartSdkRange   = ">=2.4.1 <3.0.0"
 	tab                   = "  "
 	tabtab                = tab + tab
 	tabtabtab             = tab + tab + tab
@@ -193,7 +193,6 @@ func (g *Generator) addToPubspec(dir string) error {
 	pubFilePath := filepath.Join(dir, "pubspec.yaml")
 
 	deps := map[interface{}]interface{}{
-		"dart2_constant": "^1.0.0",
 		"logging":        "^0.11.2",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
@@ -393,7 +392,7 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 	}
 
 	// Need utf8 for binary constants
-	_, err = file.WriteString("import 'package:dart2_constant/convert.dart' show utf8;\n\n")
+	_, err = file.WriteString("import 'dart:convert.dart' show utf8;\n\n")
 	if err != nil {
 		return err
 	}

@@ -12,7 +12,7 @@ import 'package:validStructs/validStructs.dart' as t_validStructs;
 import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
-import 'package:dart2_constant/convert.dart' show utf8;
+import 'dart:convert.dart' show utf8;
 
 class VarietyConstants {
   static final int redef_const = t_actual_base_dart.ActualBaseDartConstants.const_i32_from_base;

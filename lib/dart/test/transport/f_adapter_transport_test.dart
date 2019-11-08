@@ -30,11 +30,11 @@ void main() {
       messageStream = new StreamController.broadcast();
 
       socket = new MockSocket();
-      when(socket.onState).thenReturn(stateStream.stream);
-      when(socket.onError).thenReturn(errorStream.stream);
-      when(socket.onMessage).thenReturn(messageStream.stream);
+      when(socket.onState).thenAnswer((_) => stateStream.stream);
+      when(socket.onError).thenAnswer((_) => errorStream.stream);
+      when(socket.onMessage).thenAnswer((_) => messageStream.stream);
       socketTransport = new MockSocketTransport();
-      when(socketTransport.socket).thenReturn(socket);
+      when(socketTransport.socket).thenAnswer((_) => socket);
       transport = new FAdapterTransport(socketTransport);
     });
 
@@ -45,8 +45,8 @@ void main() {
     });
 
     test('oneway happy path', () async {
-      when(socket.isClosed).thenReturn(true);
-      when(socket.open()).thenReturn(new Future.value());
+      when(socket.isClosed).thenAnswer((_) => true);
+      when(socket.open()).thenAnswer((_) => new Future.value());
       await transport.open();
       verify(socket.open()).called(1);
 
@@ -58,8 +58,8 @@ void main() {
     });
 
     test('requests happy path', () async {
-      when(socket.isClosed).thenReturn(true);
-      when(socket.open()).thenReturn(new Future.value());
+      when(socket.isClosed).thenAnswer((_) => true);
+      when(socket.open()).thenAnswer((_) => new Future.value());
       await transport.open();
       verify(socket.open()).called(1);
 
@@ -87,8 +87,8 @@ void main() {
     });
 
     test('requests time out without a response', () async {
-      when(socket.isClosed).thenReturn(true);
-      when(socket.open()).thenReturn(new Future.value());
+      when(socket.isClosed).thenAnswer((_) => true);
+      when(socket.open()).thenAnswer((_) => new Future.value());
       await transport.open();
       verify(socket.open()).called(1);
 
@@ -107,8 +107,8 @@ void main() {
     });
 
     test('request is cancelled if the transport is closed', () async {
-      when(socket.isClosed).thenReturn(true);
-      when(socket.open()).thenReturn(new Future.value());
+      when(socket.isClosed).thenAnswer((_) => true);
+      when(socket.open()).thenAnswer((_) => new Future.value());
       await transport.open();
       verify(socket.open()).called(1);
 
@@ -127,8 +127,8 @@ void main() {
 
     test('test socket error triggers transport close', () async {
       // Open the transport
-      when(socket.isClosed).thenReturn(true);
-      when(socket.open()).thenReturn(new Future.value());
+      when(socket.isClosed).thenAnswer((_) => true);
+      when(socket.open()).thenAnswer((_) => new Future.value());
       await transport.open();
       var monitor = new MockTransportMonitor();
       transport.monitor = monitor;

@@ -3,26 +3,24 @@ authors:
 - Mark Erickson <mark.erickson@workiva.com>
 - Brian Shannan <brian.shannan@workiva.com>
 dependencies:
-  dart2_constant: ^1.0.0
   logging: ^0.11.2
   thrift:
     hosted:
       name: thrift
       url: https://pub.workiva.org
-    version: ^0.0.7
+    version: ^0.0.9
   uuid: '>=0.5.0 <2.0.0'
-  w_common: ^1.8.1
-  w_transport: '>=2.9.4 <4.0.0'
+  w_common: ^1.20.1
+  w_transport: ^3.2.8
 description: A frugal client for Dart
 dev_dependencies:
-  coverage: '>=0.10.0 <0.13.0'
-  dart_dev: ^2.0.0
-  dart_style: ^1.0.9
-  mockito: '>=2.2.2 <4.0.0'
-  test: '>=0.12.30 <2.0.0'
+  dart_dev: ^3.0.0
+  dart_style: ^1.3.1
+  mockito: ^4.1.1
+  test: ^1.9.1
 environment:
-  sdk: '>=1.24.0 <3.0.0'
+  sdk: '>=2.4.1 <3.0.0'
 homepage: https://github.com/Workiva/frugal/lib/dart
 name: frugal
 publish_to: https://pub.workiva.org
-version: 3.4.9
+version: 3.4.10

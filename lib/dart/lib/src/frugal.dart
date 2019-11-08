@@ -19,7 +19,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:dart2_constant/convert.dart' show base64, json;
 import 'package:logging/logging.dart';
 import 'package:thrift/thrift.dart';
 import 'package:uuid/uuid.dart';

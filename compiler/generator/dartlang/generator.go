@@ -193,7 +193,7 @@ func (g *Generator) addToPubspec(dir string) error {
 	pubFilePath := filepath.Join(dir, "pubspec.yaml")
 
 	deps := map[interface{}]interface{}{
-		"logging":        "^0.11.2",
+		"logging": "^0.11.2",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
@@ -392,7 +392,7 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 	}
 
 	// Need utf8 for binary constants
-	_, err = file.WriteString("import 'dart:convert.dart' show utf8;\n\n")
+	_, err = file.WriteString("import 'dart:convert' show utf8;\n\n")
 	if err != nil {
 		return err
 	}
@@ -1728,7 +1728,7 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 
 	innerTypeCast := ""
 	if method.ReturnType != nil {
-	    innerTypeCast = fmt.Sprintf(".then((value) => value as %s)", g.getDartTypeFromThriftType(method.ReturnType))
+		innerTypeCast = fmt.Sprintf(".then((value) => value as %s)", g.getDartTypeFromThriftType(method.ReturnType))
 	}
 
 	contents += fmt.Sprintf(tabtab+"return this._methods['%s']([ctx%s])%s;\n",

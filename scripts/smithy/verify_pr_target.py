@@ -4,7 +4,7 @@ import sys
 
 
 def _branch_matches_release_branch(branch_name):
-    return re.search('refs/heads/release_[0-9]+.[0-9]+.[0-9]+', branch_name)
+    return re.search('refs/heads/release_v?[0-9]+.[0-9]+.[0-9]+', branch_name)
 
 
 def _branch_matches_hotfix_branch(branch_name):

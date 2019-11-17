@@ -391,12 +391,6 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 		return err
 	}
 
-	// Need utf8 for binary constants
-	_, err = file.WriteString("import 'dart:convert' show utf8;\n\n")
-	if err != nil {
-		return err
-	}
-
 	contents := ""
 	contents += fmt.Sprintf("class %s {\n", className)
 	for _, constant := range constants {
@@ -1334,12 +1328,7 @@ func (g *Generator) GenerateObjectPackage(file *os.File, name string) error {
 
 // GenerateThriftImports generates necessary imports for Thrift.
 func (g *Generator) GenerateThriftImports() (string, error) {
-	// Add some ignores to allow errors to be more noisy in dart consumers
-	imports := "// ignore_for_file: unused_import\n"
-	imports += "// ignore_for_file: unused_field\n"
-
-	imports += "import 'dart:typed_data' show Uint8List;\n"
-	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
+	imports := "import 'package:thrift/thrift.dart' as thrift;\n"
 	// Import the current package
 	imports += g.getImportDeclaration(g.getNamespaceOrName(), g.getPackagePrefix())
 
@@ -1373,7 +1362,6 @@ func (g *Generator) writeThriftImports(file *os.File) error {
 // GenerateServiceImports generates necessary imports for the given service.
 func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) error {
 	imports := "import 'dart:async';\n\n"
-	imports += "import 'dart:typed_data' show Uint8List;\n"
 	imports += "import 'package:logging/logging.dart' as logging;\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	imports += "import 'package:frugal/frugal.dart' as frugal;\n\n"
@@ -1399,8 +1387,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 
 // GenerateScopeImports generates necessary imports for the given scope.
 func (g *Generator) GenerateScopeImports(file *os.File, s *parser.Scope) error {
-	imports := "import 'dart:async';\n"
-	imports += "import 'dart:typed_data' show Uint8List;\n\n"
+	imports := "import 'dart:async';\n\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	imports += "import 'package:frugal/frugal.dart' as frugal;\n\n"
 	// import included packages

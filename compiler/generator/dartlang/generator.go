@@ -1248,7 +1248,7 @@ func (g *Generator) generateClone(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		fieldName := toFieldName(field.Name)
 		contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
-		contents += fmt.Sprintf(tabtab+"%s %s: null,\n", g.getDartTypeFromThriftType(field.Type), fieldName)
+		contents += fmt.Sprintf(tabtab+"%s %s = null,\n", g.getDartTypeFromThriftType(field.Type), fieldName)
 	}
 	contents += tab + "}) {\n"
 

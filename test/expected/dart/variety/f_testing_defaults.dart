@@ -757,10 +757,10 @@ class TestingDefaults implements thrift.TBase {
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!__isset_status) {
-      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, 'Required field 'status' is not present in struct 'TestingDefaults'');
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'status' is not present in struct 'TestingDefaults'");
     }
     if (!__isset_base_status) {
-      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, 'Required field 'base_status' is not present in struct 'TestingDefaults'');
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'base_status' is not present in struct 'TestingDefaults'");
     }
     validate();
   }
@@ -1133,10 +1133,10 @@ class TestingDefaults implements thrift.TBase {
     // check for required fields
     // check that fields of type enum have valid values
     if (isSetStatus() && !t_variety.HealthCondition.VALID_VALUES.contains(this.status)) {
-      throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, 'The field 'status' has been assigned the invalid value ${this.status}');
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'status' has been assigned the invalid value ${this.status}");
     }
     if (isSetBase_status() && !t_actual_base_dart.base_health_condition.VALID_VALUES.contains(this.base_status)) {
-      throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, 'The field 'base_status' has been assigned the invalid value ${this.base_status}');
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'base_status' has been assigned the invalid value ${this.base_status}");
     }
   }
 }

@@ -596,8 +596,7 @@ func (g *Generator) generateEnumUsingEnums(enum *parser.Enum) string {
 		contents += fmt.Sprintf(tabtabtab+"return %s.%s;\n", enum.Name, field.Name)
 	}
 	contents += tabtab + "default:\n"
-	contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, 'Invalid value '$value' for enum '%s'');", enum.Name)
-
+	contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Invalid value '$value' for enum '%s'\");", enum.Name)
 	contents += tab + "}\n"
 	contents += "}\n"
 	return contents
@@ -870,7 +869,7 @@ func (g *Generator) generateRead(s *parser.Struct) string {
 		if field.Modifier == parser.Required && g.isDartPrimitive(field.Type) {
 			fName := toFieldName(field.Name)
 			contents += fmt.Sprintf(tabtab+"if (!__isset_%s) {\n", fName)
-			contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, 'Required field '%s' is not present in struct '%s'');\n", fName, s.Name)
+			contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Required field '%s' is not present in struct '%s'\");\n", fName, s.Name)
 			contents += tabtab + "}\n"
 		}
 	}
@@ -1278,7 +1277,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 				fName := toFieldName(field.Name)
 				if !g.isDartPrimitive(field.Type) {
 					contents += fmt.Sprintf(tabtab+"if (this.%s == null) {\n", fName)
-					contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, 'Required field '%s' was not present in struct %s');\n", fName, s.Name)
+					contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"Required field '%s' was not present in struct %s\");\n", fName, s.Name)
 					contents += tabtab + "}\n"
 				}
 			}
@@ -1304,7 +1303,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 				isSetCheck := fmt.Sprintf("isSet%s()", strings.Title(field.Name))
 				contents += fmt.Sprintf(tabtab+"if (%s && !%s.VALID_VALUES.contains(this.%s)) {\n",
 					isSetCheck, g.qualifiedTypeName(field.Type), fName)
-				contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, 'The field '%s' has been assigned the invalid value ${this.%s}');\n", fName, fName)
+				contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"The field '%s' has been assigned the invalid value ${this.%s}\");\n", fName, fName)
 				contents += tabtab + "}\n"
 			}
 		}

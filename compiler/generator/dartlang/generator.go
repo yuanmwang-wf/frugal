@@ -794,7 +794,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		contents += fmt.Sprintf(tabtabtabtab+"return this.%s;\n", toFieldName(field.Name))
 	}
 	contents += tabtabtab + "default:\n"
-	contents += tabtabtabtab + "throw ArgumentError('Field $fieldID doesn't exist!');\n"
+	contents += tabtabtabtab + "throw ArgumentError(\"Field $fieldID doesn't exist!\");\n"
 	contents += tabtab + "}\n"
 	contents += tab + "}\n\n"
 
@@ -814,7 +814,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		contents += tabtabtabtab + "break;\n\n"
 	}
 	contents += tabtabtab + "default:\n"
-	contents += tabtabtabtab + "throw ArgumentError('Field $fieldID doesn't exist!');\n"
+	contents += tabtabtabtab + "throw ArgumentError(\"Field $fieldID doesn't exist!\");\n"
 	contents += tabtab + "}\n"
 	contents += tab + "}\n\n"
 
@@ -829,7 +829,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		contents += fmt.Sprintf(tabtabtabtab+"return isSet%s();\n", strings.Title(field.Name))
 	}
 	contents += tabtabtab + "default:\n"
-	contents += tabtabtabtab + "throw ArgumentError('Field $fieldID doesn't exist!');\n"
+	contents += tabtabtabtab + "throw ArgumentError(\"Field $fieldID doesn't exist!\");\n"
 	contents += tabtab + "}\n"
 	contents += tab + "}\n\n"
 	return contents

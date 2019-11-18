@@ -28,6 +28,7 @@ pubspec.lock
 lib/dart/coverage
 lib/dart/doc
 lib/dart/test/generated_runner_test.dart
+lib/dart/.dart_tool
 
 # Ignore generated code and cross results
 skynet.Dockerfile

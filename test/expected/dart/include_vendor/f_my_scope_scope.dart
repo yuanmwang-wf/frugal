@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
 
-import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
+import 'package:some_vendored_place/vendor_namespace.dart' as t_vendor_namespace;
 import 'package:include_vendor/include_vendor.dart' as t_include_vendor;
 
 

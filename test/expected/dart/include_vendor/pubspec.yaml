@@ -12,10 +12,13 @@ dependencies:
       url: https://pub.workiva.org
     version: ^3.4.10
   logging: ^0.11.2
+  some_vendored_place:
+    hosted:
+      name: some_vendored_place
+      url: https://pub.workiva.org
+    version: any
   thrift:
     hosted:
       name: thrift
       url: https://pub.workiva.org
     version: ^0.0.9
-  vendor_namespace:
-    path: ../vendor_namespace

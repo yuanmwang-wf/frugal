@@ -9,7 +9,7 @@ class Item implements thrift.TBase {
 
 
 
-  Item() {}
+  Item();
 
   @override
   getFieldValue(int fieldID) {

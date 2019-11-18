@@ -23,8 +23,7 @@ class FooArgs implements thrift.TBase {
   static const int MESSAGERESULT = 3;
 
 
-  FooArgs() {
-  }
+  FooArgs();
 
   String get newMessage => this._newMessage;
 

@@ -29,8 +29,7 @@ class AwesomeException extends Error implements thrift.TBase {
   bool __isset_iD = false;
   bool __isset_depr = false;
 
-  AwesomeException() {
-  }
+  AwesomeException();
 
   /// ID is a unique identifier for an awesome exception.
   int get iD => this._iD;

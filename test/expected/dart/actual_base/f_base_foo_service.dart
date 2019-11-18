@@ -72,7 +72,7 @@ class basePing_args implements thrift.TBase {
 
 
 
-  basePing_args() {}
+  basePing_args();
 
   @override
   getFieldValue(int fieldID) {
@@ -162,7 +162,7 @@ class basePing_result implements thrift.TBase {
 
 
 
-  basePing_result() {}
+  basePing_result();
 
   @override
   getFieldValue(int fieldID) {

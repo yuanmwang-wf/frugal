@@ -85,7 +85,7 @@ class getItem_args implements thrift.TBase {
 
 
 
-  getItem_args() {}
+  getItem_args();
 
   @override
   getFieldValue(int fieldID) {
@@ -181,8 +181,7 @@ class getItem_result implements thrift.TBase {
   static const int D = 1;
 
 
-  getItem_result() {
-  }
+  getItem_result();
 
   t_vendor_namespace.Item get success => this._success;
 

@@ -17,8 +17,7 @@ class TestBase implements thrift.TBase {
   static const int BASE_STRUCT = 1;
 
 
-  TestBase() {
-  }
+  TestBase();
 
   t_actual_base_dart.thing get base_struct => this._base_struct;
 

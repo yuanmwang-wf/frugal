@@ -688,18 +688,21 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 
 	// Constructor
 	contents += "\n"
-	contents += fmt.Sprintf(tab+"%s() {", s.Name)
+	contents += fmt.Sprintf(tab+"%s()", s.Name)
+	constructorContent := ""
 	if len(s.Fields) > 0 {
-		contents += "\n"
 		for _, field := range s.Fields {
 			if field.Default != nil {
 				value, _ := g.generateConstantValue(field.Type, field.Default, tab, false)
-				contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
+				constructorContent += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
 			}
 		}
-		contents += tab + "}\n\n"
+	}
+
+	if len(constructorContent) > 0 {
+		contents += " {\n" + constructorContent + tab + "}\n\n"
 	} else {
-		contents += "}\n\n"
+		contents += ";\n\n"
 	}
 
 	// methods for getting/setting fields

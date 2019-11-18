@@ -10,16 +10,9 @@ py3env
 
 # Do not commit the following directories created by pub.
 .buildlog
-.pub/
 build/
-packages
 .packages
-
-# Or the files created by dart2js.
-*.dart.js
-*.js_
-*.js.deps
-*.js.map
+.dart_tool
 
 # Or the lock
 pubspec.lock
@@ -28,7 +21,6 @@ pubspec.lock
 lib/dart/coverage
 lib/dart/doc
 lib/dart/test/generated_runner_test.dart
-lib/dart/.dart_tool
 
 # Ignore generated code and cross results
 skynet.Dockerfile

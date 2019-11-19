@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -254,10 +255,10 @@ class AwesomeException extends Error implements thrift.TBase {
   }
 
   AwesomeException clone({
-    int iD = null,
-    String reason = null,
+    int iD,
+    String reason,
     // ignore: deprecated_member_use
-    bool depr = null,
+    bool depr,
   }) {
     return AwesomeException()
       ..iD = iD ?? this.iD

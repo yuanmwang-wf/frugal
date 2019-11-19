@@ -358,8 +358,8 @@ class getItem_result implements thrift.TBase {
   }
 
   getItem_result clone({
-    t_vendor_namespace.Item success = null,
-    t_excepts.InvalidData d = null,
+    t_vendor_namespace.Item success,
+    t_excepts.InvalidData d,
   }) {
     return getItem_result()
       ..success = success ?? this.success

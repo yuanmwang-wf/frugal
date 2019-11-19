@@ -50,8 +50,8 @@ class EventsPublisher {
   Future _publishEventCreated(frugal.FContext ctx, String user, t_variety.Event req) async {
     ctx.addRequestHeader('_topic_user', user);
     var op = 'EventCreated';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -72,8 +72,8 @@ class EventsPublisher {
   Future _publishSomeInt(frugal.FContext ctx, String user, int req) async {
     ctx.addRequestHeader('_topic_user', user);
     var op = 'SomeInt';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -94,8 +94,8 @@ class EventsPublisher {
   Future _publishSomeStr(frugal.FContext ctx, String user, String req) async {
     ctx.addRequestHeader('_topic_user', user);
     var op = 'SomeStr';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -116,8 +116,8 @@ class EventsPublisher {
   Future _publishSomeList(frugal.FContext ctx, String user, List<Map<int, t_variety.Event>> req) async {
     ctx.addRequestHeader('_topic_user', user);
     var op = 'SomeList';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -156,8 +156,8 @@ class EventsSubscriber {
   /// This is a docstring.
   Future<frugal.FSubscription> subscribeEventCreated(String user, dynamic onEvent(frugal.FContext ctx, t_variety.Event req)) async {
     var op = 'EventCreated';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvEventCreated(op, provider.protocolFactory, onEvent));
     return frugal.FSubscription(topic, transport);
@@ -186,8 +186,8 @@ class EventsSubscriber {
 
   Future<frugal.FSubscription> subscribeSomeInt(String user, dynamic oni64(frugal.FContext ctx, int req)) async {
     var op = 'SomeInt';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvSomeInt(op, provider.protocolFactory, oni64));
     return frugal.FSubscription(topic, transport);
@@ -215,8 +215,8 @@ class EventsSubscriber {
 
   Future<frugal.FSubscription> subscribeSomeStr(String user, dynamic onstring(frugal.FContext ctx, String req)) async {
     var op = 'SomeStr';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvSomeStr(op, provider.protocolFactory, onstring));
     return frugal.FSubscription(topic, transport);
@@ -244,8 +244,8 @@ class EventsSubscriber {
 
   Future<frugal.FSubscription> subscribeSomeList(String user, dynamic onlist(frugal.FContext ctx, List<Map<int, t_variety.Event>> req)) async {
     var op = 'SomeList';
-    var prefix = 'foo.${user}.';
-    var topic = '${prefix}Events${delimiter}${op}';
+    var prefix = 'foo.$user.';
+    var topic = '${prefix}Events$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvSomeList(op, provider.protocolFactory, onlist));
     return frugal.FSubscription(topic, transport);

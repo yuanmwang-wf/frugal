@@ -314,8 +314,8 @@ class buyAlbum_args implements thrift.TBase {
   }
 
   buyAlbum_args clone({
-    String aSIN = null,
-    String acct = null,
+    String aSIN,
+    String acct,
   }) {
     return buyAlbum_args()
       ..aSIN = aSIN ?? this.aSIN
@@ -514,8 +514,8 @@ class buyAlbum_result implements thrift.TBase {
   }
 
   buyAlbum_result clone({
-    t_v1_music.Album success = null,
-    t_v1_music.PurchasingError error = null,
+    t_v1_music.Album success,
+    t_v1_music.PurchasingError error,
   }) {
     return buyAlbum_result()
       ..success = success ?? this.success
@@ -708,8 +708,8 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   }
 
   enterAlbumGiveaway_args clone({
-    String email = null,
-    String name = null,
+    String email,
+    String name,
   }) {
     return enterAlbumGiveaway_args()
       ..email = email ?? this.email
@@ -854,7 +854,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
   }
 
   enterAlbumGiveaway_result clone({
-    bool success = null,
+    bool success,
   }) {
     return enterAlbumGiveaway_result()
       ..success = success ?? this.success;

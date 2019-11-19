@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 

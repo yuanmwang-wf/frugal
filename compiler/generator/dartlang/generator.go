@@ -1257,7 +1257,7 @@ func (g *Generator) generateClone(s *parser.Struct) string {
 	for _, field := range s.Fields {
 		fieldName := toFieldName(field.Name)
 		contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
-		contents += fmt.Sprintf(tabtab+"%s %s = null,\n", g.getDartTypeFromThriftType(field.Type), fieldName)
+		contents += fmt.Sprintf(tabtab+"%s %s,\n", g.getDartTypeFromThriftType(field.Type), fieldName)
 	}
 	contents += tab + "}) {\n"
 
@@ -1339,7 +1339,8 @@ func (g *Generator) GenerateObjectPackage(file *os.File, name string) error {
 func (g *Generator) GenerateThriftImports() (string, error) {
 	// Add ignore to make lints less noisy in dart consumers
 	imports := "// ignore_for_file: unused_import\n"
-	imports += "import 'dart:typed_data' show Uint8List;\n"
+	imports += "import 'dart:typed_data' show Uint8List;\n\n"
+
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	// Import the current package
 	imports += g.getImportDeclaration(g.getNamespaceOrName(), g.getPackagePrefix())
@@ -1496,7 +1497,7 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 
 		publishers += tabtab + fmt.Sprintf("var op = '%s';\n", op.Name)
 		publishers += tabtab + fmt.Sprintf("var prefix = '%s';\n", generatePrefixStringTemplate(scope))
-		publishers += tabtab + "var topic = '${prefix}" + strings.Title(scope.Name) + "${delimiter}${op}';\n"
+		publishers += tabtab + "var topic = '${prefix}" + strings.Title(scope.Name) + "$delimiter$op';\n"
 		publishers += tabtab + "var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);\n"
 		publishers += tabtab + "var oprot = protocolFactory.getProtocol(memoryBuffer);\n"
 		publishers += tabtab + "var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);\n"
@@ -1528,7 +1529,7 @@ func generatePrefixStringTemplate(scope *parser.Scope) string {
 	}
 	vars := make([]interface{}, len(scope.Prefix.Variables))
 	for i, variable := range scope.Prefix.Variables {
-		vars[i] = fmt.Sprintf("${%s}", variable)
+		vars[i] = fmt.Sprintf("$%s", variable)
 	}
 	template = fmt.Sprintf(template, vars...)
 	return template
@@ -1567,7 +1568,7 @@ func (g *Generator) GenerateSubscriber(file *os.File, scope *parser.Scope) error
 			op.Name, args, op.Type.ParamName(), g.getDartTypeFromThriftType(op.Type))
 		subscribers += fmt.Sprintf(tabtab+"var op = '%s';\n", op.Name)
 		subscribers += fmt.Sprintf(tabtab+"var prefix = '%s';\n", generatePrefixStringTemplate(scope))
-		subscribers += tabtab + "var topic = '${prefix}" + strings.Title(scope.Name) + "${delimiter}${op}';\n"
+		subscribers += tabtab + "var topic = '${prefix}" + strings.Title(scope.Name) + "$delimiter$op';\n"
 		subscribers += tabtab + "var transport = provider.subscriberTransportFactory.getTransport();\n"
 		subscribers += fmt.Sprintf(tabtab+"await transport.subscribe(topic, _recv%s(op, provider.protocolFactory, on%s));\n",
 			op.Name, op.Type.ParamName())

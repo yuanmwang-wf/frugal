@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -1052,25 +1053,25 @@ class EventWrapper implements thrift.TBase {
   }
 
   EventWrapper clone({
-    int iD = null,
-    t_variety.Event ev = null,
-    List<t_variety.Event> events = null,
-    Set<t_variety.Event> events2 = null,
-    Map<int, t_variety.Event> eventMap = null,
-    List<List<int>> nums = null,
-    List<int> enums = null,
-    bool aBoolField = null,
-    t_variety.TestingUnions a_union = null,
-    String typedefOfTypedef = null,
+    int iD,
+    t_variety.Event ev,
+    List<t_variety.Event> events,
+    Set<t_variety.Event> events2,
+    Map<int, t_variety.Event> eventMap,
+    List<List<int>> nums,
+    List<int> enums,
+    bool aBoolField,
+    t_variety.TestingUnions a_union,
+    String typedefOfTypedef,
     // ignore: deprecated_member_use
-    bool depr = null,
+    bool depr,
     // ignore: deprecated_member_use
-    Uint8List deprBinary = null,
+    Uint8List deprBinary,
     // ignore: deprecated_member_use
-    List<bool> deprList = null,
-    List<t_variety.Event> eventsDefault = null,
-    Map<int, t_variety.Event> eventMapDefault = null,
-    Set<t_variety.Event> eventSetDefault = null,
+    List<bool> deprList,
+    List<t_variety.Event> eventsDefault,
+    Map<int, t_variety.Event> eventMapDefault,
+    Set<t_variety.Event> eventSetDefault,
   }) {
     return EventWrapper()
       ..iD = iD ?? this.iD

@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -198,8 +199,8 @@ class Event implements thrift.TBase {
   }
 
   Event clone({
-    int iD = null,
-    String message = null,
+    int iD,
+    String message,
   }) {
     return Event()
       ..iD = iD ?? this.iD

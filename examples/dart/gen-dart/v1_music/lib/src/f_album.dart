@@ -246,9 +246,9 @@ class Album implements thrift.TBase {
   }
 
   Album clone({
-    List<t_v1_music.Track> tracks = null,
-    double duration = null,
-    String aSIN = null,
+    List<t_v1_music.Track> tracks,
+    double duration,
+    String aSIN,
   }) {
     return Album()
       ..tracks = tracks ?? this.tracks

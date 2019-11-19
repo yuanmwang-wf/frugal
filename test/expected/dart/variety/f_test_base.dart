@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -143,7 +144,7 @@ class TestBase implements thrift.TBase {
   }
 
   TestBase clone({
-    t_actual_base_dart.thing base_struct = null,
+    t_actual_base_dart.thing base_struct,
   }) {
     return TestBase()
       ..base_struct = base_struct ?? this.base_struct;

@@ -48,7 +48,7 @@ class AlbumWinnersPublisher {
   Future _publishContestStart(frugal.FContext ctx, List<t_v1_music.Album> req) async {
     var op = 'ContestStart';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -73,7 +73,7 @@ class AlbumWinnersPublisher {
   Future _publishTimeLeft(frugal.FContext ctx, double req) async {
     var op = 'TimeLeft';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -94,7 +94,7 @@ class AlbumWinnersPublisher {
   Future _publishWinner(frugal.FContext ctx, t_v1_music.Album req) async {
     var op = 'Winner';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -124,7 +124,7 @@ class AlbumWinnersSubscriber {
   Future<frugal.FSubscription> subscribeContestStart(dynamic onlist(frugal.FContext ctx, List<t_v1_music.Album> req)) async {
     var op = 'ContestStart';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvContestStart(op, provider.protocolFactory, onlist));
     return frugal.FSubscription(topic, transport);
@@ -160,7 +160,7 @@ class AlbumWinnersSubscriber {
   Future<frugal.FSubscription> subscribeTimeLeft(dynamic onMinutes(frugal.FContext ctx, double req)) async {
     var op = 'TimeLeft';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvTimeLeft(op, provider.protocolFactory, onMinutes));
     return frugal.FSubscription(topic, transport);
@@ -189,7 +189,7 @@ class AlbumWinnersSubscriber {
   Future<frugal.FSubscription> subscribeWinner(dynamic onAlbum(frugal.FContext ctx, t_v1_music.Album req)) async {
     var op = 'Winner';
     var prefix = 'v1.music.';
-    var topic = '${prefix}AlbumWinners${delimiter}${op}';
+    var topic = '${prefix}AlbumWinners$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvWinner(op, provider.protocolFactory, onAlbum));
     return frugal.FSubscription(topic, transport);

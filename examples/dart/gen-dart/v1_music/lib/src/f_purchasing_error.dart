@@ -186,8 +186,8 @@ class PurchasingError extends Error implements thrift.TBase {
   }
 
   PurchasingError clone({
-    String message = null,
-    int error_code = null,
+    String message,
+    int error_code,
   }) {
     return PurchasingError()
       ..message = message ?? this.message

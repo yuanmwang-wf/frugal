@@ -44,7 +44,7 @@ class MyScopePublisher {
   Future _publishnewItem(frugal.FContext ctx, t_vendor_namespace.Item req) async {
     var op = 'newItem';
     var prefix = '';
-    var topic = '${prefix}MyScope${delimiter}${op}';
+    var topic = '${prefix}MyScope$delimiter$op';
     var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
     var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
@@ -71,7 +71,7 @@ class MyScopeSubscriber {
   Future<frugal.FSubscription> subscribenewItem(dynamic onItem(frugal.FContext ctx, t_vendor_namespace.Item req)) async {
     var op = 'newItem';
     var prefix = '';
-    var topic = '${prefix}MyScope${delimiter}${op}';
+    var topic = '${prefix}MyScope$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvnewItem(op, provider.protocolFactory, onItem));
     return frugal.FSubscription(topic, transport);

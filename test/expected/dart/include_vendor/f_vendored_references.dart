@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:include_vendor/include_vendor.dart' as t_include_vendor;
 import 'package:some_vendored_place/vendor_namespace.dart' as t_vendor_namespace;
@@ -201,8 +202,8 @@ class VendoredReferences implements thrift.TBase {
   }
 
   VendoredReferences clone({
-    int reference_vendored_const = null,
-    int reference_vendored_enum = null,
+    int reference_vendored_const,
+    int reference_vendored_enum,
   }) {
     return VendoredReferences()
       ..reference_vendored_const = reference_vendored_const ?? this.reference_vendored_const

@@ -960,9 +960,9 @@ class blah_args implements thrift.TBase {
   }
 
   blah_args clone({
-    int num = null,
-    String str = null,
-    t_variety.Event event = null,
+    int num,
+    String str,
+    t_variety.Event event,
   }) {
     return blah_args()
       ..num = num ?? this.num
@@ -1212,9 +1212,9 @@ class blah_result implements thrift.TBase {
   }
 
   blah_result clone({
-    int success = null,
-    t_variety.AwesomeException awe = null,
-    t_actual_base_dart.api_exception api = null,
+    int success,
+    t_variety.AwesomeException awe,
+    t_actual_base_dart.api_exception api,
   }) {
     return blah_result()
       ..success = success ?? this.success
@@ -1417,8 +1417,8 @@ class oneWay_args implements thrift.TBase {
   }
 
   oneWay_args clone({
-    int id = null,
-    Map<int, String> req = null,
+    int id,
+    Map<int, String> req,
   }) {
     return oneWay_args()
       ..id = id ?? this.id
@@ -1611,8 +1611,8 @@ class bin_method_args implements thrift.TBase {
   }
 
   bin_method_args clone({
-    Uint8List bin = null,
-    String str = null,
+    Uint8List bin,
+    String str,
   }) {
     return bin_method_args()
       ..bin = bin ?? this.bin
@@ -1810,8 +1810,8 @@ class bin_method_result implements thrift.TBase {
   }
 
   bin_method_result clone({
-    Uint8List success = null,
-    t_actual_base_dart.api_exception api = null,
+    Uint8List success,
+    t_actual_base_dart.api_exception api,
   }) {
     return bin_method_result()
       ..success = success ?? this.success
@@ -2047,9 +2047,9 @@ class param_modifiers_args implements thrift.TBase {
   }
 
   param_modifiers_args clone({
-    int opt_num = null,
-    int default_num = null,
-    int req_num = null,
+    int opt_num,
+    int default_num,
+    int req_num,
   }) {
     return param_modifiers_args()
       ..opt_num = opt_num ?? this.opt_num
@@ -2195,7 +2195,7 @@ class param_modifiers_result implements thrift.TBase {
   }
 
   param_modifiers_result clone({
-    int success = null,
+    int success,
   }) {
     return param_modifiers_result()
       ..success = success ?? this.success;
@@ -2407,8 +2407,8 @@ class underlying_types_test_args implements thrift.TBase {
   }
 
   underlying_types_test_args clone({
-    List<int> list_type = null,
-    Set<int> set_type = null,
+    List<int> list_type,
+    Set<int> set_type,
   }) {
     return underlying_types_test_args()
       ..list_type = list_type ?? this.list_type
@@ -2564,7 +2564,7 @@ class underlying_types_test_result implements thrift.TBase {
   }
 
   underlying_types_test_result clone({
-    List<int> success = null,
+    List<int> success,
   }) {
     return underlying_types_test_result()
       ..success = success ?? this.success;
@@ -2800,7 +2800,7 @@ class getThing_result implements thrift.TBase {
   }
 
   getThing_result clone({
-    t_validStructs.Thing success = null,
+    t_validStructs.Thing success,
   }) {
     return getThing_result()
       ..success = success ?? this.success;
@@ -3034,7 +3034,7 @@ class getMyInt_result implements thrift.TBase {
   }
 
   getMyInt_result clone({
-    int success = null,
+    int success,
   }) {
     return getMyInt_result()
       ..success = success ?? this.success;
@@ -3178,7 +3178,7 @@ class use_subdir_struct_args implements thrift.TBase {
   }
 
   use_subdir_struct_args clone({
-    t_subdir_include_ns.A a = null,
+    t_subdir_include_ns.A a,
   }) {
     return use_subdir_struct_args()
       ..a = a ?? this.a;
@@ -3324,7 +3324,7 @@ class use_subdir_struct_result implements thrift.TBase {
   }
 
   use_subdir_struct_result clone({
-    t_subdir_include_ns.A success = null,
+    t_subdir_include_ns.A success,
   }) {
     return use_subdir_struct_result()
       ..success = success ?? this.success;
@@ -3467,7 +3467,7 @@ class sayHelloWith_args implements thrift.TBase {
   }
 
   sayHelloWith_args clone({
-    String newMessage = null,
+    String newMessage,
   }) {
     return sayHelloWith_args()
       ..newMessage = newMessage ?? this.newMessage;
@@ -3612,7 +3612,7 @@ class sayHelloWith_result implements thrift.TBase {
   }
 
   sayHelloWith_result clone({
-    String success = null,
+    String success,
   }) {
     return sayHelloWith_result()
       ..success = success ?? this.success;
@@ -3755,7 +3755,7 @@ class whatDoYouSay_args implements thrift.TBase {
   }
 
   whatDoYouSay_args clone({
-    String messageArgs = null,
+    String messageArgs,
   }) {
     return whatDoYouSay_args()
       ..messageArgs = messageArgs ?? this.messageArgs;
@@ -3900,7 +3900,7 @@ class whatDoYouSay_result implements thrift.TBase {
   }
 
   whatDoYouSay_result clone({
-    String success = null,
+    String success,
   }) {
     return whatDoYouSay_result()
       ..success = success ?? this.success;
@@ -4043,7 +4043,7 @@ class sayAgain_args implements thrift.TBase {
   }
 
   sayAgain_args clone({
-    String messageResult = null,
+    String messageResult,
   }) {
     return sayAgain_args()
       ..messageResult = messageResult ?? this.messageResult;
@@ -4188,7 +4188,7 @@ class sayAgain_result implements thrift.TBase {
   }
 
   sayAgain_result clone({
-    String success = null,
+    String success,
   }) {
     return sayAgain_result()
       ..success = success ?? this.success;

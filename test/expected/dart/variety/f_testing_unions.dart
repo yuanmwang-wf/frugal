@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -473,14 +474,14 @@ class TestingUnions implements thrift.TBase {
   }
 
   TestingUnions clone({
-    int anID = null,
-    String aString = null,
-    int someotherthing = null,
-    int anInt16 = null,
-    Map<int, String> requests = null,
-    Uint8List bin_field_in_union = null,
+    int anID,
+    String aString,
+    int someotherthing,
+    int anInt16,
+    Map<int, String> requests,
+    Uint8List bin_field_in_union,
     // ignore: deprecated_member_use
-    bool depr = null,
+    bool depr,
   }) {
     return TestingUnions()
       ..anID = anID ?? this.anID

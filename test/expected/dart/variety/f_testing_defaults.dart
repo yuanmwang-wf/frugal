@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -1091,24 +1092,24 @@ class TestingDefaults implements thrift.TBase {
   }
 
   TestingDefaults clone({
-    int iD2 = null,
-    t_variety.Event ev1 = null,
-    t_variety.Event ev2 = null,
-    int iD = null,
-    String thing = null,
-    String thing2 = null,
-    List<int> listfield = null,
-    int iD3 = null,
-    Uint8List bin_field = null,
-    Uint8List bin_field2 = null,
-    Uint8List bin_field3 = null,
-    Uint8List bin_field4 = null,
-    List<int> list2 = null,
-    List<int> list3 = null,
-    List<int> list4 = null,
-    Map<String, String> a_map = null,
-    int status = null,
-    int base_status = null,
+    int iD2,
+    t_variety.Event ev1,
+    t_variety.Event ev2,
+    int iD,
+    String thing,
+    String thing2,
+    List<int> listfield,
+    int iD3,
+    Uint8List bin_field,
+    Uint8List bin_field2,
+    Uint8List bin_field3,
+    Uint8List bin_field4,
+    List<int> list2,
+    List<int> list3,
+    List<int> list4,
+    Map<String, String> a_map,
+    int status,
+    int base_status,
   }) {
     return TestingDefaults()
       ..iD2 = iD2 ?? this.iD2

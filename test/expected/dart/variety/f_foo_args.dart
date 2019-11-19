@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -240,9 +241,9 @@ class FooArgs implements thrift.TBase {
   }
 
   FooArgs clone({
-    String newMessage = null,
-    String messageArgs = null,
-    String messageResult = null,
+    String newMessage,
+    String messageArgs,
+    String messageResult,
   }) {
     return FooArgs()
       ..newMessage = newMessage ?? this.newMessage

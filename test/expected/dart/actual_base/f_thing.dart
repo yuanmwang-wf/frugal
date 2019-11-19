@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
@@ -183,8 +184,8 @@ class thing implements thrift.TBase {
   }
 
   thing clone({
-    int an_id = null,
-    String a_string = null,
+    int an_id,
+    String a_string,
   }) {
     return thing()
       ..an_id = an_id ?? this.an_id

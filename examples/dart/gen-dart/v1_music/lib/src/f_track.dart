@@ -386,12 +386,12 @@ class Track implements thrift.TBase {
   }
 
   Track clone({
-    String title = null,
-    String artist = null,
-    String publisher = null,
-    String composer = null,
-    double duration = null,
-    int pro = null,
+    String title,
+    String artist,
+    String publisher,
+    String composer,
+    double duration,
+    int pro,
   }) {
     return Track()
       ..title = title ?? this.title

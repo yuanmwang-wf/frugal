@@ -4,6 +4,8 @@
 
 
 import 'dart:async';
+// ignore_for_file: unused_import
+import 'dart:typed_data' show Uint8List;
 
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
@@ -89,7 +91,7 @@ class FStoreClient implements FStore {
   @deprecated
   @override
   Future<bool> enterAlbumGiveaway(frugal.FContext ctx, String email, String name) {
-    _frugalLog.warning('Call to deprecated function 'Store.enterAlbumGiveaway'');
+    _frugalLog.warning("Call to deprecated function 'Store.enterAlbumGiveaway'");
     return this._methods['enterAlbumGiveaway']([ctx, email, name]).then((value) => value as bool);
   }
 
@@ -143,8 +145,7 @@ class buyAlbum_args implements thrift.TBase {
   static const int ACCT = 2;
 
 
-  buyAlbum_args() {
-  }
+  buyAlbum_args();
 
   String get aSIN => this._aSIN;
 
@@ -338,8 +339,7 @@ class buyAlbum_result implements thrift.TBase {
   static const int ERROR = 1;
 
 
-  buyAlbum_result() {
-  }
+  buyAlbum_result();
 
   t_v1_music.Album get success => this._success;
 
@@ -539,8 +539,7 @@ class enterAlbumGiveaway_args implements thrift.TBase {
   static const int NAME = 2;
 
 
-  enterAlbumGiveaway_args() {
-  }
+  enterAlbumGiveaway_args();
 
   String get email => this._email;
 
@@ -732,8 +731,7 @@ class enterAlbumGiveaway_result implements thrift.TBase {
 
   bool __isset_success = false;
 
-  enterAlbumGiveaway_result() {
-  }
+  enterAlbumGiveaway_result();
 
   bool get success => this._success;
 

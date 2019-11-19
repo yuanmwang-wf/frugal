@@ -386,10 +386,16 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 	if err != nil {
 		return err
 	}
+
+	// Add ignores to make lints less noisy in dart consumers
+	ignores := "// ignore_for_file: unused_import\n"
+	ignores += "// ignore_for_file: unused_field\n"
+	if _, err = file.WriteString(ignores); err != nil {
+		return err
+	}
+
 	// Need utf8 for binary constants
-	utfImport := "// ignore_for_file: unused_import\n"
-	utfImport += "import 'dart:convert' show utf8;\n"
-	_, err = file.WriteString(utfImport)
+	_, err = file.WriteString("import 'dart:convert' show utf8;\n")
 	if err != nil {
 		return err
 	}
@@ -614,6 +620,13 @@ func (g *Generator) GenerateStruct(s *parser.Struct) error {
 	file, err := g.GenerateFile(s.Name, g.outputDir, generator.ObjectFile)
 	defer file.Close()
 	if err != nil {
+		return err
+	}
+
+	// Add ignores to make lints less noisy in dart consumers
+	ignores := "// ignore_for_file: unused_import\n"
+	ignores += "// ignore_for_file: unused_field\n"
+	if _, err = file.WriteString(ignores); err != nil {
 		return err
 	}
 
@@ -1337,9 +1350,7 @@ func (g *Generator) GenerateObjectPackage(file *os.File, name string) error {
 
 // GenerateThriftImports generates necessary imports for Thrift.
 func (g *Generator) GenerateThriftImports() (string, error) {
-	// Add ignore to make lints less noisy in dart consumers
-	imports := "// ignore_for_file: unused_import\n"
-	imports += "import 'dart:typed_data' show Uint8List;\n\n"
+	imports := "import 'dart:typed_data' show Uint8List;\n\n"
 
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	// Import the current package
@@ -1374,8 +1385,9 @@ func (g *Generator) writeThriftImports(file *os.File) error {
 
 // GenerateServiceImports generates necessary imports for the given service.
 func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) error {
-	imports := "import 'dart:async';\n"
-	imports += "// ignore_for_file: unused_import\n"
+	imports := "// ignore_for_file: unused_import\n"
+	imports += "// ignore_for_file: unused_field\n"
+	imports += "import 'dart:async';\n"
 	imports += "import 'dart:typed_data' show Uint8List;\n\n"
 
 	imports += "import 'package:logging/logging.dart' as logging;\n"
@@ -1403,8 +1415,10 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 
 // GenerateScopeImports generates necessary imports for the given scope.
 func (g *Generator) GenerateScopeImports(file *os.File, s *parser.Scope) error {
-	imports := "import 'dart:async';\n"
-	imports += "// ignore_for_file: unused_import\n"
+	// Add ignores to make lints less noisy in dart consumers
+	imports := "// ignore_for_file: unused_import\n"
+	imports += "// ignore_for_file: unused_field\n"
+	imports += "import 'dart:async';\n"
 	imports += "import 'dart:typed_data' show Uint8List;\n\n"
 
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"

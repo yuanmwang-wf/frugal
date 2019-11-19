@@ -2,8 +2,8 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 
 // ignore_for_file: unused_import
+// ignore_for_file: unused_field
 import 'dart:convert' show utf8;
-// ignore_for_file: unused_import
 import 'dart:typed_data' show Uint8List;
 
 import 'package:thrift/thrift.dart' as thrift;

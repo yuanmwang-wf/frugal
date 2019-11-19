@@ -3,8 +3,9 @@
 
 
 
-import 'dart:async';
 // ignore_for_file: unused_import
+// ignore_for_file: unused_field
+import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:thrift/thrift.dart' as thrift;

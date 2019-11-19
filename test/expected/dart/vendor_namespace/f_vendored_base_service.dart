@@ -4,6 +4,8 @@
 
 
 import 'dart:async';
+// ignore_for_file: unused_import
+import 'dart:typed_data' show Uint8List;
 
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;

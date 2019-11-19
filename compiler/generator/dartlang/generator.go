@@ -386,6 +386,13 @@ func (g *Generator) GenerateConstantsContents(constants []*parser.Constant) erro
 	if err != nil {
 		return err
 	}
+	// Need utf8 for binary constants
+	utfImport := "// ignore_for_file: unused_import\n"
+	utfImport += "import 'dart:convert' show utf8;\n"
+	_, err = file.WriteString(utfImport)
+	if err != nil {
+		return err
+	}
 
 	if err = g.writeThriftImports(file); err != nil {
 		return err
@@ -1330,7 +1337,10 @@ func (g *Generator) GenerateObjectPackage(file *os.File, name string) error {
 
 // GenerateThriftImports generates necessary imports for Thrift.
 func (g *Generator) GenerateThriftImports() (string, error) {
-	imports := "import 'package:thrift/thrift.dart' as thrift;\n"
+	// Add ignore to make lints less noisy in dart consumers
+	imports := "// ignore_for_file: unused_import\n"
+	imports += "import 'dart:typed_data' show Uint8List;\n"
+	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	// Import the current package
 	imports += g.getImportDeclaration(g.getNamespaceOrName(), g.getPackagePrefix())
 
@@ -1712,7 +1722,7 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 		g.generateReturnArg(method), nameLower, g.generateInputArgs(method.Arguments))
 
 	if method.Annotations.IsDeprecated() {
-		contents += fmt.Sprintf(tabtab+"_frugalLog.warning('Call to deprecated function '%s.%s'');\n", service.Name, nameLower)
+		contents += fmt.Sprintf(tabtab+"_frugalLog.warning(\"Call to deprecated function '%s.%s'\");\n", service.Name, nameLower)
 	}
 
 	innerTypeCast := ""

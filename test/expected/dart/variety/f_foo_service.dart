@@ -3,9 +3,11 @@
 
 
 
+// ignore_for_file: unused_import
+// ignore_for_file: unused_field
 import 'dart:async';
-
 import 'dart:typed_data' show Uint8List;
+
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
@@ -53,7 +55,7 @@ abstract class FFoo extends t_actual_base_dart.FBaseFoo {
 /// This is a thrift service. Frugal will generate bindings that include
 /// a frugal Context for each service call.
 class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
-  static final logging.Logger _frugalLog = new logging.Logger('Foo');
+  static final logging.Logger _frugalLog = logging.Logger('Foo');
   Map<String, frugal.FMethod> _methods;
 
   FFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
@@ -63,18 +65,18 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
-    this._methods['ping'] = new frugal.FMethod(this._ping, 'Foo', 'ping', combined);
-    this._methods['blah'] = new frugal.FMethod(this._blah, 'Foo', 'blah', combined);
-    this._methods['oneWay'] = new frugal.FMethod(this._oneWay, 'Foo', 'oneWay', combined);
-    this._methods['bin_method'] = new frugal.FMethod(this._bin_method, 'Foo', 'bin_method', combined);
-    this._methods['param_modifiers'] = new frugal.FMethod(this._param_modifiers, 'Foo', 'param_modifiers', combined);
-    this._methods['underlying_types_test'] = new frugal.FMethod(this._underlying_types_test, 'Foo', 'underlying_types_test', combined);
-    this._methods['getThing'] = new frugal.FMethod(this._getThing, 'Foo', 'getThing', combined);
-    this._methods['getMyInt'] = new frugal.FMethod(this._getMyInt, 'Foo', 'getMyInt', combined);
-    this._methods['use_subdir_struct'] = new frugal.FMethod(this._use_subdir_struct, 'Foo', 'use_subdir_struct', combined);
-    this._methods['sayHelloWith'] = new frugal.FMethod(this._sayHelloWith, 'Foo', 'sayHelloWith', combined);
-    this._methods['whatDoYouSay'] = new frugal.FMethod(this._whatDoYouSay, 'Foo', 'whatDoYouSay', combined);
-    this._methods['sayAgain'] = new frugal.FMethod(this._sayAgain, 'Foo', 'sayAgain', combined);
+    this._methods['ping'] = frugal.FMethod(this._ping, 'Foo', 'ping', combined);
+    this._methods['blah'] = frugal.FMethod(this._blah, 'Foo', 'blah', combined);
+    this._methods['oneWay'] = frugal.FMethod(this._oneWay, 'Foo', 'oneWay', combined);
+    this._methods['bin_method'] = frugal.FMethod(this._bin_method, 'Foo', 'bin_method', combined);
+    this._methods['param_modifiers'] = frugal.FMethod(this._param_modifiers, 'Foo', 'param_modifiers', combined);
+    this._methods['underlying_types_test'] = frugal.FMethod(this._underlying_types_test, 'Foo', 'underlying_types_test', combined);
+    this._methods['getThing'] = frugal.FMethod(this._getThing, 'Foo', 'getThing', combined);
+    this._methods['getMyInt'] = frugal.FMethod(this._getMyInt, 'Foo', 'getMyInt', combined);
+    this._methods['use_subdir_struct'] = frugal.FMethod(this._use_subdir_struct, 'Foo', 'use_subdir_struct', combined);
+    this._methods['sayHelloWith'] = frugal.FMethod(this._sayHelloWith, 'Foo', 'sayHelloWith', combined);
+    this._methods['whatDoYouSay'] = frugal.FMethod(this._whatDoYouSay, 'Foo', 'whatDoYouSay', combined);
+    this._methods['sayAgain'] = frugal.FMethod(this._sayAgain, 'Foo', 'sayAgain', combined);
   }
 
   frugal.FTransport _transport;
@@ -90,11 +92,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future _ping(frugal.FContext ctx) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("ping", thrift.TMessageType.CALL, 0));
-    Ping_args args = new Ping_args();
+    oprot.writeMessageBegin(thrift.TMessage('ping', thrift.TMessageType.CALL, 0));
+    Ping_args args = Ping_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -106,13 +108,13 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    Ping_result result = new Ping_result();
+    Ping_result result = Ping_result();
     result.read(iprot);
     iprot.readMessageEnd();
   }
@@ -123,11 +125,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<int> _blah(frugal.FContext ctx, int num, String str, t_variety.Event event) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("blah", thrift.TMessageType.CALL, 0));
-    blah_args args = new blah_args();
+    oprot.writeMessageBegin(thrift.TMessage('blah', thrift.TMessageType.CALL, 0));
+    blah_args args = blah_args();
     args.num = num;
     args.str = str;
     args.event = event;
@@ -142,13 +144,13 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    blah_result result = new blah_result();
+    blah_result result = blah_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
@@ -161,8 +163,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     if (result.api != null) {
       throw result.api;
     }
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "blah failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'blah failed: unknown result'
     );
   }
   /// oneway methods don't receive a response from the server.
@@ -172,11 +174,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future _oneWay(frugal.FContext ctx, int id, Map<int, String> req) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("oneWay", thrift.TMessageType.ONEWAY, 0));
-    oneWay_args args = new oneWay_args();
+    oprot.writeMessageBegin(thrift.TMessage('oneWay', thrift.TMessageType.ONEWAY, 0));
+    oneWay_args args = oneWay_args();
     args.id = id;
     args.req = req;
     args.write(oprot);
@@ -190,11 +192,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<Uint8List> _bin_method(frugal.FContext ctx, Uint8List bin, String str) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("bin_method", thrift.TMessageType.CALL, 0));
-    bin_method_args args = new bin_method_args();
+    oprot.writeMessageBegin(thrift.TMessage('bin_method', thrift.TMessageType.CALL, 0));
+    bin_method_args args = bin_method_args();
     args.bin = bin;
     args.str = str;
     args.write(oprot);
@@ -208,13 +210,13 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    bin_method_result result = new bin_method_result();
+    bin_method_result result = bin_method_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
@@ -224,8 +226,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     if (result.api != null) {
       throw result.api;
     }
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "bin_method failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'bin_method failed: unknown result'
     );
   }
   @override
@@ -234,11 +236,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<int> _param_modifiers(frugal.FContext ctx, int opt_num, int default_num, int req_num) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("param_modifiers", thrift.TMessageType.CALL, 0));
-    param_modifiers_args args = new param_modifiers_args();
+    oprot.writeMessageBegin(thrift.TMessage('param_modifiers', thrift.TMessageType.CALL, 0));
+    param_modifiers_args args = param_modifiers_args();
     args.opt_num = opt_num;
     args.default_num = default_num;
     args.req_num = req_num;
@@ -253,21 +255,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    param_modifiers_result result = new param_modifiers_result();
+    param_modifiers_result result = param_modifiers_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "param_modifiers failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'param_modifiers failed: unknown result'
     );
   }
   @override
@@ -276,11 +278,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<List<int>> _underlying_types_test(frugal.FContext ctx, List<int> list_type, Set<int> set_type) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("underlying_types_test", thrift.TMessageType.CALL, 0));
-    underlying_types_test_args args = new underlying_types_test_args();
+    oprot.writeMessageBegin(thrift.TMessage('underlying_types_test', thrift.TMessageType.CALL, 0));
+    underlying_types_test_args args = underlying_types_test_args();
     args.list_type = list_type;
     args.set_type = set_type;
     args.write(oprot);
@@ -294,21 +296,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    underlying_types_test_result result = new underlying_types_test_result();
+    underlying_types_test_result result = underlying_types_test_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "underlying_types_test failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'underlying_types_test failed: unknown result'
     );
   }
   @override
@@ -317,11 +319,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<t_validStructs.Thing> _getThing(frugal.FContext ctx) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("getThing", thrift.TMessageType.CALL, 0));
-    getThing_args args = new getThing_args();
+    oprot.writeMessageBegin(thrift.TMessage('getThing', thrift.TMessageType.CALL, 0));
+    getThing_args args = getThing_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -333,21 +335,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    getThing_result result = new getThing_result();
+    getThing_result result = getThing_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "getThing failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'getThing failed: unknown result'
     );
   }
   @override
@@ -356,11 +358,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<int> _getMyInt(frugal.FContext ctx) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("getMyInt", thrift.TMessageType.CALL, 0));
-    getMyInt_args args = new getMyInt_args();
+    oprot.writeMessageBegin(thrift.TMessage('getMyInt', thrift.TMessageType.CALL, 0));
+    getMyInt_args args = getMyInt_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -372,21 +374,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    getMyInt_result result = new getMyInt_result();
+    getMyInt_result result = getMyInt_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "getMyInt failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'getMyInt failed: unknown result'
     );
   }
   @override
@@ -395,11 +397,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<t_subdir_include_ns.A> _use_subdir_struct(frugal.FContext ctx, t_subdir_include_ns.A a) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("use_subdir_struct", thrift.TMessageType.CALL, 0));
-    use_subdir_struct_args args = new use_subdir_struct_args();
+    oprot.writeMessageBegin(thrift.TMessage('use_subdir_struct', thrift.TMessageType.CALL, 0));
+    use_subdir_struct_args args = use_subdir_struct_args();
     args.a = a;
     args.write(oprot);
     oprot.writeMessageEnd();
@@ -412,21 +414,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    use_subdir_struct_result result = new use_subdir_struct_result();
+    use_subdir_struct_result result = use_subdir_struct_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "use_subdir_struct failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'use_subdir_struct failed: unknown result'
     );
   }
   @override
@@ -435,11 +437,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<String> _sayHelloWith(frugal.FContext ctx, String newMessage) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("sayHelloWith", thrift.TMessageType.CALL, 0));
-    sayHelloWith_args args = new sayHelloWith_args();
+    oprot.writeMessageBegin(thrift.TMessage('sayHelloWith', thrift.TMessageType.CALL, 0));
+    sayHelloWith_args args = sayHelloWith_args();
     args.newMessage = newMessage;
     args.write(oprot);
     oprot.writeMessageEnd();
@@ -452,21 +454,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    sayHelloWith_result result = new sayHelloWith_result();
+    sayHelloWith_result result = sayHelloWith_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "sayHelloWith failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'sayHelloWith failed: unknown result'
     );
   }
   @override
@@ -475,11 +477,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<String> _whatDoYouSay(frugal.FContext ctx, String messageArgs) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("whatDoYouSay", thrift.TMessageType.CALL, 0));
-    whatDoYouSay_args args = new whatDoYouSay_args();
+    oprot.writeMessageBegin(thrift.TMessage('whatDoYouSay', thrift.TMessageType.CALL, 0));
+    whatDoYouSay_args args = whatDoYouSay_args();
     args.messageArgs = messageArgs;
     args.write(oprot);
     oprot.writeMessageEnd();
@@ -492,21 +494,21 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    whatDoYouSay_result result = new whatDoYouSay_result();
+    whatDoYouSay_result result = whatDoYouSay_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "whatDoYouSay failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'whatDoYouSay failed: unknown result'
     );
   }
   @override
@@ -515,11 +517,11 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
   }
 
   Future<String> _sayAgain(frugal.FContext ctx, String messageResult) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("sayAgain", thrift.TMessageType.CALL, 0));
-    sayAgain_args args = new sayAgain_args();
+    oprot.writeMessageBegin(thrift.TMessage('sayAgain', thrift.TMessageType.CALL, 0));
+    sayAgain_args args = sayAgain_args();
     args.messageResult = messageResult;
     args.write(oprot);
     oprot.writeMessageEnd();
@@ -532,38 +534,38 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    sayAgain_result result = new sayAgain_result();
+    sayAgain_result result = sayAgain_result();
     result.read(iprot);
     iprot.readMessageEnd();
     if (result.isSetSuccess()) {
       return result.success;
     }
 
-    throw new thrift.TApplicationError(
-      frugal.FrugalTApplicationErrorType.MISSING_RESULT, "sayAgain failed: unknown result"
+    throw thrift.TApplicationError(
+      frugal.FrugalTApplicationErrorType.MISSING_RESULT, 'sayAgain failed: unknown result'
     );
   }
 }
 
 // ignore: camel_case_types
 class Ping_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_args");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('Ping_args');
 
 
 
-  Ping_args() {}
+  Ping_args();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -571,7 +573,7 @@ class Ping_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -580,7 +582,7 @@ class Ping_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -614,9 +616,9 @@ class Ping_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("Ping_args(");
+    StringBuffer ret = StringBuffer('Ping_args(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -633,7 +635,7 @@ class Ping_args implements thrift.TBase {
   }
 
   Ping_args clone() {
-    return new Ping_args();
+    return Ping_args();
   }
 
   validate() {
@@ -643,17 +645,17 @@ class Ping_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class Ping_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Ping_result");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('Ping_result');
 
 
 
-  Ping_result() {}
+  Ping_result();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -661,7 +663,7 @@ class Ping_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -670,7 +672,7 @@ class Ping_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -704,9 +706,9 @@ class Ping_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("Ping_result(");
+    StringBuffer ret = StringBuffer('Ping_result(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -723,7 +725,7 @@ class Ping_result implements thrift.TBase {
   }
 
   Ping_result clone() {
-    return new Ping_result();
+    return Ping_result();
   }
 
   validate() {
@@ -733,10 +735,10 @@ class Ping_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class blah_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_args");
-  static final thrift.TField _NUM_FIELD_DESC = new thrift.TField("num", thrift.TType.I32, 1);
-  static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
-  static final thrift.TField _EVENT_FIELD_DESC = new thrift.TField("event", thrift.TType.STRUCT, 3);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('blah_args');
+  static final thrift.TField _NUM_FIELD_DESC = thrift.TField('num', thrift.TType.I32, 1);
+  static final thrift.TField _STR_FIELD_DESC = thrift.TField('Str', thrift.TType.STRING, 2);
+  static final thrift.TField _EVENT_FIELD_DESC = thrift.TField('event', thrift.TType.STRUCT, 3);
 
   int _num = 0;
   static const int NUM = 1;
@@ -747,8 +749,7 @@ class blah_args implements thrift.TBase {
 
   bool __isset_num = false;
 
-  blah_args() {
-  }
+  blah_args();
 
   int get num => this._num;
 
@@ -797,7 +798,7 @@ class blah_args implements thrift.TBase {
       case EVENT:
         return this.event;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -829,7 +830,7 @@ class blah_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -844,7 +845,7 @@ class blah_args implements thrift.TBase {
       case EVENT:
         return isSetEvent();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -872,7 +873,7 @@ class blah_args implements thrift.TBase {
           break;
         case EVENT:
           if (field.type == thrift.TType.STRUCT) {
-            this.event = new t_variety.Event();
+            this.event = t_variety.Event();
             event.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -914,28 +915,28 @@ class blah_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("blah_args(");
+    StringBuffer ret = StringBuffer('blah_args(');
 
-    ret.write("num:");
+    ret.write('num:');
     ret.write(this.num);
 
-    ret.write(", ");
-    ret.write("str:");
+    ret.write(', ');
+    ret.write('str:');
     if (this.str == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.str);
     }
 
-    ret.write(", ");
-    ret.write("event:");
+    ret.write(', ');
+    ret.write('event:');
     if (this.event == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.event);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -960,11 +961,11 @@ class blah_args implements thrift.TBase {
   }
 
   blah_args clone({
-    int num: null,
-    String str: null,
-    t_variety.Event event: null,
+    int num,
+    String str,
+    t_variety.Event event,
   }) {
-    return new blah_args()
+    return blah_args()
       ..num = num ?? this.num
       ..str = str ?? this.str
       ..event = event ?? this.event;
@@ -977,10 +978,10 @@ class blah_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class blah_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("blah_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
-  static final thrift.TField _AWE_FIELD_DESC = new thrift.TField("awe", thrift.TType.STRUCT, 1);
-  static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('blah_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.I64, 0);
+  static final thrift.TField _AWE_FIELD_DESC = thrift.TField('awe', thrift.TType.STRUCT, 1);
+  static final thrift.TField _API_FIELD_DESC = thrift.TField('api', thrift.TType.STRUCT, 2);
 
   int _success;
   static const int SUCCESS = 0;
@@ -991,8 +992,7 @@ class blah_result implements thrift.TBase {
 
   bool __isset_success = false;
 
-  blah_result() {
-  }
+  blah_result();
 
   int get success => this._success;
 
@@ -1041,7 +1041,7 @@ class blah_result implements thrift.TBase {
       case API:
         return this.api;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1073,7 +1073,7 @@ class blah_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1088,7 +1088,7 @@ class blah_result implements thrift.TBase {
       case API:
         return isSetApi();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1109,7 +1109,7 @@ class blah_result implements thrift.TBase {
           break;
         case AWE:
           if (field.type == thrift.TType.STRUCT) {
-            this.awe = new t_variety.AwesomeException();
+            this.awe = t_variety.AwesomeException();
             awe.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1117,7 +1117,7 @@ class blah_result implements thrift.TBase {
           break;
         case API:
           if (field.type == thrift.TType.STRUCT) {
-            this.api = new t_actual_base_dart.api_exception();
+            this.api = t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1161,34 +1161,34 @@ class blah_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("blah_result(");
+    StringBuffer ret = StringBuffer('blah_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       ret.write(this.success);
     }
 
     if (isSetAwe()) {
-      ret.write(", ");
-      ret.write("awe:");
+      ret.write(', ');
+      ret.write('awe:');
       if (this.awe == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.awe);
       }
     }
 
     if (isSetApi()) {
-      ret.write(", ");
-      ret.write("api:");
+      ret.write(', ');
+      ret.write('api:');
       if (this.api == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.api);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -1213,11 +1213,11 @@ class blah_result implements thrift.TBase {
   }
 
   blah_result clone({
-    int success: null,
-    t_variety.AwesomeException awe: null,
-    t_actual_base_dart.api_exception api: null,
+    int success,
+    t_variety.AwesomeException awe,
+    t_actual_base_dart.api_exception api,
   }) {
-    return new blah_result()
+    return blah_result()
       ..success = success ?? this.success
       ..awe = awe ?? this.awe
       ..api = api ?? this.api;
@@ -1230,9 +1230,9 @@ class blah_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class oneWay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("oneWay_args");
-  static final thrift.TField _ID_FIELD_DESC = new thrift.TField("id", thrift.TType.I64, 1);
-  static final thrift.TField _REQ_FIELD_DESC = new thrift.TField("req", thrift.TType.MAP, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('oneWay_args');
+  static final thrift.TField _ID_FIELD_DESC = thrift.TField('id', thrift.TType.I64, 1);
+  static final thrift.TField _REQ_FIELD_DESC = thrift.TField('req', thrift.TType.MAP, 2);
 
   int _id = 0;
   static const int ID = 1;
@@ -1241,8 +1241,7 @@ class oneWay_args implements thrift.TBase {
 
   bool __isset_id = false;
 
-  oneWay_args() {
-  }
+  oneWay_args();
 
   int get id => this._id;
 
@@ -1277,7 +1276,7 @@ class oneWay_args implements thrift.TBase {
       case REQ:
         return this.req;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1301,7 +1300,7 @@ class oneWay_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1314,7 +1313,7 @@ class oneWay_args implements thrift.TBase {
       case REQ:
         return isSetReq();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1336,7 +1335,7 @@ class oneWay_args implements thrift.TBase {
         case REQ:
           if (field.type == thrift.TType.MAP) {
             thrift.TMap elem68 = iprot.readMapBegin();
-            this.req = new Map<int, String>();
+            this.req = Map<int, String>();
             for(int elem70 = 0; elem70 < elem68.length; ++elem70) {
               int elem71 = iprot.readI32();
               String elem69 = iprot.readString();
@@ -1369,7 +1368,7 @@ class oneWay_args implements thrift.TBase {
     oprot.writeFieldEnd();
     if (this.req != null) {
       oprot.writeFieldBegin(_REQ_FIELD_DESC);
-      oprot.writeMapBegin(new thrift.TMap(thrift.TType.I32, thrift.TType.STRING, this.req.length));
+      oprot.writeMapBegin(thrift.TMap(thrift.TType.I32, thrift.TType.STRING, this.req.length));
       for(var elem72 in this.req.keys) {
         oprot.writeI32(elem72);
         oprot.writeString(req[elem72]);
@@ -1383,20 +1382,20 @@ class oneWay_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("oneWay_args(");
+    StringBuffer ret = StringBuffer('oneWay_args(');
 
-    ret.write("id:");
+    ret.write('id:');
     ret.write(this.id);
 
-    ret.write(", ");
-    ret.write("req:");
+    ret.write(', ');
+    ret.write('req:');
     if (this.req == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.req);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -1419,10 +1418,10 @@ class oneWay_args implements thrift.TBase {
   }
 
   oneWay_args clone({
-    int id: null,
-    Map<int, String> req: null,
+    int id,
+    Map<int, String> req,
   }) {
-    return new oneWay_args()
+    return oneWay_args()
       ..id = id ?? this.id
       ..req = req ?? this.req;
   }
@@ -1434,9 +1433,9 @@ class oneWay_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class bin_method_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_args");
-  static final thrift.TField _BIN_FIELD_DESC = new thrift.TField("bin", thrift.TType.STRING, 1);
-  static final thrift.TField _STR_FIELD_DESC = new thrift.TField("Str", thrift.TType.STRING, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('bin_method_args');
+  static final thrift.TField _BIN_FIELD_DESC = thrift.TField('bin', thrift.TType.STRING, 1);
+  static final thrift.TField _STR_FIELD_DESC = thrift.TField('Str', thrift.TType.STRING, 2);
 
   Uint8List _bin;
   static const int BIN = 1;
@@ -1444,8 +1443,7 @@ class bin_method_args implements thrift.TBase {
   static const int STR = 2;
 
 
-  bin_method_args() {
-  }
+  bin_method_args();
 
   Uint8List get bin => this._bin;
 
@@ -1479,7 +1477,7 @@ class bin_method_args implements thrift.TBase {
       case STR:
         return this.str;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1503,7 +1501,7 @@ class bin_method_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1516,7 +1514,7 @@ class bin_method_args implements thrift.TBase {
       case STR:
         return isSetStr();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1574,24 +1572,24 @@ class bin_method_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("bin_method_args(");
+    StringBuffer ret = StringBuffer('bin_method_args(');
 
-    ret.write("bin:");
+    ret.write('bin:');
     if (this.bin == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
-      ret.write("BINARY");
+      ret.write('BINARY');
     }
 
-    ret.write(", ");
-    ret.write("str:");
+    ret.write(', ');
+    ret.write('str:');
     if (this.str == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.str);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -1614,10 +1612,10 @@ class bin_method_args implements thrift.TBase {
   }
 
   bin_method_args clone({
-    Uint8List bin: null,
-    String str: null,
+    Uint8List bin,
+    String str,
   }) {
-    return new bin_method_args()
+    return bin_method_args()
       ..bin = bin ?? this.bin
       ..str = str ?? this.str;
   }
@@ -1629,9 +1627,9 @@ class bin_method_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class bin_method_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("bin_method_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
-  static final thrift.TField _API_FIELD_DESC = new thrift.TField("api", thrift.TType.STRUCT, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('bin_method_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRING, 0);
+  static final thrift.TField _API_FIELD_DESC = thrift.TField('api', thrift.TType.STRUCT, 1);
 
   Uint8List _success;
   static const int SUCCESS = 0;
@@ -1639,8 +1637,7 @@ class bin_method_result implements thrift.TBase {
   static const int API = 1;
 
 
-  bin_method_result() {
-  }
+  bin_method_result();
 
   Uint8List get success => this._success;
 
@@ -1674,7 +1671,7 @@ class bin_method_result implements thrift.TBase {
       case API:
         return this.api;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1698,7 +1695,7 @@ class bin_method_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1711,7 +1708,7 @@ class bin_method_result implements thrift.TBase {
       case API:
         return isSetApi();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1731,7 +1728,7 @@ class bin_method_result implements thrift.TBase {
           break;
         case API:
           if (field.type == thrift.TType.STRUCT) {
-            this.api = new t_actual_base_dart.api_exception();
+            this.api = t_actual_base_dart.api_exception();
             api.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -1770,28 +1767,28 @@ class bin_method_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("bin_method_result(");
+    StringBuffer ret = StringBuffer('bin_method_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
-        ret.write("BINARY");
+        ret.write('BINARY');
       }
     }
 
     if (isSetApi()) {
-      ret.write(", ");
-      ret.write("api:");
+      ret.write(', ');
+      ret.write('api:');
       if (this.api == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.api);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -1814,10 +1811,10 @@ class bin_method_result implements thrift.TBase {
   }
 
   bin_method_result clone({
-    Uint8List success: null,
-    t_actual_base_dart.api_exception api: null,
+    Uint8List success,
+    t_actual_base_dart.api_exception api,
   }) {
-    return new bin_method_result()
+    return bin_method_result()
       ..success = success ?? this.success
       ..api = api ?? this.api;
   }
@@ -1829,10 +1826,10 @@ class bin_method_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class param_modifiers_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_args");
-  static final thrift.TField _OPT_NUM_FIELD_DESC = new thrift.TField("opt_num", thrift.TType.I32, 1);
-  static final thrift.TField _DEFAULT_NUM_FIELD_DESC = new thrift.TField("default_num", thrift.TType.I32, 2);
-  static final thrift.TField _REQ_NUM_FIELD_DESC = new thrift.TField("req_num", thrift.TType.I32, 3);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('param_modifiers_args');
+  static final thrift.TField _OPT_NUM_FIELD_DESC = thrift.TField('opt_num', thrift.TType.I32, 1);
+  static final thrift.TField _DEFAULT_NUM_FIELD_DESC = thrift.TField('default_num', thrift.TType.I32, 2);
+  static final thrift.TField _REQ_NUM_FIELD_DESC = thrift.TField('req_num', thrift.TType.I32, 3);
 
   int _opt_num = 0;
   static const int OPT_NUM = 1;
@@ -1845,8 +1842,7 @@ class param_modifiers_args implements thrift.TBase {
   bool __isset_default_num = false;
   bool __isset_req_num = false;
 
-  param_modifiers_args() {
-  }
+  param_modifiers_args();
 
   int get opt_num => this._opt_num;
 
@@ -1897,7 +1893,7 @@ class param_modifiers_args implements thrift.TBase {
       case REQ_NUM:
         return this.req_num;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1929,7 +1925,7 @@ class param_modifiers_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1944,7 +1940,7 @@ class param_modifiers_args implements thrift.TBase {
       case REQ_NUM:
         return isSetReq_num();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -1989,7 +1985,7 @@ class param_modifiers_args implements thrift.TBase {
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!__isset_req_num) {
-      throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'req_num' is not present in struct 'param_modifiers_args'");
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Required field 'req_num' is not present in struct 'param_modifiers_args'");
     }
     validate();
   }
@@ -2014,20 +2010,20 @@ class param_modifiers_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("param_modifiers_args(");
+    StringBuffer ret = StringBuffer('param_modifiers_args(');
 
-    ret.write("opt_num:");
+    ret.write('opt_num:');
     ret.write(this.opt_num);
 
-    ret.write(", ");
-    ret.write("default_num:");
+    ret.write(', ');
+    ret.write('default_num:');
     ret.write(this.default_num);
 
-    ret.write(", ");
-    ret.write("req_num:");
+    ret.write(', ');
+    ret.write('req_num:');
     ret.write(this.req_num);
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2052,11 +2048,11 @@ class param_modifiers_args implements thrift.TBase {
   }
 
   param_modifiers_args clone({
-    int opt_num: null,
-    int default_num: null,
-    int req_num: null,
+    int opt_num,
+    int default_num,
+    int req_num,
   }) {
-    return new param_modifiers_args()
+    return param_modifiers_args()
       ..opt_num = opt_num ?? this.opt_num
       ..default_num = default_num ?? this.default_num
       ..req_num = req_num ?? this.req_num;
@@ -2069,16 +2065,15 @@ class param_modifiers_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class param_modifiers_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("param_modifiers_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I64, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('param_modifiers_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.I64, 0);
 
   int _success;
   static const int SUCCESS = 0;
 
   bool __isset_success = false;
 
-  param_modifiers_result() {
-  }
+  param_modifiers_result();
 
   int get success => this._success;
 
@@ -2099,7 +2094,7 @@ class param_modifiers_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2115,7 +2110,7 @@ class param_modifiers_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2126,7 +2121,7 @@ class param_modifiers_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2173,14 +2168,14 @@ class param_modifiers_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("param_modifiers_result(");
+    StringBuffer ret = StringBuffer('param_modifiers_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       ret.write(this.success);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2201,9 +2196,9 @@ class param_modifiers_result implements thrift.TBase {
   }
 
   param_modifiers_result clone({
-    int success: null,
+    int success,
   }) {
-    return new param_modifiers_result()
+    return param_modifiers_result()
       ..success = success ?? this.success;
   }
 
@@ -2214,9 +2209,9 @@ class param_modifiers_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class underlying_types_test_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_args");
-  static final thrift.TField _LIST_TYPE_FIELD_DESC = new thrift.TField("list_type", thrift.TType.LIST, 1);
-  static final thrift.TField _SET_TYPE_FIELD_DESC = new thrift.TField("set_type", thrift.TType.SET, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('underlying_types_test_args');
+  static final thrift.TField _LIST_TYPE_FIELD_DESC = thrift.TField('list_type', thrift.TType.LIST, 1);
+  static final thrift.TField _SET_TYPE_FIELD_DESC = thrift.TField('set_type', thrift.TType.SET, 2);
 
   List<int> _list_type;
   static const int LIST_TYPE = 1;
@@ -2224,8 +2219,7 @@ class underlying_types_test_args implements thrift.TBase {
   static const int SET_TYPE = 2;
 
 
-  underlying_types_test_args() {
-  }
+  underlying_types_test_args();
 
   List<int> get list_type => this._list_type;
 
@@ -2259,7 +2253,7 @@ class underlying_types_test_args implements thrift.TBase {
       case SET_TYPE:
         return this.set_type;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2283,7 +2277,7 @@ class underlying_types_test_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2296,7 +2290,7 @@ class underlying_types_test_args implements thrift.TBase {
       case SET_TYPE:
         return isSetSet_type();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2310,7 +2304,7 @@ class underlying_types_test_args implements thrift.TBase {
         case LIST_TYPE:
           if (field.type == thrift.TType.LIST) {
             thrift.TList elem73 = iprot.readListBegin();
-            this.list_type = new List<int>();
+            this.list_type = List<int>();
             for(int elem75 = 0; elem75 < elem73.length; ++elem75) {
               int elem74 = iprot.readI64();
               this.list_type.add(elem74);
@@ -2323,7 +2317,7 @@ class underlying_types_test_args implements thrift.TBase {
         case SET_TYPE:
           if (field.type == thrift.TType.SET) {
             thrift.TSet elem76 = iprot.readSetBegin();
-            this.set_type = new Set<int>();
+            this.set_type = Set<int>();
             for(int elem78 = 0; elem78 < elem76.length; ++elem78) {
               int elem77 = iprot.readI64();
               this.set_type.add(elem77);
@@ -2352,7 +2346,7 @@ class underlying_types_test_args implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (this.list_type != null) {
       oprot.writeFieldBegin(_LIST_TYPE_FIELD_DESC);
-      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, this.list_type.length));
+      oprot.writeListBegin(thrift.TList(thrift.TType.I64, this.list_type.length));
       for(var elem79 in this.list_type) {
         oprot.writeI64(elem79);
       }
@@ -2361,7 +2355,7 @@ class underlying_types_test_args implements thrift.TBase {
     }
     if (this.set_type != null) {
       oprot.writeFieldBegin(_SET_TYPE_FIELD_DESC);
-      oprot.writeSetBegin(new thrift.TSet(thrift.TType.I64, this.set_type.length));
+      oprot.writeSetBegin(thrift.TSet(thrift.TType.I64, this.set_type.length));
       for(var elem80 in this.set_type) {
         oprot.writeI64(elem80);
       }
@@ -2374,24 +2368,24 @@ class underlying_types_test_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("underlying_types_test_args(");
+    StringBuffer ret = StringBuffer('underlying_types_test_args(');
 
-    ret.write("list_type:");
+    ret.write('list_type:');
     if (this.list_type == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.list_type);
     }
 
-    ret.write(", ");
-    ret.write("set_type:");
+    ret.write(', ');
+    ret.write('set_type:');
     if (this.set_type == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.set_type);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2414,10 +2408,10 @@ class underlying_types_test_args implements thrift.TBase {
   }
 
   underlying_types_test_args clone({
-    List<int> list_type: null,
-    Set<int> set_type: null,
+    List<int> list_type,
+    Set<int> set_type,
   }) {
-    return new underlying_types_test_args()
+    return underlying_types_test_args()
       ..list_type = list_type ?? this.list_type
       ..set_type = set_type ?? this.set_type;
   }
@@ -2429,15 +2423,14 @@ class underlying_types_test_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class underlying_types_test_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("underlying_types_test_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.LIST, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('underlying_types_test_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.LIST, 0);
 
   List<int> _success;
   static const int SUCCESS = 0;
 
 
-  underlying_types_test_result() {
-  }
+  underlying_types_test_result();
 
   List<int> get success => this._success;
 
@@ -2457,7 +2450,7 @@ class underlying_types_test_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2473,7 +2466,7 @@ class underlying_types_test_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2484,7 +2477,7 @@ class underlying_types_test_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2498,7 +2491,7 @@ class underlying_types_test_result implements thrift.TBase {
         case SUCCESS:
           if (field.type == thrift.TType.LIST) {
             thrift.TList elem81 = iprot.readListBegin();
-            this.success = new List<int>();
+            this.success = List<int>();
             for(int elem83 = 0; elem83 < elem81.length; ++elem83) {
               int elem82 = iprot.readI64();
               this.success.add(elem82);
@@ -2527,7 +2520,7 @@ class underlying_types_test_result implements thrift.TBase {
     oprot.writeStructBegin(_STRUCT_DESC);
     if (isSetSuccess() && this.success != null) {
       oprot.writeFieldBegin(_SUCCESS_FIELD_DESC);
-      oprot.writeListBegin(new thrift.TList(thrift.TType.I64, this.success.length));
+      oprot.writeListBegin(thrift.TList(thrift.TType.I64, this.success.length));
       for(var elem84 in this.success) {
         oprot.writeI64(elem84);
       }
@@ -2540,18 +2533,18 @@ class underlying_types_test_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("underlying_types_test_result(");
+    StringBuffer ret = StringBuffer('underlying_types_test_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2572,9 +2565,9 @@ class underlying_types_test_result implements thrift.TBase {
   }
 
   underlying_types_test_result clone({
-    List<int> success: null,
+    List<int> success,
   }) {
-    return new underlying_types_test_result()
+    return underlying_types_test_result()
       ..success = success ?? this.success;
   }
 
@@ -2585,17 +2578,17 @@ class underlying_types_test_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getThing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_args");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('getThing_args');
 
 
 
-  getThing_args() {}
+  getThing_args();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2603,7 +2596,7 @@ class getThing_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2612,7 +2605,7 @@ class getThing_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2646,9 +2639,9 @@ class getThing_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("getThing_args(");
+    StringBuffer ret = StringBuffer('getThing_args(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2665,7 +2658,7 @@ class getThing_args implements thrift.TBase {
   }
 
   getThing_args clone() {
-    return new getThing_args();
+    return getThing_args();
   }
 
   validate() {
@@ -2675,15 +2668,14 @@ class getThing_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getThing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getThing_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('getThing_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRUCT, 0);
 
   t_validStructs.Thing _success;
   static const int SUCCESS = 0;
 
 
-  getThing_result() {
-  }
+  getThing_result();
 
   t_validStructs.Thing get success => this._success;
 
@@ -2703,7 +2695,7 @@ class getThing_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2719,7 +2711,7 @@ class getThing_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2730,7 +2722,7 @@ class getThing_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2743,7 +2735,7 @@ class getThing_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRUCT) {
-            this.success = new t_validStructs.Thing();
+            this.success = t_validStructs.Thing();
             success.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -2777,18 +2769,18 @@ class getThing_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("getThing_result(");
+    StringBuffer ret = StringBuffer('getThing_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2809,9 +2801,9 @@ class getThing_result implements thrift.TBase {
   }
 
   getThing_result clone({
-    t_validStructs.Thing success: null,
+    t_validStructs.Thing success,
   }) {
-    return new getThing_result()
+    return getThing_result()
       ..success = success ?? this.success;
   }
 
@@ -2822,17 +2814,17 @@ class getThing_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getMyInt_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_args");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('getMyInt_args');
 
 
 
-  getMyInt_args() {}
+  getMyInt_args();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2840,7 +2832,7 @@ class getMyInt_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2849,7 +2841,7 @@ class getMyInt_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2883,9 +2875,9 @@ class getMyInt_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("getMyInt_args(");
+    StringBuffer ret = StringBuffer('getMyInt_args(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -2902,7 +2894,7 @@ class getMyInt_args implements thrift.TBase {
   }
 
   getMyInt_args clone() {
-    return new getMyInt_args();
+    return getMyInt_args();
   }
 
   validate() {
@@ -2912,16 +2904,15 @@ class getMyInt_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class getMyInt_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("getMyInt_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.I32, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('getMyInt_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.I32, 0);
 
   int _success;
   static const int SUCCESS = 0;
 
   bool __isset_success = false;
 
-  getMyInt_result() {
-  }
+  getMyInt_result();
 
   int get success => this._success;
 
@@ -2942,7 +2933,7 @@ class getMyInt_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2958,7 +2949,7 @@ class getMyInt_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -2969,7 +2960,7 @@ class getMyInt_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3016,14 +3007,14 @@ class getMyInt_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("getMyInt_result(");
+    StringBuffer ret = StringBuffer('getMyInt_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       ret.write(this.success);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3044,9 +3035,9 @@ class getMyInt_result implements thrift.TBase {
   }
 
   getMyInt_result clone({
-    int success: null,
+    int success,
   }) {
-    return new getMyInt_result()
+    return getMyInt_result()
       ..success = success ?? this.success;
   }
 
@@ -3057,15 +3048,14 @@ class getMyInt_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class use_subdir_struct_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_args");
-  static final thrift.TField _A_FIELD_DESC = new thrift.TField("a", thrift.TType.STRUCT, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('use_subdir_struct_args');
+  static final thrift.TField _A_FIELD_DESC = thrift.TField('a', thrift.TType.STRUCT, 1);
 
   t_subdir_include_ns.A _a;
   static const int A = 1;
 
 
-  use_subdir_struct_args() {
-  }
+  use_subdir_struct_args();
 
   t_subdir_include_ns.A get a => this._a;
 
@@ -3085,7 +3075,7 @@ class use_subdir_struct_args implements thrift.TBase {
       case A:
         return this.a;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3101,7 +3091,7 @@ class use_subdir_struct_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3112,7 +3102,7 @@ class use_subdir_struct_args implements thrift.TBase {
       case A:
         return isSetA();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3125,7 +3115,7 @@ class use_subdir_struct_args implements thrift.TBase {
       switch (field.id) {
         case A:
           if (field.type == thrift.TType.STRUCT) {
-            this.a = new t_subdir_include_ns.A();
+            this.a = t_subdir_include_ns.A();
             a.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3159,16 +3149,16 @@ class use_subdir_struct_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("use_subdir_struct_args(");
+    StringBuffer ret = StringBuffer('use_subdir_struct_args(');
 
-    ret.write("a:");
+    ret.write('a:');
     if (this.a == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.a);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3189,9 +3179,9 @@ class use_subdir_struct_args implements thrift.TBase {
   }
 
   use_subdir_struct_args clone({
-    t_subdir_include_ns.A a: null,
+    t_subdir_include_ns.A a,
   }) {
-    return new use_subdir_struct_args()
+    return use_subdir_struct_args()
       ..a = a ?? this.a;
   }
 
@@ -3202,15 +3192,14 @@ class use_subdir_struct_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class use_subdir_struct_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("use_subdir_struct_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRUCT, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('use_subdir_struct_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRUCT, 0);
 
   t_subdir_include_ns.A _success;
   static const int SUCCESS = 0;
 
 
-  use_subdir_struct_result() {
-  }
+  use_subdir_struct_result();
 
   t_subdir_include_ns.A get success => this._success;
 
@@ -3230,7 +3219,7 @@ class use_subdir_struct_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3246,7 +3235,7 @@ class use_subdir_struct_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3257,7 +3246,7 @@ class use_subdir_struct_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3270,7 +3259,7 @@ class use_subdir_struct_result implements thrift.TBase {
       switch (field.id) {
         case SUCCESS:
           if (field.type == thrift.TType.STRUCT) {
-            this.success = new t_subdir_include_ns.A();
+            this.success = t_subdir_include_ns.A();
             success.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -3304,18 +3293,18 @@ class use_subdir_struct_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("use_subdir_struct_result(");
+    StringBuffer ret = StringBuffer('use_subdir_struct_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3336,9 +3325,9 @@ class use_subdir_struct_result implements thrift.TBase {
   }
 
   use_subdir_struct_result clone({
-    t_subdir_include_ns.A success: null,
+    t_subdir_include_ns.A success,
   }) {
-    return new use_subdir_struct_result()
+    return use_subdir_struct_result()
       ..success = success ?? this.success;
   }
 
@@ -3349,15 +3338,14 @@ class use_subdir_struct_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayHelloWith_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_args");
-  static final thrift.TField _NEW_MESSAGE_FIELD_DESC = new thrift.TField("newMessage", thrift.TType.STRING, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('sayHelloWith_args');
+  static final thrift.TField _NEW_MESSAGE_FIELD_DESC = thrift.TField('newMessage', thrift.TType.STRING, 1);
 
   String _newMessage;
   static const int NEWMESSAGE = 1;
 
 
-  sayHelloWith_args() {
-  }
+  sayHelloWith_args();
 
   String get newMessage => this._newMessage;
 
@@ -3377,7 +3365,7 @@ class sayHelloWith_args implements thrift.TBase {
       case NEWMESSAGE:
         return this.newMessage;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3393,7 +3381,7 @@ class sayHelloWith_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3404,7 +3392,7 @@ class sayHelloWith_args implements thrift.TBase {
       case NEWMESSAGE:
         return isSetNewMessage();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3450,16 +3438,16 @@ class sayHelloWith_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("sayHelloWith_args(");
+    StringBuffer ret = StringBuffer('sayHelloWith_args(');
 
-    ret.write("newMessage:");
+    ret.write('newMessage:');
     if (this.newMessage == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.newMessage);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3480,9 +3468,9 @@ class sayHelloWith_args implements thrift.TBase {
   }
 
   sayHelloWith_args clone({
-    String newMessage: null,
+    String newMessage,
   }) {
-    return new sayHelloWith_args()
+    return sayHelloWith_args()
       ..newMessage = newMessage ?? this.newMessage;
   }
 
@@ -3493,15 +3481,14 @@ class sayHelloWith_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayHelloWith_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayHelloWith_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('sayHelloWith_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRING, 0);
 
   String _success;
   static const int SUCCESS = 0;
 
 
-  sayHelloWith_result() {
-  }
+  sayHelloWith_result();
 
   String get success => this._success;
 
@@ -3521,7 +3508,7 @@ class sayHelloWith_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3537,7 +3524,7 @@ class sayHelloWith_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3548,7 +3535,7 @@ class sayHelloWith_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3594,18 +3581,18 @@ class sayHelloWith_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("sayHelloWith_result(");
+    StringBuffer ret = StringBuffer('sayHelloWith_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3626,9 +3613,9 @@ class sayHelloWith_result implements thrift.TBase {
   }
 
   sayHelloWith_result clone({
-    String success: null,
+    String success,
   }) {
-    return new sayHelloWith_result()
+    return sayHelloWith_result()
       ..success = success ?? this.success;
   }
 
@@ -3639,15 +3626,14 @@ class sayHelloWith_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class whatDoYouSay_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_args");
-  static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = new thrift.TField("messageArgs", thrift.TType.STRING, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('whatDoYouSay_args');
+  static final thrift.TField _MESSAGE_ARGS_FIELD_DESC = thrift.TField('messageArgs', thrift.TType.STRING, 1);
 
   String _messageArgs;
   static const int MESSAGEARGS = 1;
 
 
-  whatDoYouSay_args() {
-  }
+  whatDoYouSay_args();
 
   String get messageArgs => this._messageArgs;
 
@@ -3667,7 +3653,7 @@ class whatDoYouSay_args implements thrift.TBase {
       case MESSAGEARGS:
         return this.messageArgs;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3683,7 +3669,7 @@ class whatDoYouSay_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3694,7 +3680,7 @@ class whatDoYouSay_args implements thrift.TBase {
       case MESSAGEARGS:
         return isSetMessageArgs();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3740,16 +3726,16 @@ class whatDoYouSay_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("whatDoYouSay_args(");
+    StringBuffer ret = StringBuffer('whatDoYouSay_args(');
 
-    ret.write("messageArgs:");
+    ret.write('messageArgs:');
     if (this.messageArgs == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.messageArgs);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3770,9 +3756,9 @@ class whatDoYouSay_args implements thrift.TBase {
   }
 
   whatDoYouSay_args clone({
-    String messageArgs: null,
+    String messageArgs,
   }) {
-    return new whatDoYouSay_args()
+    return whatDoYouSay_args()
       ..messageArgs = messageArgs ?? this.messageArgs;
   }
 
@@ -3783,15 +3769,14 @@ class whatDoYouSay_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class whatDoYouSay_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("whatDoYouSay_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('whatDoYouSay_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRING, 0);
 
   String _success;
   static const int SUCCESS = 0;
 
 
-  whatDoYouSay_result() {
-  }
+  whatDoYouSay_result();
 
   String get success => this._success;
 
@@ -3811,7 +3796,7 @@ class whatDoYouSay_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3827,7 +3812,7 @@ class whatDoYouSay_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3838,7 +3823,7 @@ class whatDoYouSay_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3884,18 +3869,18 @@ class whatDoYouSay_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("whatDoYouSay_result(");
+    StringBuffer ret = StringBuffer('whatDoYouSay_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -3916,9 +3901,9 @@ class whatDoYouSay_result implements thrift.TBase {
   }
 
   whatDoYouSay_result clone({
-    String success: null,
+    String success,
   }) {
-    return new whatDoYouSay_result()
+    return whatDoYouSay_result()
       ..success = success ?? this.success;
   }
 
@@ -3929,15 +3914,14 @@ class whatDoYouSay_result implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayAgain_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_args");
-  static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = new thrift.TField("messageResult", thrift.TType.STRING, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('sayAgain_args');
+  static final thrift.TField _MESSAGE_RESULT_FIELD_DESC = thrift.TField('messageResult', thrift.TType.STRING, 1);
 
   String _messageResult;
   static const int MESSAGERESULT = 1;
 
 
-  sayAgain_args() {
-  }
+  sayAgain_args();
 
   String get messageResult => this._messageResult;
 
@@ -3957,7 +3941,7 @@ class sayAgain_args implements thrift.TBase {
       case MESSAGERESULT:
         return this.messageResult;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3973,7 +3957,7 @@ class sayAgain_args implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -3984,7 +3968,7 @@ class sayAgain_args implements thrift.TBase {
       case MESSAGERESULT:
         return isSetMessageResult();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -4030,16 +4014,16 @@ class sayAgain_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("sayAgain_args(");
+    StringBuffer ret = StringBuffer('sayAgain_args(');
 
-    ret.write("messageResult:");
+    ret.write('messageResult:');
     if (this.messageResult == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.messageResult);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -4060,9 +4044,9 @@ class sayAgain_args implements thrift.TBase {
   }
 
   sayAgain_args clone({
-    String messageResult: null,
+    String messageResult,
   }) {
-    return new sayAgain_args()
+    return sayAgain_args()
       ..messageResult = messageResult ?? this.messageResult;
   }
 
@@ -4073,15 +4057,14 @@ class sayAgain_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class sayAgain_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("sayAgain_result");
-  static final thrift.TField _SUCCESS_FIELD_DESC = new thrift.TField("success", thrift.TType.STRING, 0);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('sayAgain_result');
+  static final thrift.TField _SUCCESS_FIELD_DESC = thrift.TField('success', thrift.TType.STRING, 0);
 
   String _success;
   static const int SUCCESS = 0;
 
 
-  sayAgain_result() {
-  }
+  sayAgain_result();
 
   String get success => this._success;
 
@@ -4101,7 +4084,7 @@ class sayAgain_result implements thrift.TBase {
       case SUCCESS:
         return this.success;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -4117,7 +4100,7 @@ class sayAgain_result implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -4128,7 +4111,7 @@ class sayAgain_result implements thrift.TBase {
       case SUCCESS:
         return isSetSuccess();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -4174,18 +4157,18 @@ class sayAgain_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("sayAgain_result(");
+    StringBuffer ret = StringBuffer('sayAgain_result(');
 
     if (isSetSuccess()) {
-      ret.write("success:");
+      ret.write('success:');
       if (this.success == null) {
-        ret.write("null");
+        ret.write('null');
       } else {
         ret.write(this.success);
       }
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -4206,9 +4189,9 @@ class sayAgain_result implements thrift.TBase {
   }
 
   sayAgain_result clone({
-    String success: null,
+    String success,
   }) {
-    return new sayAgain_result()
+    return sayAgain_result()
       ..success = success ?? this.success;
   }
 

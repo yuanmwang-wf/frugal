@@ -4,22 +4,23 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 // ignore: camel_case_types
 class api_exception extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("api_exception");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('api_exception');
 
 
 
-  api_exception() {}
+  api_exception();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -27,7 +28,7 @@ class api_exception extends Error implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -36,7 +37,7 @@ class api_exception extends Error implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -70,9 +71,9 @@ class api_exception extends Error implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("api_exception(");
+    StringBuffer ret = StringBuffer('api_exception(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -89,7 +90,7 @@ class api_exception extends Error implements thrift.TBase {
   }
 
   api_exception clone() {
-    return new api_exception();
+    return api_exception();
   }
 
   validate() {

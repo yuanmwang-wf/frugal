@@ -4,21 +4,22 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 class Item implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Item");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('Item');
 
 
 
-  Item() {}
+  Item();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -26,7 +27,7 @@ class Item implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -35,7 +36,7 @@ class Item implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -69,9 +70,9 @@ class Item implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("Item(");
+    StringBuffer ret = StringBuffer('Item(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -88,7 +89,7 @@ class Item implements thrift.TBase {
   }
 
   Item clone() {
-    return new Item();
+    return Item();
   }
 
   validate() {

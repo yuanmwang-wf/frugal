@@ -3,9 +3,11 @@
 
 
 
+// ignore_for_file: unused_import
+// ignore_for_file: unused_field
 import 'dart:async';
-
 import 'dart:typed_data' show Uint8List;
+
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
@@ -18,7 +20,7 @@ abstract class FBaseFoo {
 }
 
 class FBaseFooClient implements FBaseFoo {
-  static final logging.Logger _frugalLog = new logging.Logger('BaseFoo');
+  static final logging.Logger _frugalLog = logging.Logger('BaseFoo');
   Map<String, frugal.FMethod> _methods;
 
   FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
@@ -27,7 +29,7 @@ class FBaseFooClient implements FBaseFoo {
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
-    this._methods['basePing'] = new frugal.FMethod(this._basePing, 'BaseFoo', 'basePing', combined);
+    this._methods['basePing'] = frugal.FMethod(this._basePing, 'BaseFoo', 'basePing', combined);
   }
 
   frugal.FTransport _transport;
@@ -39,11 +41,11 @@ class FBaseFooClient implements FBaseFoo {
   }
 
   Future _basePing(frugal.FContext ctx) async {
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
+    var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(new thrift.TMessage("basePing", thrift.TMessageType.CALL, 0));
-    basePing_args args = new basePing_args();
+    oprot.writeMessageBegin(thrift.TMessage('basePing', thrift.TMessageType.CALL, 0));
+    basePing_args args = basePing_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -55,13 +57,13 @@ class FBaseFooClient implements FBaseFoo {
       thrift.TApplicationError error = thrift.TApplicationError.read(iprot);
       iprot.readMessageEnd();
       if (error.type == frugal.FrugalTTransportErrorType.REQUEST_TOO_LARGE) {
-        throw new thrift.TTransportError(
+        throw thrift.TTransportError(
             frugal.FrugalTTransportErrorType.RESPONSE_TOO_LARGE, error.message);
       }
       throw error;
     }
 
-    basePing_result result = new basePing_result();
+    basePing_result result = basePing_result();
     result.read(iprot);
     iprot.readMessageEnd();
   }
@@ -69,17 +71,17 @@ class FBaseFooClient implements FBaseFoo {
 
 // ignore: camel_case_types
 class basePing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("basePing_args");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('basePing_args');
 
 
 
-  basePing_args() {}
+  basePing_args();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -87,7 +89,7 @@ class basePing_args implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -96,7 +98,7 @@ class basePing_args implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -130,9 +132,9 @@ class basePing_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("basePing_args(");
+    StringBuffer ret = StringBuffer('basePing_args(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -149,7 +151,7 @@ class basePing_args implements thrift.TBase {
   }
 
   basePing_args clone() {
-    return new basePing_args();
+    return basePing_args();
   }
 
   validate() {
@@ -159,17 +161,17 @@ class basePing_args implements thrift.TBase {
 }
 // ignore: camel_case_types
 class basePing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("basePing_result");
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('basePing_result');
 
 
 
-  basePing_result() {}
+  basePing_result();
 
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -177,7 +179,7 @@ class basePing_result implements thrift.TBase {
   setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -186,7 +188,7 @@ class basePing_result implements thrift.TBase {
   bool isSet(int fieldID) {
     switch (fieldID) {
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -220,9 +222,9 @@ class basePing_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("basePing_result(");
+    StringBuffer ret = StringBuffer('basePing_result(');
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -239,7 +241,7 @@ class basePing_result implements thrift.TBase {
   }
 
   basePing_result clone() {
-    return new basePing_result();
+    return basePing_result();
   }
 
   validate() {

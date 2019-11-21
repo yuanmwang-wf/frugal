@@ -4,15 +4,16 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
 /// Exceptions are converted to the native format for each compiled
 /// language.
 class PurchasingError extends Error implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("PurchasingError");
-  static final thrift.TField _MESSAGE_FIELD_DESC = new thrift.TField("message", thrift.TType.STRING, 1);
-  static final thrift.TField _ERROR_CODE_FIELD_DESC = new thrift.TField("error_code", thrift.TType.I16, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('PurchasingError');
+  static final thrift.TField _MESSAGE_FIELD_DESC = thrift.TField('message', thrift.TType.STRING, 1);
+  static final thrift.TField _ERROR_CODE_FIELD_DESC = thrift.TField('error_code', thrift.TType.I16, 2);
 
   String _message;
   static const int MESSAGE = 1;
@@ -21,8 +22,7 @@ class PurchasingError extends Error implements thrift.TBase {
 
   bool __isset_error_code = false;
 
-  PurchasingError() {
-  }
+  PurchasingError();
 
   String get message => this._message;
 
@@ -57,7 +57,7 @@ class PurchasingError extends Error implements thrift.TBase {
       case ERROR_CODE:
         return this.error_code;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -81,7 +81,7 @@ class PurchasingError extends Error implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -94,7 +94,7 @@ class PurchasingError extends Error implements thrift.TBase {
       case ERROR_CODE:
         return isSetError_code();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -151,20 +151,20 @@ class PurchasingError extends Error implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("PurchasingError(");
+    StringBuffer ret = StringBuffer('PurchasingError(');
 
-    ret.write("message:");
+    ret.write('message:');
     if (this.message == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.message);
     }
 
-    ret.write(", ");
-    ret.write("error_code:");
+    ret.write(', ');
+    ret.write('error_code:');
     ret.write(this.error_code);
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -187,10 +187,10 @@ class PurchasingError extends Error implements thrift.TBase {
   }
 
   PurchasingError clone({
-    String message: null,
-    int error_code: null,
+    String message,
+    int error_code,
   }) {
-    return new PurchasingError()
+    return PurchasingError()
       ..message = message ?? this.message
       ..error_code = error_code ?? this.error_code;
   }

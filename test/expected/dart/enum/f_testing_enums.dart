@@ -33,5 +33,5 @@ testing_enums deserializetesting_enums(int value) {
     case 76:
       return testing_enums.Three;
     default:
-      throw new thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Invalid value '$value' for enum 'testing_enums'");  }
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, "Invalid value '$value' for enum 'testing_enums'");  }
 }

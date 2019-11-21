@@ -5,7 +5,7 @@ class MyEnum {
   static const int ZERO = 0;
   static const int TWO = 2;
 
-  static final Set<int> VALID_VALUES = new Set.from([
+  static final Set<int> VALID_VALUES = Set.from([
     ZERO,
     TWO,
   ]);

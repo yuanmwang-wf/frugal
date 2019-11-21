@@ -4,18 +4,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
 /// Comments (with an @ symbol) will be added to generated code.
 class Track implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("Track");
-  static final thrift.TField _TITLE_FIELD_DESC = new thrift.TField("title", thrift.TType.STRING, 1);
-  static final thrift.TField _ARTIST_FIELD_DESC = new thrift.TField("artist", thrift.TType.STRING, 2);
-  static final thrift.TField _PUBLISHER_FIELD_DESC = new thrift.TField("publisher", thrift.TType.STRING, 3);
-  static final thrift.TField _COMPOSER_FIELD_DESC = new thrift.TField("composer", thrift.TType.STRING, 4);
-  static final thrift.TField _DURATION_FIELD_DESC = new thrift.TField("duration", thrift.TType.DOUBLE, 5);
-  static final thrift.TField _PRO_FIELD_DESC = new thrift.TField("pro", thrift.TType.I32, 6);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('Track');
+  static final thrift.TField _TITLE_FIELD_DESC = thrift.TField('title', thrift.TType.STRING, 1);
+  static final thrift.TField _ARTIST_FIELD_DESC = thrift.TField('artist', thrift.TType.STRING, 2);
+  static final thrift.TField _PUBLISHER_FIELD_DESC = thrift.TField('publisher', thrift.TType.STRING, 3);
+  static final thrift.TField _COMPOSER_FIELD_DESC = thrift.TField('composer', thrift.TType.STRING, 4);
+  static final thrift.TField _DURATION_FIELD_DESC = thrift.TField('duration', thrift.TType.DOUBLE, 5);
+  static final thrift.TField _PRO_FIELD_DESC = thrift.TField('pro', thrift.TType.I32, 6);
 
   String _title;
   static const int TITLE = 1;
@@ -33,8 +34,7 @@ class Track implements thrift.TBase {
   bool __isset_duration = false;
   bool __isset_pro = false;
 
-  Track() {
-  }
+  Track();
 
   String get title => this._title;
 
@@ -126,7 +126,7 @@ class Track implements thrift.TBase {
       case PRO:
         return this.pro;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -182,7 +182,7 @@ class Track implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -203,7 +203,7 @@ class Track implements thrift.TBase {
       case PRO:
         return isSetPro();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -307,56 +307,56 @@ class Track implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("Track(");
+    StringBuffer ret = StringBuffer('Track(');
 
-    ret.write("title:");
+    ret.write('title:');
     if (this.title == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.title);
     }
 
-    ret.write(", ");
-    ret.write("artist:");
+    ret.write(', ');
+    ret.write('artist:');
     if (this.artist == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.artist);
     }
 
-    ret.write(", ");
-    ret.write("publisher:");
+    ret.write(', ');
+    ret.write('publisher:');
     if (this.publisher == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.publisher);
     }
 
-    ret.write(", ");
-    ret.write("composer:");
+    ret.write(', ');
+    ret.write('composer:');
     if (this.composer == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.composer);
     }
 
-    ret.write(", ");
-    ret.write("duration:");
+    ret.write(', ');
+    ret.write('duration:');
     ret.write(this.duration);
 
-    ret.write(", ");
-    ret.write("pro:");
+    ret.write(', ');
+    ret.write('pro:');
     String pro_name = t_v1_music.PerfRightsOrg.VALUES_TO_NAMES[this.pro];
     if (pro_name != null) {
       ret.write(pro_name);
-      ret.write(" (");
+      ret.write(' (');
     }
     ret.write(this.pro);
     if (pro_name != null) {
-      ret.write(")");
+      ret.write(')');
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -387,14 +387,14 @@ class Track implements thrift.TBase {
   }
 
   Track clone({
-    String title: null,
-    String artist: null,
-    String publisher: null,
-    String composer: null,
-    double duration: null,
-    int pro: null,
+    String title,
+    String artist,
+    String publisher,
+    String composer,
+    double duration,
+    int pro,
   }) {
-    return new Track()
+    return Track()
       ..title = title ?? this.title
       ..artist = artist ?? this.artist
       ..publisher = publisher ?? this.publisher
@@ -407,7 +407,7 @@ class Track implements thrift.TBase {
     // check for required fields
     // check that fields of type enum have valid values
     if (isSetPro() && !t_v1_music.PerfRightsOrg.VALID_VALUES.contains(this.pro)) {
-      throw new thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'pro' has been assigned the invalid value ${this.pro}");
+      throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "The field 'pro' has been assigned the invalid value ${this.pro}");
     }
   }
 }

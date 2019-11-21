@@ -7,7 +7,7 @@ class base_health_condition {
   static const int FAIL = 3;
   static const int UNKNOWN = 4;
 
-  static final Set<int> VALID_VALUES = new Set.from([
+  static final Set<int> VALID_VALUES = Set.from([
     PASS,
     WARN,
     FAIL,

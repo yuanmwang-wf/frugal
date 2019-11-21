@@ -4,6 +4,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -13,15 +14,14 @@ import 'package:ValidTypes/ValidTypes.dart' as t_ValidTypes;
 import 'package:subdir_include_ns/subdir_include_ns.dart' as t_subdir_include_ns;
 
 class TestBase implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("TestBase");
-  static final thrift.TField _BASE_STRUCT_FIELD_DESC = new thrift.TField("base_struct", thrift.TType.STRUCT, 1);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('TestBase');
+  static final thrift.TField _BASE_STRUCT_FIELD_DESC = thrift.TField('base_struct', thrift.TType.STRUCT, 1);
 
   t_actual_base_dart.thing _base_struct;
   static const int BASE_STRUCT = 1;
 
 
-  TestBase() {
-  }
+  TestBase();
 
   t_actual_base_dart.thing get base_struct => this._base_struct;
 
@@ -41,7 +41,7 @@ class TestBase implements thrift.TBase {
       case BASE_STRUCT:
         return this.base_struct;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -57,7 +57,7 @@ class TestBase implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -68,7 +68,7 @@ class TestBase implements thrift.TBase {
       case BASE_STRUCT:
         return isSetBase_struct();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -81,7 +81,7 @@ class TestBase implements thrift.TBase {
       switch (field.id) {
         case BASE_STRUCT:
           if (field.type == thrift.TType.STRUCT) {
-            this.base_struct = new t_actual_base_dart.thing();
+            this.base_struct = t_actual_base_dart.thing();
             base_struct.read(iprot);
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
@@ -115,16 +115,16 @@ class TestBase implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("TestBase(");
+    StringBuffer ret = StringBuffer('TestBase(');
 
-    ret.write("base_struct:");
+    ret.write('base_struct:');
     if (this.base_struct == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.base_struct);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -145,9 +145,9 @@ class TestBase implements thrift.TBase {
   }
 
   TestBase clone({
-    t_actual_base_dart.thing base_struct: null,
+    t_actual_base_dart.thing base_struct,
   }) {
-    return new TestBase()
+    return TestBase()
       ..base_struct = base_struct ?? this.base_struct;
   }
 

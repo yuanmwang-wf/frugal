@@ -7,7 +7,7 @@ class PerfRightsOrg {
   static const int SESAC = 3;
   static const int Other = 4;
 
-  static final Set<int> VALID_VALUES = new Set.from([
+  static final Set<int> VALID_VALUES = Set.from([
     ASCAP,
     BMI,
     SESAC,

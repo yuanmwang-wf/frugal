@@ -4,13 +4,14 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
+
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
 class thing implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = new thrift.TStruct("thing");
-  static final thrift.TField _AN_ID_FIELD_DESC = new thrift.TField("an_id", thrift.TType.I32, 1);
-  static final thrift.TField _A_STRING_FIELD_DESC = new thrift.TField("a_string", thrift.TType.STRING, 2);
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('thing');
+  static final thrift.TField _AN_ID_FIELD_DESC = thrift.TField('an_id', thrift.TType.I32, 1);
+  static final thrift.TField _A_STRING_FIELD_DESC = thrift.TField('a_string', thrift.TType.STRING, 2);
 
   int _an_id = 0;
   static const int AN_ID = 1;
@@ -19,8 +20,7 @@ class thing implements thrift.TBase {
 
   bool __isset_an_id = false;
 
-  thing() {
-  }
+  thing();
 
   int get an_id => this._an_id;
 
@@ -55,7 +55,7 @@ class thing implements thrift.TBase {
       case A_STRING:
         return this.a_string;
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -79,7 +79,7 @@ class thing implements thrift.TBase {
         break;
 
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -92,7 +92,7 @@ class thing implements thrift.TBase {
       case A_STRING:
         return isSetA_string();
       default:
-        throw new ArgumentError("Field $fieldID doesn't exist!");
+        throw ArgumentError("Field $fieldID doesn't exist!");
     }
   }
 
@@ -149,20 +149,20 @@ class thing implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = new StringBuffer("thing(");
+    StringBuffer ret = StringBuffer('thing(');
 
-    ret.write("an_id:");
+    ret.write('an_id:');
     ret.write(this.an_id);
 
-    ret.write(", ");
-    ret.write("a_string:");
+    ret.write(', ');
+    ret.write('a_string:');
     if (this.a_string == null) {
-      ret.write("null");
+      ret.write('null');
     } else {
       ret.write(this.a_string);
     }
 
-    ret.write(")");
+    ret.write(')');
 
     return ret.toString();
   }
@@ -185,10 +185,10 @@ class thing implements thrift.TBase {
   }
 
   thing clone({
-    int an_id: null,
-    String a_string: null,
+    int an_id,
+    String a_string,
   }) {
-    return new thing()
+    return thing()
       ..an_id = an_id ?? this.an_id
       ..a_string = a_string ?? this.a_string;
   }

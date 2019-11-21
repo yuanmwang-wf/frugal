@@ -17,7 +17,7 @@ class HealthCondition {
   @deprecated
   static const int UNKNOWN = 4;
 
-  static final Set<int> VALID_VALUES = new Set.from([
+  static final Set<int> VALID_VALUES = Set.from([
     PASS,
     WARN,
     FAIL,

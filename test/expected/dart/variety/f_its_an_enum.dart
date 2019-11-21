@@ -9,7 +9,7 @@ class ItsAnEnum {
   static const int Fifth = 6;
   static const int sIxItH = 7;
 
-  static final Set<int> VALID_VALUES = new Set.from([
+  static final Set<int> VALID_VALUES = Set.from([
     FIRST,
     SECOND,
     THIRD,

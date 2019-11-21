@@ -3,6 +3,8 @@
 
 
 
+// ignore_for_file: unused_import
+// ignore_for_file: unused_field
 import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
@@ -25,7 +27,7 @@ class MyScopePublisher {
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
-    this._methods['newItem'] = new frugal.FMethod(this._publishnewItem, 'MyScope', 'publishnewItem', combined);
+    this._methods['newItem'] = frugal.FMethod(this._publishnewItem, 'MyScope', 'publishnewItem', combined);
   }
 
   Future open() {
@@ -41,12 +43,12 @@ class MyScopePublisher {
   }
 
   Future _publishnewItem(frugal.FContext ctx, t_vendor_namespace.Item req) async {
-    var op = "newItem";
-    var prefix = "";
-    var topic = "${prefix}MyScope${delimiter}${op}";
-    var memoryBuffer = new frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
+    var op = 'newItem';
+    var prefix = '';
+    var topic = '${prefix}MyScope$delimiter$op';
+    var memoryBuffer = frugal.TMemoryOutputBuffer(transport.publishSizeLimit);
     var oprot = protocolFactory.getProtocol(memoryBuffer);
-    var msg = new thrift.TMessage(op, thrift.TMessageType.CALL, 0);
+    var msg = thrift.TMessage(op, thrift.TMessageType.CALL, 0);
     oprot.writeRequestHeader(ctx);
     oprot.writeMessageBegin(msg);
     req.write(oprot);
@@ -68,16 +70,16 @@ class MyScopeSubscriber {
 }
 
   Future<frugal.FSubscription> subscribenewItem(dynamic onItem(frugal.FContext ctx, t_vendor_namespace.Item req)) async {
-    var op = "newItem";
-    var prefix = "";
-    var topic = "${prefix}MyScope${delimiter}${op}";
+    var op = 'newItem';
+    var prefix = '';
+    var topic = '${prefix}MyScope$delimiter$op';
     var transport = provider.subscriberTransportFactory.getTransport();
     await transport.subscribe(topic, _recvnewItem(op, provider.protocolFactory, onItem));
-    return new frugal.FSubscription(topic, transport);
+    return frugal.FSubscription(topic, transport);
   }
 
   frugal.FAsyncCallback _recvnewItem(String op, frugal.FProtocolFactory protocolFactory, dynamic onItem(frugal.FContext ctx, t_vendor_namespace.Item req)) {
-    frugal.FMethod method = new frugal.FMethod(onItem, 'MyScope', 'subscribeItem', this._middleware);
+    frugal.FMethod method = frugal.FMethod(onItem, 'MyScope', 'subscribeItem', this._middleware);
     callbacknewItem(thrift.TTransport transport) {
       var iprot = protocolFactory.getProtocol(transport);
       var ctx = iprot.readRequestHeader();
@@ -85,10 +87,10 @@ class MyScopeSubscriber {
       if (tMsg.name != op) {
         thrift.TProtocolUtil.skip(iprot, thrift.TType.STRUCT);
         iprot.readMessageEnd();
-        throw new thrift.TApplicationError(
+        throw thrift.TApplicationError(
         frugal.FrugalTApplicationErrorType.UNKNOWN_METHOD, tMsg.name);
       }
-      t_vendor_namespace.Item req = new t_vendor_namespace.Item();
+      t_vendor_namespace.Item req = t_vendor_namespace.Item();
       req.read(iprot);
       iprot.readMessageEnd();
       method([ctx, req]);

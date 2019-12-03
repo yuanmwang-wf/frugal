@@ -11,5 +11,5 @@ else
 fi
 
 pip install -e ".[tornado]"
-python3 /usr/bin/pip3 install Cython==0.27.2
+python3 /usr/bin/pip3 install Cython==0.27.3
 python3 /usr/bin/pip3 install -e ".[asyncio]"

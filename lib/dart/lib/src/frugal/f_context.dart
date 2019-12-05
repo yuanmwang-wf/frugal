@@ -23,7 +23,7 @@ const String _opidHeader = "_opid";
 const String _timeoutHeader = "_timeout";
 
 /// Default request timeout duration.
-final Duration _defaultTimeout = new Duration(seconds: 5);
+final Duration _defaultTimeout = Duration(seconds: 5);
 
 /// The context for a Frugal message. Every RPC has an [FContext], which can be
 /// used to set request headers, response headers, and the request timeout.
@@ -50,7 +50,7 @@ class FContext {
   Map<String, String> _responseHeaders;
 
   /// Create a new [FContext] with the optionally specified [correlationId].
-  FContext({String correlationId: ""}) {
+  FContext({String correlationId = ""}) {
     if (correlationId == "") {
       correlationId = _generateCorrelationId();
     }
@@ -82,8 +82,7 @@ class FContext {
   /// The request timeout for any method call using this context.
   /// The default is 5 seconds.
   Duration get timeout {
-    return new Duration(
-        milliseconds: int.parse(_requestHeaders[_timeoutHeader]));
+    return Duration(milliseconds: int.parse(_requestHeaders[_timeoutHeader]));
   }
 
   /// Set the request timeout for any method call using this context.
@@ -129,7 +128,7 @@ class FContext {
 
   /// Get requests headers map.
   Map<String, String> requestHeaders() {
-    return new UnmodifiableMapView(_requestHeaders);
+    return UnmodifiableMapView(_requestHeaders);
   }
 
   /// Add a response header to the context for the given name
@@ -156,9 +155,9 @@ class FContext {
 
   /// Get response headers map.
   Map<String, String> responseHeaders() {
-    return new UnmodifiableMapView(_responseHeaders);
+    return UnmodifiableMapView(_responseHeaders);
   }
 
   static String _generateCorrelationId() =>
-      new Uuid().v4().toString().replaceAll('-', '');
+      Uuid().v4().toString().replaceAll('-', '');
 }

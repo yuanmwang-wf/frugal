@@ -34,11 +34,11 @@ class FScopeProvider {
   /// Creates a new [FScopeProvider].
   FScopeProvider(this.publisherTransportFactory,
       this.subscriberTransportFactory, this.protocolFactory,
-      {List<Middleware> middleware: null})
+      {List<Middleware> middleware = null})
       : _middleware = middleware ?? [];
 
   /// The middleware stored on this FScopeProvider.
-  List<Middleware> get middleware => new List.from(this._middleware);
+  List<Middleware> get middleware => List.from(this._middleware);
 }
 
 /// The service equivalent of [FScopeProvider]. It produces [FTransport] and
@@ -56,9 +56,9 @@ class FServiceProvider {
 
   /// Creates a new [FServiceProvider].
   FServiceProvider(this.transport, this.protocolFactory,
-      {List<Middleware> middleware: null})
+      {List<Middleware> middleware = null})
       : _middleware = middleware ?? [];
 
   /// The middleware stored on this FServiceProvider.
-  List<Middleware> get middleware => new List.from(this._middleware);
+  List<Middleware> get middleware => List.from(this._middleware);
 }

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
 
+import 'package:collection/collection.dart';
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:variety/variety.dart' as t_variety;
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
@@ -1052,16 +1053,16 @@ class TestingDefaults implements thrift.TBase {
         this.iD == o.iD &&
         this.thing == o.thing &&
         this.thing2 == o.thing2 &&
-        this.listfield == o.listfield &&
+        DeepCollectionEquality().equals(this.listfield, o.listfield) &&
         this.iD3 == o.iD3 &&
         this.bin_field == o.bin_field &&
         this.bin_field2 == o.bin_field2 &&
         this.bin_field3 == o.bin_field3 &&
         this.bin_field4 == o.bin_field4 &&
-        this.list2 == o.list2 &&
-        this.list3 == o.list3 &&
-        this.list4 == o.list4 &&
-        this.a_map == o.a_map &&
+        DeepCollectionEquality().equals(this.list2, o.list2) &&
+        DeepCollectionEquality().equals(this.list3, o.list3) &&
+        DeepCollectionEquality().equals(this.list4, o.list4) &&
+        DeepCollectionEquality().equals(this.a_map, o.a_map) &&
         this.status == o.status &&
         this.base_status == o.base_status;
     }

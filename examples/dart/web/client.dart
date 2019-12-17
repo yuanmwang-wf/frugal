@@ -17,6 +17,7 @@ void main() {
   Logger.root.onRecord.listen((LogRecord r) {
     window.console.log('${r.loggerName}(${r.level}): ${r.message}');
   });
+
   new EventUI(querySelector('#output')).start();
 }
 
@@ -90,7 +91,7 @@ class EventUI {
     InputElement duration = querySelector("#duration");
     var album = new music.Album();
     album.aSIN = asin.value;
-    album.duration = int.parse(duration.value);
+    album.duration = double.parse(duration.value);
     frugal.FContext ctx = new frugal.FContext(correlationId: 'an-id');
     _albumWinnersPublisher.publishWinner(ctx, album);
   }

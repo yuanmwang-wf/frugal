@@ -5,6 +5,7 @@
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
 
+import 'package:collection/collection.dart';
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 

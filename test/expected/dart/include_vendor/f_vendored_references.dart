@@ -5,6 +5,7 @@
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
 
+import 'package:collection/collection.dart';
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:include_vendor/include_vendor.dart' as t_include_vendor;
 import 'package:some_vendored_place/vendor_namespace.dart' as t_vendor_namespace;

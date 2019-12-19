@@ -16,7 +16,6 @@ RUN mkdir /root/.ssh && \
 ARG BUILD_ID
 RUN yum update -y && \
     yum upgrade -y && \
-    yum autoremove -y && \
     yum clean all && \
     rm -rf /var/cache/yum
 

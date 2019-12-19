@@ -193,6 +193,7 @@ func (g *Generator) addToPubspec(dir string) error {
 	pubFilePath := filepath.Join(dir, "pubspec.yaml")
 
 	deps := map[interface{}]interface{}{
+		"collection": "^1.14.12",
 		"logging": "^0.11.2",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
@@ -1224,15 +1225,15 @@ func (g *Generator) generateEquals(s *parser.Struct) string {
 
 	first := true
 	for _, field := range s.Fields {
-		fieldName := toFieldName(field.Name)
 		if first {
 			first = false
 			contents += ignoreDeprecationWarningIfNeeded(tabtabtab, field.Annotations)
-			contents += fmt.Sprintf(tabtabtab+"return this.%s == o.%s", fieldName, fieldName)
+			fieldEquals := g.generateFieldEquals(field)
+			contents += fmt.Sprintf(tabtabtab+"return %s", fieldEquals)
 		} else {
 			contents += " &&\n"
 			contents += ignoreDeprecationWarningIfNeeded(tabtabtabtab, field.Annotations)
-			contents += tabtabtabtab + fmt.Sprintf("this.%s == o.%s", fieldName, fieldName)
+			contents += tabtabtabtab + g.generateFieldEquals(field)
 		}
 	}
 
@@ -1241,6 +1242,15 @@ func (g *Generator) generateEquals(s *parser.Struct) string {
 	contents += tabtab + "return false;\n"
 	contents += tab + "}\n\n"
 	return contents
+}
+
+func (g *Generator) generateFieldEquals(field *parser.Field) string {
+	fieldName := toFieldName(field.Name)
+	if !g.isDartCollection(field.Type) {
+		return fmt.Sprintf("this.%s == o.%s", fieldName, fieldName)
+	}
+
+	return fmt.Sprintf("DeepCollectionEquality().equals(this.%s, o.%s)", fieldName, fieldName)
 }
 
 func (g *Generator) generateHashCode(s *parser.Struct) string {
@@ -1352,6 +1362,7 @@ func (g *Generator) GenerateObjectPackage(file *os.File, name string) error {
 func (g *Generator) GenerateThriftImports() (string, error) {
 	imports := "import 'dart:typed_data' show Uint8List;\n\n"
 
+	imports += "import 'package:collection/collection.dart';\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	// Import the current package
 	imports += g.getImportDeclaration(g.getNamespaceOrName(), g.getPackagePrefix())
@@ -1899,6 +1910,14 @@ func (g *Generator) isDartPrimitive(t *parser.Type) bool {
 		}
 		return false
 	}
+}
+
+func (g *Generator) isDartCollection(t *parser.Type) bool {
+	underlyingType := g.Frugal.UnderlyingType(t)
+	if underlyingType.Name == "list" || underlyingType.Name == "set" || underlyingType.Name == "map" {
+		return true
+	}
+	return false
 }
 
 func (g *Generator) getDartTypeFromThriftType(t *parser.Type) string {

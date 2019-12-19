@@ -5,6 +5,7 @@
 // ignore_for_file: unused_field
 import 'dart:typed_data' show Uint8List;
 
+import 'package:collection/collection.dart';
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
@@ -230,7 +231,7 @@ class Album implements thrift.TBase {
   @override
   bool operator ==(Object o) {
     if (o is Album) {
-      return this.tracks == o.tracks &&
+      return DeepCollectionEquality().equals(this.tracks, o.tracks) &&
         this.duration == o.duration &&
         this.aSIN == o.aSIN;
     }

@@ -168,7 +168,7 @@ class FContext(object):
         Sets the timeout for the FContext.
 
         Args:
-            timeout: number of seconds
+            timeout: number of milliseconds
         """
         self._request_headers[_TIMEOUT_HEADER] = str(timeout)
 
@@ -185,7 +185,7 @@ class FContext(object):
         Sets the timeout for the FContext.
 
         Args:
-            timeout: number of seconds
+            timeout: number of milliseconds
         """
         # TODO: check the type of timeout
         self._request_headers[_TIMEOUT_HEADER] = str(timeout)

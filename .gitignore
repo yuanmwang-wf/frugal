@@ -13,6 +13,7 @@ py3env
 build/
 .packages
 .dart_tool
+.pub
 
 # Or the lock
 pubspec.lock

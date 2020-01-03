@@ -276,7 +276,7 @@ class TestingDefaults(object):
      - list3
      - list4
      - a_map
-     - status
+     - status: Comment for enum field.
      - base_status
     """
     from . import constants

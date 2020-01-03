@@ -67,8 +67,10 @@ class TestingDefaults implements thrift.TBase {
   static const int LIST4 = 15;
   Map<String, String> _a_map;
   static const int A_MAP = 16;
+  /// [t_variety.HealthCondition] Comment for enum field.
   int _status;
   static const int STATUS = 17;
+  /// [t_actual_base_dart.base_health_condition]
   int _base_status;
   static const int BASE_STATUS = 18;
 
@@ -314,8 +316,10 @@ class TestingDefaults implements thrift.TBase {
     this.a_map = null;
   }
 
+  /// [t_variety.HealthCondition] Comment for enum field.
   int get status => this._status;
 
+  /// [t_variety.HealthCondition] Comment for enum field.
   set status(int status) {
     this._status = status;
     this.__isset_status = true;
@@ -327,8 +331,10 @@ class TestingDefaults implements thrift.TBase {
     this.__isset_status = false;
   }
 
+  /// [t_actual_base_dart.base_health_condition]
   int get base_status => this._base_status;
 
+  /// [t_actual_base_dart.base_health_condition]
   set base_status(int base_status) {
     this._base_status = base_status;
     this.__isset_base_status = true;

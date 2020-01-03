@@ -194,7 +194,7 @@ func (g *Generator) addToPubspec(dir string) error {
 
 	deps := map[interface{}]interface{}{
 		"collection": "^1.14.12",
-		"logging": "^0.11.2",
+		"logging":    "^0.11.2",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
@@ -692,7 +692,7 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 
 	// Fields
 	for _, field := range s.Fields {
-		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
+		contents += g.generateFieldComment(field, tab)
 		contents += fmt.Sprintf(tab+"%s _%s%s;\n",
 			g.getDartTypeFromThriftType(field.Type), toFieldName(field.Name), g.generateInitValue(field))
 		contents += fmt.Sprintf(tab+"static const int %s = %d;\n", strings.ToUpper(field.Name), field.ID)
@@ -771,6 +771,31 @@ func (g *Generator) generateInitValue(field *parser.Field) string {
 	}
 }
 
+func (g *Generator) generateFieldComment(field *parser.Field, indent string) string {
+	comment := field.Comment
+
+	// getDartTypeFromThriftType uses "int" for enums, so add a dartdoc
+	// reference to the field so that the expected type is discoverable.
+	underlyingType := g.Frugal.UnderlyingType(field.Type)
+	if g.Frugal.IsEnum(underlyingType) {
+		// Use [myLib.myString] format per
+		// https://github.com/dart-lang/dartdoc/wiki/dartdoc-comment-references
+		qualifiedName := g.qualifiedTypeName(underlyingType)
+		doc := fmt.Sprintf("[%s]", qualifiedName)
+
+		if len(comment) == 0 {
+			comment = []string{doc}
+		} else {
+			newcomment := make([]string, len(comment))
+			copy(newcomment, comment)
+			newcomment[0] = doc + " " + comment[0]
+			comment = newcomment
+		}
+	}
+
+	return g.generateCommentWithDeprecated(comment, indent, field.Annotations)
+}
+
 func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 	// Getters and setters for each field
 	contents := ""
@@ -780,9 +805,9 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		fName := toFieldName(field.Name)
 		titleName := strings.Title(field.Name)
 
-		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
+		contents += g.generateFieldComment(field, tab)
 		contents += fmt.Sprintf(tab+"%s get %s => this._%s;\n\n", dartType, fName, fName)
-		contents += g.generateCommentWithDeprecated(field.Comment, tab, field.Annotations)
+		contents += g.generateFieldComment(field, tab)
 		contents += fmt.Sprintf(tab+"set %s(%s %s) {\n", fName, dartType, fName)
 		contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", fName, fName)
 		if dartPrimitive {

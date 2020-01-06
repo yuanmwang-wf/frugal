@@ -76,6 +76,9 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	public java.util.List<Integer> list3; // optional
 	public java.util.List<Integer> list4;
 	public java.util.Map<String, String> a_map; // optional
+	/**
+	 * Comment for enum field.
+	 */
 	public HealthCondition status; // required
 	public actual_base.java.base_health_condition base_status; // required
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -96,6 +99,9 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		LIST3((short)14, "list3"),
 		LIST4((short)15, "list4"),
 		A_MAP((short)16, "a_map"),
+		/**
+		 * Comment for enum field.
+		 */
 		STATUS((short)17, "status"),
 		BASE_STATUS((short)18, "base_status")
 		;
@@ -901,10 +907,16 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 	}
 
+	/**
+	 * Comment for enum field.
+	 */
 	public HealthCondition getStatus() {
 		return this.status;
 	}
 
+	/**
+	 * Comment for enum field.
+	 */
 	public TestingDefaults setStatus(HealthCondition status) {
 		this.status = status;
 		return this;

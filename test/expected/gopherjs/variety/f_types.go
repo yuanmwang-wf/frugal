@@ -434,22 +434,23 @@ func (p *Event) String() string {
 }
 
 type TestingDefaults struct {
-	ID2        ID
-	Ev1        *Event
-	Ev2        *Event
-	ID         ID
-	Thing      string
-	Thing2     string
-	Listfield  []Int
-	ID3        ID
-	BinField   []byte
-	BinField2  []byte
-	BinField3  []byte
-	BinField4  []byte
-	List2      *[]Int
-	List3      []Int
-	List4      []Int
-	AMap       *map[string]string
+	ID2       ID
+	Ev1       *Event
+	Ev2       *Event
+	ID        ID
+	Thing     string
+	Thing2    string
+	Listfield []Int
+	ID3       ID
+	BinField  []byte
+	BinField2 []byte
+	BinField3 []byte
+	BinField4 []byte
+	List2     *[]Int
+	List3     []Int
+	List4     []Int
+	AMap      *map[string]string
+	// Comment for enum field.
 	Status     HealthCondition
 	BaseStatus golang.BaseHealthCondition
 }

@@ -18,6 +18,7 @@ class VendoredReferences implements thrift.TBase {
 
   int _reference_vendored_const;
   static const int REFERENCE_VENDORED_CONST = 1;
+  /// [t_vendor_namespace.MyEnum]
   int _reference_vendored_enum;
   static const int REFERENCE_VENDORED_ENUM = 2;
 
@@ -42,8 +43,10 @@ class VendoredReferences implements thrift.TBase {
     this.__isset_reference_vendored_const = false;
   }
 
+  /// [t_vendor_namespace.MyEnum]
   int get reference_vendored_enum => this._reference_vendored_enum;
 
+  /// [t_vendor_namespace.MyEnum]
   set reference_vendored_enum(int reference_vendored_enum) {
     this._reference_vendored_enum = reference_vendored_enum;
     this.__isset_reference_vendored_enum = true;

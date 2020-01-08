@@ -40,6 +40,11 @@
 
     <repositories>
         <repository>
+            <id>workiva-release</id>
+            <name>workiva-release</name>
+            <url>https://workivaeast.jfrog.io/workivaeast/maven-prod-internal</url>
+        </repository>
+        <repository>
             <id>repository.jboss.org-public</id>
             <name>JBoss.org Maven repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public</url>
@@ -49,7 +54,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.thrift</groupId>
-            <artifactId>libthrift</artifactId>
+            <artifactId>libthrift-wk</artifactId>
             <version>0.9.3</version>
         </dependency>
         <dependency>
